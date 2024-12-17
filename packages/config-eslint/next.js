@@ -5,23 +5,10 @@ const project = resolve(process.cwd(), "tsconfig.json");
 /*
  * This is a custom ESLint configuration for use with
  * Next.js apps.
- *
- * This config extends the Vercel Engineering Style Guide.
- * For more information, see https://github.com/vercel/style-guide
- *
  */
 
 module.exports = {
-  extends: [
-    ...[
-      "@vercel/style-guide/eslint/node",
-      "@vercel/style-guide/eslint/typescript",
-      "@vercel/style-guide/eslint/browser",
-      "@vercel/style-guide/eslint/react",
-      "@vercel/style-guide/eslint/next",
-    ].map(require.resolve),
-    "turbo",
-  ],
+  extends: ["@5unwan/eslint-config/base", "plugin:@next/next/recommended", "plugin:storybook/recommended"],
   parserOptions: {
     project,
   },
@@ -34,14 +21,29 @@ module.exports = {
       typescript: {
         project,
       },
-      node: {
-        extensions: [".mjs", ".js", ".jsx", ".ts", ".tsx"],
-      },
     },
   },
+  overrides: [
+    {
+      files: ["**/*.{test,spec}.*", "**/__tests__/**/*"],
+      plugins: ["jest", "testing-library"],
+      extends: [
+        "plugin:jest/recommended",
+        "plugin:jest-dom/recommended",
+        "plugin:testing-library/react",
+      ],
+    },
+    {
+      files: ["cypress/e2e/**/*.cy.*"],
+      plugins: ["cypress"],
+      extends: ["plugin:cypress/recommended"],
+      env: {
+        "cypress/globals": true,
+      },
+      globals: {
+        cy: true,
+      },
+    },
+  ],
   ignorePatterns: ["node_modules/", "dist/"],
-  // add rules configurations here
-  rules: {
-    "import/no-default-export": "off",
-  },
 };

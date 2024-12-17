@@ -1,12 +1,13 @@
 {
-  "name": "@repo/tailwind-config",
+  "name": "@5unwan/tailwind-config",
   "version": "0.0.0",
   "private": true,
   "exports": {
-    ".": "./tailwind.config.ts"
+    ".": "./tailwind.config.ts",
+    "./cn": "./utils/cn.ts"
   },
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*",
+    "@5unwan/typescript-config": "workspace:*",
     "tailwindcss": "^3.4.1"
   }
 }
