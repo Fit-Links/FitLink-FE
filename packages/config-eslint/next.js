@@ -33,17 +33,6 @@ module.exports = {
         "plugin:testing-library/react",
       ],
     },
-    {
-      files: ["cypress/e2e/**/*.cy.*"],
-      plugins: ["cypress"],
-      extends: ["plugin:cypress/recommended"],
-      env: {
-        "cypress/globals": true,
-      },
-      globals: {
-        cy: true,
-      },
-    },
   ],
   ignorePatterns: ["node_modules/", "dist/"],
 };
