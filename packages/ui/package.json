@@ -7,18 +7,12 @@
   "files": [
     "dist"
   ],
-  "exports": {
-    "./styles.css": "./dist/index.css",
-    "./card": "./src/card.tsx"
-  },
   "license": "MIT",
   "scripts": {
     "build": "tailwindcss -i ./src/styles.css -o ./dist/index.css",
     "lint": "eslint src/",
     "dev": "tailwindcss -i ./src/styles.css -o ./dist/index.css --watch",
-    "type-check": "tsc --noEmit",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "type-check": "tsc --noEmit"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -33,15 +27,6 @@
     "@5unwan/eslint-config": "workspace:*",
     "@5unwan/tailwind-config": "workspace:*",
     "@5unwan/typescript-config": "workspace:*",
-    "@chromatic-com/storybook": "^3.2.2",
-    "@storybook/addon-essentials": "^8.4.7",
-    "@storybook/addon-interactions": "^8.4.7",
-    "@storybook/addon-onboarding": "^8.4.7",
-    "@storybook/addon-webpack5-compiler-swc": "^1.0.5",
-    "@storybook/blocks": "^8.4.7",
-    "@storybook/react": "^8.4.7",
-    "@storybook/react-webpack5": "^8.4.7",
-    "@storybook/test": "^8.4.7",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
     "@testing-library/user-event": "^14.5.2",
@@ -50,10 +35,8 @@
     "@types/react-dom": "^18.2.19",
     "autoprefixer": "^10.4.18",
     "eslint": "^8.57.1",
-    "eslint-plugin-storybook": "^0.11.1",
     "jest": "^29.7.0",
     "postcss": "^8.4.35",
-    "storybook": "^8.4.7",
     "tailwindcss": "^3.4.1",
     "typescript": "5.5.4"
   }
