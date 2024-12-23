@@ -1,0 +1,3 @@
+{
+  "extends": "@5unwan/typescript-config/react-library.json"
+}
