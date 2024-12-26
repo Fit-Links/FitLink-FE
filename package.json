@@ -2,7 +2,11 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
+    "build:trainer": "turbo run build --filter trainer",
+    "build:user": "turbo run build --filter user",
     "dev": "turbo dev",
+    "dev:trainer": "turbo run dev --filter trainer",
+    "dev:user": "turbo run dev --filter user",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
     "clean": "turbo clean",
