@@ -1,4 +1,4 @@
 {
   "root": true,
-  "extends": ["@5unwan/eslint-config/next"]
+  "extends": ["@5unwan/eslint-config/next", "@5unwan/eslint-config/react-internal"]
 }
