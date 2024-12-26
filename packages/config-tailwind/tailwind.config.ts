@@ -6,8 +6,28 @@ const config: Omit<Config, "content"> = {
     extend: {
       colors: {
         brand: {
-          primary: "hsl(var(--brand-primary))",
-          secondary: "hsl(var(--brand-secondary))",
+          primary: {
+            100: 'hsl(241 100 93)',
+            200: 'hsl(241 100 87)',
+            300: 'hsl(241 100 80)',
+            400: 'hsl(241 100 73)',
+            500: 'hsl(241 100 67)',
+            600: 'hsl(241 57 53)',
+            700: 'hsl(241 50 40)',
+            800: 'hsl(241 50 27)',
+            900: 'hsl(241 50 13)',
+          },
+          secondary: {
+            100: 'hsl(14 100 94)',
+            200: 'hsl(14 100 88)',
+            300: 'hsl(14 100 83)',
+            400: 'hsl(14 100 77)',
+            500: 'hsl(14 100 71)',
+            600: 'hsl(14 54 57)',
+            700: 'hsl(14 41 43)',
+            800: 'hsl(14 41 28)',
+            900: 'hsl(14 41 14)',
+          },
         },
         text: {
           primary: "hsl(var(--text-primary))",
