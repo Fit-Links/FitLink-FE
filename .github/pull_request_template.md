@@ -1,6 +1,8 @@
 # pr 제목은 아래와 같이 작성해주세요.
 
-[#이슈 번호] Commit Type: pr 제목
+[#이슈 번호/작업 패키지] Commit Type: pr 제목
+
+<!-- 작업 패키지: root, ui, trainer, user, config-eslint, config-typescript, config-tailwind, docs/storybook -->
 
 ## 📝 작업 내용
 
