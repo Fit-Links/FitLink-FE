@@ -1,4 +1,4 @@
-@import "5unwan/tailwind-config/variables";
+@import "@5unwan/tailwind-config/variables";
 
 @tailwind base;
 @tailwind components;
