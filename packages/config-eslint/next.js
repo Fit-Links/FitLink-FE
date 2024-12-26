@@ -8,7 +8,7 @@ const project = resolve(process.cwd(), "tsconfig.json");
  */
 
 module.exports = {
-  extends: ["@5unwan/eslint-config/base", "plugin:@next/next/recommended", "plugin:storybook/recommended"],
+  extends: ["@5unwan/eslint-config/base", "plugin:@next/next/recommended"],
   parserOptions: {
     project,
   },
