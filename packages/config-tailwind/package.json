@@ -4,7 +4,7 @@
   "private": true,
   "exports": {
     ".": "./tailwind.config.ts",
-    "./cn": "./utils/cn.ts"
+    "./variables": "./globals.css"
   },
   "devDependencies": {
     "@5unwan/typescript-config": "workspace:*",
