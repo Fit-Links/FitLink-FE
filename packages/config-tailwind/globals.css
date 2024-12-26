@@ -3,19 +3,19 @@
     --brand-primary: 87 85 255;
     --brand-secondary: 255 142 107;
 
-    --text-primary: 255 255 255;
-    --text-sub1: 233 233 233;
-    --text-sub2: 190 190 190;
-    --text-sub3: 119 119 119;
-    --text-sub4: 76 76 76;
-    --text-sub5: 28 28 28;
+    --text-primary: 0 0 100;
+    --text-sub1: 0 0 91;
+    --text-sub2: 0 0 75;
+    --text-sub3: 0 0 47;
+    --text-sub4: 0 0 30;
+    --text-sub5: 0 0 11;
 
-    --background-primary: 28 28 28; 
-    --background-sub1: 36 36 36;
-    --background-sub2: 47 47 47;
-    --background-sub3: 76 76 76;
-    --background-sub4: 255 255 255;
+    --background-primary: 0 0 11;
+    --background-sub1: 0 0 14;
+    --background-sub2: 0 0 18;
+    --background-sub3: 0 0 30;
+    --background-sub4: 0 0 100;
 
-    --notification: 255 84 85
+    --notification: 360 100 66
   }
 }
