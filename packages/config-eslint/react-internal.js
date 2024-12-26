@@ -14,17 +14,18 @@ module.exports = {
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
     "plugin:@tanstack/query/recommended",
-    "plugin:storybook/recommended",
   ],
   parserOptions: {
     project,
   },
   plugins: ["react-refresh"],
   rules: {
-   "react-refresh/only-export-components": [
-      "warn",
-      { allowConstantExport: true },
-    ],
+    "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/function-component-definition": ["error", { namedComponents: ["function-declaration"] }],
+    "react/jsx-key": "error",
+    "react/jsx-fragments": ["error", "syntax"],
   },
   globals: {
     React: true,

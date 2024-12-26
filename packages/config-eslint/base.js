@@ -18,6 +18,15 @@ module.exports = {
   rules: {
     "unused-imports/no-unused-imports": "error",
     "@typescript-eslint/no-unused-vars": "error",
+    "no-var": "error",
+    "padding-line-between-statements": [
+      "error",
+      { blankLine: "always", prev: "*", next: "return" },
+    ],
+    "space-before-blocks": [2, "always"],
+    "no-plusplus": "error",
+    "no-magic-numbers": ["error", { ignoreArrayIndexes: true }],
+
     "import/order": [
       "error",
       {
