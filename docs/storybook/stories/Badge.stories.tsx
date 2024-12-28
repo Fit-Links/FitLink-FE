@@ -4,6 +4,7 @@ import { Badge } from "@5unwan/ui/badge";
 
 const meta: Meta<typeof Badge> = {
   component: Badge,
+  tags: ['autodocs'],
   argTypes: {
     variant: {
       control: 'select',
