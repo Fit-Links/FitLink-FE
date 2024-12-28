@@ -2,9 +2,13 @@
   "name": "@5unwan/tailwind-config",
   "version": "0.0.0",
   "private": true,
+  "files": [
+    "./variables.css",
+    "./tailwind.config.ts"
+  ],
   "exports": {
     ".": "./tailwind.config.ts",
-    "./variables": "./globals.css"
+    "./variables": "./variables.css"
   },
   "devDependencies": {
     "@5unwan/typescript-config": "workspace:*",
