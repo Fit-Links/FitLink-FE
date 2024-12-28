@@ -1,0 +1,37 @@
+import { Meta, Typeset } from "@storybook/blocks";
+
+import resolveConfig from "tailwindcss/resolveConfig";
+import tailwindConfig from "../tailwind.config.ts";
+
+export const fullConfig = resolveConfig(tailwindConfig);
+export const fontSize = fullConfig.theme.fontSize;
+export const sampleText = "Pretendard";
+
+<Meta title="System Typography" />
+
+# System Typography
+
+**Font:** Pretendard
+
+export const typography = Object.entries(fontSize).map(([key, value]) => {
+  const [size, options] = value;
+  const { lineHeight, fontWeight } = options;
+
+return {
+name: key,
+fontSize: size,
+fontWeight,
+lineHeight
+}
+});
+
+<div>
+  {typography.map(({ name, fontSize, fontWeight, lineHeight }) => (
+    <div style={{ fontSize: "14px" }} key={name}>
+      <h3>{name}</h3>
+      <strong>fontWeight:</strong> {fontWeight}, &nbsp;
+      <strong>lineHeight:</strong> {lineHeight}
+      <Typeset fontSizes={[fontSize]} fontWeight={fontWeight} sampleText={sampleText} />
+    </div>
+  ))}
+</div>

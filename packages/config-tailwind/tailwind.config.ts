@@ -7,26 +7,26 @@ const config: Omit<Config, "content"> = {
       colors: {
         brand: {
           primary: {
-            100: 'hsl(241 100 93)',
-            200: 'hsl(241 100 87)',
-            300: 'hsl(241 100 80)',
-            400: 'hsl(241 100 73)',
-            500: 'hsl(241 100 67)',
-            600: 'hsl(241 57 53)',
-            700: 'hsl(241 50 40)',
-            800: 'hsl(241 50 27)',
-            900: 'hsl(241 50 13)',
+            100: "hsl(241 100 93)",
+            200: "hsl(241 100 87)",
+            300: "hsl(241 100 80)",
+            400: "hsl(241 100 73)",
+            500: "hsl(241 100 67)",
+            600: "hsl(241 57 53)",
+            700: "hsl(241 50 40)",
+            800: "hsl(241 50 27)",
+            900: "hsl(241 50 13)",
           },
           secondary: {
-            100: 'hsl(14 100 94)',
-            200: 'hsl(14 100 88)',
-            300: 'hsl(14 100 83)',
-            400: 'hsl(14 100 77)',
-            500: 'hsl(14 100 71)',
-            600: 'hsl(14 54 57)',
-            700: 'hsl(14 41 43)',
-            800: 'hsl(14 41 28)',
-            900: 'hsl(14 41 14)',
+            100: "hsl(14 100 94)",
+            200: "hsl(14 100 88)",
+            300: "hsl(14 100 83)",
+            400: "hsl(14 100 77)",
+            500: "hsl(14 100 71)",
+            600: "hsl(14 54 57)",
+            700: "hsl(14 41 43)",
+            800: "hsl(14 41 28)",
+            900: "hsl(14 41 14)",
           },
         },
         text: {
@@ -42,11 +42,76 @@ const config: Omit<Config, "content"> = {
           sub1: "hsl(var(--background-sub1))",
           sub2: "hsl(var(--background-sub2))",
           sub3: "hsl(var(--background-sub3))",
-          sub4: "hsl(var(--background-sub4))"
+          sub4: "hsl(var(--background-sub4))",
         },
         notification: "hsl(var(--notification))",
-      }
-    }
+      },
+    },
+    fontSize: {
+      "title-1": [
+        "22px",
+        {
+          lineHeight: "1.3",
+          fontWeight: "500",
+        },
+      ],
+      "title-2": [
+        "20px",
+        {
+          lineHeight: "1.3",
+          fontWeight: "500",
+        },
+      ],
+      headline: [
+        "17px",
+        {
+          lineHeight: "1.4",
+          fontWeight: "500",
+        },
+      ],
+      "subhead-1": [
+        "17px",
+        {
+          lineHeight: "1.4",
+          fontWeight: "400",
+        },
+      ],
+      "subhead-2": [
+        "15px",
+        {
+          lineHeight: "1.4",
+          fontWeight: "600",
+        },
+      ],
+      "body-1": [
+        "15px",
+        {
+          lineHeight: "1.5",
+          fontWeight: "500",
+        },
+      ],
+      "body-2": [
+        "13px",
+        {
+          lineHeight: "1.5",
+          fontWeight: "600",
+        },
+      ],
+      "body-3": [
+        "13px",
+        {
+          lineHeight: "1.5",
+          fontWeight: "500",
+        },
+      ],
+      "body-4": [
+        "12px",
+        {
+          lineHeight: "1.5",
+          fontWeight: "400",
+        },
+      ],
+    },
   },
   plugins: [],
 };
