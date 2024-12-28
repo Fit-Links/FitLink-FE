@@ -47,6 +47,6 @@
   },
   "exports": {
     "./utils": "./lib/utils.ts",
-    "./badge": "./src/components/Badge.tsx"
+    "./components/*": "./src/components/*.tsx"
   }
 }
