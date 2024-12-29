@@ -1,21 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @layer base {
   :root {
-    --brand-primary: 87 85 255;
-    --brand-secondary: 255 142 107;
+    --brand-primary: 87 85% 255%;
+    --brand-secondary: 255 142% 107%;
 
-    --text-primary: 0 0 100;
-    --text-sub1: 0 0 91;
-    --text-sub2: 0 0 75;
-    --text-sub3: 0 0 47;
-    --text-sub4: 0 0 30;
-    --text-sub5: 0 0 11;
+    --text-primary: 0 0% 100%;
+    --text-sub1: 0 0% 91%;
+    --text-sub2: 0 0% 75%;
+    --text-sub3: 0 0% 47%;
+    --text-sub4: 0 0% 30%;
+    --text-sub5: 0 0% 11%;
 
-    --background-primary: 0 0 11;
-    --background-sub1: 0 0 14;
-    --background-sub2: 0 0 18;
-    --background-sub3: 0 0 30;
-    --background-sub4: 0 0 100;
+    --background-primary: 0 0% 11%;
+    --background-sub1: 0 0% 14%;
+    --background-sub2: 0 0% 18%;
+    --background-sub3: 0 0% 30%;
+    --background-sub4: 0 0% 100%;
 
-    --notification: 360 100 66
+    --notification: 360 100% 66%;
   }
 }
