@@ -12,12 +12,12 @@ const meta: Meta<typeof Badge> = {
     },
     size: {
       control: 'select',
-      options: ['small', 'medium', 'large']
+      options: ['sm', 'md', 'lg', 'xl']
     }
   },
   args: {
     children: "Badge",
-    size: 'medium'
+    size: 'md'
   },
 };
 export default meta;
@@ -30,6 +30,13 @@ export const Default: Story = {
     children: '00/20'
   },
 };
+export const WithNotification: Story = {
+  args: {
+    variant: 'brand',
+    children: '6:00',
+    notification: '1'
+  }
+}
 export const Sub1: Story = {
   args: {
     variant: 'sub1',
