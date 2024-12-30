@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from 'tailwindcss/plugin';
 
 // We want each package to be responsible for its own content.
 const config: Omit<Config, "content"> = {
@@ -48,6 +49,21 @@ const config: Omit<Config, "content"> = {
       }
     }
   },
-  plugins: [],
+  plugins: [
+    plugin(function({addUtilities}) {
+      addUtilities(
+        {
+          '.dot-mask-lg': {
+            mask: 'radial-gradient(circle 10.5px at calc(100% - 3px) calc(0% + 3px),#0000 98%,#000)',
+            '-webkit-mask': 'radial-gradient(circle 10.5px at calc(100% - 3px) calc(0% + 3px),#0000 98%,#000)',
+          },
+          '.dot-mask-sm': {
+            mask: 'radial-gradient(circle 8px at calc(100% - 2px) calc(0% + 2px),#0000 98%,#000)',
+            '-webkit-mask': 'radial-gradient(circle 8px at calc(100% - 2px) calc(0% + 2px),#0000 98%,#000)',
+          }
+        }
+      )
+    })
+  ],
 };
 export default config;
