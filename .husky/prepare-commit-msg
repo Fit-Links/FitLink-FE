@@ -1,11 +1,8 @@
 echo 'wait add jira issue number we found from branch name'
 
 BRANCH_NAME=$(git symbolic-ref -q HEAD)
-echo $BRANCH_NAME
 BRANCH_NAME=$(echo "$BRANCH_NAME" | awk -F'/' '{print $(NF-2)"/"$(NF-1)"/"$NF}')
-echo $BRANCH_NAME
 ISSUE_TICKET=$(echo "$BRANCH_NAME" | sed -n 's/^\([A-Z]*-[0-9]*\)\/\(.*\)$/\1/p')
-echo $ISSUE_TICKET
 # Check if ISSUE_TICKET is not empty
 if [ -n "$ISSUE_TICKET" ]; then
   # Output extracted Jira 이슈 티켓 번호
