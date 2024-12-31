@@ -15,7 +15,7 @@ module.exports = {
   },
   parserPreset: {
     parserOpts: {
-      headerPattern: /^([A-Z]+-[0-9]+)\/(\w+):\s(.+)$/,
+      headerPattern: /^([A-Z]+-[0-9]+)\s(\w+):\s(.+)$/,
       headerCorrespondence: ["ticket", "type", "subject"],
     },
   },

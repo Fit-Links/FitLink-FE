@@ -13,5 +13,5 @@ if [ -n "$ISSUE_TICKET" ]; then
   COMMIT_MSG=$(cat $COMMIT_MSG_FILE)
 
   # Prepend Jira 이슈 티켓 번호 to the commit message with a hyphen and remove the space
-  echo "$ISSUE_TICKET/$COMMIT_MSG" > $COMMIT_MSG_FILE
+  echo "$ISSUE_TICKET $COMMIT_MSG" > $COMMIT_MSG_FILE
 fi
