@@ -44,6 +44,7 @@ const config: Omit<Config, "content"> = {
           sub2: "hsl(var(--background-sub2))",
           sub3: "hsl(var(--background-sub3))",
           sub4: "hsl(var(--background-sub4))",
+          sub5: "hsl(var(--background-sub5))",
         },
         notification: "hsl(var(--notification))",
       },
