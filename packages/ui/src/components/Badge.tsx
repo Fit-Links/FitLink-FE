@@ -46,6 +46,10 @@ const notificationVariants = cva(
         sm: "h-[14px] w-[14px] -right-[5px] -top-[5px]",
       },
     },
+    defaultVariants: {
+      variant: "default",
+      size: "md",
+    },
   },
 );
 
