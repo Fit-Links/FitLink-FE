@@ -13,4 +13,10 @@ module.exports = {
       ["feat", "fix", "style", "refactor", "docs", "test", "ci", "chore", "rename", "merge"],
     ],
   },
+  parserPreset: {
+    parserOpts: {
+      headerPattern: /^([A-Z]+-[0-9]+)\/(\w+):\s(.+)$/,
+      headerCorrespondence: ["ticket", "type", "subject"],
+    },
+  },
 };
