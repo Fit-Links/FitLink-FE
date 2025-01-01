@@ -17,13 +17,15 @@ export const typography = Object.entries(fontSize).map(([key, value]) => {
   const [size, options] = value;
   const { lineHeight, fontWeight } = options;
 
+if (!fontWeight) return null;
+
 return {
 name: key,
 fontSize: size,
 fontWeight,
 lineHeight
 }
-});
+}).filter(value => value !== null);
 
 <div>
   {typography.map(({ name, fontSize, fontWeight, lineHeight }) => (
