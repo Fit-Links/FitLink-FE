@@ -36,6 +36,9 @@ module.exports = {
       version: "detect",
     },
   },
+  env: {
+    node: true
+  },
   overrides: [
     {
       files: ["**/*.{test,spec}.*", "**/__tests__/**/*"],
@@ -45,6 +48,10 @@ module.exports = {
         "plugin:jest-dom/recommended",
         "plugin:testing-library/react",
       ],
+      env: {
+        node: true,
+        browser: true,
+      },
     },
   ],
   ignorePatterns: ["node_modules/", "dist/", ".eslintrc.js", "**/*.css"],
