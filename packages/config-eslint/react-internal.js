@@ -37,7 +37,8 @@ module.exports = {
     },
   },
   env: {
-    node: true
+    node: true,
+    browser: true,
   },
   overrides: [
     {
@@ -48,10 +49,6 @@ module.exports = {
         "plugin:jest-dom/recommended",
         "plugin:testing-library/react",
       ],
-      env: {
-        node: true,
-        browser: true,
-      },
     },
   ],
   ignorePatterns: ["node_modules/", "dist/", ".eslintrc.js", "**/*.css"],
