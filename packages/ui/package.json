@@ -41,6 +41,7 @@
     "typescript": "5.5.4"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "tailwind-merge": "^2.6.0"
