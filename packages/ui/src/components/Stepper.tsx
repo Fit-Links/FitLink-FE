@@ -1,14 +1,15 @@
 "use client";
 
 import { AddOutlined, RemoveOutlined } from "@mui/icons-material";
-import { useEffect, useState } from "react";
+import { useControllableState } from "@radix-ui/react-use-controllable-state";
 
 import { cn } from "../lib/utils";
 
 type StepperProps = {
   defaultValue?: number;
+  value?: number;
   step?: number;
-  getChangeValue: (value: number) => void;
+  onChangeValue: (value: number) => void;
   className?: string;
 };
 
@@ -17,23 +18,24 @@ const DEFAULT_STEP = 1;
 
 function Stepper({
   defaultValue = DEFAULT_VALUE,
+  value,
   step = DEFAULT_STEP,
-  getChangeValue,
+  onChangeValue,
   className,
 }: StepperProps) {
-  const [currentValue, setCurrentValue] = useState(defaultValue);
+  const [internalValue, setInternalValue] = useControllableState({
+    prop: value,
+    onChange: onChangeValue,
+    defaultProp: defaultValue,
+  });
 
   const handleClickDecrease = () => {
-    setCurrentValue((previousValue) => previousValue - step);
+    setInternalValue((internalValue ?? DEFAULT_VALUE) - step);
   };
 
   const handleClickIncrease = () => {
-    setCurrentValue((previousValue) => previousValue + step);
+    setInternalValue((internalValue ?? DEFAULT_VALUE) + step);
   };
-
-  useEffect(() => {
-    getChangeValue(currentValue);
-  }, [currentValue]);
 
   return (
     <div
@@ -46,7 +48,7 @@ function Stepper({
         <RemoveOutlined aria-label="decrease" />
       </button>
       <div className="text-text-sub5 bg-background-sub5 flex h-[31px] w-[55px] items-center justify-center rounded-[5px]">
-        {currentValue}
+        {internalValue}
       </div>
       <button className="flex h-6 w-6 items-center justify-center" onClick={handleClickIncrease}>
         <AddOutlined aria-label="increase" />
