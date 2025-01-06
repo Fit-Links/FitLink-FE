@@ -25,11 +25,6 @@ export const Default: AvatarStory = {
   args: {
     disabled: false,
   },
-  argTypes: {
-    disabled: {
-      control: "boolean",
-    },
-  },
   render: (args) => (
     <Avatar {...args}>
       <AvatarImage src="https://picsum.photos/300" alt="유저 프로필" />
@@ -41,11 +36,6 @@ export const Default: AvatarStory = {
 export const Disabled: AvatarStory = {
   args: {
     disabled: true,
-  },
-  argTypes: {
-    disabled: {
-      control: "boolean",
-    },
   },
   render: (args) => (
     <Avatar {...args}>
