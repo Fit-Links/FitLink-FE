@@ -1,8 +1,8 @@
 "use client";
 
 import { AddOutlined, RemoveOutlined } from "@mui/icons-material";
-import { useControllableState } from "@radix-ui/react-use-controllable-state";
 
+import { useControllableState } from "../hooks/useControllableState";
 import { cn } from "../lib/utils";
 
 type StepperProps = {
