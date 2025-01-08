@@ -23,18 +23,18 @@ function Stepper({
   onChangeValue,
   className,
 }: StepperProps) {
-  const [internalValue, setInternalValue] = useControllableState({
+  const [internalValue = defaultValue, setInternalValue] = useControllableState({
     prop: value,
     onChange: onChangeValue,
     defaultProp: defaultValue,
   });
 
   const handleClickDecrease = () => {
-    setInternalValue((internalValue ?? DEFAULT_VALUE) - step);
+    setInternalValue(internalValue - step);
   };
 
   const handleClickIncrease = () => {
-    setInternalValue((internalValue ?? DEFAULT_VALUE) + step);
+    setInternalValue(internalValue + step);
   };
 
   return (
