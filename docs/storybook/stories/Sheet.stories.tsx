@@ -13,8 +13,6 @@ import { Meta, StoryObj } from "@storybook/react";
 
 const SHEET_SIDES = ["top", "right", "bottom", "left"] as const;
 
-type SheetSide = (typeof SHEET_SIDES)[number];
-
 function SheetSide() {
   return (
     <div className="grid grid-cols-2 gap-2">
@@ -71,7 +69,7 @@ export default meta;
 type Story = StoryObj<typeof SheetContent>;
 
 export const Default: Story = {
-  render: ({side,...args}) => (
+  render: ({side}) => (
     <Sheet>
       <SheetTrigger asChild>
         <button>시트 열기</button>
@@ -83,7 +81,7 @@ export const Default: Story = {
   ),
 };
 export const WithHeader: Story = {
-  render: ({side,...args}) => (
+  render: ({side}) => (
     <Sheet>
       <SheetTrigger asChild>
         <button>시트 열기</button>
@@ -99,7 +97,7 @@ export const WithHeader: Story = {
   ),
 };
 export const WithFooter: Story = {
-  render: ({side,...args}) => (
+  render: ({side}) => (
     <Sheet>
       <SheetTrigger asChild>
         <button>시트 열기</button>
@@ -114,7 +112,7 @@ export const WithFooter: Story = {
   ),
 };
 export const WithHeaderFooter: Story = {
-  render: ({side,...args}) => (
+  render: ({side}) => (
     <Sheet>
       <SheetTrigger asChild>
         <button>시트 열기</button>
