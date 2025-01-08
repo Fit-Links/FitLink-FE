@@ -7,43 +7,37 @@ type TextProps = React.HTMLAttributes<HTMLSpanElement> & {
 };
 
 function Title1({ className, ...props }: TextProps) {
-  return <span className={cn("text-title-1 text-text-primary", className)}>{props.children}</span>;
+  return <p className={cn("text-title-1 text-text-primary", className)}>{props.children}</p>;
 }
 
 function Title2({ className, ...props }: TextProps) {
-  return <span className={cn("text-title-2 text-text-primary", className)}>{props.children}</span>;
+  return <p className={cn("text-title-2 text-text-primary", className)}>{props.children}</p>;
 }
 
 function Headline1({ className, ...props }: TextProps) {
-  return (
-    <span className={cn("text-headline-1 text-text-primary", className)}>{props.children}</span>
-  );
+  return <p className={cn("text-headline-1 text-text-primary", className)}>{props.children}</p>;
 }
 
 function Subhead1({ className, ...props }: TextProps) {
-  return (
-    <span className={cn("text-subhead-1 text-text-primary", className)}>{props.children}</span>
-  );
+  return <p className={cn("text-subhead-1 text-text-primary", className)}>{props.children}</p>;
 }
 
 function Subhead2({ className, ...props }: TextProps) {
-  return (
-    <span className={cn("text-subhead-2 text-text-primary", className)}>{props.children}</span>
-  );
+  return <p className={cn("text-subhead-2 text-text-primary", className)}>{props.children}</p>;
 }
 
 function Body1({ className, ...props }: TextProps) {
-  return <span className={cn("text-body-1 text-text-primary", className)}>{props.children}</span>;
+  return <p className={cn("text-body-1 text-text-primary", className)}>{props.children}</p>;
 }
 
 function Body2({ className, ...props }: TextProps) {
-  return <span className={cn("text-body-2 text-text-primary", className)}>{props.children}</span>;
+  return <p className={cn("text-body-2 text-text-primary", className)}>{props.children}</p>;
 }
 function Body3({ className, ...props }: TextProps) {
-  return <span className={cn("text-body-3 text-text-primary", className)}>{props.children}</span>;
+  return <p className={cn("text-body-3 text-text-primary", className)}>{props.children}</p>;
 }
 function Body4({ className, ...props }: TextProps) {
-  return <span className={cn("text-body-4 text-text-primary", className)}>{props.children}</span>;
+  return <p className={cn("text-body-4 text-text-primary", className)}>{props.children}</p>;
 }
 
 export const Text = Object.assign(Title1, {
