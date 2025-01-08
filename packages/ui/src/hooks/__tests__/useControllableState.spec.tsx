@@ -5,7 +5,7 @@ import { useCallbackRef } from "../useCallbackRef";
 import { useControllableState } from "../useControllableState";
 
 describe("useCallbackRef 훅 테스트", () => {
-  test("동일한 함수 참조를 유지하면서 최신 콜백을 호출해야 한다", () => {
+  it("동일한 함수 참조를 유지하면서 최신 콜백을 호출해야 한다", () => {
     const firstCallback = jest.fn();
     const secondCallback = jest.fn();
 
@@ -33,7 +33,7 @@ describe("useCallbackRef 훅 테스트", () => {
 
 describe("useControllableState 훅 테스트", () => {
   describe("제어 모드", () => {
-    test("제공된 prop 값을 사용하고 변경 시 onChange를 호출해야 한다", () => {
+    it("제공된 prop 값을 사용하고 변경 시 onChange를 호출해야 한다", () => {
       const handleChange = jest.fn();
       const INITIAL_VALUE = "initial";
       const NEW_VALUE = "updated";
@@ -55,7 +55,7 @@ describe("useControllableState 훅 테스트", () => {
   });
 
   describe("비제어 모드", () => {
-    test("내부 상태를 관리하고 변경사항을 추적해야 한다", () => {
+    it("내부 상태를 관리하고 변경사항을 추적해야 한다", () => {
       const handleChange = jest.fn();
       const DEFAULT_VALUE = "default";
       const NEW_VALUE = "changed";
@@ -77,7 +77,7 @@ describe("useControllableState 훅 테스트", () => {
       expect(handleChange).toHaveBeenCalledWith(NEW_VALUE);
     });
 
-    test("함수형 업데이트가 올바르게 동작해야 한다", () => {
+    it("함수형 업데이트가 올바르게 동작해야 한다", () => {
       const INITIAL_VALUE = { count: 0 };
 
       const { result } = renderHook(() => useControllableState({ defaultProp: INITIAL_VALUE }));

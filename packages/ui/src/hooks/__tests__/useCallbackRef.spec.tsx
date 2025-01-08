@@ -4,7 +4,7 @@ import { renderHook, act } from "@testing-library/react";
 import { useCallbackRef } from "../useCallbackRef";
 
 describe("useCallbackRef", () => {
-  test("콜백이 변경되어도 동일한 함수 참조를 유지하면서 최신 콜백을 실행해야 한다", () => {
+  it("콜백이 변경되어도 동일한 함수 참조를 유지하면서 최신 콜백을 실행해야 한다", () => {
     const firstCallback = jest.fn();
     const secondCallback = jest.fn();
 
@@ -35,7 +35,7 @@ describe("useCallbackRef", () => {
     expect(firstCallback).toHaveBeenCalledTimes(1);
   });
 
-  test("undefined 콜백이 전달되어도 에러가 발생하지 않아야 한다", () => {
+  it("undefined 콜백이 전달되어도 에러가 발생하지 않아야 한다", () => {
     const { result } = renderHook(() => useCallbackRef(undefined));
 
     act(() => {
