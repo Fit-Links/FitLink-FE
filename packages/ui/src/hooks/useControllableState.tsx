@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { useCallbackRef } from "./useCallbackRef";
+import useCallbackRef from "./useCallbackRef";
 
 type UseControllableStateParams<T> = {
   prop?: T | undefined;
@@ -10,7 +10,7 @@ type UseControllableStateParams<T> = {
 
 type SetStateFn<T> = (prevState?: T) => T;
 
-function useControllableState<T>({
+export default function useControllableState<T>({
   prop,
   defaultProp,
   onChange = () => {},
@@ -54,5 +54,3 @@ function useUncontrolledState<T>({
 
   return uncontrolledState;
 }
-
-export { useControllableState };
