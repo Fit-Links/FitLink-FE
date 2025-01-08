@@ -35,52 +35,52 @@ describe("useControllableState 훅 테스트", () => {
   describe("제어 모드", () => {
     test("제공된 prop 값을 사용하고 변경 시 onChange를 호출해야 한다", () => {
       const handleChange = jest.fn();
-      const initialValue = "initial";
-      const newValue = "updated";
+      const INITIAL_VALUE = "initial";
+      const NEW_VALUE = "updated";
 
       const { result } = renderHook(() =>
         useControllableState({
-          prop: initialValue,
+          prop: INITIAL_VALUE,
           onChange: handleChange,
         }),
       );
 
       act(() => {
-        result.current[1](newValue);
+        result.current[1](NEW_VALUE);
       });
 
-      expect(result.current[0]).toBe(initialValue);
-      expect(handleChange).toHaveBeenCalledWith(newValue);
+      expect(result.current[0]).toBe(INITIAL_VALUE);
+      expect(handleChange).toHaveBeenCalledWith(NEW_VALUE);
     });
   });
 
   describe("비제어 모드", () => {
     test("내부 상태를 관리하고 변경사항을 추적해야 한다", () => {
       const handleChange = jest.fn();
-      const defaultValue = "default";
-      const newValue = "changed";
+      const DEFAULT_VALUE = "default";
+      const NEW_VALUE = "changed";
 
       const { result } = renderHook(() =>
         useControllableState({
-          defaultProp: defaultValue,
+          defaultProp: DEFAULT_VALUE,
           onChange: handleChange,
         }),
       );
 
-      expect(result.current[0]).toBe(defaultValue);
+      expect(result.current[0]).toBe(DEFAULT_VALUE);
 
       act(() => {
-        result.current[1](newValue);
+        result.current[1](NEW_VALUE);
       });
 
-      expect(result.current[0]).toBe(newValue);
-      expect(handleChange).toHaveBeenCalledWith(newValue);
+      expect(result.current[0]).toBe(NEW_VALUE);
+      expect(handleChange).toHaveBeenCalledWith(NEW_VALUE);
     });
 
     test("함수형 업데이트가 올바르게 동작해야 한다", () => {
-      const initialValue = { count: 0 };
+      const INITIAL_VALUE = { count: 0 };
 
-      const { result } = renderHook(() => useControllableState({ defaultProp: initialValue }));
+      const { result } = renderHook(() => useControllableState({ defaultProp: INITIAL_VALUE }));
 
       act(() => {
         result.current[1]((prev) => ({
