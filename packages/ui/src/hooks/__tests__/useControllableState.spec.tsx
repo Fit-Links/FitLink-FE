@@ -1,8 +1,8 @@
 /* eslint-disable no-magic-numbers */
 import { renderHook, act } from "@testing-library/react";
 
-import { useCallbackRef } from "../useCallbackRef";
-import { useControllableState } from "../useControllableState";
+import useCallbackRef from "../useCallbackRef";
+import useControllableState from "../useControllableState";
 
 describe("useCallbackRef 훅 테스트", () => {
   it("동일한 함수 참조를 유지하면서 최신 콜백을 호출해야 한다", () => {

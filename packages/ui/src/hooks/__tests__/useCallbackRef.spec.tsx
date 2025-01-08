@@ -1,7 +1,7 @@
 /* eslint-disable no-magic-numbers */
 import { renderHook, act } from "@testing-library/react";
 
-import { useCallbackRef } from "../useCallbackRef";
+import useCallbackRef from "../useCallbackRef";
 
 describe("useCallbackRef", () => {
   it("콜백이 변경되어도 동일한 함수 참조를 유지하면서 최신 콜백을 실행해야 한다", () => {
