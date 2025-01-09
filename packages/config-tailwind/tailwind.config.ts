@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
-import plugin from 'tailwindcss/plugin';
-import tailwindcssAnimate from 'tailwindcss-animate';
+import plugin from "tailwindcss/plugin";
+import tailwindcssAnimate from "tailwindcss-animate";
 
 // We want each package to be responsible for its own content.
 const config: Omit<Config, "content"> = {
@@ -49,89 +49,89 @@ const config: Omit<Config, "content"> = {
         },
         notification: "hsl(var(--notification))",
       },
-    },
-    fontSize: {
-      "title-1": [
-        "22px",
-        {
-          lineHeight: "1.3",
-          fontWeight: "500",
-        },
-      ],
-      "title-2": [
-        "20px",
-        {
-          lineHeight: "1.3",
-          fontWeight: "500",
-        },
-      ],
-      headline: [
-        "17px",
-        {
-          lineHeight: "1.4",
-          fontWeight: "500",
-        },
-      ],
-      "subhead-1": [
-        "17px",
-        {
-          lineHeight: "1.4",
-          fontWeight: "400",
-        },
-      ],
-      "subhead-2": [
-        "15px",
-        {
-          lineHeight: "1.4",
-          fontWeight: "600",
-        },
-      ],
-      "body-1": [
-        "15px",
-        {
-          lineHeight: "1.5",
-          fontWeight: "500",
-        },
-      ],
-      "body-2": [
-        "13px",
-        {
-          lineHeight: "1.5",
-          fontWeight: "600",
-        },
-      ],
-      "body-3": [
-        "13px",
-        {
-          lineHeight: "1.5",
-          fontWeight: "500",
-        },
-      ],
-      "body-4": [
-        "12px",
-        {
-          lineHeight: "1.5",
-          fontWeight: "400",
-        },
-      ],
+      fontSize: {
+        "title-1": [
+          "22px",
+          {
+            lineHeight: "1.3",
+            fontWeight: "500",
+          },
+        ],
+        "title-2": [
+          "20px",
+          {
+            lineHeight: "1.3",
+            fontWeight: "500",
+          },
+        ],
+        headline: [
+          "17px",
+          {
+            lineHeight: "1.4",
+            fontWeight: "500",
+          },
+        ],
+        "subhead-1": [
+          "17px",
+          {
+            lineHeight: "1.4",
+            fontWeight: "400",
+          },
+        ],
+        "subhead-2": [
+          "15px",
+          {
+            lineHeight: "1.4",
+            fontWeight: "600",
+          },
+        ],
+        "body-1": [
+          "15px",
+          {
+            lineHeight: "1.5",
+            fontWeight: "500",
+          },
+        ],
+        "body-2": [
+          "13px",
+          {
+            lineHeight: "1.5",
+            fontWeight: "600",
+          },
+        ],
+        "body-3": [
+          "13px",
+          {
+            lineHeight: "1.5",
+            fontWeight: "500",
+          },
+        ],
+        "body-4": [
+          "12px",
+          {
+            lineHeight: "1.5",
+            fontWeight: "400",
+          },
+        ],
+      },
     },
   },
   plugins: [
     tailwindcssAnimate,
-    plugin(function({addUtilities}) {
-      addUtilities(
-        {
-          '.dot-mask-lg': {
-            mask: 'radial-gradient(circle 10.5px at calc(100% - 3px) calc(0% + 3px),#0000 98%,#000)',
-            '-webkit-mask': 'radial-gradient(circle 10.5px at calc(100% - 3px) calc(0% + 3px),#0000 98%,#000)',
-          },
-          '.dot-mask-sm': {
-            mask: 'radial-gradient(circle 8px at calc(100% - 2px) calc(0% + 2px),#0000 98%,#000)',
-            '-webkit-mask': 'radial-gradient(circle 8px at calc(100% - 2px) calc(0% + 2px),#0000 98%,#000)',
-          }
-        }
-      )
-    })
+    plugin(function ({ addUtilities }) {
+      addUtilities({
+        ".dot-mask-lg": {
+          mask: "radial-gradient(circle 10.5px at calc(100% - 3px) calc(0% + 3px),#0000 98%,#000)",
+          "-webkit-mask":
+            "radial-gradient(circle 10.5px at calc(100% - 3px) calc(0% + 3px),#0000 98%,#000)",
+        },
+        ".dot-mask-sm": {
+          mask: "radial-gradient(circle 8px at calc(100% - 2px) calc(0% + 2px),#0000 98%,#000)",
+          "-webkit-mask":
+            "radial-gradient(circle 8px at calc(100% - 2px) calc(0% + 2px),#0000 98%,#000)",
+        },
+      });
+    }),
   ],
 };
 export default config;
