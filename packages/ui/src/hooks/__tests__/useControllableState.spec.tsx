@@ -1,35 +1,7 @@
 /* eslint-disable no-magic-numbers */
 import { renderHook, act } from "@testing-library/react";
 
-import useCallbackRef from "../useCallbackRef";
 import useControllableState from "../useControllableState";
-
-describe("useCallbackRef 훅 테스트", () => {
-  it("동일한 함수 참조를 유지하면서 최신 콜백을 호출해야 한다", () => {
-    const firstCallback = jest.fn();
-    const secondCallback = jest.fn();
-
-    const { result, rerender } = renderHook(({ cb }) => useCallbackRef(cb), {
-      initialProps: { cb: firstCallback },
-    });
-
-    const initialRef = result.current;
-
-    act(() => {
-      result.current(123);
-    });
-
-    rerender({ cb: secondCallback });
-
-    act(() => {
-      result.current(456);
-    });
-
-    expect(result.current).toBe(initialRef);
-    expect(firstCallback).toHaveBeenCalledWith(123);
-    expect(secondCallback).toHaveBeenCalledWith(456);
-  });
-});
 
 describe("useControllableState 훅 테스트", () => {
   describe("제어 모드", () => {
