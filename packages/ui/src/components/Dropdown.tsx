@@ -42,14 +42,20 @@ type DropdownSeparatorProps = HTMLAttributes<HTMLDivElement> & {
 };
 
 const DropdownContext = createContext<
-  Pick<DropdownProps, "open" | "onChangeOpen"> & {
-    triggerWidth?: number;
+  | (Pick<DropdownProps, "open" | "onChangeOpen"> & {
+      triggerWidth?: number;
+    })
+  | null
+>(null);
+
+const useDropdownContext = () => {
+  const context = useContext(DropdownContext);
+  if (!context) {
+    throw new Error("Dropdown components must be used within a <Dropdown> component.");
   }
->({
-  open: false,
-  onChangeOpen: () => {},
-  triggerWidth: undefined,
-});
+
+  return context;
+};
 
 function Dropdown({ open, onChangeOpen, defaultOpen, className, children }: DropdownProps) {
   const [isOpen = false, setIsOpen] = useControllableState({
@@ -97,7 +103,7 @@ function Dropdown({ open, onChangeOpen, defaultOpen, className, children }: Drop
 
 const DropdownTrigger = forwardRef<HTMLButtonElement, DropdownTriggerProps>(
   ({ children, className, asChild = false, ...props }, ref) => {
-    const { open, onChangeOpen } = useContext(DropdownContext);
+    const { open, onChangeOpen } = useDropdownContext();
 
     const handleClick = () => {
       onChangeOpen?.(!open);
@@ -138,7 +144,7 @@ DropdownTrigger.displayName = "DropdownTrigger";
 
 const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
   ({ children, className, ...props }, ref) => {
-    const { open } = useContext(DropdownContext);
+    const { open } = useDropdownContext();
 
     return (
       <div
@@ -160,6 +166,10 @@ DropdownContent.displayName = "DropdownContent";
 
 const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
   ({ children, className, ...props }, ref) => {
+    if (!useContext(DropdownContext)) {
+      throw new Error("Dropdown components must be used within a <Dropdown> component.");
+    }
+
     return (
       <div
         ref={ref}
@@ -178,6 +188,10 @@ DropdownItem.displayName = "DropdownItem";
 
 const DropdownSeparator = forwardRef<HTMLDivElement, DropdownSeparatorProps>(
   ({ className, ...props }, ref) => {
+    if (!useContext(DropdownContext)) {
+      throw new Error("Dropdown components must be used within a <Dropdown> component.");
+    }
+
     return (
       <div
         ref={ref}
