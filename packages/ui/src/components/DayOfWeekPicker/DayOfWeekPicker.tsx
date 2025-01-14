@@ -1,10 +1,12 @@
+"use client";
+
 import React, { forwardRef, useCallback } from "react";
 
-import useControllableState from "../hooks/useControllableState";
-import useDayOfWeekPickerContext from "../hooks/useDayOfWeekPickerContext";
-import { cn } from "../lib/utils";
-import DayOfWeekPickerContext from "./DayOfWeekPicker/Context";
-import { Days } from "./DayOfWeekPicker/Days";
+import DayOfWeekPickerContext from "./Context";
+import { Days } from "./Days";
+import useControllableState from "../../hooks/useControllableState";
+import useDayOfWeekPickerContext from "../../hooks/useDayOfWeekPickerContext";
+import { cn } from "../../lib/utils";
 
 const DayTable = ["월", "화", "수", "목", "금", "토", "일"] as const;
 
