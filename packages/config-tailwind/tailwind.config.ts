@@ -130,6 +130,10 @@ const config: Omit<Config, "content"> = {
           "-webkit-mask":
             "radial-gradient(circle 8px at calc(100% - 2px) calc(0% + 2px),#0000 98%,#000)",
         },
+        ".backface-hidden": {
+          "backface-visibility": "hidden",
+          "-webkit-backface-visibility": "hidden",
+        },
       });
     }),
   ],
