@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import NotificationItem from "@5unwan/ui/components/NotificationItem";
+import NotificationItem from "@5unwan/ui/components/NotificationItem/NotificationItem";
 
 const meta: Meta<typeof NotificationItem> = {
   component: ({ createdAt, eventDate, ...args }) => {
