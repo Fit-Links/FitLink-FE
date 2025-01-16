@@ -27,18 +27,29 @@ function NotificationContent({
       )}
     >
       <span>{message}</span>
-      {eventDate && (
-        <p>
-          <span>{`${eventDate} ${variant === "edit" ? "→ " : ""}`}</span>
+
+      <p>
+        {eventDate && <span>{`${eventDate} ${variant === "edit" ? "→ " : ""}`}</span>}
+        {eventDetail && (
           <span
-            className={cn("text-brand-primary-500", {
-              "text-brand-primary=700": isCompleted,
-            })}
+            className={cn(
+              "text-brand-primary-500 transition-colors",
+              {
+                "text-brand-primary-700": variant !== "session" && isCompleted,
+              },
+              {
+                "text-text-primary": variant === "session" && !isCompleted,
+              },
+              {
+                "text-text-sub3": variant === "session" && isCompleted,
+              },
+            )}
           >
             {eventDetail}
           </span>
-        </p>
-      )}
+        )}
+      </p>
+
       <span className="text-body-4 text-text-sub3">{createdAt}</span>
     </div>
   );
