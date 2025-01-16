@@ -1,5 +1,13 @@
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { Calendar, CalendarX2, Dumbbell, HeartHandshake, History, UserRoundX } from "lucide-react";
+import {
+  Calendar,
+  CalendarX2,
+  Dumbbell,
+  HeartHandshake,
+  History,
+  UserRoundX,
+  X,
+} from "lucide-react";
 import { forwardRef, HTMLAttributes, MouseEvent, MouseEventHandler } from "react";
 
 import { Avatar } from "./Avatar";
@@ -8,8 +16,22 @@ import { cn } from "../lib/utils";
 
 interface Props extends Omit<HTMLAttributes<HTMLLIElement>, "onClick">, NotificationProps {}
 
-type Variant = "exercise" | "reserve" | "cancel" | "edit" | "connect" | "disconnect";
+type Variant =
+  | "preExercise"
+  | "postExercise"
+  | "exerciseConfirm"
+  | "reserve"
+  | "cancel"
+  | "edit"
+  | "connect"
+  | "disconnect"
+  | "deny"
+  | "session";
 
+const NumberIconMap = {
+  exerciseConfirm: -1,
+  session: 5,
+};
 type NotificationProps = {
   isCompleted: boolean;
   memberName?: string;
@@ -21,26 +43,39 @@ type NotificationProps = {
   variant: Variant;
   onClick: MouseEventHandler<HTMLLIElement>;
 };
+const NumberIcon = (value: number) => {
+  function NumberIconComponent({ className }: { className?: string }) {
+    return (
+      <div className={cn("flex items-center justify-center text-center", className)}>{value}</div>
+    );
+  }
+  NumberIconComponent.displayName = "NumberIconComponent";
 
+  return NumberIconComponent;
+};
 const NotificationIconMap = {
-  exercise: Dumbbell,
+  preExercise: Dumbbell,
+  postExercise: Dumbbell,
+  exerciseConfirm: NumberIcon(NumberIconMap["exerciseConfirm"]),
   reserve: Calendar,
   cancel: CalendarX2,
   edit: History,
   connect: HeartHandshake,
   disconnect: UserRoundX,
+  deny: X,
+  session: NumberIcon(NumberIconMap["session"]),
 } as const;
 
 function NotificationIcon({
   className,
-  variant = "exercise",
+  variant = "preExercise",
 }: {
   className?: string;
   variant: Variant;
 }) {
-  const LucideIcon = NotificationIconMap[variant];
+  const Icon = NotificationIconMap[variant];
 
-  return <LucideIcon className={cn("text-text-primary", className)} />;
+  return <Icon className={cn("text-text-primary", className)} />;
 }
 function IconThumbnail({
   className,
@@ -69,7 +104,7 @@ function IconThumbnail({
           {
             "text-text-sub3": isCompleted,
           },
-          size === "sm" ? "h-[11px] w-[11px]" : "h-[30px] w-[30px]",
+          size === "sm" ? "h-[11px] w-[11px] text-[11px]" : "h-[30px] w-[30px] text-[30px]",
         )}
       />
     </div>
@@ -174,7 +209,12 @@ const NotificationItem = forwardRef<HTMLLIElement, Props>((props, ref) => {
   return (
     <li
       ref={ref}
-      className="bg-background-sub1 flex h-[6.25rem] w-[22.375rem] cursor-pointer items-center gap-[15px] rounded-[10px] px-[15px] transition-colors"
+      className={cn(
+        "bg-background-sub1 flex h-[6.25rem] w-[22.375rem] cursor-pointer items-center gap-[15px] rounded-[10px] px-[15px] transition-colors",
+        {
+          "cursor-default": isCompleted,
+        },
+      )}
       onClick={handleClick}
       {...commonProps}
     >
