@@ -12,10 +12,12 @@ type Variant = "exercise" | "reserve" | "cancel" | "edit" | "connect" | "disconn
 
 type NotificationProps = {
   isCompleted: boolean;
+  memberName?: string;
   avatarSrc: string;
   message: string;
-  eventDate?: Date;
-  createdAt: Date;
+  eventDate?: Date | string;
+  eventDetail?: Date | string;
+  createdAt: Date | string;
   variant: Variant;
   onClick: MouseEventHandler<HTMLLIElement>;
 };
@@ -85,12 +87,25 @@ type NotificationContentProps = {
   message: string;
   eventDate?: string;
   createdAt?: string;
+  eventDetail?: string;
+  variant: Variant;
 };
-function NotificationContent({ message, eventDate, createdAt }: NotificationContentProps) {
+function NotificationContent({
+  message,
+  eventDate,
+  createdAt,
+  eventDetail,
+  variant,
+}: NotificationContentProps) {
   return (
-    <div className="text-body-1 text-text-primary flex flex-col items-start gap-[0.5rem]">
+    <div className="text-body-1 text-text-primary flex flex-col items-start justify-center">
       <span>{message}</span>
-      {eventDate && <span>{eventDate}</span>}
+      {eventDate && (
+        <p>
+          <span>{`${eventDate} ${variant === "edit" ? "→ " : ""}`}</span>
+          <span className="text-brand-primary-500">{eventDetail}</span>
+        </p>
+      )}
       <span className="text-body-4 text-text-sub3">{createdAt}</span>
     </div>
   );
@@ -98,10 +113,12 @@ function NotificationContent({ message, eventDate, createdAt }: NotificationCont
 const NotificationItem = forwardRef<HTMLLIElement, Props>((props, ref) => {
   const {
     isCompleted,
+    memberName,
     avatarSrc,
     createdAt,
     message,
     eventDate,
+    eventDetail,
     variant,
     onClick,
     ...commonProps
@@ -110,8 +127,10 @@ const NotificationItem = forwardRef<HTMLLIElement, Props>((props, ref) => {
     if (isCompleted) return;
     onClick(e);
   };
-  const eventDateController = eventDate && DateController(eventDate).validate();
+  const eventDateController = eventDate ? DateController(eventDate).validate() : undefined;
   const createdDateController = DateController(createdAt).validate();
+  const eventDetailController = eventDetail ? DateController(eventDetail).validate() : undefined;
+  const messageCompound = memberName ? `${memberName} ${message}` : message;
 
   return (
     <li
@@ -123,8 +142,14 @@ const NotificationItem = forwardRef<HTMLLIElement, Props>((props, ref) => {
       <NotificationThumbnail avatarSrc={avatarSrc} variant={variant} />
       <NotificationContent
         createdAt={createdDateController?.toRelative()}
-        message={message}
+        message={messageCompound}
         eventDate={eventDateController?.toServiceFormat().untilMinutes}
+        variant={variant}
+        eventDetail={
+          eventDetailController
+            ? eventDetailController.toServiceFormat().untilMinutes
+            : (eventDetail as string)
+        }
       />
     </li>
   );
