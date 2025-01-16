@@ -46,26 +46,44 @@ function IconThumbnail({
   className,
   variant,
   size,
+  isCompleted,
 }: {
   className?: string;
   variant: Variant;
   size: "sm" | "lg";
+  isCompleted: boolean;
 }) {
   return (
     <div
       className={cn(
-        "bg-brand-primary-500 flex h-[1.5rem] w-[1.5rem] items-center justify-center rounded-full",
+        "bg-brand-primary-500 flex h-[1.5rem] w-[1.5rem] items-center justify-center rounded-full transition-colors",
+        {
+          "bg-background-sub2": isCompleted,
+        },
         className,
       )}
     >
       <NotificationIcon
         variant={variant}
-        className={cn(size === "sm" ? "h-[11px] w-[11px]" : "h-[30px] w-[30px]")}
+        className={cn(
+          {
+            "text-text-sub3": isCompleted,
+          },
+          size === "sm" ? "h-[11px] w-[11px]" : "h-[30px] w-[30px]",
+        )}
       />
     </div>
   );
 }
-function NotificationThumbnail({ avatarSrc, variant }: { avatarSrc: string; variant: Variant }) {
+function NotificationThumbnail({
+  avatarSrc,
+  variant,
+  isCompleted,
+}: {
+  avatarSrc: string;
+  variant: Variant;
+  isCompleted: boolean;
+}) {
   return avatarSrc ? (
     <div className="relative h-fit w-fit">
       <Avatar className="h-[3.125rem] w-[3.125rem]">
@@ -75,15 +93,22 @@ function NotificationThumbnail({ avatarSrc, variant }: { avatarSrc: string; vari
       <IconThumbnail
         size="sm"
         variant={variant}
+        isCompleted={isCompleted}
         className="absolute -right-[6px] bottom-0 h-[1.5rem] w-[1.5rem]"
       />
     </div>
   ) : (
-    <IconThumbnail size="lg" variant={variant} className="h-[3.125rem] w-[3.125rem]" />
+    <IconThumbnail
+      size="lg"
+      variant={variant}
+      isCompleted={isCompleted}
+      className="h-[3.125rem] w-[3.125rem]"
+    />
   );
 }
 
 type NotificationContentProps = {
+  isCompleted: boolean;
   message: string;
   eventDate?: string;
   createdAt?: string;
@@ -91,6 +116,7 @@ type NotificationContentProps = {
   variant: Variant;
 };
 function NotificationContent({
+  isCompleted,
   message,
   eventDate,
   createdAt,
@@ -98,12 +124,25 @@ function NotificationContent({
   variant,
 }: NotificationContentProps) {
   return (
-    <div className="text-body-1 text-text-primary flex flex-col items-start justify-center">
+    <div
+      className={cn(
+        "text-body-1 text-text-primary flex flex-col items-start justify-center transition-colors",
+        {
+          "text-text-sub3": isCompleted,
+        },
+      )}
+    >
       <span>{message}</span>
       {eventDate && (
         <p>
           <span>{`${eventDate} ${variant === "edit" ? "→ " : ""}`}</span>
-          <span className="text-brand-primary-500">{eventDetail}</span>
+          <span
+            className={cn("text-brand-primary-500", {
+              "text-brand-primary=700": isCompleted,
+            })}
+          >
+            {eventDetail}
+          </span>
         </p>
       )}
       <span className="text-body-4 text-text-sub3">{createdAt}</span>
@@ -135,12 +174,13 @@ const NotificationItem = forwardRef<HTMLLIElement, Props>((props, ref) => {
   return (
     <li
       ref={ref}
-      className="bg-background-sub1 flex h-[6.25rem] w-[22.375rem] cursor-pointer items-center gap-[15px] rounded-[10px] px-[15px]"
+      className="bg-background-sub1 flex h-[6.25rem] w-[22.375rem] cursor-pointer items-center gap-[15px] rounded-[10px] px-[15px] transition-colors"
       onClick={handleClick}
       {...commonProps}
     >
-      <NotificationThumbnail avatarSrc={avatarSrc} variant={variant} />
+      <NotificationThumbnail isCompleted={isCompleted} avatarSrc={avatarSrc} variant={variant} />
       <NotificationContent
+        isCompleted={isCompleted}
         createdAt={createdDateController?.toRelative()}
         message={messageCompound}
         eventDate={eventDateController?.toServiceFormat().untilMinutes}
