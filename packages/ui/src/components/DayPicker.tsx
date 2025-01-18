@@ -10,10 +10,13 @@ import { currentYearWithMonth, isWeekend } from "../utils/DayPickerUtils";
 
 const MONTH_OFFSET = 1;
 
-export type DayPickerProps = ComponentProps<typeof Calendar>;
+export type DayPickerProps = ComponentProps<typeof Calendar> & {
+  mode: "single";
+};
 
 function DayPicker({ className, classNames, showOutsideDays = true, ...props }: DayPickerProps) {
   const [month, setMonth] = useState(new Date());
+  const [date, setDate] = useState(new Date());
 
   const handlePrevMonth = () => {
     setMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() - MONTH_OFFSET));
@@ -23,10 +26,19 @@ function DayPicker({ className, classNames, showOutsideDays = true, ...props }: 
     setMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() + MONTH_OFFSET));
   };
 
+  const handleChangeMonth = (date: Date | undefined) => {
+    if (date) {
+      setDate(date);
+    }
+  };
+
   return (
     <Calendar
       month={month}
+      fixedWeeks
       onMonthChange={setMonth}
+      selected={date}
+      onSelect={handleChangeMonth}
       locale={ko}
       showOutsideDays={showOutsideDays}
       modifiers={{ weekend: isWeekend }}
