@@ -16,10 +16,10 @@ const meta: Meta<typeof DayPicker> = {
   },
   argTypes: {
     selected: {
-      description: "상위에서 주입 할 Date 타입의 상태",
+      description: "상위에서 제어할 수 있도록 주입 할 Date 타입의 상태",
     },
     onSelect: {
-      description: "상위에서 주입 할 Date 타입의 상태를 변경 할 함수",
+      description: "상위에서 제어할 수 있도록 주입 할 Date 타입의 상태를 변경 할 함수",
     },
     onDayClick: {
       description: "특정 날짜를 선택하면 해당 날짜의 데이터를 참조할 수 있는 콜백 함수",
