@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardFooter,
   CardSeperate,
-  CardDescription,
 } from "@5unwan/ui/components/Card";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@5unwan/ui/components/Avatar";
