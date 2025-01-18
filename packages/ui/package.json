@@ -54,6 +54,9 @@
     "@radix-ui/react-dialog": "^1.1.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "lucide-react": "^0.471.1",
+    "react-day-picker": "8.10.1",
     "tailwind-merge": "^2.6.0"
   },
   "exports": {
