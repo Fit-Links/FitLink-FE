@@ -30,7 +30,7 @@ const meta: Meta<typeof DayPicker> = {
     },
     mode: {
       control: "select",
-      options: ["single", "range", "multiple"],
+      options: ["single"],
     },
   },
 };
