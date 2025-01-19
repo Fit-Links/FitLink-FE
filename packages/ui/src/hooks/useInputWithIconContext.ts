@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import InputWithIconContext from "components/InputWithIcon/context";
+import InputWithIconContext from "../components/InputWithIcon/context";
 
 const useInputWithIconContext = (componentName: string) => {
   const context = useContext(InputWithIconContext);

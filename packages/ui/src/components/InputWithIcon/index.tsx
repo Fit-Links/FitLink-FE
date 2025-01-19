@@ -1,9 +1,8 @@
 import { X } from "lucide-react";
 import { ChangeEvent, ComponentProps, forwardRef, HTMLAttributes } from "react";
 
-import useInputWithIconContext from "hooks/useInputWithIconContext";
-
 import useControllableState from "../../hooks/useControllableState";
+import useInputWithIconContext from "../../hooks/useInputWithIconContext";
 import { cn } from "../../lib/utils";
 import { Input } from "../Input";
 import { Label } from "../Label";
