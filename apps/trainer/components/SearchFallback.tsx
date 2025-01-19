@@ -3,7 +3,7 @@ import React, { forwardRef } from "react";
 
 type SearchFallbackProps = React.ComponentProps<"button">;
 
-const SearchFallback = forwardRef<HTMLButtonElement, SearchFallbackProps>(({ onClick }, ref) => {
+const SearchFallback = forwardRef<HTMLButtonElement, SearchFallbackProps>(({ ...rest }, ref) => {
   return (
     <section className="mt-[5.688rem] flex h-full w-full flex-col items-center ">
       <p className="text-text-primary text-[1.063rem] font-semibold leading-[1.875rem]">
@@ -16,7 +16,7 @@ const SearchFallback = forwardRef<HTMLButtonElement, SearchFallbackProps>(({ onC
         ref={ref}
         variant={"brand"}
         className="text-body-1 mt-[1rem] h-[2rem] w-[6.313rem] cursor-pointer rounded-2xl"
-        onClick={onClick}
+        {...rest}
       >
         재시도 하기
       </Button>
