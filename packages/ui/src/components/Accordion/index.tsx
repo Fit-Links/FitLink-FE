@@ -2,39 +2,18 @@
 
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import * as React from "react";
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 
-import { cn } from "../lib/utils";
+import AccordionContext from "./context";
+import useAccordionContext from "../../hooks/useAccordionContext";
+import { cn } from "../../lib/utils";
 
-type AccordionContextProps = {
-  iconWidth: number;
-  setIconWidth: Dispatch<SetStateAction<number>>;
-};
 type AccordionTriggerProps = React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger> & {
   icon?: React.ReactNode;
 };
 
 const DEFAULT_ICON_SIZE = 0;
 const DEFAULT_PADDING = 8;
-
-const AccordionContext = createContext<AccordionContextProps | null>(null);
-
-const useAccordionContext = () => {
-  const context = useContext(AccordionContext);
-  if (!context) {
-    throw new Error("Accordion components must be used within a <Dropdown> component.");
-  }
-
-  return context;
-};
 
 const Accordion = AccordionPrimitive.Root;
 
@@ -57,7 +36,7 @@ const AccordionTrigger = React.forwardRef<
   AccordionTriggerProps
 >(({ className, children, icon, ...props }, ref) => {
   const iconRef = useRef<HTMLSpanElement>(null);
-  const { setIconWidth } = useAccordionContext();
+  const { setIconWidth } = useAccordionContext("AccordionTrigger");
 
   useEffect(() => {
     if (!iconRef.current) return;
@@ -101,7 +80,7 @@ const AccordionContent = React.forwardRef<
 >(({ className, children, ...props }, ref) => {
   const [paddingLeft, setPaddingLeft] = useState(DEFAULT_ICON_SIZE);
 
-  const { iconWidth } = useAccordionContext();
+  const { iconWidth } = useAccordionContext("AccordionContent");
 
   useEffect(() => {
     setPaddingLeft(iconWidth ? iconWidth + DEFAULT_PADDING : DEFAULT_ICON_SIZE);
