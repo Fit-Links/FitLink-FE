@@ -1,5 +1,11 @@
 /* eslint-disable no-magic-numbers */
-import { KeenSliderOptions, TrackDetails, useKeenSlider } from "keen-slider/react";
+import {
+  KeenSliderHooks,
+  KeenSliderInstance,
+  KeenSliderOptions,
+  TrackDetails,
+  useKeenSlider,
+} from "keen-slider/react";
 import { forwardRef, useEffect, useRef, useState } from "react";
 
 import { cn } from "../lib/utils";
@@ -35,22 +41,10 @@ const TimePicker = forwardRef<number | string, TimePickerProps>(
 
       initial: initIdx || 0,
       loop: loop,
-      dragSpeed: (val) => {
-        const height = size.current;
-
-        return (
-          val * (height / ((height / 2) * Math.tan(slideDegree * (Math.PI / 180))) / slidesPerView)
-        );
-      },
-      created: (s) => {
-        size.current = s.size;
-      },
-      updated: (s) => {
-        size.current = s.size;
-      },
-      detailsChanged: (s) => {
-        setSliderState(s.track.details);
-      },
+      dragSpeed: handleDragSpeed,
+      created: handleCreated,
+      updated: handleUpdated,
+      detailsChanged: handleDetailsChanged,
       rubberband: !loop,
       mode: "free-snap",
     });
@@ -70,6 +64,26 @@ const TimePicker = forwardRef<number | string, TimePickerProps>(
     useEffect(() => {
       if (slider.current) setRadius(slider.current.size / 2);
     }, [slider]);
+
+    function handleDragSpeed(val: number) {
+      const height = size.current;
+
+      return (
+        val * (height / ((height / 2) * Math.tan(slideDegree * (Math.PI / 180))) / slidesPerView)
+      );
+    }
+
+    function handleCreated(s: KeenSliderInstance<object, object, KeenSliderHooks>) {
+      size.current = s.size;
+    }
+
+    function handleUpdated(s: KeenSliderInstance<object, object, KeenSliderHooks>) {
+      size.current = s.size;
+    }
+
+    function handleDetailsChanged(s: KeenSliderInstance<object, object, KeenSliderHooks>) {
+      setSliderState(s.track.details);
+    }
 
     function slideValues() {
       if (!sliderState) return [];
