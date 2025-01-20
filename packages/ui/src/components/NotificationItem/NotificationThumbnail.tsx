@@ -2,15 +2,13 @@ import IconThumbnail from "./IconThumbnail";
 import { Variant } from "./variants";
 import { Avatar, AvatarFallback, AvatarImage } from "../../components/Avatar";
 
-function NotificationThumbnail({
-  avatarSrc,
-  variant,
-  isCompleted,
-}: {
+type Props = {
   avatarSrc: string;
   variant: Variant;
   isCompleted: boolean;
-}) {
+};
+
+function NotificationThumbnail({ avatarSrc, variant, isCompleted }: Props) {
   return avatarSrc ? (
     <div className="relative h-fit w-fit">
       <Avatar className="h-[3.125rem] w-[3.125rem]">
@@ -21,7 +19,7 @@ function NotificationThumbnail({
         size="sm"
         variant={variant}
         isCompleted={isCompleted}
-        className="absolute -right-[6px] bottom-0 h-[1.5rem] w-[1.5rem]"
+        className="absolute -right-[0.375rem] bottom-0 h-[1.5rem] w-[1.5rem]"
       />
     </div>
   ) : (

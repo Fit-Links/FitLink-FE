@@ -22,7 +22,6 @@ const NumberIcon = (value: number) => {
       <div className={cn("flex items-center justify-center text-center", className)}>{value}</div>
     );
   }
-  NumberIconComponent.displayName = "NumberIconComponent";
 
   return NumberIconComponent;
 };
@@ -79,7 +78,9 @@ function IconThumbnail({
           {
             "text-text-sub3": isCompleted,
           },
-          size === "sm" ? "h-[11px] w-[11px] text-[11px]" : "h-[30px] w-[30px] text-[30px]",
+          size === "sm"
+            ? "h-[0.6875rem] w-[0.6875rem] text-[0.6875rem]"
+            : "h-[1.875rem] w-[1.875rem] text-[1.875rem]",
         )}
       />
     </div>

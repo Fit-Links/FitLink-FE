@@ -1,4 +1,4 @@
-import { forwardRef, HTMLAttributes, MouseEvent, MouseEventHandler } from "react";
+import { forwardRef, HTMLAttributes, MouseEventHandler } from "react";
 
 import NotificationContent from "./NotificationContent";
 import NotificationThumbnail from "./NotificationThumbnail";
@@ -6,7 +6,7 @@ import { Variant } from "./variants";
 import DateController from "../../lib/DateController";
 import { cn } from "../../lib/utils";
 
-interface Props extends Omit<HTMLAttributes<HTMLLIElement>, "onClick">, NotificationProps {}
+type Props = Omit<HTMLAttributes<HTMLLIElement>, "onClick"> & NotificationProps;
 
 type NotificationProps = {
   isCompleted: boolean;
@@ -33,10 +33,12 @@ const NotificationItem = forwardRef<HTMLLIElement, Props>((props, ref) => {
     onClick,
     ...commonProps
   } = props;
-  const handleClick = (e: MouseEvent<HTMLLIElement, globalThis.MouseEvent>) => {
+
+  const handleClick: MouseEventHandler<HTMLLIElement> = (e) => {
     if (isCompleted) return;
     onClick(e);
   };
+
   const eventDateController = eventDate ? DateController(eventDate).validate() : undefined;
   const createdDateController = DateController(createdAt).validate();
   const eventDetailController = eventDetail ? DateController(eventDetail).validate() : undefined;
