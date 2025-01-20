@@ -15,7 +15,7 @@ const DAY_OF_WEEK_PICKER_ITEM_NAME = "DayOfWeekPickerItem";
 const DAY_OF_WEEK_PICKER_IMPL_NAME = "DayOfWeekPickerImpl";
 const DAYS_IN_WEEK = 7;
 
-export interface DayOfWeekPickerProps extends React.HTMLAttributes<HTMLDivElement>, WrapperProps {}
+export type DayOfWeekPickerProps = React.HTMLAttributes<HTMLDivElement> & WrapperProps;
 type WrapperProps = {
   currentDay?: Days;
   onCurrentDayChange: (value: Days) => void;
@@ -72,7 +72,7 @@ const DayOfWeekPickerImpl = forwardRef<HTMLDivElement, React.HTMLAttributes<HTML
 );
 DayOfWeekPickerImpl.displayName = DAY_OF_WEEK_PICKER_IMPL_NAME;
 
-export interface DayOfWeekPickerItemProps extends React.HTMLAttributes<HTMLDivElement>, ItemProps {}
+export type DayOfWeekPickerItemProps = React.HTMLAttributes<HTMLDivElement> & ItemProps;
 type ItemProps = {
   day: Days;
 };
