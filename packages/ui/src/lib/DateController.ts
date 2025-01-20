@@ -30,6 +30,7 @@ const DateController = (date: string | Date) => {
   };
 
   return {
+    // 메서드 체이닝을 지원합니다
     validate: () => {
       try {
         if (typeof date === "string") {
@@ -53,6 +54,7 @@ const DateController = (date: string | Date) => {
         return undefined;
       }
     },
+    // 메서드 체이닝을 지원하지 않습니다
     toRelative: () => {
       const differenceInMilliseconds = Number(currentDate) - Number(targetDate);
 
@@ -66,6 +68,7 @@ const DateController = (date: string | Date) => {
 
       return `${differenceInHours}시간 전`;
     },
+    // 메서드 체이닝을 지원하지 않습니다
     toAbsolute: () => {
       const year = targetDate.getFullYear();
       const month = targetDate.getMonth() + 1;
@@ -75,6 +78,7 @@ const DateController = (date: string | Date) => {
 
       return `${year}-${month}-${day}T${hours}:${minutes}`;
     },
+    // 메서드 체이닝을 지원하지 않습니다
     toServiceFormat,
   };
 };
