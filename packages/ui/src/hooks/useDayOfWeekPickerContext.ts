@@ -7,7 +7,7 @@ export const useDayOfWeekPickerContext = () => {
 
   if (!context) {
     throw new Error(
-      "useDayOfWeekPickerContext has to be used within <DayOfWeekPickerContext.Provider",
+      "DayofWeekPicker components must be used within a <DayofWeekPicker> component.",
     );
   }
 
