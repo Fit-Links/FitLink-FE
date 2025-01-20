@@ -11,6 +11,7 @@
   "dependencies": {
     "@5unwan/ui": "workspace:*",
     "lucide-react": "^0.471.1",
+    "@storybook/preview-api": "^8.4.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
@@ -23,6 +24,7 @@
     "@storybook/addon-essentials": "^8.4.7",
     "@storybook/addon-interactions": "^8.4.7",
     "@storybook/blocks": "^8.4.7",
+    "@storybook/preview-api": "^8.4.7",
     "@storybook/react": "^8.4.7",
     "@storybook/react-vite": "^8.4.7",
     "@storybook/test": "^8.4.7",
