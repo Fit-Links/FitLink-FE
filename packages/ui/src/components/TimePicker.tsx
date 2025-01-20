@@ -55,7 +55,7 @@ const TimePicker = forwardRef<number | string, TimePickerProps>(
 
     useEffect(() => {
       if (sliderState && ref && "current" in ref) {
-        const getValue = slideValues()[sliderState.abs].value;
+        const getValue = getValues()[sliderState.abs].value;
 
         ref.current = getValue;
       }
@@ -85,7 +85,7 @@ const TimePicker = forwardRef<number | string, TimePickerProps>(
       setSliderState(s.track.details);
     }
 
-    function slideValues() {
+    function getValues() {
       if (!sliderState) return [];
       const offset = loop ? 1 / 2 - 1 / slidesPerView / 2 : 0;
 
@@ -130,7 +130,7 @@ const TimePicker = forwardRef<number | string, TimePickerProps>(
         />
         <div className="perspective-[1000px] transform-style-preserve-3d flex h-[16%] w-full items-center justify-center">
           <div className="relative h-full w-full" style={{ width: width + "px" }}>
-            {slideValues().map(({ style, value }, idx) => (
+            {getValues().map(({ style, value }, idx) => (
               <div
                 className="backface-hidden absolute flex h-full w-full items-center justify-end text-[20px] font-normal"
                 style={style}
