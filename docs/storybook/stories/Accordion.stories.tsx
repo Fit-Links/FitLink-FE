@@ -5,7 +5,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@5unwan/ui/components/Accordion";
+} from "@5unwan/ui/components/Accordion/index";
 import { Calendar, Dumbbell, HeartHandshake } from "lucide-react";
 
 const meta: Meta<typeof Accordion> = {
@@ -32,7 +32,7 @@ export const Default: AccordionStory = {
   },
   render: (args) => (
     <div className="bg-background-sub2 w-72 p-6">
-      <Accordion type={args.type} className="w-full">
+      <Accordion className="w-full" {...args}>
         <AccordionItem value="item-1">
           <AccordionTrigger>
             <span>회원 연동</span>
@@ -67,7 +67,7 @@ export const WithSingle: AccordionStory = {
   },
   render: (args) => (
     <div className="bg-background-sub2 w-72 p-6">
-      <Accordion type={args.type} className="w-full">
+      <Accordion className="w-full" {...args}>
         <AccordionItem value="item-1">
           <AccordionTrigger icon={<HeartHandshake />}>
             <span>회원 연동</span>
@@ -102,7 +102,7 @@ export const WithIcon: AccordionStory = {
   },
   render: (args) => (
     <div className="bg-background-sub2 w-72 p-6">
-      <Accordion type={args.type} className="w-full">
+      <Accordion className="w-full" {...args}>
         <AccordionItem value="item-1">
           <AccordionTrigger icon={<HeartHandshake />}>
             <span>회원 연동</span>
