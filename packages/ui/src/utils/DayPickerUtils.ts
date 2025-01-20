@@ -1,13 +1,12 @@
 const SUNDAY_INDEX = 0;
 const SATURDAY_INDEX = 6;
 const MONTH_OFFSET = 1;
-const SINGLE_DIGIT_MONTH_THRESHOLD = 10;
+const PAD_LENGTH = 2;
 
 export const currentYearWithMonth = (month: Date) => {
   const currentMonth = month.getMonth() + MONTH_OFFSET;
 
-  const paddedMonth =
-    currentMonth < SINGLE_DIGIT_MONTH_THRESHOLD ? `0${currentMonth}` : currentMonth;
+  const paddedMonth = String(currentMonth).padStart(PAD_LENGTH, "0");
 
   return `${month.getFullYear()}. ${paddedMonth}`;
 };
