@@ -85,6 +85,12 @@ const TimePicker = forwardRef<number | string, TimePickerProps>(
       setSliderState(s.track.details);
     }
 
+    const convertPxToRem = (px: number, precision: number = 4): string => {
+      const remValue = px / 16;
+
+      return `${remValue.toFixed(precision)}`;
+    };
+
     function getValues() {
       if (!sliderState) return [];
       const offset = loop ? 1 / 2 - 1 / slidesPerView / 2 : 0;
@@ -96,8 +102,8 @@ const TimePicker = forwardRef<number | string, TimePickerProps>(
           : 0;
         const rotate = Math.abs(distance) > wheelSize / 2 ? 180 : distance * (360 / wheelSize) * -1;
         const style = {
-          transform: `rotateX(${rotate}deg) translateZ(${radius}px)`,
-          WebkitTransform: `rotateX(${rotate}deg) translateZ(${radius}px)`,
+          transform: `rotateX(${rotate}deg) translateZ(${convertPxToRem(radius)}rem)`,
+          WebkitTransform: `rotateX(${rotate}deg) translateZ(${convertPxToRem(radius)}rem)`,
         };
         const currentValue = i + (startNumber || 0);
         const value = setValue
@@ -116,23 +122,25 @@ const TimePicker = forwardRef<number | string, TimePickerProps>(
       <div
         className={cn(
           "text-text-primary h-full w-full overflow-visible",
-          perspective === "right" && "perspective-origin-[calc(50%+100px)_50%] translate-x-[10px]",
-          perspective === "left" && "perspective-origin-[calc(50%-100px)_50%] translate-x-[-10px]",
+          perspective === "right" &&
+            "perspective-origin-[calc(50%+6.25rem)_50%] translate-x-[0.625rem]",
+          perspective === "left" &&
+            "perspective-origin-[calc(50%-6.25rem)_50%] translate-x-[-0.625rem]",
         )}
         ref={sliderRef}
       >
         <div
-          className="z-5 relative left-0 -mt-[2px] h-[calc(42%+2px)] w-full border-b border-white/30 bg-gradient-to-b from-black/90 to-black/50"
+          className="z-5 relative left-0 -mt-[0.125rem] h-[calc(42%+0.125rem)] w-full border-b border-white/30 bg-gradient-to-b from-black/90 to-black/50"
           style={{
-            transform: `translateZ(${radius}px)`,
-            WebkitTransform: `translateZ(${radius}px)`,
+            transform: `translateZ(${convertPxToRem(radius)}rem)`,
+            WebkitTransform: `translateZ(${convertPxToRem(radius)}rem)`,
           }}
         />
-        <div className="perspective-[1000px] transform-style-preserve-3d flex h-[16%] w-full items-center justify-center">
-          <div className="relative h-full w-full" style={{ width: width + "px" }}>
+        <div className="perspective-[62.5rem] transform-style-preserve-3d flex h-[16%] w-full items-center justify-center">
+          <div className="relative h-full w-full" style={{ width: convertPxToRem(width) + "rem" }}>
             {getValues().map(({ style, value }, idx) => (
               <div
-                className="backface-hidden absolute flex h-full w-full items-center justify-end text-[20px] font-normal"
+                className="backface-hidden absolute flex h-full w-full items-center justify-end text-[1.25rem] font-normal"
                 style={style}
                 key={`${value}-${idx}`}
               >
@@ -144,8 +152,8 @@ const TimePicker = forwardRef<number | string, TimePickerProps>(
             <div
               className="ml-1 mt-1 text-sm font-medium leading-tight"
               style={{
-                transform: `translateZ(${radius}px)`,
-                WebkitTransform: `translateZ(${radius}px)`,
+                transform: `translateZ(${convertPxToRem(radius)}rem)`,
+                WebkitTransform: `translateZ(${convertPxToRem(radius)}rem)`,
               }}
             >
               {label}
@@ -153,10 +161,10 @@ const TimePicker = forwardRef<number | string, TimePickerProps>(
           )}
         </div>
         <div
-          className="border-b-none z-5 relative left-0 mt-[2px] h-[calc(42%+2px)] w-full border-t border-t-white/30 bg-gradient-to-b from-black/90 to-black/50"
+          className="border-b-none z-5 relative left-0 mt-[0.125rem] h-[calc(42%+0.125rem)] w-full border-t border-t-white/30 bg-gradient-to-b from-black/50 to-black/90"
           style={{
-            transform: `translateZ(${radius}px)`,
-            WebkitTransform: `translateZ(${radius}px)`,
+            transform: `translateZ(${convertPxToRem(radius)}rem)`,
+            WebkitTransform: `translateZ(${convertPxToRem(radius)}rem)`,
           }}
         />
       </div>
