@@ -6,7 +6,7 @@ import {
   DropdownItem,
   DropdownSeparator,
   DropdownTrigger,
-} from "@5unwan/ui/components/Dropdown";
+} from "@5unwan/ui/components/Dropdown/index";
 
 const meta: Meta<typeof Dropdown> = {
   component: Dropdown,
@@ -53,8 +53,8 @@ const DUMMY_DATA = [
 ];
 
 export const Default: Story = {
-  render: () => (
-    <Dropdown>
+  render: (args) => (
+    <Dropdown {...args}>
       <DropdownTrigger>{`${DUMMY_DATA[0].day} ${DUMMY_DATA[0].hours}`}</DropdownTrigger>
       <DropdownContent>
         {DUMMY_DATA.map((item) => (
@@ -69,8 +69,8 @@ export const Default: Story = {
 };
 
 export const WithSeparator: Story = {
-  render: () => (
-    <Dropdown>
+  render: (args) => (
+    <Dropdown {...args}>
       <DropdownTrigger>{`${DUMMY_DATA[0].day} ${DUMMY_DATA[0].hours}`}</DropdownTrigger>
       <DropdownSeparator />
       <DropdownContent>
