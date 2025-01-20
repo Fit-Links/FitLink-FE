@@ -12,7 +12,7 @@ const meta: Meta<typeof DayPicker> = {
     onDayClick: undefined,
     fixedWeeks: false,
     mode: "single",
-    className: "border",
+    className: "border w-[358px]",
   },
   argTypes: {
     selected: {
@@ -40,17 +40,20 @@ export default meta;
 type DayPickerStory = StoryObj<typeof DayPicker>;
 
 export const Default: DayPickerStory = {
-  render: () => {
+  args: {
+    fixedWeeks: false,
+  },
+  render: ({ fixedWeeks, className }) => {
     const [date, setDate] = useState<Date | undefined>(new Date());
 
     return (
       <div className="bg-background-primary flex h-[700px] w-full items-center justify-center">
         <DayPicker
           mode="single"
-          fixedWeeks={false}
           selected={date}
           onSelect={setDate}
-          className="w-[358px]"
+          fixedWeeks={fixedWeeks}
+          className={className}
         />
       </div>
     );
@@ -58,17 +61,20 @@ export const Default: DayPickerStory = {
 };
 
 export const FixedWeeks: DayPickerStory = {
-  render: () => {
+  args: {
+    fixedWeeks: true,
+  },
+  render: ({ fixedWeeks, className }) => {
     const [date, setDate] = useState<Date | undefined>(new Date());
 
     return (
       <div className="bg-background-primary flex h-[700px] w-full items-center justify-center">
         <DayPicker
           mode="single"
-          fixedWeeks
+          fixedWeeks={fixedWeeks}
           selected={date}
           onSelect={setDate}
-          className="w-[358px]"
+          className={className}
         />
       </div>
     );
