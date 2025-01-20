@@ -87,7 +87,7 @@ function Dropdown({ open, onChangeOpen, defaultOpen, className, children }: Drop
 
 const DropdownTrigger = forwardRef<HTMLButtonElement, DropdownTriggerProps>(
   ({ children, className, asChild = false, ...props }, ref) => {
-    const { open, onChangeOpen } = useDropdownContext("DropdownTrigger");
+    const { open, onChangeOpen } = useDropdownContext();
 
     const handleClick = () => {
       onChangeOpen?.(!open);
@@ -128,7 +128,7 @@ DropdownTrigger.displayName = "DropdownTrigger";
 
 const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
   ({ children, className, ...props }, ref) => {
-    const { open } = useDropdownContext("DropdownContent");
+    const { open } = useDropdownContext();
 
     return (
       <div
@@ -150,9 +150,7 @@ DropdownContent.displayName = "DropdownContent";
 
 const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
   ({ children, className, ...props }, ref) => {
-    if (!useDropdownContext("DropdownItem")) {
-      throw new Error("Dropdown components must be used within a <Dropdown> component.");
-    }
+    useDropdownContext();
 
     return (
       <div
@@ -172,9 +170,7 @@ DropdownItem.displayName = "DropdownItem";
 
 const DropdownSeparator = forwardRef<HTMLDivElement, DropdownSeparatorProps>(
   ({ className, ...props }, ref) => {
-    if (!useDropdownContext("DropdownSeparator")) {
-      throw new Error("Dropdown components must be used within a <Dropdown> component.");
-    }
+    useDropdownContext();
 
     return (
       <div
