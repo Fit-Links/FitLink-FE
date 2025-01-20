@@ -76,13 +76,13 @@ type ItemProps = {
 
 const DayOfWeekPickerItem = forwardRef<HTMLDivElement, DayOfWeekPickerItemProps>(
   ({ day, children }, ref) => {
-    const context = useDayOfWeekPickerContext();
-    const isCurrent = context.value === day;
+    const { value, onItemClick, completed } = useDayOfWeekPickerContext();
+    const isCurrent = value === day;
     const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       e.preventDefault();
-      context.onItemClick(day);
+      onItemClick(day);
     };
-    const isCompleted = context.completed[day];
+    const isCompleted = completed[day];
 
     return (
       <div
