@@ -24,10 +24,13 @@ type WrapperProps = {
 };
 
 const DayOfWeekPicker = forwardRef<HTMLDivElement, DayOfWeekPickerProps>(
-  ({ currentDay, onCurrentDayChange, completed, defaultDay, ...commonProps }, ref) => {
+  (
+    { currentDay, onCurrentDayChange, completed, defaultDay = Days.Monday, ...commonProps },
+    ref,
+  ) => {
     const [value, setValue] = useControllableState({
       prop: currentDay,
-      defaultProp: defaultDay || Days.Monday,
+      defaultProp: defaultDay,
       onChange: onCurrentDayChange,
     });
 
