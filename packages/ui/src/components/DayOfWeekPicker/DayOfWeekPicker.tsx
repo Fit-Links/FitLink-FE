@@ -58,7 +58,7 @@ const DayOfWeekPickerImpl = forwardRef<HTMLDivElement, React.HTMLAttributes<HTML
         {...commonProps}
         ref={ref}
       >
-        {Array.from(Array(DAYS_IN_WEEK), (_, index) => Number(index)).map((day) => (
+        {Array.from(Array(DAYS_IN_WEEK), (_, index) => index).map((day) => (
           <DayOfWeekPickerItem key={day} day={day}>
             {DayTable[day]}
           </DayOfWeekPickerItem>
