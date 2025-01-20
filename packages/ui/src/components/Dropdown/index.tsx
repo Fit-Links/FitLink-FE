@@ -1,7 +1,5 @@
 import { ChevronDown } from "lucide-react";
 import React, {
-  createContext,
-  useContext,
   useRef,
   useEffect,
   ReactNode,
@@ -10,8 +8,10 @@ import React, {
   HTMLAttributes,
 } from "react";
 
-import useControllableState from "../hooks/useControllableState";
-import { cn } from "../lib/utils";
+import DropdownContext from "./context";
+import useControllableState from "../../hooks/useControllableState";
+import useDropdownContext from "../../hooks/useDropdownContext";
+import { cn } from "../../lib/utils";
 
 type DropdownProps = {
   open?: boolean;
@@ -41,22 +41,6 @@ type DropdownSeparatorProps = HTMLAttributes<HTMLDivElement> & {
   className?: string;
 };
 
-const DropdownContext = createContext<
-  | (Pick<DropdownProps, "open" | "onChangeOpen"> & {
-      triggerWidth?: number;
-    })
-  | null
->(null);
-
-const useDropdownContext = () => {
-  const context = useContext(DropdownContext);
-  if (!context) {
-    throw new Error("Dropdown components must be used within a <Dropdown> component.");
-  }
-
-  return context;
-};
-
 function Dropdown({ open, onChangeOpen, defaultOpen, className, children }: DropdownProps) {
   const [isOpen = false, setIsOpen] = useControllableState({
     prop: open,
@@ -81,7 +65,7 @@ function Dropdown({ open, onChangeOpen, defaultOpen, className, children }: Drop
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  });
+  }, []);
 
   return (
     <DropdownContext.Provider
@@ -93,7 +77,7 @@ function Dropdown({ open, onChangeOpen, defaultOpen, className, children }: Drop
     >
       <div
         ref={containerRef}
-        className={cn("text-text-primary box-border w-[167px] bg-transparent p-1", className)}
+        className={cn("text-text-primary box-border w-[10.4375rem] bg-transparent p-1", className)}
       >
         {children}
       </div>
@@ -103,7 +87,7 @@ function Dropdown({ open, onChangeOpen, defaultOpen, className, children }: Drop
 
 const DropdownTrigger = forwardRef<HTMLButtonElement, DropdownTriggerProps>(
   ({ children, className, asChild = false, ...props }, ref) => {
-    const { open, onChangeOpen } = useDropdownContext();
+    const { open, onChangeOpen } = useDropdownContext("DropdownTrigger");
 
     const handleClick = () => {
       onChangeOpen?.(!open);
@@ -144,7 +128,7 @@ DropdownTrigger.displayName = "DropdownTrigger";
 
 const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
   ({ children, className, ...props }, ref) => {
-    const { open } = useDropdownContext();
+    const { open } = useDropdownContext("DropdownContent");
 
     return (
       <div
@@ -166,7 +150,7 @@ DropdownContent.displayName = "DropdownContent";
 
 const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
   ({ children, className, ...props }, ref) => {
-    if (!useContext(DropdownContext)) {
+    if (!useDropdownContext("DropdownItem")) {
       throw new Error("Dropdown components must be used within a <Dropdown> component.");
     }
 
@@ -188,7 +172,7 @@ DropdownItem.displayName = "DropdownItem";
 
 const DropdownSeparator = forwardRef<HTMLDivElement, DropdownSeparatorProps>(
   ({ className, ...props }, ref) => {
-    if (!useContext(DropdownContext)) {
+    if (!useDropdownContext("DropdownSeparator")) {
       throw new Error("Dropdown components must be used within a <Dropdown> component.");
     }
 
