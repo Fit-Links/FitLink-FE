@@ -43,11 +43,10 @@ const spinnerVariants = cva("bg-text-sub2 absolute h-[10px] w-[4px] rounded-lg",
 });
 
 interface SpinnerProps extends VariantProps<typeof spinnerVariants> {
-  loading?: boolean;
   className?: string;
 }
 
-export default function Spinner({ size, loading, className }: Readonly<SpinnerProps>) {
+export default function Spinner({ size, className }: SpinnerProps) {
   const spinnerRefs = useRef<HTMLSpanElement[] | null[]>([]);
 
   useEffect(() => {
@@ -66,10 +65,6 @@ export default function Spinner({ size, loading, className }: Readonly<SpinnerPr
       intervalIds.forEach(clearInterval);
     };
   }, []);
-
-  if (!loading) {
-    return null;
-  }
 
   return (
     <div className="relative flex h-fit w-fit items-center justify-center">
