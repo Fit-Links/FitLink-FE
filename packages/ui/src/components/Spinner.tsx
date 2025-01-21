@@ -5,21 +5,12 @@ import { useEffect, useRef } from "react";
 
 import { cn } from "../lib/utils";
 
-const ROTATION_SPEED: number = 100;
-const ROTATION_DEGREE: number = 45;
-const OPACITY_STEPS: Readonly<Array<string>> = [
-  "1",
-  "0.87",
-  "0.75",
-  "0.63",
-  "0.51",
-  "0.39",
-  "0.27",
-  "0.15",
-];
-const OPACITY_STEP: number = 1;
+const ROTATION_SPEED = 100;
+const ROTATION_DEGREE = 45;
+const OPACITY_STEPS = ["1", "0.87", "0.75", "0.63", "0.51", "0.39", "0.27", "0.15"];
+const OPACITY_STEP = 1;
 
-const SPINNER_KEYS: Readonly<Array<string>> = [
+const SPINNER_KEYS = [
   "spinner-spin-0",
   "spinner-spin-1",
   "spinner-spin-2",
@@ -30,11 +21,11 @@ const SPINNER_KEYS: Readonly<Array<string>> = [
   "spinner-spin-7",
 ];
 
-const spinnerVariants = cva("bg-text-sub2 absolute h-[10px] w-[4px] rounded-lg", {
+const spinnerVariants = cva("bg-text-sub2 absolute h-[0.625rem] w-[0.25rem] rounded-lg", {
   variants: {
     size: {
-      small: "h-[7px] w-[3px]",
-      middle: "h-[10px] w-[4px]",
+      small: "h-[0.438rem] w-[0.188rem]",
+      middle: "h-[0.625rem] w-[0.25rem]",
     },
   },
   defaultVariants: {
@@ -74,7 +65,7 @@ export default function Spinner({ size, className }: SpinnerProps) {
           ref={(el) => (spinnerRefs.current[index] = el)}
           className={cn(spinnerVariants({ size }), className)}
           style={{
-            transform: `rotate(${index * -ROTATION_DEGREE}deg) ${size === "small" ? "translateY(-8px)" : "translateY(-10px)"}`,
+            transform: `rotate(${index * -ROTATION_DEGREE}deg) ${size === "small" ? "translateY(-0.5rem)" : "translateY(-0.625rem)"}`,
             opacity: `${OPACITY_STEPS[index]}`,
           }}
         />
