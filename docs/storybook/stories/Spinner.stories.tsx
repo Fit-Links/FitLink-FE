@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-
 import Spinner from "@5unwan/ui/components/Spinner";
 
 const meta: Meta<typeof Spinner> = {
@@ -12,10 +11,6 @@ const meta: Meta<typeof Spinner> = {
       options: ["small", "middle"],
       description: "스피너 크기",
     },
-    loading: {
-      control: "boolean",
-      description: "스피너 로딩 여부",
-    },
     className: {
       control: "text",
       description: "스피너 클래스",
@@ -23,7 +18,6 @@ const meta: Meta<typeof Spinner> = {
   },
   args: {
     size: "small",
-    loading: true,
     className: "",
   },
 };
@@ -34,18 +28,17 @@ type Story = StoryObj<typeof Spinner>;
 export const Default: Story = {
   args: {
     size: "small",
-    loading: true,
   },
 };
+
 export const Small: Story = {
   args: {
     size: "small",
-    loading: true,
   },
 };
+
 export const Middle: Story = {
   args: {
     size: "middle",
-    loading: true,
   },
 };
