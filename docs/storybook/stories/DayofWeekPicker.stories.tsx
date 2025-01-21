@@ -1,4 +1,4 @@
-import DayOfWeekPicker from "@5unwan/ui/components/DayOfWeekPicker/DayOfWeekPicker";
+import DayOfWeekPicker from "@5unwan/ui/components/DayOfWeekPicker/index";
 import { Meta, StoryObj } from "@storybook/react";
 import { useArgs } from "@storybook/preview-api";
 
