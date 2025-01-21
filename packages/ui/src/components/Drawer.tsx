@@ -46,7 +46,7 @@ const DrawerContent = React.forwardRef<
     <DrawerPrimitive.Content
       ref={ref}
       className={cn(
-        "bg-background-sub2 text-text-primary fixed inset-x-0 bottom-0 z-50 flex h-full w-10/12 flex-col pl-[35px] pr-[24px]",
+        "bg-background-sub2 text-text-primary fixed inset-x-0 bottom-0 z-50 flex h-full w-10/12 flex-col px-[1.5rem]",
         className,
       )}
       {...props}
@@ -71,7 +71,11 @@ const DrawerTitle = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>
 >(({ className, ...props }, ref) => (
-  <DrawerPrimitive.Title ref={ref} className={cn("text-title-1 mt-[21px]", className)} {...props} />
+  <DrawerPrimitive.Title
+    ref={ref}
+    className={cn("text-title-1 ml-[0.688rem] mt-[1.313rem]", className)}
+    {...props}
+  />
 ));
 DrawerTitle.displayName = DrawerPrimitive.Title.displayName;
 
@@ -81,7 +85,7 @@ const DrawerDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Description
     ref={ref}
-    className={cn("text-muted-foreground text-sm", className)}
+    className={cn("text-muted-foreground", className)}
     {...props}
   />
 ));
