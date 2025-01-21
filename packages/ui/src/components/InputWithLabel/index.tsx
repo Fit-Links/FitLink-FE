@@ -55,7 +55,7 @@ function InputLabel({ children, className, required, ...props }: InputLabelProps
   return (
     <label htmlFor={id} className={cn("text-text-primary text-body-1", className)} {...props}>
       {children}
-      {required && <span className="ml-0.5 text-red-500">*</span>}
+      {required && <span className="text-notification ml-0.5">*</span>}
     </label>
   );
 }
