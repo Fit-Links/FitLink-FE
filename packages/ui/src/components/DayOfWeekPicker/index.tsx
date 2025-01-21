@@ -2,7 +2,7 @@
 
 import React, { forwardRef, useCallback } from "react";
 
-import DayOfWeekPickerContext from "./context";
+import DayOfWeekPickerContext from "./Context";
 import { Days } from "./Days";
 import useControllableState from "../../hooks/useControllableState";
 import useDayOfWeekPickerContext from "../../hooks/useDayOfWeekPickerContext";
