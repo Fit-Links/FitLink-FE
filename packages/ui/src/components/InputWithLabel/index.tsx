@@ -50,7 +50,7 @@ const InputWithLabel = forwardRef<HTMLDivElement, InputWithLabelProps>(
 InputWithLabel.displayName = "FormField";
 
 function InputLabel({ children, className, required, ...props }: InputLabelProps) {
-  const { id } = useInputWithLabelContext("InputLabel");
+  const { id } = useInputWithLabelContext();
 
   return (
     <label htmlFor={id} className={cn("text-text-primary text-body-1", className)} {...props}>
@@ -61,7 +61,7 @@ function InputLabel({ children, className, required, ...props }: InputLabelProps
 }
 
 const InputField = forwardRef<HTMLInputElement, InputFieldProps>(({ className, ...props }, ref) => {
-  const { id } = useInputWithLabelContext("InputField");
+  const { id } = useInputWithLabelContext();
 
   return (
     <Input
@@ -76,7 +76,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(({ className, .
 InputField.displayName = "InputField";
 
 const ResidentNumberInput = forwardRef<HTMLInputElement>((_, ref) => {
-  const { id } = useInputWithLabelContext("ResidentNumberInput");
+  const { id } = useInputWithLabelContext();
   const [idNumber, setIdNumber] = useState("");
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -105,7 +105,7 @@ const ResidentNumberInput = forwardRef<HTMLInputElement>((_, ref) => {
 ResidentNumberInput.displayName = "ResidentNumberInput";
 
 function InputWithLabelError({ children, className, ...props }: InputWithLabelErrorProps) {
-  const { error } = useInputWithLabelContext("InputWithLabelError");
+  const { error } = useInputWithLabelContext();
 
   if (!children || !error) return null;
 

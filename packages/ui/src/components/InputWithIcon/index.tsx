@@ -38,7 +38,7 @@ InputWithIcon.displayName = "InputWithIcon";
 
 const InputIcon = forwardRef<HTMLLabelElement, InputIconProps>(
   ({ children, className, ...props }, ref) => {
-    const { id } = useInputWithIconContext("InputIcon");
+    const { id } = useInputWithIconContext();
 
     return (
       <Label
@@ -57,7 +57,7 @@ InputIcon.displayName = "InputIcon";
 
 const InputField = forwardRef<HTMLInputElement, InputFiledProps>(
   ({ className, value, defaultValue = "", onChangeValue, ...props }, ref) => {
-    const { id } = useInputWithIconContext("InputField");
+    const { id } = useInputWithIconContext();
 
     const [content, setContent] = useControllableState({
       prop: value,
