@@ -30,12 +30,15 @@ const InputWithLabel = forwardRef<HTMLDivElement, InputWithLabelProps>(
       <InputWithLabelContext.Provider value={{ id, error }}>
         <div
           ref={ref}
-          className={cn("relative flex h-[107px] w-full flex-col rounded-[10px]", className)}
+          className={cn(
+            "relative flex h-[6.6875rem] w-full flex-col rounded-[0.625rem]",
+            className,
+          )}
           {...props}
         >
           <div
             className={cn(
-              "bg-background-sub2 box-border flex h-[81px] w-full flex-col gap-2 rounded-[10px] p-3",
+              "bg-background-sub2 box-border flex h-[5.0625rem] w-full flex-col gap-2 rounded-[0.625rem] p-3",
               error && "has-error border-notification border",
             )}
           >
@@ -97,7 +100,7 @@ const ResidentNumberInput = forwardRef<HTMLInputElement>((_, ref) => {
       maxLength={14}
       value={idNumber}
       onChange={handleChange}
-      className="text-title-1 h-fit w-full bg-transparent p-0 tracking-[10px]"
+      className="text-title-1 h-fit w-full bg-transparent p-0 tracking-[0.625rem]"
     />
   );
 });
@@ -110,7 +113,10 @@ function InputWithLabelError({ children, className, ...props }: InputWithLabelEr
   if (!children || !error) return null;
 
   return (
-    <div className={cn("text-body-4 absolute bottom-0 left-0 text-red-500", className)} {...props}>
+    <div
+      className={cn("text-body-4 text-notification absolute bottom-0 left-0", className)}
+      {...props}
+    >
       {children}
     </div>
   );

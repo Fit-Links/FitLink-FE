@@ -88,7 +88,7 @@ const InputField = forwardRef<HTMLInputElement, InputFiledProps>(
           <button
             onClick={handleClickButton}
             aria-label="초기화 버튼"
-            className="bg-background-sub3 absolute right-[50px] flex h-5 w-5 items-center justify-center rounded-full"
+            className="bg-background-sub3 absolute right-[3.125rem] flex h-5 w-5 items-center justify-center rounded-full"
           >
             <X size={16} className="text-background-sub4" />
           </button>
