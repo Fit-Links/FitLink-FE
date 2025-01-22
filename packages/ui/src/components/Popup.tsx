@@ -7,21 +7,10 @@ import { cn } from "../lib/utils";
 const Popup = forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<"div">>(
   ({ children, className, ...props }, ref) => {
     return (
-      <PopupOverlay ref={ref} className={cn("text-text-primary", className)} {...props}>
-        {children}
-      </PopupOverlay>
-    );
-  },
-);
-Popup.displayName = "Popup";
-
-const PopupOverlay = forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<"div">>(
-  ({ children, className, ...props }, ref) => {
-    return (
       <div
         ref={ref}
         className={cn(
-          "fixed inset-0 left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-black/75",
+          "text-text-primary fixed inset-0 left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-black/75",
           className,
         )}
         {...props}
@@ -31,7 +20,7 @@ const PopupOverlay = forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<"
     );
   },
 );
-PopupOverlay.displayName = "PopupOverlay";
+Popup.displayName = "Popup";
 
 const PopupContainer = forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<"div">>(
   ({ children, className, ...props }, ref) => {
