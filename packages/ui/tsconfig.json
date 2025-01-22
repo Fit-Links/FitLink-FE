@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
+      "@ui/*": ["src/*"],
       "test-utils": ["./lib/test/test-utils.tsx"]
     },
     "types": ["node", "jest", "@testing-library/jest-dom"]
