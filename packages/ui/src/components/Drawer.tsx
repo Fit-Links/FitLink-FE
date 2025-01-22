@@ -17,7 +17,6 @@ function Drawer({
     />
   );
 }
-Drawer.displayName = "Drawer";
 
 const DrawerTrigger = DrawerPrimitive.Trigger;
 
@@ -60,12 +59,10 @@ DrawerContent.displayName = "DrawerContent";
 function DrawerHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return <div className={cn("grid sm:text-left", className)} {...props} />;
 }
-DrawerHeader.displayName = "DrawerHeader";
 
 function DrawerFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return <div className={cn("mt-auto flex flex-col", className)} {...props} />;
 }
-DrawerFooter.displayName = "DrawerFooter";
 
 const DrawerTitle = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Title>,
