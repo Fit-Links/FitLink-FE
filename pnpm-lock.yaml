@@ -214,6 +214,9 @@ importers:
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
+      trainer:
+        specifier: workspace:*
+        version: link:../../apps/trainer
     devDependencies:
       '@5unwan/eslint-config':
         specifier: workspace:*
