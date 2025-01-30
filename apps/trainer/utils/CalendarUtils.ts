@@ -1,5 +1,6 @@
 const WEEK_LENGTH = 7;
 const STEP = 1;
+const INITIAL_OFFSET = 0;
 
 export const isToday = (date: Date) => {
   const today = new Date();
@@ -28,4 +29,11 @@ export const getWeekDates = (currentDate: Date) => {
   }
 
   return dates;
+};
+
+export const getOffsetDate = (date: Date, offsetDays = INITIAL_OFFSET) => {
+  const newDate = new Date(date);
+  newDate.setDate(newDate.getDate() + offsetDays);
+
+  return newDate;
 };
