@@ -1,11 +1,13 @@
 "use client";
 import { useRef, useState } from "react";
+import SwiperConfig from "swiper";
+import { Virtual } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
 import useSyncScroll from "@trainer/hooks/useSyncScroll";
 
-import { getWeekDates } from "@trainer/utils/CalendarUtils";
+import { getOffsetDate, getWeekDates } from "@trainer/utils/CalendarUtils";
 
 import DayOfWeek from "./DayOfWeek";
 import TimeColumn from "./TimeColumn";
@@ -13,32 +15,24 @@ import WeekSchedule from "./WeekSchedule";
 
 const WEEK_LENGTH = 7;
 const MONTH_START_INDEX = 1;
+const TOTAL_WEEKS = 52;
+const currentDate = new Date();
+const initialWeeks = Array.from({ length: 105 }, (_, i) =>
+  getWeekDates(getOffsetDate(currentDate, (i - TOTAL_WEEKS) * WEEK_LENGTH)),
+);
 
 export default function Calendar() {
-  const currentDate = new Date();
   const [currentWeek, setCurrentWeek] = useState(getWeekDates(currentDate));
   const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth() + MONTH_START_INDEX);
-  const [dummy] = useState(["0", "1", "2"]); // TODO: 해당 부분 주간 예약 정보 API를 받아와서 교체
-
   const timeColumnRef = useRef<HTMLDivElement>(null);
   const scheduleRef = useRef<HTMLDivElement>(null);
 
-  const handleSlideNext = () => {
-    const nextWeek = new Date(currentWeek[0]);
-    nextWeek.setDate(currentWeek[0].getDate() + WEEK_LENGTH);
+  const handleChangeSlide = (swiperConfig: SwiperConfig) => {
+    const { activeIndex } = swiperConfig;
+    const newWeek = initialWeeks[activeIndex];
 
-    const nextWeekDates = getWeekDates(nextWeek);
-    setCurrentWeek(nextWeekDates);
-    setCurrentMonth(nextWeekDates[0].getMonth() + MONTH_START_INDEX);
-  };
-
-  const handleSlidePrev = () => {
-    const prevWeek = new Date(currentWeek[0]);
-    prevWeek.setDate(currentWeek[0].getDate() - WEEK_LENGTH);
-
-    const prevWeekDates = getWeekDates(prevWeek);
-    setCurrentWeek(prevWeekDates);
-    setCurrentMonth(prevWeekDates[0].getMonth() + MONTH_START_INDEX);
+    setCurrentMonth(newWeek[0].getMonth() + MONTH_START_INDEX);
+    setCurrentWeek(newWeek);
   };
 
   useSyncScroll(timeColumnRef, scheduleRef);
@@ -59,13 +53,16 @@ export default function Calendar() {
         >
           <Swiper
             className="h-max w-full"
-            loop
-            onSlideNextTransitionStart={handleSlideNext}
-            onSlidePrevTransitionStart={handleSlidePrev}
+            modules={[Virtual]}
+            virtual
+            runCallbacksOnInit={false}
+            initialSlide={52}
+            onSlideChange={handleChangeSlide}
+            speed={300}
           >
-            {dummy.map((e) => (
-              <SwiperSlide key={e}>
-                <WeekSchedule dayOfWeek={currentWeek} />
+            {initialWeeks.map((week, index) => (
+              <SwiperSlide key={`${week}-${index}`} virtualIndex={index}>
+                <WeekSchedule dayOfWeek={week} />
               </SwiperSlide>
             ))}
           </Swiper>
