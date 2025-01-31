@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { CalendarClock, CalendarMinus2, CalendarX2, Dumbbell } from "lucide-react";
 
-import TimeOption from "trainer/components/TimeOption.js";
+import TimeOption from "trainer/components/TimeOption";
 
 const meta: Meta<typeof TimeOption> = {
   component: TimeOption,
@@ -26,4 +26,40 @@ export default meta;
 
 type TimeOptionStory = StoryObj<typeof TimeOption>;
 
-export const Default: TimeOptionStory = {};
+export const PtReservation: TimeOptionStory = {};
+
+export const PtFixedReservation: TimeOptionStory = {
+  args: {
+    optionIcon: <CalendarClock className="text-text-primary" />,
+  },
+  render: (args) => (
+    <TimeOption {...args}>
+      <div>PT</div>
+      <div>고정 예약</div>
+    </TimeOption>
+  ),
+};
+
+export const PtReservationNotPossible: TimeOptionStory = {
+  args: {
+    optionIcon: <CalendarX2 className="text-text-primary" />,
+  },
+  render: (args) => (
+    <TimeOption {...args}>
+      <div>예약 불가</div>
+      <div>시간대 등록</div>
+    </TimeOption>
+  ),
+};
+
+export const HolidaySettings: TimeOptionStory = {
+  args: {
+    optionIcon: <CalendarMinus2 className="text-text-primary" />,
+  },
+  render: (args) => (
+    <TimeOption {...args}>
+      <div>휴무일</div>
+      <div>설정</div>
+    </TimeOption>
+  ),
+};
