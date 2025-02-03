@@ -1,16 +1,18 @@
 "use client";
 
 import { cn } from "@ui/lib/utils";
-import { HTMLAttributes } from "react";
+import { ComponentProps } from "react";
 
 import { isToday } from "@trainer/utils/CalendarUtils";
 
-type TimeBlockProps = HTMLAttributes<HTMLDivElement> & {
+type ResercationStateType = "예약 대기" | "예약 확정";
+
+type TimeBlockProps = ComponentProps<"div"> & {
   date: Date;
   userName?: string;
   PTstatus?: string;
   isNotificationRead?: boolean;
-  reservationStatus?: "예약 대기" | "예약 확정";
+  reservationStatus?: ResercationStateType;
 };
 
 export default function TimeBlock({
