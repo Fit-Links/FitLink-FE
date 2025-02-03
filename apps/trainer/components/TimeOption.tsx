@@ -16,7 +16,7 @@ const TimeOption = forwardRef<HTMLDivElement, TimeOptionProps>(
     return (
       <div
         className={cn(
-          "bg-background-sub1 hover:bg-brand-primary-500 flex h-[6.875rem] w-[6.24rem] flex-shrink-0 cursor-pointer flex-col justify-between rounded-[0.625rem] p-[0.75rem] leading-[1.125rem]",
+          "bg-background-sub1 hover:bg-brand-primary-500 flex h-[6.875rem] w-[6.24rem] flex-shrink-0 cursor-pointer flex-col justify-between rounded-[0.625rem] p-[0.75rem] leading-[1.125rem] transition-colors",
           className,
         )}
         {...props}
