@@ -23,15 +23,16 @@ const initialWeeks = Array.from({ length: 105 }, (_, i) =>
 
 export default function Calendar() {
   const [currentWeek, setCurrentWeek] = useState(getWeekDates(currentDate));
-  const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth() + MONTH_START_INDEX);
+
   const timeColumnRef = useRef<HTMLDivElement>(null);
   const scheduleRef = useRef<HTMLDivElement>(null);
+
+  const currentMonth = currentWeek[0].getMonth() + MONTH_START_INDEX;
 
   const handleChangeSlide = (swiperConfig: SwiperConfig) => {
     const { activeIndex } = swiperConfig;
     const newWeek = initialWeeks[activeIndex];
 
-    setCurrentMonth(newWeek[0].getMonth() + MONTH_START_INDEX);
     setCurrentWeek(newWeek);
   };
 
