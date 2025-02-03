@@ -13,7 +13,7 @@ type TimeOptionContentProps = ComponentProps<"div"> & {
   className?: string;
 };
 
-const TimeOption = forwardRef<HTMLDivElement, TimeOptionProps>(
+const TimeOptionRoot = forwardRef<HTMLDivElement, TimeOptionProps>(
   ({ className, children, ...props }, ref) => {
     return (
       <div
@@ -30,7 +30,7 @@ const TimeOption = forwardRef<HTMLDivElement, TimeOptionProps>(
   },
 );
 
-TimeOption.displayName = "TimeOption";
+TimeOptionRoot.displayName = "TimeOptionRoot";
 
 const TimeOptionIcon = forwardRef<HTMLDivElement, TimeOptionIconProps>(
   ({ className, iconName, ...props }, ref) => {
@@ -58,4 +58,9 @@ const TimeOptionContent = forwardRef<HTMLDivElement, TimeOptionContentProps>(
 
 TimeOptionContent.displayName = "TimeOptionContent";
 
-export { TimeOption, TimeOptionContent, TimeOptionIcon };
+const TimeOption = Object.assign(TimeOptionRoot, {
+  Icon: TimeOptionIcon,
+  Content: TimeOptionContent,
+});
+
+export default TimeOption;
