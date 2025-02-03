@@ -1,13 +1,15 @@
 import { cn } from "@ui/lib/utils";
-import { forwardRef, HTMLAttributes } from "react";
+import { icons } from "lucide-react";
+import { ComponentProps, forwardRef } from "react";
 
-type TimeOptionProps = HTMLAttributes<HTMLDivElement> & {
+type TimeOptionProps = ComponentProps<"div"> & {
   className?: string;
 };
-type TimeOptionIconProps = HTMLAttributes<HTMLElement> & {
+type TimeOptionIconProps = ComponentProps<"div"> & {
+  iconName: keyof typeof icons;
   className?: string;
 };
-type TimeOptionContentProps = HTMLAttributes<HTMLElement> & {
+type TimeOptionContentProps = ComponentProps<"div"> & {
   className?: string;
 };
 
@@ -31,10 +33,12 @@ const TimeOption = forwardRef<HTMLDivElement, TimeOptionProps>(
 TimeOption.displayName = "TimeOption";
 
 const TimeOptionIcon = forwardRef<HTMLDivElement, TimeOptionIconProps>(
-  ({ className, children, ...props }, ref) => {
+  ({ className, iconName, ...props }, ref) => {
+    const Icon = icons[iconName];
+
     return (
-      <div className={cn(className)} ref={ref} {...props}>
-        {children}
+      <div className={cn("text-text-primary", className)} ref={ref} {...props}>
+        <Icon />
       </div>
     );
   },
