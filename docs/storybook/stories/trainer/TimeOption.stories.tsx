@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { CalendarClock, CalendarMinus2, CalendarX2, Dumbbell } from "lucide-react";
 
-import { TimeOption, TimeOptionContent, TimeOptionIcon } from "trainer/components/TimeOption";
+import TimeOption from "trainer/components/TimeOption";
 
 const meta: Meta<typeof TimeOption> = {
   component: TimeOption,
@@ -15,12 +15,10 @@ type TimeOptionStory = StoryObj<typeof TimeOption>;
 export const PtReservation: TimeOptionStory = {
   render: () => (
     <TimeOption>
-      <TimeOptionIcon>
-        <Dumbbell className="text-text-primary" />
-      </TimeOptionIcon>
-      <TimeOptionContent>
+      <TimeOption.Icon iconName={"Dumbbell"} />
+      <TimeOption.Content>
         <div>PT 예약</div>
-      </TimeOptionContent>
+      </TimeOption.Content>
     </TimeOption>
   ),
 };
@@ -28,13 +26,11 @@ export const PtReservation: TimeOptionStory = {
 export const PtFixedReservation: TimeOptionStory = {
   render: () => (
     <TimeOption>
-      <TimeOptionIcon>
-        <CalendarClock className="text-text-primary" />
-      </TimeOptionIcon>
-      <TimeOptionContent>
+      <TimeOption.Icon iconName={"CalendarClock"} />
+      <TimeOption.Content>
         <div>PT</div>
         <div>고정 예약</div>
-      </TimeOptionContent>
+      </TimeOption.Content>
     </TimeOption>
   ),
 };
@@ -42,13 +38,11 @@ export const PtFixedReservation: TimeOptionStory = {
 export const PtReservationNotPossible: TimeOptionStory = {
   render: () => (
     <TimeOption>
-      <TimeOptionIcon>
-        <CalendarX2 className="text-text-primary" />
-      </TimeOptionIcon>
-      <TimeOptionContent>
+      <TimeOption.Icon iconName={"CalendarX2"} />
+      <TimeOption.Content>
         <div>예약 불가</div>
         <div>시간대 등록</div>
-      </TimeOptionContent>
+      </TimeOption.Content>
     </TimeOption>
   ),
 };
@@ -56,13 +50,11 @@ export const PtReservationNotPossible: TimeOptionStory = {
 export const HolidaySettings: TimeOptionStory = {
   render: () => (
     <TimeOption>
-      <TimeOptionIcon>
-        <CalendarMinus2 className="text-text-primary" />
-      </TimeOptionIcon>
-      <TimeOptionContent>
+      <TimeOption.Icon iconName={"CalendarMinus"} />
+      <TimeOption.Content>
         <div>휴무일</div>
         <div>설정</div>
-      </TimeOptionContent>
+      </TimeOption.Content>
     </TimeOption>
   ),
 };
