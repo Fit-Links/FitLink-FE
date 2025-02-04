@@ -60,7 +60,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "input-otp": "^1.4.2",
-    "vaul": "^1.1.2"
+    "vaul": "^1.1.2",
     "keen-slider": "^6.8.6",
     "date-fns": "^4.1.0",
     "lucide-react": "^0.471.1",
