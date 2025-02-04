@@ -30,6 +30,7 @@ function CalendarHint({ content, color }: CalendarHintProps) {
     </Badge>
   );
 }
+
 function CalendarHintGroup() {
   return (
     <div className="flex items-center gap-[0.5rem]">
