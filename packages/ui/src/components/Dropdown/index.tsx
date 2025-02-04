@@ -1,3 +1,5 @@
+"use client";
+
 import { ChevronDown } from "lucide-react";
 import React, {
   useRef,
@@ -65,7 +67,7 @@ function Dropdown({ open, onChangeOpen, defaultOpen, className, children }: Drop
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [isOpen]);
 
   return (
     <DropdownContext.Provider
