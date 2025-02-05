@@ -1,6 +1,10 @@
 name: Run Tests on Push
 
-on: pull_request
+on:
+  pull_request:
+    branches:
+      - "dev"
+      - "FILZ-*"
 
 jobs:
   test:
