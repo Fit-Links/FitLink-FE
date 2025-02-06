@@ -6,6 +6,10 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", "storybook-static/**"]
     },
+    "test": {
+      "cache": true,
+      "persistent": true
+    },
     "lint": {},
     "type-check": {},
     "dev": {
