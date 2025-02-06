@@ -1,7 +1,7 @@
 /* eslint-disable no-magic-numbers */
 import { renderHook, act } from "@testing-library/react";
 
-import useControllableState from "../useControllableState";
+import useControllableState from "@ui/hooks/useControllableState";
 
 describe("useControllableState 훅 테스트", () => {
   describe("제어 모드", () => {
