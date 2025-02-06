@@ -8,13 +8,13 @@ type StatusContent = {
   title: string;
   description?: string;
 };
-type Props = {
+type RequestStatusProps = {
   status: Status;
   contentPerStatus: Partial<Record<"pending", StatusContent>> &
     Record<"success" | "error", StatusContent>;
 };
 
-function RequestStatus({ status, contentPerStatus }: Props) {
+function RequestStatus({ status, contentPerStatus }: RequestStatusProps) {
   const {
     success,
     error,
