@@ -2,6 +2,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
 import { cn } from "../lib/utils";
+import { parseNotification } from "../utils/dotWrapperUtils";
 
 const badgeVariants = cva(
   "inline-flex rounded-full font-medium transition-colors focus:outline-none border-transparent shadow",
@@ -52,15 +53,6 @@ const notificationVariants = cva(
     },
   },
 );
-
-const STARTING_INDEX = 0;
-const MAX_NOTIFICATION_LENGTH = 1;
-
-const parseNotification = (notification: string) => {
-  if (notification.length === MAX_NOTIFICATION_LENGTH) return notification;
-
-  return notification.slice(STARTING_INDEX, MAX_NOTIFICATION_LENGTH);
-};
 
 type Props = {
   notification?: string;
