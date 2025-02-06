@@ -1,19 +1,15 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
+import DotWrapper from "./DotWrapper";
 import { cn } from "../lib/utils";
+import { colorVariants } from "./variants/withNotification";
 
 const badgeVariants = cva(
   "inline-flex rounded-full font-medium transition-colors focus:outline-none border-transparent shadow",
   {
     variants: {
-      variant: {
-        default: "bg-background-sub4 text-text-sub5",
-        sub1: "bg-background-sub1 text-text-primary",
-        sub2: "bg-background-sub2 text-text-primary",
-        brand: "bg-brand-primary-500 text-text-primary",
-        destructive: "bg-notification text-text-primary",
-      },
+      variant: colorVariants,
       size: {
         xl: "h-[38px] text-[17px] min-w-[78px]",
         lg: "h-[32px] text-[17px] min-w-[78px]",
@@ -28,40 +24,6 @@ const badgeVariants = cva(
   },
 );
 
-const notificationVariants = cva(
-  "absolute flex items-center justify-center rounded-full text-[10px] focus:outline-none transition-colors shadow",
-  {
-    variants: {
-      variant: {
-        default: "bg-background-sub4 text-text-sub5",
-        sub1: "bg-background-sub1 text-text-primary",
-        sub2: "bg-background-sub2 text-text-primary",
-        brand: "bg-brand-primary-500 text-text-primary",
-        destructive: "bg-notification text-text-primary",
-      },
-      size: {
-        xl: "h-[18px] w-[18px] -right-[6px] -top-[6px]",
-        lg: "h-[18px] w-[18px] -right-[6px] -top-[6px]",
-        md: "h-[14px] w-[14px] -right-[5px] -top-[5px]",
-        sm: "h-[14px] w-[14px] -right-[5px] -top-[5px]",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "md",
-    },
-  },
-);
-
-const STARTING_INDEX = 0;
-const MAX_NOTIFICATION_LENGTH = 1;
-
-const parseNotification = (notification: string) => {
-  if (notification.length === MAX_NOTIFICATION_LENGTH) return notification;
-
-  return notification.slice(STARTING_INDEX, MAX_NOTIFICATION_LENGTH);
-};
-
 type Props = {
   notification?: string;
 };
@@ -72,7 +34,7 @@ export interface BadgeProps
 
 function Badge({ className, variant, size, notification, children, ...props }: BadgeProps) {
   return (
-    <div className={cn(badgeVariants({ size }), "relative")}>
+    <DotWrapper enabled={!!notification} notification={notification} variant={variant} size={size}>
       <div
         className={cn(
           badgeVariants({ variant, size }),
@@ -87,12 +49,7 @@ function Badge({ className, variant, size, notification, children, ...props }: B
       >
         {children}
       </div>
-      {notification && (
-        <span className={cn(notificationVariants({ variant, size }))}>
-          {parseNotification(notification)}
-        </span>
-      )}
-    </div>
+    </DotWrapper>
   );
 }
 
