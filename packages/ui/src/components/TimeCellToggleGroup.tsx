@@ -43,7 +43,7 @@ function TimeCellToggleGroup({
       onValueChange={handleChange}
       className="flex-col items-start gap-[2rem] border border-white"
     >
-      <TimeCellToggleSection>
+      <TimeCellToggleSection type="am">
         {am.map(({ dayOfWeek, time, disabled }, index) => (
           <TimeCellToggleItem
             dayOfWeek={dayOfWeek}
@@ -55,7 +55,7 @@ function TimeCellToggleGroup({
           />
         ))}
       </TimeCellToggleSection>
-      <TimeCellToggleSection>
+      <TimeCellToggleSection type="pm">
         {pm.map(({ dayOfWeek, time, disabled }, index) => (
           <TimeCellToggleItem
             dayOfWeek={dayOfWeek}
@@ -71,13 +71,18 @@ function TimeCellToggleGroup({
   );
 }
 
+const TimeCellSectionTypeMap = {
+  am: "오전",
+  pm: "오후",
+};
 type TimeCellToggleSectionProps = {
+  type: keyof typeof TimeCellSectionTypeMap;
   children: React.ReactNode;
 };
-function TimeCellToggleSection({ children }: TimeCellToggleSectionProps) {
+function TimeCellToggleSection({ type, children }: TimeCellToggleSectionProps) {
   return (
     <section>
-      <div className="text-text-primary text-body-1 mb-[1rem]">오후</div>
+      <div className="text-text-primary text-body-1 mb-[1rem]">{TimeCellSectionTypeMap[type]}</div>
       <div className="flex flex-wrap gap-[1rem]">{children}</div>
     </section>
   );
