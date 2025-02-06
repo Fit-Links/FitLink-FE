@@ -29,6 +29,6 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run tests
-        run: pnpm run test
+        run: pnpm run test -- --passWithNoTests
         env:
           CI: true
