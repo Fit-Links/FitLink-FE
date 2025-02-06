@@ -1,6 +1,6 @@
 import { render, screen } from "test-utils";
 
-import RequestStatus from "../RequestStatus";
+import RequestStatus from "@ui/components/RequestStatus";
 
 describe("RequestStatus Component", () => {
   const contentPerStatus = {

@@ -1,5 +1,5 @@
 /* eslint-disable no-magic-numbers */
-import { splitTimeCellByAMPM, TimeCell } from "../timeCellUtils";
+import { splitTimeCellByAMPM, TimeCell } from "@ui/utils/timeCellUtils";
 
 describe("splitTimeCellByAMPM", () => {
   it("자정과 정오를 기준으로 time cell을 AM, PM으로 분류한다", () => {
