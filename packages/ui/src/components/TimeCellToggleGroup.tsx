@@ -102,6 +102,7 @@ function TimeCellToggleItem({ disabled, time, variant, priority }: TimeCellToggl
       notification={`${priority + 1}`}
       variant="brand"
       size="xl"
+      data-testid={time}
     >
       <ToggleGroupItem
         disabled={disabled}

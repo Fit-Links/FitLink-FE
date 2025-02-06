@@ -1,5 +1,7 @@
 /* eslint-disable no-magic-numbers */
-import { render, screen, fireEvent, within } from "test-utils";
+import userEvent from "@testing-library/user-event";
+
+import { render, screen, within } from "test-utils";
 
 import { TimeCell } from "@ui/utils/timeCellUtils";
 
@@ -27,8 +29,9 @@ describe("TimeCellToggleGroup Component", () => {
     });
   });
 
-  test("TimCellToggleItem을 선택할 수 있다", () => {
+  test("TimCellToggleItem을 선택할 수 있다", async () => {
     const handleSelectionChange = jest.fn();
+    const user = userEvent.setup();
     render(
       <TimeCellToggleGroup
         selected={[]}
@@ -37,12 +40,13 @@ describe("TimeCellToggleGroup Component", () => {
       />,
     );
 
-    fireEvent.click(screen.getByText("08:00"));
+    await user.click(screen.getByText("08:00"));
     expect(handleSelectionChange).toHaveBeenCalledWith(["08:00"]);
   });
 
-  test("disabled된 TimeCellToggleItem은 선택할 수 없다", () => {
+  test("disabled된 TimeCellToggleItem은 선택할 수 없다", async () => {
     const handleSelectionChange = jest.fn();
+    const user = userEvent.setup();
     render(
       <TimeCellToggleGroup
         selected={[]}
@@ -51,13 +55,14 @@ describe("TimeCellToggleGroup Component", () => {
       />,
     );
 
-    fireEvent.click(screen.getByText("19:00"));
+    await user.click(screen.getByText("19:00"));
     expect(handleSelectionChange).not.toHaveBeenCalled();
   });
 
-  test("toggleLimit 이상의 TimeCellToggleItem을 선택할 수 없다", () => {
+  test("toggleLimit 이상의 TimeCellToggleItem을 선택할 수 없다", async () => {
     const handleSelectionChange = jest.fn();
     const handleExceedLimit = jest.fn();
+    const user = userEvent.setup();
     render(
       <TimeCellToggleGroup
         selected={["08:00"]}
@@ -68,10 +73,8 @@ describe("TimeCellToggleGroup Component", () => {
       />,
     );
 
-    fireEvent.click(screen.getByText("09:00"));
-
+    await user.click(screen.getByText("09:00"));
     expect(handleExceedLimit).toHaveBeenCalled();
-
     expect(handleSelectionChange).toHaveBeenCalledTimes(0);
   });
 
@@ -87,9 +90,8 @@ describe("TimeCellToggleGroup Component", () => {
 
     const selectedTimes = ["08:00", "18:00"];
     selectedTimes.forEach((time, index) => {
-      const dotWrapper = screen.getByText(time).closest("div");
-      expect(dotWrapper).toBeTruthy();
-      expect(within(dotWrapper!).getByText(String(index + 1))).toBeInTheDocument();
+      const dotWrapper = within(screen.getByTestId(time));
+      expect(dotWrapper.getByText(String(index + 1))).toBeInTheDocument();
     });
 
     rerender(
@@ -101,7 +103,7 @@ describe("TimeCellToggleGroup Component", () => {
       />,
     );
 
-    expect(within(screen.getByText("09:00").closest("div")!).getByText("1")).toBeInTheDocument();
-    expect(within(screen.getByText("18:00").closest("div")!).getByText("2")).toBeInTheDocument();
+    expect(within(screen.getByTestId("09:00")).getByText("1")).toBeInTheDocument();
+    expect(within(screen.getByTestId("18:00")).getByText("2")).toBeInTheDocument();
   });
 });
