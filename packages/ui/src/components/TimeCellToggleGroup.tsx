@@ -26,7 +26,7 @@ function TimeCellToggleGroup({
   variant = "default",
 }: Props) {
   const handleChange = (value: string[]) => {
-    if (toggleLimit && value?.length > toggleLimit) {
+    if (toggleLimit && value.length > toggleLimit) {
       onExceedToggleLimit && onExceedToggleLimit();
 
       return;
