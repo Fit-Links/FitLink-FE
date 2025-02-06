@@ -3,7 +3,7 @@ import * as React from "react";
 
 import DotWrapper from "./DotWrapper";
 import { cn } from "../lib/utils";
-import { colorVariants, notificationVariants } from "./variants/notificationVariants";
+import { colorVariants } from "./variants/withNotification";
 
 const badgeVariants = cva(
   "inline-flex rounded-full font-medium transition-colors focus:outline-none border-transparent shadow",
@@ -34,11 +34,7 @@ export interface BadgeProps
 
 function Badge({ className, variant, size, notification, children, ...props }: BadgeProps) {
   return (
-    <DotWrapper
-      enabled={!!notification}
-      notification={notification}
-      notificationClassName={notificationVariants({ variant, size })}
-    >
+    <DotWrapper enabled={!!notification} notification={notification} variant={variant} size={size}>
       <div
         className={cn(
           badgeVariants({ variant, size }),

@@ -96,8 +96,13 @@ function TimeCellToggleItem({ disabled, time, variant, priority }: TimeCellToggl
   const isSelected = priority !== NOT_FOUND;
 
   return (
-    // eslint-disable-next-line no-magic-numbers
-    <DotWrapper enabled={variant === "notification" && isSelected} notification={`${priority + 1}`}>
+    <DotWrapper
+      enabled={variant === "notification" && isSelected}
+      // eslint-disable-next-line no-magic-numbers
+      notification={`${priority + 1}`}
+      variant="brand"
+      size="xl"
+    >
       <ToggleGroupItem
         disabled={disabled}
         value={time}
