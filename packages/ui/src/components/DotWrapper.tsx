@@ -24,14 +24,20 @@ const notificationVariants = cva(
   },
 );
 
-type DotWrapperProps = {
-  children: React.ReactNode;
+type DotWrapperProps = React.ComponentProps<"div"> & {
   enabled: boolean;
   notification?: string;
 } & VariantProps<typeof notificationVariants>;
-function DotWrapper({ children, enabled, notification = "", variant, size }: DotWrapperProps) {
+function DotWrapper({
+  children,
+  enabled,
+  notification = "",
+  variant,
+  size,
+  ...props
+}: DotWrapperProps) {
   return (
-    <div className="relative w-fit">
+    <div className="relative w-fit" {...props}>
       {children}
       {enabled && (
         <span className={cn(notificationVariants({ variant, size }))}>
