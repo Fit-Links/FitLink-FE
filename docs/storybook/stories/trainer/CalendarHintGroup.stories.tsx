@@ -14,6 +14,4 @@ export default meta;
 
 type Story = StoryObj<typeof CalendarHintGroup>;
 
-export const Default: Story = {
-  
-}
+export const Default: Story = {};
