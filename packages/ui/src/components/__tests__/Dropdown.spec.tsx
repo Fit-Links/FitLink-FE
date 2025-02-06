@@ -2,7 +2,7 @@ import { userEvent } from "@testing-library/user-event";
 
 import { render, screen } from "test-utils";
 
-import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "../Dropdown";
+import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "@ui/components/Dropdown";
 
 describe("Dropdown Component", () => {
   describe("상호작용 테스트", () => {

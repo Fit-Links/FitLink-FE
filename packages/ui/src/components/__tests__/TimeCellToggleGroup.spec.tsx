@@ -3,9 +3,9 @@ import userEvent from "@testing-library/user-event";
 
 import { render, screen, within } from "test-utils";
 
-import { TimeCell } from "@ui/utils/timeCellUtils";
+import TimeCellToggleGroup from "@ui/components/TimeCellToggleGroup";
 
-import TimeCellToggleGroup from "../TimeCellToggleGroup";
+import { TimeCell } from "@ui/utils/timeCellUtils";
 
 const mockTimeCells: TimeCell[] = [
   { dayOfWeek: "MON", time: "08:00", disabled: false },

@@ -1,5 +1,5 @@
 /* eslint-disable no-magic-numbers */
-import { currentYearWithMonth, isWeekend } from "../DayPickerUtils";
+import { currentYearWithMonth, isWeekend } from "@ui/utils/DayPickerUtils";
 
 describe("날짜 유틸리티 함수 테스트", () => {
   describe("currentYearWithMonth 함수는", () => {

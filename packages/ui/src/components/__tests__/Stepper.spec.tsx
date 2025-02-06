@@ -2,7 +2,7 @@ import userEvent from "@testing-library/user-event";
 
 import { render, screen } from "test-utils";
 
-import Stepper from "../Stepper";
+import Stepper from "@ui/components/Stepper";
 
 describe("Stepper Component", () => {
   const mockGetChangeValue = jest.fn();
