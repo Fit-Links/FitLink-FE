@@ -48,7 +48,7 @@ function ProfileItemContent({ children, className, ...props }: HTMLAttributes<HT
   return (
     <div
       className={cn(
-        `text-text-sub2 grow-1 align-center absolute right-0 flex gap-[0.625rem] text-[0.938rem] leading-[1.375rem]`,
+        `text-text-sub2 absolute right-0 flex items-center gap-[0.625rem] text-[0.938rem] leading-[1.375rem]`,
         className,
       )}
       {...props}
