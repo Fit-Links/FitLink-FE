@@ -21,7 +21,7 @@ export default function NotificationSideBar() {
           <DrawerTitle className="m-0">
             <div className="text-title-1 flex items-center justify-between">
               알림
-              <DrawerClose className="text-[20px]">
+              <DrawerClose className="text-[1.25rem]">
                 <X />
               </DrawerClose>
             </div>
