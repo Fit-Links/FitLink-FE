@@ -53,84 +53,84 @@ const config: Omit<Config, "content"> = {
         "title-1": [
           "22px",
           {
-            lineHeight: "3.125rem",
+            lineHeight: "1.3",
             fontWeight: "500",
           },
         ],
         "title-2": [
           "20px",
           {
-            lineHeight: "3.125rem",
+            lineHeight: "1.3",
             fontWeight: "500",
           },
         ],
         "title-3": [
           "20px",
           {
-            lineHeight: "3.125rem",
+            lineHeight: "1.3",
             fontWeight: "400",
           },
         ],
         headline: [
           "17px",
           {
-            lineHeight: "3.125rem",
+            lineHeight: "1.4",
             fontWeight: "500",
           },
         ],
         "subhead-1": [
           "17px",
           {
-            lineHeight: "1.875rem",
+            lineHeight: "1.4",
             fontWeight: "400",
           },
         ],
         "subhead-2": [
           "15px",
           {
-            lineHeight: "1.875rem",
+            lineHeight: "1.4",
             fontWeight: "600",
           },
         ],
         "body-1": [
           "15px",
           {
-            lineHeight: "3.125rem",
+            lineHeight: "1.5",
             fontWeight: "500",
           },
         ],
         "body-2": [
           "13px",
           {
-            lineHeight: "3.125rem",
+            lineHeight: "1.5",
             fontWeight: "600",
           },
         ],
         "body-3": [
           "13px",
           {
-            lineHeight: "3.125rem",
+            lineHeight: "1.5",
             fontWeight: "500",
           },
         ],
         "body-4": [
           "12px",
           {
-            lineHeight: "3.125rem",
+            lineHeight: "1.5",
             fontWeight: "400",
           },
         ],
         "body-5": [
           "10px",
           {
-            lineHeight: "0.746rem",
+            lineHeight: "1.5",
             fontWeight: "500",
           },
         ],
         "body-6": [
           "10px",
           {
-            lineHeight: "0.746rem",
+            lineHeight: "1.5",
             fontWeight: "400",
           },
         ],
