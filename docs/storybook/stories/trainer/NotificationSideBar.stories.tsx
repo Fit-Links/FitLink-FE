@@ -15,6 +15,4 @@ export default meta;
 
 type NotificationSideBarStory = StoryObj<typeof NotificationSideBar>;
 
-export const Default: NotificationSideBarStory = {
-  render: () => <NotificationSideBar />,
-};
+export const Default: NotificationSideBarStory = {};
