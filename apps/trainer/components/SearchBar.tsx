@@ -5,10 +5,18 @@ import React, { ComponentProps } from "react";
 
 type SearchBarProps = {
   placeholder: string;
-  onChange: (value: string) => void;
+  value: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 } & ComponentProps<"div">;
 
-function SearchBar({ children, placeholder, className, onChange, ...props }: SearchBarProps) {
+function SearchBar({
+  children,
+  placeholder,
+  className,
+  value,
+  onChange,
+  ...props
+}: SearchBarProps) {
   return (
     <div className={cn("relative w-full", className)} {...props}>
       <div className="absolute left-0 top-0 flex h-[2.5rem] w-[2.5rem] items-center justify-center">
@@ -17,6 +25,7 @@ function SearchBar({ children, placeholder, className, onChange, ...props }: Sea
       <Input
         className="bg-background-sub2 h-[2.5rem] w-full pl-[2.5rem] leading-[0.938rem]"
         placeholder={placeholder}
+        value={value}
         onChange={onChange}
       />
       {children}
