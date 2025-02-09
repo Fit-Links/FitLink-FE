@@ -1,4 +1,5 @@
 import { Badge } from "@ui/components/Badge";
+import { Days } from "@ui/components/DayOfWeekPicker/Days";
 import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "@ui/components/Dropdown";
 import { Text } from "@ui/components/Text";
 import DateController from "@ui/lib/DateController";
@@ -47,7 +48,7 @@ function PTScheduleItem({ current, applyAt, schedules }: PTScheduleItemProps) {
   const weekSchedule = Object.entries(
     makeWeekSchedule({ type: "span", schedule: schedules }),
   ) as ObjectEntries<Record<DaysOfWeek, string>>;
-  const mondaySchedule = weekSchedule[0];
+  const mondaySchedule = weekSchedule[Days.Monday];
 
   const handleEditClick = () => {
     alert("clicked");
