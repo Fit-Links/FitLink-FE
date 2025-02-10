@@ -39,7 +39,7 @@ function SearchBar({ placeholder, value, onChangeValue }: SearchBarProps) {
 
 type SearchResultModeProps = ComponentProps<"div">;
 
-function SearchResultMode({ children, className, ...props }: SearchResultModeProps) {
+function SearchResultHeader({ children, className, ...props }: SearchResultModeProps) {
   return (
     <div
       className={cn(
@@ -69,4 +69,4 @@ function SearchResult({ children, className, ...props }: SearchResultProps) {
   );
 }
 
-export { UserSearch, SearchBar, SearchResultMode, SearchResult };
+export { UserSearch, SearchBar, SearchResultHeader, SearchResult };
