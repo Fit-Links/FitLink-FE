@@ -53,10 +53,7 @@ function SearchResultMode({ children, className, ...props }: SearchResultModePro
   );
 }
 
-type SearchResultProps = {
-  label: string;
-  sortComponent?: React.ReactNode;
-} & ComponentProps<"div">;
+type SearchResultProps = ComponentProps<"div">;
 
 function SearchResult({ children, className, ...props }: SearchResultProps) {
   return (
