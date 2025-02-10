@@ -3,11 +3,11 @@ import { cn } from "@ui/lib/utils";
 import { Search } from "lucide-react";
 import React, { ComponentProps } from "react";
 
-type MultiPurposeSearchProps = {
+type UserSearchProps = {
   children: React.ReactNode;
 } & ComponentProps<"div">;
 
-function MultiPurposeSearch({ children, className, ...props }: MultiPurposeSearchProps) {
+function UserSearch({ children, className, ...props }: UserSearchProps) {
   return (
     <div className={cn("flex h-full w-full flex-col", className)} {...props}>
       {children}
@@ -37,24 +37,39 @@ function SearchBar({ placeholder, value, onChangeValue }: SearchBarProps) {
   );
 }
 
+type SearchResultModeProps = ComponentProps<"div">;
+
+function SearchResultMode({ children, className, ...props }: SearchResultModeProps) {
+  return (
+    <div
+      className={cn(
+        "text-body-3 text-text-primary mt-[1.25rem] flex h-fit items-center justify-between",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
+
 type SearchResultProps = {
   label: string;
   sortComponent?: React.ReactNode;
 } & ComponentProps<"div">;
 
-function SearchResult({ label, sortComponent, children, className, ...props }: SearchResultProps) {
+function SearchResult({ children, className, ...props }: SearchResultProps) {
   return (
     <div
-      className={cn("text-text-primary text-body-3 flex w-full flex-col gap-[0.625rem]", className)}
+      className={cn(
+        "text-text-primary text-body-3 mt-[0.625rem] flex w-full flex-col gap-[0.625rem]",
+        className,
+      )}
       {...props}
     >
-      <div className="mt-[1.25rem] flex items-center justify-between">
-        <p className="text-text-primary text-body-3">{label}</p>
-        {sortComponent}
-      </div>
-      <div className="flex h-full w-full flex-col gap-[0.625rem]">{children}</div>
+      {children}
     </div>
   );
 }
 
-export { MultiPurposeSearch, SearchBar, SearchResult };
+export { UserSearch, SearchBar, SearchResultMode, SearchResult };
