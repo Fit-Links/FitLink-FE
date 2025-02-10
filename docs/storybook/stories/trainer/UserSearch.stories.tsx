@@ -6,7 +6,7 @@ import { FormEvent, useState } from "react";
 import {
   SearchBar,
   SearchResult,
-  SearchResultMode,
+  SearchResultHeader,
   UserSearch,
 } from "@trainer/components/UserSearch";
 
@@ -47,10 +47,10 @@ export const Default: Story = {
           value={searchValue}
           onChangeValue={handleChangeValue}
         />
-        <SearchResultMode>
+        <SearchResultHeader>
           <div>회원 {count}명</div>
           <div>최신등록순</div>
-        </SearchResultMode>
+        </SearchResultHeader>
         <SearchResult>
 
         {USERS.filter((user) => user.includes(searchValue as string)).map((user) => (
