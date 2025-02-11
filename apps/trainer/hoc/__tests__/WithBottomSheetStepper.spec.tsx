@@ -2,20 +2,19 @@
 import userEvent from "@testing-library/user-event";
 import { Button } from "@ui/components/Button";
 
+import { WithBottomSheetStepper } from "@trainer/hoc/WithBottomSheetStepper";
 import { render, screen } from "test-utils";
-
-import { WithBottomSheetStepper } from "@trainer/components/WithBottomSheetStepper";
 
 type WrappedComponentProps = {
   value: number;
-  onChangeOpen: (isOpen: boolean) => void;
+  onChangeClose: (isOpen: boolean) => void;
 };
 
-function MockComponent({ value, onChangeOpen }: WrappedComponentProps) {
+function MockComponent({ value, onChangeClose }: WrappedComponentProps) {
   return (
     <div>
       <p data-testid="step-value">Step Value: {value}</p>
-      <Button onClick={() => onChangeOpen(false)}>승인</Button>
+      <Button onClick={() => onChangeClose(false)}>승인</Button>
     </div>
   );
 }
