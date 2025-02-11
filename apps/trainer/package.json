@@ -54,6 +54,6 @@
     "typescript": "^5"
   },
   "exports": {
-    "./components/*": "./components/*.tsx"
+    "./*": "./*.tsx"
   }
 }
