@@ -22,14 +22,16 @@ type WithBottomSheetStepperProps = {
   children: ReactNode;
 };
 
-type WrappedComponentProps = {
+type ApproveOrModifyCTAButtonProps = {
   value: number;
-  onChangeOpen: (isOpen: boolean) => void;
+  onChangeClose: (isOpen: boolean) => void;
 };
 
 const INITIALSTEP = 0;
 
-export const WithBottomSheetStepper = (WrappedComponent: ComponentType<WrappedComponentProps>) => {
+export const WithBottomSheetStepper = (
+  ApproveOrModifyCTAButton: ComponentType<ApproveOrModifyCTAButtonProps>,
+) => {
   return function BottomSheetWithStepper({
     className,
     title,
@@ -78,7 +80,7 @@ export const WithBottomSheetStepper = (WrappedComponent: ComponentType<WrappedCo
           </div>
           <Stepper value={step} onChangeValue={handleChangeValue} className="border-none" />
           <SheetFooter className="w-full">
-            <WrappedComponent value={step} onChangeOpen={handleClickSheetVisible} />
+            <ApproveOrModifyCTAButton value={step} onChangeClose={handleClickSheetVisible} />
           </SheetFooter>
         </SheetContent>
       </Sheet>
