@@ -1,4 +1,5 @@
 import { Bell, Calendar, ContactRound, UserRound } from "lucide-react";
+import Link from "next/link";
 
 export default function BottomNavigation() {
   const navigationItems = [
@@ -14,7 +15,10 @@ export default function BottomNavigation() {
         <div key={`${label}-${index}`} className="flex flex-1 items-center justify-center">
           <button className="text-background-sub4 hover:text-background-sub5 flex w-12 flex-col items-center justify-center gap-1">
             <Icon />
-            <div className="text-body-5">{label}</div>
+            {/* TODO: 각 페이지 경로 네이밍이 정해지면 이동할 경로명 href 작성 */}
+            <Link href="" className="text-body-5">
+              {label}
+            </Link>
           </button>
         </div>
       ))}
