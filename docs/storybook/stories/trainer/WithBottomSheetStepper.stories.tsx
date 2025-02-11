@@ -4,12 +4,12 @@ import { WithBottomSheetStepper } from "trainer/components/WithBottomSheetSteppe
 
 type WrappedComponentProps = {
   value: number;
-  onChangeOpen: (isOpen: boolean) => void;
+  onChangeClose: (isOpen: boolean) => void;
 };
 
-function ExampleComponent({ value, onChangeOpen }: WrappedComponentProps) {
+function ExampleComponent({ value, onChangeClose }: WrappedComponentProps) {
   const handleClick = () => {
-    onChangeOpen(false);
+    onChangeClose(false);
   };
 
   return (
