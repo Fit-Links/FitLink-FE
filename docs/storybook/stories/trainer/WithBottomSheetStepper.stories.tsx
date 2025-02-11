@@ -1,6 +1,6 @@
 import { Button } from "@5unwan/ui/components/Button";
 import { Meta, StoryObj } from "@storybook/react";
-import { WithBottomSheetStepper } from "trainer/components/WithBottomSheetStepper";
+import { WithBottomSheetStepper } from "trainer/hoc/WithBottomSheetStepper";
 
 type WrappedComponentProps = {
   value: number;
