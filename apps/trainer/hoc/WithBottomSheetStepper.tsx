@@ -65,7 +65,7 @@ export const WithBottomSheetStepper = (
             {title && <SheetTitle className={cn(!description && "mb-0")}>{title}</SheetTitle>}
             {description && <SheetDescription>{description}</SheetDescription>}
           </SheetHeader>
-          <div className="mb-[1.25rem] flex">
+          <div className={cn("mb-[1.25rem] flex gap-2.5", !description && "my-[1.26rem]")}>
             {incrementOptions &&
               incrementOptions.map((value) => (
                 <Button
