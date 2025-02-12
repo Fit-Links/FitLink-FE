@@ -12,7 +12,10 @@ type ChevronTriggerProps = React.ComponentProps<"div"> & {
 };
 
 const ChevronTrigger = React.forwardRef<HTMLDivElement, ChevronTriggerProps>(
-  ({ onClick, children, className, position = "right", size = DEFAULT_ICON_SIZE }, ref) => (
+  (
+    { onClick, children, className, position = "right", size = DEFAULT_ICON_SIZE, ...props },
+    ref,
+  ) => (
     <div
       onClick={onClick}
       className={cn(
@@ -20,6 +23,7 @@ const ChevronTrigger = React.forwardRef<HTMLDivElement, ChevronTriggerProps>(
         className,
       )}
       ref={ref}
+      {...props}
     >
       {position === "left" && <ChevronLeft size={size} />}
       {children}
