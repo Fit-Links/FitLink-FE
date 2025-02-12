@@ -19,7 +19,7 @@ const ChevronTrigger = React.forwardRef<HTMLDivElement, ChevronTriggerProps>(
     <div
       onClick={onClick}
       className={cn(
-        "hover:bg-background-sub3 text-text-primary flex w-fit cursor-pointer items-center rounded-md transition-colors",
+        "hover:bg-background-sub3 text-text-primary flex w-fit cursor-pointer items-center rounded-md bg-transparent transition-colors",
         className,
       )}
       ref={ref}
