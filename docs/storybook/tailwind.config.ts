@@ -4,7 +4,7 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    "./stories/*.{js,ts,jsx,tsx,mdx}",
+    "./stories/**/*.{js,ts,jsx,tsx,mdx}",
     "node_modules/@5unwan/ui/**/*.tsx",
     "node_modules/trainer/components/**",
   ],
