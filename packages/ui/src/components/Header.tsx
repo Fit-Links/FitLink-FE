@@ -11,14 +11,14 @@ type HeaderRootProps = {
 };
 function HeaderRoot({ children, className }: HeaderRootProps) {
   return (
-    <div
+    <header
       className={cn(
         "text-text-primary text-title-2 grid w-full grid-cols-3 items-center",
         className,
       )}
     >
       {children}
-    </div>
+    </header>
   );
 }
 
