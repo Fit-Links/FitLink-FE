@@ -16,7 +16,7 @@ export default function ScheduleBottomSheet({
   className,
   trigger,
 }: ScheduleBottomSheetProps) {
-  const selectedFormatDate = DateController(selectedDate).validate()?.toFormatDateTimeWithDay();
+  const selectedFormatDate = DateController(selectedDate).validate()?.toDateTimeWithDayFormat();
 
   return (
     <Sheet>
