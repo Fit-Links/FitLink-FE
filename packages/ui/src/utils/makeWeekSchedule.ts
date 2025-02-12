@@ -56,7 +56,7 @@ export const makeWeekSchedule = (timeSchedule: TimeBlockSchedule | TimeSpanSched
   return weekScheduleMap;
 };
 
-const groupContinuousTimes = function groupContinuousTimes(timeList: string[]): string[] {
+const groupContinuousTimes = (timeList: string[]): string[] => {
   if (timeList.length === 0) {
     return [];
   }
