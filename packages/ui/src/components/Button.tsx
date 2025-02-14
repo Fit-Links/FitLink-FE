@@ -73,9 +73,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         {...props}
       >
-        {iconLeft && <Icon name={iconLeft} size={size || "md"} />}
+        {iconLeft && (
+          <Icon name={iconLeft} size={size || "md"} aria-hidden={children !== undefined} />
+        )}
         {children}
-        {iconRight && <Icon name={iconRight} size={size || "md"} />}
+        {iconRight && (
+          <Icon name={iconRight} size={size || "md"} aria-hidden={children !== undefined} />
+        )}
       </Comp>
     );
   },
