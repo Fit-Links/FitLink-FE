@@ -12,8 +12,8 @@ type IconProps = Omit<LucideProps, "size"> & {
 };
 
 const iconSizes = {
-  sm: 18,
-  md: 20,
+  sm: 13,
+  md: 15,
   lg: 24,
   xl: 28,
 } as const;
