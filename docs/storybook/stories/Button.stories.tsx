@@ -68,3 +68,9 @@ export const Pill: Story = {
     corners: "pill",
   },
 };
+export const OnDanger: Story = {
+  args: {
+    variant: 'outline',
+    danger: true
+  }
+}
