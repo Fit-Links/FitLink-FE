@@ -1,13 +1,11 @@
-import { icons } from "lucide-react";
+import { Cake, CalendarMinus2, Clock, Code, Dumbbell, Phone, User, UserRoundX } from "lucide-react";
 import { ComponentProps } from "react";
 
 import { cn } from "@ui/lib/utils";
 
-type ProfileItemProps = {
-  children: React.ReactNode;
-} & ComponentProps<"div">;
+type ProfileItemProps = ComponentProps<"div">;
 
-function ProfileItem({ className, children, ...props }: ProfileItemProps) {
+function ProfileItem({ className, ...props }: ProfileItemProps) {
   return (
     <div
       className={cn(
@@ -16,18 +14,27 @@ function ProfileItem({ className, children, ...props }: ProfileItemProps) {
       )}
       {...props}
     >
-      {children}
+      {props.children}
     </div>
   );
 }
-type Icon = keyof typeof icons;
 
+type iconTypes = "calendar" | "cake" | "user" | "dumbbell" | "phone" | "code" | "clock" | "userX";
 type ProfileItemIconProps = {
-  iconName: Icon;
+  icon: iconTypes;
 } & ComponentProps<"div">;
 
-function ProfileItemIcon({ iconName, className, ...props }: ProfileItemIconProps) {
-  const Icon = icons[iconName];
+function ProfileItemIcon({ icon, className, ...props }: ProfileItemIconProps) {
+  const ICON_MAP = {
+    calendar: <CalendarMinus2 />,
+    cake: <Cake />,
+    user: <User />,
+    dumbbell: <Dumbbell />,
+    phone: <Phone />,
+    code: <Code />,
+    clock: <Clock />,
+    userX: <UserRoundX />,
+  };
 
   return (
     <div
@@ -37,16 +44,16 @@ function ProfileItemIcon({ iconName, className, ...props }: ProfileItemIconProps
       )}
       {...props}
     >
-      <Icon />
+      {ICON_MAP[icon]}
     </div>
   );
 }
 
 type ProfileItemHeaderProps = {
-  children: React.ReactNode;
+  icon: iconTypes;
 } & ComponentProps<"div">;
 
-function ProfileItemHeader({ children, className, ...props }: ProfileItemHeaderProps) {
+function ProfileItemHeader({ icon, className, ...props }: ProfileItemHeaderProps) {
   return (
     <div
       className={cn(
@@ -55,12 +62,15 @@ function ProfileItemHeader({ children, className, ...props }: ProfileItemHeaderP
       )}
       {...props}
     >
-      {children}
+      <ProfileItemIcon icon={icon} />
+      {props.children}
     </div>
   );
 }
 
-function ProfileItemContent({ children, className, ...props }: ComponentProps<"div">) {
+type ProfileItemContentProps = ComponentProps<"div">;
+
+function ProfileItemContent({ className, ...props }: ProfileItemContentProps) {
   return (
     <div
       className={cn(
@@ -69,7 +79,7 @@ function ProfileItemContent({ children, className, ...props }: ComponentProps<"d
       )}
       {...props}
     >
-      {children}
+      {props.children}
     </div>
   );
 }
