@@ -1,10 +1,5 @@
 import { Badge } from "@5unwan/ui/components/Badge";
-import {
-  ProfileItem,
-  ProfileItemIcon,
-  ProfileItemContent,
-  ProfileItemHeader,
-} from "@5unwan/ui/components/ProfileItem";
+import { ProfileItem } from "@5unwan/ui/components/ProfileItem";
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { ChevronRight } from "lucide-react";
