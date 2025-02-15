@@ -23,13 +23,13 @@ export default function BottomNavigation() {
 
   return (
     <nav className="bg-background-primary border-background-sub2 flex h-[5.063rem] w-full justify-around border-t">
-      {NAVIGATION_ITEMS.map(({ label, path, icon: Icon }) => (
+      {NAVIGATION_ITEMS.map(({ label, icon: Icon }) => (
         <button
           key={`navigation-${label}`}
           className={cn(
             "text-body-6 text-text-sub4 mt-[0.5rem] flex flex-1 flex-col items-center whitespace-nowrap",
           )}
-          onClick={() => handleClickChangePage(path)}
+          onClick={() => handleClickChangePage()}
         >
           <Icon />
           <div className={cn("mt-[0.25rem]")}>{label}</div>
