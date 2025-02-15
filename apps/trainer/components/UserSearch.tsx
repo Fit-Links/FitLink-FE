@@ -3,14 +3,12 @@ import { cn } from "@ui/lib/utils";
 import { Search } from "lucide-react";
 import React, { ComponentProps } from "react";
 
-type UserSearchProps = {
-  children: React.ReactNode;
-} & ComponentProps<"div">;
+type UserSearchProps = ComponentProps<"div">;
 
-function UserSearch({ children, className, ...props }: UserSearchProps) {
+function UserSearch({ className, ...props }: UserSearchProps) {
   return (
     <div className={cn("flex h-full w-full flex-col", className)} {...props}>
-      {children}
+      {props.children}
     </div>
   );
 }
@@ -39,7 +37,7 @@ function SearchBar({ placeholder, value, onChangeValue }: SearchBarProps) {
 
 type SearchResultModeProps = ComponentProps<"div">;
 
-function SearchResultHeader({ children, className, ...props }: SearchResultModeProps) {
+function SearchResultHeader({ className, ...props }: SearchResultModeProps) {
   return (
     <div
       className={cn(
@@ -48,14 +46,14 @@ function SearchResultHeader({ children, className, ...props }: SearchResultModeP
       )}
       {...props}
     >
-      {children}
+      {props.children}
     </div>
   );
 }
 
 type SearchResultProps = ComponentProps<"div">;
 
-function SearchResult({ children, className, ...props }: SearchResultProps) {
+function SearchResult({ className, ...props }: SearchResultProps) {
   return (
     <div
       className={cn(
@@ -64,7 +62,7 @@ function SearchResult({ children, className, ...props }: SearchResultProps) {
       )}
       {...props}
     >
-      {children}
+      {props.children}
     </div>
   );
 }
