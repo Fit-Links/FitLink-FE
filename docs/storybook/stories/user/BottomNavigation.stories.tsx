@@ -15,6 +15,4 @@ export default meta;
 
 type BottomNavigationStory = StoryObj<typeof BottomNavigation>;
 
-export const Default: BottomNavigationStory = {
-  render: () => <BottomNavigation />,
-};
+export const Default: BottomNavigationStory = {};
