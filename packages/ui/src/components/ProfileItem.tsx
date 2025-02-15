@@ -1,39 +1,39 @@
-import { Cake, CalendarMinus2, Code, Dumbbell, Phone, User, UserRoundX } from "lucide-react";
-import { ComponentProps, ReactNode } from "react";
+import { icons } from "lucide-react";
+import { ComponentProps } from "react";
 
 import { cn } from "@ui/lib/utils";
 
 const ProfileItemVariants = {
   calendar: {
-    icon: <CalendarMinus2 />,
+    icon: "CalendarMinus2",
     content: "휴무일 설정",
   },
   birthday: {
-    icon: <Cake />,
+    icon: "Cake",
     content: "생년월일",
   },
   name: {
-    icon: <User />,
+    icon: "User",
     content: "이름",
   },
   trainer: {
-    icon: <User />,
+    icon: "User",
     content: "트레이너",
   },
   dumbbell: {
-    icon: <Dumbbell />,
+    icon: "Dumbbell",
     content: "PT 횟수",
   },
   phone: {
-    icon: <Phone />,
+    icon: "Phone",
     content: "휴대폰 번호",
   },
   code: {
-    icon: <Code />,
+    icon: "Code",
     content: "트레이너 코드",
   },
   unlink: {
-    icon: <UserRoundX />,
+    icon: "UserRoundX",
     content: "트레이너 연동 해제",
   },
 };
@@ -60,11 +60,15 @@ function ProfileItem({ className, variant, ...props }: ProfileItemProps) {
   );
 }
 
+type Icon = keyof typeof icons;
+
 type ProfileItemIconProps = {
-  icon: ReactNode;
+  icon: Icon;
 } & ComponentProps<"div">;
 
 function ProfileItemIcon({ icon, className, ...props }: ProfileItemIconProps) {
+  const Icon = icons[icon];
+
   return (
     <div
       className={cn(
@@ -73,7 +77,7 @@ function ProfileItemIcon({ icon, className, ...props }: ProfileItemIconProps) {
       )}
       {...props}
     >
-      {icon}
+      <Icon />
     </div>
   );
 }
