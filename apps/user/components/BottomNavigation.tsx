@@ -17,8 +17,6 @@ const NAVIGATION_ITEMS: NavigationItemsProp[] = [
 ];
 
 export default function BottomNavigation() {
-  // TODO: rul 이동 로직 추가
-
   return (
     <nav className="bg-background-primary border-background-sub2 flex h-[5.063rem] w-full justify-around border-t">
       {NAVIGATION_ITEMS.map(({ label, icon: Icon }) => (
@@ -27,7 +25,6 @@ export default function BottomNavigation() {
           className={cn(
             "text-body-6 text-text-sub4 mt-[0.5rem] flex flex-1 flex-col items-center whitespace-nowrap",
           )}
-          style={{}}
         >
           <Icon />
           <div className={cn("mt-[0.25rem]")}>{label}</div>
