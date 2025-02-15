@@ -51,9 +51,10 @@ function ProfileItemIcon({ icon, className, ...props }: ProfileItemIconProps) {
 
 type ProfileItemHeaderProps = {
   icon: iconTypes;
+  title: string;
 } & ComponentProps<"div">;
 
-function ProfileItemHeader({ icon, className, ...props }: ProfileItemHeaderProps) {
+function ProfileItemHeader({ icon, className, title, ...props }: ProfileItemHeaderProps) {
   return (
     <div
       className={cn(
@@ -63,7 +64,7 @@ function ProfileItemHeader({ icon, className, ...props }: ProfileItemHeaderProps
       {...props}
     >
       <ProfileItemIcon icon={icon} />
-      {props.children}
+      {title}
     </div>
   );
 }
