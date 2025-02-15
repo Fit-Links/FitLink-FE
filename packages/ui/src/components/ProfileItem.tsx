@@ -1,11 +1,48 @@
-import { Cake, CalendarMinus2, Clock, Code, Dumbbell, Phone, User, UserRoundX } from "lucide-react";
-import { ComponentProps } from "react";
+import { Cake, CalendarMinus2, Code, Dumbbell, Phone, User, UserRoundX } from "lucide-react";
+import { ComponentProps, ReactNode } from "react";
 
 import { cn } from "@ui/lib/utils";
 
-type ProfileItemProps = ComponentProps<"div">;
+const ProfileItemVariants = {
+  calendar: {
+    icon: <CalendarMinus2 />,
+    content: "휴무일 설정",
+  },
+  birthday: {
+    icon: <Cake />,
+    content: "생년월일",
+  },
+  name: {
+    icon: <User />,
+    content: "이름",
+  },
+  trainer: {
+    icon: <User />,
+    content: "트레이너",
+  },
+  dumbbell: {
+    icon: <Dumbbell />,
+    content: "PT 횟수",
+  },
+  phone: {
+    icon: <Phone />,
+    content: "휴대폰 번호",
+  },
+  code: {
+    icon: <Code />,
+    content: "트레이너 코드",
+  },
+  unlink: {
+    icon: <UserRoundX />,
+    content: "트레이너 연동 해제",
+  },
+};
 
-function ProfileItem({ className, ...props }: ProfileItemProps) {
+type ProfileItemProps = ComponentProps<"div"> & {
+  variant: keyof typeof ProfileItemVariants;
+};
+
+function ProfileItem({ className, variant, ...props }: ProfileItemProps) {
   return (
     <div
       className={cn(
@@ -14,28 +51,20 @@ function ProfileItem({ className, ...props }: ProfileItemProps) {
       )}
       {...props}
     >
-      {props.children}
+      <section className="flex">
+        <ProfileItemIcon icon={ProfileItemVariants[variant].icon} />
+        <ProfileItemHeader content={ProfileItemVariants[variant].content} />
+      </section>
+      <ProfileItemContent>{props.children}</ProfileItemContent>
     </div>
   );
 }
 
-type iconTypes = "calendar" | "cake" | "user" | "dumbbell" | "phone" | "code" | "clock" | "userX";
 type ProfileItemIconProps = {
-  icon: iconTypes;
+  icon: ReactNode;
 } & ComponentProps<"div">;
 
 function ProfileItemIcon({ icon, className, ...props }: ProfileItemIconProps) {
-  const ICON_MAP = {
-    calendar: <CalendarMinus2 />,
-    cake: <Cake />,
-    user: <User />,
-    dumbbell: <Dumbbell />,
-    phone: <Phone />,
-    code: <Code />,
-    clock: <Clock />,
-    userX: <UserRoundX />,
-  };
-
   return (
     <div
       className={cn(
@@ -44,17 +73,16 @@ function ProfileItemIcon({ icon, className, ...props }: ProfileItemIconProps) {
       )}
       {...props}
     >
-      {ICON_MAP[icon]}
+      {icon}
     </div>
   );
 }
 
 type ProfileItemHeaderProps = {
-  icon: iconTypes;
-  title: string;
+  content: string;
 } & ComponentProps<"div">;
 
-function ProfileItemHeader({ icon, className, title, ...props }: ProfileItemHeaderProps) {
+function ProfileItemHeader({ content, className, ...props }: ProfileItemHeaderProps) {
   return (
     <div
       className={cn(
@@ -63,8 +91,7 @@ function ProfileItemHeader({ icon, className, title, ...props }: ProfileItemHead
       )}
       {...props}
     >
-      <ProfileItemIcon icon={icon} />
-      {title}
+      {content}
     </div>
   );
 }
