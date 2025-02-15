@@ -2,7 +2,7 @@
 
 import { cn } from "@ui/lib/utils";
 import { Bell, Calendar, UserRound } from "lucide-react";
-import React, { useState } from "react";
+import React from "react";
 
 type NavigationItemsProp = {
   label: string;
@@ -17,10 +17,8 @@ const NAVIGATION_ITEMS: NavigationItemsProp[] = [
 ];
 
 export default function BottomNavigation() {
-  const [page, setPage] = useState("");
-
-  const handleClickChangePage = (path: string) => {
-    setPage(path);
+  const handleClickChangePage = () => {
+    // TODO: rul 이동 로직 추가
   };
 
   return (
@@ -30,16 +28,11 @@ export default function BottomNavigation() {
           key={`navigation-${label}`}
           className={cn(
             "text-body-6 text-text-sub4 mt-[0.5rem] flex flex-1 flex-col items-center whitespace-nowrap",
-            page === path && "text-text-primary text-body-5",
           )}
           onClick={() => handleClickChangePage(path)}
         >
           <Icon />
-          <div
-            className={cn("mt-[0.25rem]", page === path && "text-text-primary text-text-body-5")}
-          >
-            {label}
-          </div>
+          <div className={cn("mt-[0.25rem]")}>{label}</div>
         </button>
       ))}
     </nav>
