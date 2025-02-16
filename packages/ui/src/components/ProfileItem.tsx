@@ -88,13 +88,7 @@ type ProfileItemHeaderProps = {
 
 function ProfileItemHeader({ content, className, ...props }: ProfileItemHeaderProps) {
   return (
-    <div
-      className={cn(
-        `text-headline text-text-primary flex items-center text-[1.063rem] leading-[1.375rem]`,
-        className,
-      )}
-      {...props}
-    >
+    <div className={cn(`text-headline text-text-primary flex items-center`, className)} {...props}>
       {content}
     </div>
   );
