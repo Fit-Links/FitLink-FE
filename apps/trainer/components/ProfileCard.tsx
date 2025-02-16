@@ -83,7 +83,7 @@ function MenuIcon() {
   return (
     <Icon
       name="Ellipsis"
-      className="text-text-sub3 absolute right-1 top-0.5"
+      className="text-text-sub3 absolute right-1 top-0.5 cursor-pointer"
       aria-label="프로필 카드 메뉴 버튼"
       size="lg"
     />
