@@ -102,3 +102,13 @@ export const WithBadge: ProfileCardStory = {
     </ProfileCard>
   ),
 };
+
+export const WithEllipsis: ProfileCardStory = {
+  render: (args) => (
+    <ProfileCard {...args} ellipsIcon>
+      <Badge size="sm" variant={"brand"}>
+        00/20
+      </Badge>
+    </ProfileCard>
+  ),
+};
