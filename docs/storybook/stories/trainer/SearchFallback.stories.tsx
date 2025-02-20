@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import SearchFallback from "@trainer/components/SearchFallback";
+import SearchFallback from "trainer/components/SearchFallback";
 
 const meta: Meta<typeof SearchFallback> = {
   component: SearchFallback,
