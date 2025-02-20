@@ -97,6 +97,7 @@ const DateController = (date: string | Date) => {
     },
     // 메서드 체이닝을 지원하지 않습니다
     toKoreanDayOfWeekFormat,
+    isDateInRange: (startDate: Date, endDate: Date) => date >= startDate && date <= endDate,
   };
 };
 
