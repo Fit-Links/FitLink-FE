@@ -6,9 +6,7 @@ type SearchFallbackProps = React.ComponentProps<"button">;
 const SearchFallback = forwardRef<HTMLButtonElement, SearchFallbackProps>(({ ...props }, ref) => {
   return (
     <section className="mt-[5.688rem] flex h-full w-full flex-col items-center ">
-      <p className="text-text-primary text-[1.063rem] font-semibold leading-[1.875rem]">
-        회원 검색에 실패했어요
-      </p>
+      <p className="text-text-primary text-title-2">회원 검색에 실패했어요</p>
       <p className="text-text-sub3 text-[0.938rem] font-normal leading-[1.875rem]">
         네트워크 연결 상태를 확인해 주세요
       </p>
