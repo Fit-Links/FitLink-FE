@@ -29,6 +29,12 @@ const DateController = (date: string | Date) => {
     };
   };
 
+  const toKoreanDayOfWeekFormat = () => {
+    const dayOfTheweek = targetDate.getDay();
+
+    return DAYS_OF_WEEK[dayOfTheweek];
+  };
+
   return {
     // 메서드 체이닝을 지원합니다
     validate: () => {
@@ -80,6 +86,17 @@ const DateController = (date: string | Date) => {
     },
     // 메서드 체이닝을 지원하지 않습니다
     toServiceFormat,
+    // 메서드 체이닝을 지원하지 않습니다
+    toDateTimeWithDayFormat: () => {
+      const month = targetDate.getMonth() + 1;
+      const day = targetDate.getDate();
+      const hour = targetDate.getHours();
+      const minute = targetDate.getMinutes();
+
+      return `${month}. ${day} (${toKoreanDayOfWeekFormat()}) ${hour}:${minute}`;
+    },
+    // 메서드 체이닝을 지원하지 않습니다
+    toKoreanDayOfWeekFormat,
   };
 };
 

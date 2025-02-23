@@ -9,7 +9,7 @@ type StepperProps = {
   defaultValue?: number;
   value?: number;
   step?: number;
-  onChangeValue: (value: number) => void;
+  onChangeValue?: (value: number) => void;
   className?: string;
 };
 
