@@ -18,6 +18,7 @@ module.exports = {
   rules: {
     "unused-imports/no-unused-imports": "error",
     "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-duplicate-enum-values": "off",
     "no-var": "error",
     "padding-line-between-statements": [
       "error",
