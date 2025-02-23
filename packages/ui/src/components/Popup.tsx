@@ -25,7 +25,7 @@ type PopupProps = {
   children: React.ReactNode;
 };
 
-export default function Popup({ title, description, negative, positive, children }: PopupProps) {
+function Popup({ title, description, negative, positive, children }: PopupProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -36,27 +36,29 @@ export default function Popup({ title, description, negative, positive, children
               <p key={`popup_title_${line}`}>{line}</p>
             ))}
           </DialogTitle>
-          <DialogDescription>
-            {description
-              ?.split("\\n")
-              .map((line) => <p key={`popup_description_${line}`}>{line}</p>)}
-          </DialogDescription>
+          {description && (
+            <DialogDescription>
+              {description
+                ?.split("\\n")
+                .map((line) => <p key={`popup_description_${line}`}>{line}</p>)}
+            </DialogDescription>
+          )}
         </DialogHeader>
         <DialogFooter>
-          {negative && (
-            <DialogClose asChild>
+          <DialogClose asChild>
+            {negative && (
               <Button variant="dark" onClick={negative.callback}>
                 {negative.label}
               </Button>
-            </DialogClose>
-          )}
-          {positive && (
-            <DialogClose asChild>
-              <Button onClick={positive.callback}>{positive.label}</Button>
-            </DialogClose>
-          )}
+            )}
+          </DialogClose>
+          <DialogClose asChild>
+            {positive && <Button onClick={positive.callback}>{positive.label}</Button>}
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
 }
+
+export { Popup, type PopupProps };
