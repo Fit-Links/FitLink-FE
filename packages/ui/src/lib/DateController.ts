@@ -1,5 +1,7 @@
 /* eslint-disable no-magic-numbers */
 
+import { eachDayOfInterval, endOfWeek, startOfWeek } from "date-fns";
+
 const DateController = (date: string | Date) => {
   const targetDate = typeof date === "string" ? new Date(date) : date;
   const currentDate = new Date();
@@ -97,6 +99,22 @@ const DateController = (date: string | Date) => {
     },
     // 메서드 체이닝을 지원하지 않습니다
     toKoreanDayOfWeekFormat,
+    // 메서드 체이닝을 지원하지 않습니다
+    calendar: {
+      generateWeeks: (toDate: Date) => {
+        const calendarStart = startOfWeek(date, { weekStartsOn: 0 });
+        const calendarEnd = endOfWeek(toDate, { weekStartsOn: 0 });
+
+        const dates = eachDayOfInterval({ start: calendarStart, end: calendarEnd });
+        const weeks: Date[][] = [];
+
+        for (let i = 0; i < dates.length; i += 7) {
+          weeks.push(dates.slice(i, i + 7));
+        }
+
+        return weeks;
+      },
+    },
   };
 };
 
