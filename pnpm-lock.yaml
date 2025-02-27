@@ -241,6 +241,9 @@ importers:
       trainer:
         specifier: workspace:*
         version: link:../../apps/trainer
+      user:
+        specifier: workspace:*
+        version: link:../../apps/user
     devDependencies:
       '@5unwan/eslint-config':
         specifier: workspace:*
