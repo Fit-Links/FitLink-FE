@@ -12,6 +12,8 @@ const MONTH_OFFSET = 1;
 
 export type DayPickerProps = ComponentProps<typeof Calendar> & {
   mode: "single";
+  selectedDate?: Date;
+  onChangeSelectedDate?: (date: Date | undefined) => void;
 };
 type CaptionProps = {
   month: Date;
@@ -45,6 +47,8 @@ function DayPicker({
   classNames,
   showOutsideDays = true,
   components,
+  selectedDate,
+  onChangeSelectedDate,
   ...props
 }: DayPickerProps) {
   const [month, setMonth] = useState(new Date());
@@ -61,8 +65,8 @@ function DayPicker({
       month={month}
       fixedWeeks
       onMonthChange={setMonth}
-      selected={date}
-      onSelect={handleChangeMonth}
+      selected={selectedDate || date}
+      onSelect={onChangeSelectedDate || handleChangeMonth}
       locale={ko}
       showOutsideDays={showOutsideDays}
       modifiers={{ weekend: isWeekend }}
