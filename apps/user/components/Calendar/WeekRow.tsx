@@ -1,12 +1,21 @@
 import { cn } from "@ui/lib/utils";
-import { isToday } from "date-fns";
+import { isSameDay, isToday } from "date-fns";
 import React from "react";
 import { RowProps, useDayPicker } from "react-day-picker";
 
-type WeekRowProps = RowProps;
+type WeekRowProps = RowProps & {
+  selectedDate?: Date;
+  onChangeSelectedDate?: (date: Date | undefined) => void;
+};
 
-export default function WeekRow({ dates, displayMonth }: WeekRowProps) {
+export default function WeekRow({
+  dates,
+  displayMonth,
+  selectedDate,
+  onChangeSelectedDate,
+}: WeekRowProps) {
   const { classNames } = useDayPicker();
+  console.log("선택한 날", selectedDate);
 
   return (
     <tr className={cn(classNames.row, "flex h-[7.25rem]")}>
@@ -27,8 +36,10 @@ export default function WeekRow({ dates, displayMonth }: WeekRowProps) {
                 classNames.day,
                 isOutsideMonth && classNames.day_outside,
                 isCurrentDay && classNames.day_today,
+                isSameDay(selectedDate as Date, date) && classNames.day_selected,
                 "h-[1.875rem] w-[1.875rem]",
               )}
+              onClick={() => onChangeSelectedDate && onChangeSelectedDate(date)}
             >
               {date.getDate()}
             </button>
