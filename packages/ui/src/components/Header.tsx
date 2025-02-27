@@ -13,7 +13,7 @@ function HeaderRoot({ children, className }: HeaderRootProps) {
   return (
     <header
       className={cn(
-        "text-text-primary text-title-2 grid w-full grid-cols-3 items-center",
+        "text-text-primary text-title-2 bg-background-primary sticky top-0 grid h-[2.1875rem] w-full grid-cols-3 items-center",
         className,
       )}
     >

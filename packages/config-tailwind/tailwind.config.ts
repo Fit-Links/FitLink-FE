@@ -49,6 +49,9 @@ const config: Omit<Config, "content"> = {
         },
         notification: "hsl(var(--notification))",
       },
+      spacing: {
+        mobile: "480px",
+      },
       fontSize: {
         "title-1": [
           "22px",
