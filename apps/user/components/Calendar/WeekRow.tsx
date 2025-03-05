@@ -15,7 +15,6 @@ export default function WeekRow({
   onChangeSelectedDate,
 }: WeekRowProps) {
   const { classNames } = useDayPicker();
-  console.log("선택한 날", selectedDate);
 
   return (
     <tr className={cn(classNames.row, "flex h-[7.25rem]")}>
