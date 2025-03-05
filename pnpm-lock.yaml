@@ -144,6 +144,9 @@ importers:
       axios:
         specifier: ^1.7.9
         version: 1.7.9
+      date-fns:
+        specifier: ^4.1.0
+        version: 4.1.0
       lucide-react:
         specifier: ^0.471.1
         version: 0.471.1(react@18.3.1)
@@ -153,6 +156,9 @@ importers:
       react:
         specifier: ^18
         version: 18.3.1
+      react-day-picker:
+        specifier: 8.10.1
+        version: 8.10.1(date-fns@4.1.0)(react@18.3.1)
       react-dom:
         specifier: ^18
         version: 18.3.1(react@18.3.1)
@@ -238,6 +244,9 @@ importers:
       trainer:
         specifier: workspace:*
         version: link:../../apps/trainer
+      user:
+        specifier: workspace:*
+        version: link:../../apps/user
     devDependencies:
       '@5unwan/eslint-config':
         specifier: workspace:*

@@ -2,7 +2,7 @@
 
 import { ko } from "date-fns/locale";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { ComponentProps, useState } from "react";
+import { ComponentProps, Dispatch, useState } from "react";
 import { DayPicker as Calendar } from "react-day-picker";
 
 import { cn } from "../lib/utils";
@@ -12,12 +12,15 @@ const MONTH_OFFSET = 1;
 
 export type DayPickerProps = ComponentProps<typeof Calendar> & {
   mode: "single";
+  selectedDate?: Date;
+  onChangeSelectedDate?: (date: Date | undefined) => void;
+};
+type CaptionProps = {
+  month: Date;
+  setMonth: Dispatch<React.SetStateAction<Date>>;
 };
 
-function DayPicker({ className, classNames, showOutsideDays = true, ...props }: DayPickerProps) {
-  const [month, setMonth] = useState(new Date());
-  const [date, setDate] = useState(new Date());
-
+function Caption({ month, setMonth }: CaptionProps) {
   const handlePrevMonth = () => {
     setMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() - MONTH_OFFSET));
   };
@@ -25,6 +28,31 @@ function DayPicker({ className, classNames, showOutsideDays = true, ...props }: 
   const handleNextMonth = () => {
     setMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() + MONTH_OFFSET));
   };
+
+  return (
+    <div className="flex items-center justify-center gap-3 text-center">
+      <button onClick={handlePrevMonth}>
+        <ChevronLeft className={"cursor-pointer"} />
+      </button>
+      <span className="font-mono">{currentYearWithMonth(month)}</span>
+      <button onClick={handleNextMonth}>
+        <ChevronRight className={"cursor-pointer"} />
+      </button>
+    </div>
+  );
+}
+
+function DayPicker({
+  className,
+  classNames,
+  showOutsideDays = true,
+  components,
+  selectedDate,
+  onChangeSelectedDate,
+  ...props
+}: DayPickerProps) {
+  const [month, setMonth] = useState(new Date());
+  const [date, setDate] = useState(new Date());
 
   const handleChangeMonth = (date: Date | undefined) => {
     if (date) {
@@ -37,8 +65,8 @@ function DayPicker({ className, classNames, showOutsideDays = true, ...props }: 
       month={month}
       fixedWeeks
       onMonthChange={setMonth}
-      selected={date}
-      onSelect={handleChangeMonth}
+      selected={selectedDate || date}
+      onSelect={onChangeSelectedDate || handleChangeMonth}
       locale={ko}
       showOutsideDays={showOutsideDays}
       modifiers={{ weekend: isWeekend }}
@@ -69,17 +97,8 @@ function DayPicker({ className, classNames, showOutsideDays = true, ...props }: 
         ...classNames,
       }}
       components={{
-        Caption: () => (
-          <div className="flex items-center justify-center gap-3 text-center">
-            <button onClick={handlePrevMonth}>
-              <ChevronLeft className={"cursor-pointer"} />
-            </button>
-            <span className="font-mono">{currentYearWithMonth(month)}</span>
-            <button onClick={handleNextMonth}>
-              <ChevronRight className={"cursor-pointer"} />
-            </button>
-          </div>
-        ),
+        ...components,
+        Caption: () => <Caption month={month} setMonth={setMonth} />,
       }}
       {...props}
     />
