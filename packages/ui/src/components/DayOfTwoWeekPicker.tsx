@@ -1,13 +1,12 @@
 /* eslint-disable no-magic-numbers */
 "use client";
 
+import { generateWeeks } from "@5unwan/core/utils/generateWeeks";
 import { addDays, format, isSameDay, isToday, isWithinInterval, subDays } from "date-fns";
 
 import { cn } from "@ui/lib/utils";
 
 import useControllableState from "@ui/hooks/useControllableState";
-
-import { generateWeeks } from "@ui/utils/DayOfTwoWeekPicker";
 
 type DayOfTwoWeekPickerProps = {
   selectDate?: Date;
