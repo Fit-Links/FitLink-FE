@@ -3,10 +3,11 @@
 
 import { addDays, format, isSameDay, isToday, isWithinInterval, subDays } from "date-fns";
 
-import DateController from "@ui/lib/DateController";
 import { cn } from "@ui/lib/utils";
 
 import useControllableState from "@ui/hooks/useControllableState";
+
+import { generateWeeks } from "@ui/utils/DayOfTwoWeekPicker";
 
 type DayOfTwoWeekPickerProps = {
   selectDate?: Date;
@@ -79,7 +80,7 @@ function Weeks({ currentDate, selectedDate, onSelectedDate }: WeeksProps) {
   const fromDate = subDays(currentDate, 1);
   const toDate = addDays(fromDate, 14);
 
-  const weeks = DateController(fromDate).calendar.generateWeeks(toDate);
+  const weeks = generateWeeks(fromDate, toDate);
 
   const handleSelectDate = (date: Date) => () => {
     onSelectedDate(date);
