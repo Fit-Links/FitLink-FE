@@ -18,12 +18,10 @@ import {
   TrainerCodeApiResponse,
 } from "./types/myInformation.dto";
 
-// 내 정보 조회
 export const getMyInformation = () => {
   http.get<MyInformationApiResponse>({ url: `${TRAINER_BASE_URL}/me` });
 };
 
-// 내 정보 수정
 export const editMyInformation = ({ name, phoneNumber }: EditMyInformationRequestBody) => {
   http.patch<EditMyInformationApiResponse>({
     url: `${TRAINER_BASE_URL}/me`,
@@ -34,24 +32,20 @@ export const editMyInformation = ({ name, phoneNumber }: EditMyInformationReques
   });
 };
 
-// 트레이너 코드 조회
 export const getTrainerCode = () => {
   http.get<TrainerCodeApiResponse>({ url: `${TRAINER_BASE_URL}/trainer-code` });
 };
 
-// PT 수업 가능 시간 조회
 export const getAvailablePtTime = () => {
   http.get<AvailablePtTimeApiResponse>({ url: `${TRAINER_BASE_URL}/available-times` });
 };
 
-// PT 수업 가능 시간 삭제
 export const deleteAvailablePtTime = ({ availableTimeId }: DeleteAvailablePtTimeRequestPath) => {
   http.delete<DeleteAvailableTimeApiResponse>({
     url: `${TRAINER_BASE_URL}/available-times/${availableTimeId}`,
   });
 };
 
-// PT 수업 가능 시간 추가
 export const addAvailablePtTime = ({ applyAt, availableTimes }: AddAvailablePtTimeRequestBody) => {
   http.post<AddAvailablePtTimeApiResponse>({
     url: `${TRAINER_BASE_URL}/available-times`,
@@ -59,7 +53,6 @@ export const addAvailablePtTime = ({ applyAt, availableTimes }: AddAvailablePtTi
   });
 };
 
-// 휴무일 추가
 export const addTimeOff = ({ dayOfWeek, dayOfTime }: AddTimeOffRequestBody) => {
   http.post<AddTimeOffApiResponse>({
     url: `${TRAINER_BASE_URL}/day-off`,
@@ -70,7 +63,6 @@ export const addTimeOff = ({ dayOfWeek, dayOfTime }: AddTimeOffRequestBody) => {
   });
 };
 
-// 휴무일 삭제
 export const deleteTimeOff = (
   requestPath: DeleteTimeOffRequestPath,
   requestBody: DeleteTimeOffRequestBody,
