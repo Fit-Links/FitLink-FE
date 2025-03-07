@@ -1,1 +1,1 @@
-export const USER_MANAGEMENT_BASE_URL = "trainers";
+export const TRAINER_BASE_URL = "trainers";

@@ -1,4 +1,4 @@
-import { USER_MANAGEMENT_BASE_URL } from "@trainer/constants/baseUrl";
+import { TRAINER_BASE_URL } from "@trainer/constants/baseUrl";
 
 import http from "./core";
 import {
@@ -19,7 +19,7 @@ import {
 // PT 회원 리스트 확인
 export const getPtUserList = ({ q, page, size }: PtUserListRequestQuery) => {
   http.get<PtUserListApiResponse>({
-    url: `${USER_MANAGEMENT_BASE_URL}/members`,
+    url: `${TRAINER_BASE_URL}/members`,
     params: {
       q,
       page,
@@ -30,13 +30,13 @@ export const getPtUserList = ({ q, page, size }: PtUserListRequestQuery) => {
 
 // PT 회원 상세 조회
 export const getPtUserDetail = ({ memberId }: PtUserDetailRequestPath) => {
-  http.get<PtUserDetailApiResponse>({ url: `${USER_MANAGEMENT_BASE_URL}/members/${memberId}` });
+  http.get<PtUserDetailApiResponse>({ url: `${TRAINER_BASE_URL}/members/${memberId}` });
 };
 
 // 멤버 연결 해제 요청
 export const unLinkMember = ({ memberId }: UnlinkMemberRequestPath) => {
   http.post<UnlinkMemberApiResponse>({
-    url: `${USER_MANAGEMENT_BASE_URL}/members/${memberId}/disconnect`,
+    url: `${TRAINER_BASE_URL}/members/${memberId}/disconnect`,
   });
 };
 
@@ -48,7 +48,7 @@ export const sessionCountEdit = (
   const { memberId, sessionInfoId } = requestPath;
   const { totalCount, remainingCount } = requestBody;
   http.patch<SessionCountEditApiResponse>({
-    url: `${USER_MANAGEMENT_BASE_URL}/${memberId}/session-info/${sessionInfoId}`,
+    url: `${TRAINER_BASE_URL}/${memberId}/session-info/${sessionInfoId}`,
     data: {
       totalCount,
       remainingCount,
@@ -64,7 +64,7 @@ export const targetMemberEditPtHistory = (
   const { memberId, sessionId } = requestPath;
   const { status } = requestBody;
   http.patch<TargetUserEditPtHistoryApiResponse>({
-    url: `${USER_MANAGEMENT_BASE_URL}/members/${memberId}/using-sessions/${sessionId}`,
+    url: `${TRAINER_BASE_URL}/members/${memberId}/using-sessions/${sessionId}`,
     data: {
       status,
     },
