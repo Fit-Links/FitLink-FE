@@ -96,3 +96,13 @@ export type NotificationType =
   | "SESSION_CANCEL_REQUEST_REFUSED"
   | "SESSION_REMAIN_5"
   | "SESSION_EDITED";
+
+export type Gender = "MALE" | "FEMALE";
+
+export type BaseSignupInfo = {
+  name: string;
+  birthDate: string;
+  phoneNumber: string;
+  gender: Gender;
+  profileUrl: string;
+};
