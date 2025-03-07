@@ -1,17 +1,21 @@
 import http from "@5unwan/core/api/core";
 
 import {
-  GetNotificationParams,
-  GetNotificationResponse,
-  ReadNotificationRequest,
-  ReadNotificationResponse,
+  GetNotificationApiResponse,
+  ReadNotificationApiResponse,
+  ReadNotificationRequestBody,
 } from "./types/notification.dto";
 
-export const getNotification = (params: GetNotificationParams) =>
-  http.get<GetNotificationResponse>({ url: `/v1/notifications`, params });
+export const getNotification = () =>
+  http.get<GetNotificationApiResponse>({
+    url: `/v1/notifications`,
+    params: {
+      type: "all",
+    },
+  });
 
-export const readNotification = (data: ReadNotificationRequest) =>
-  http.patch<ReadNotificationResponse>({
+export const readNotification = (data: ReadNotificationRequestBody) =>
+  http.patch<ReadNotificationApiResponse>({
     url: `v1/notifications`,
     data,
   });
