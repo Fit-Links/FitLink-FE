@@ -2,35 +2,41 @@ const RESERVATION_BASE_URL = "reservations";
 
 import http from "./core";
 import {
-  ReservationDetailStatusPathParam,
   ReservationDetailStatusApiResponse,
   ReservationStatusApiResponse,
-  ReservationStatusParams,
-  ReservationDetailPendingStatusPathParams,
   ReservationDetailPendingStatusApiResponse,
   ReservationSetNotAvailableApiResponse,
-  ReservationSetNotAvailableRequest,
-  DirectReservationRequest,
   DirectReservationApiResponse,
-  FixReservationRequest,
   FixReservationApiResponse,
-  CancelReservationRequest,
   CancelReservationApiResponse,
-  ApproveReservationRequest,
   ApproveReservationApiResponse,
-  CompletedPtRequest,
   CompletedPtApiResponse,
-  ConfirmReservationChangeRequest,
   ConfirmReservationChangeApiResponse,
+  ReservationStatusRequestQuery,
+  ReservationDetailStatusRequestPath,
+  ReservationDetailPendingStatusRequestPath,
+  ReservationSetNotAvailableRequestBody,
+  DirectReservationRequestBody,
+  FixReservationRequestBody,
+  CancelReservationRequestBody,
+  CancelReservationRequestPath,
+  ApproveReservationRequestBody,
+  ApproveReservationRequestPath,
+  CompletedPtRequestBody,
+  CompletedPtRequestPath,
+  ConfirmReservationChangeRequestBody,
+  ConfirmReservationChangeRequestPath,
 } from "./types/reservations";
 
 // 예약 현황 조회
-export const getReservationStatus = ({ date }: ReservationStatusParams) => {
+export const getReservationStatus = ({ date }: ReservationStatusRequestQuery) => {
   http.get<ReservationStatusApiResponse>({ url: `${RESERVATION_BASE_URL}`, params: { date } });
 };
 
 // 예약 상세 조회
-export const getReservationDetailStatus = ({ reservationId }: ReservationDetailStatusPathParam) => {
+export const getReservationDetailStatus = ({
+  reservationId,
+}: ReservationDetailStatusRequestPath) => {
   http.get<ReservationDetailStatusApiResponse>({
     url: `${RESERVATION_BASE_URL}/${reservationId}`,
   });
@@ -39,14 +45,16 @@ export const getReservationDetailStatus = ({ reservationId }: ReservationDetailS
 // 예약 상세 대기 조회
 export const getReservationDetailStatusPendingStatus = ({
   reservationId,
-}: ReservationDetailPendingStatusPathParams) => {
+}: ReservationDetailPendingStatusRequestPath) => {
   http.get<ReservationDetailPendingStatusApiResponse>({
     url: `${RESERVATION_BASE_URL}/${reservationId}`,
   });
 };
 
 // 예약 불가 설정
-export const createReservationSetNotAvailable = ({ date }: ReservationSetNotAvailableRequest) => {
+export const createReservationSetNotAvailable = ({
+  date,
+}: ReservationSetNotAvailableRequestBody) => {
   http.post<ReservationSetNotAvailableApiResponse>({
     url: `${RESERVATION_BASE_URL}/availability/disable`,
     data: {
@@ -56,7 +64,7 @@ export const createReservationSetNotAvailable = ({ date }: ReservationSetNotAvai
 };
 
 // 직접 예약
-export const createDirectReservation = ({ reservations }: DirectReservationRequest) => {
+export const createDirectReservation = ({ reservations }: DirectReservationRequestBody) => {
   http.post<DirectReservationApiResponse>({
     url: `${RESERVATION_BASE_URL}`,
     data: { reservations },
@@ -64,7 +72,11 @@ export const createDirectReservation = ({ reservations }: DirectReservationReque
 };
 
 // 고정 예약
-export const createFixReservation = ({ memberId, name, reservations }: FixReservationRequest) => {
+export const createFixReservation = ({
+  memberId,
+  name,
+  reservations,
+}: FixReservationRequestBody) => {
   http.post<FixReservationApiResponse>({
     url: `${RESERVATION_BASE_URL}/fixed-reservation`,
     data: { memberId, name, reservations },
@@ -72,10 +84,13 @@ export const createFixReservation = ({ memberId, name, reservations }: FixReserv
 };
 
 // 예약 취소
-export const createCancelReservation = ({
-  reservationId,
-  cancel_reason,
-}: CancelReservationRequest) => {
+export const createCancelReservation = (
+  requestPath: CancelReservationRequestPath,
+  requestBody: CancelReservationRequestBody,
+) => {
+  const { reservationId } = requestPath;
+  const { cancel_reason } = requestBody;
+
   http.post<CancelReservationApiResponse>({
     url: `${RESERVATION_BASE_URL}/${reservationId}/cancel`,
     data: { cancel_reason },
@@ -83,11 +98,13 @@ export const createCancelReservation = ({
 };
 
 // 예약 승인
-export const createApproveReservation = ({
-  reservationId,
-  trainerId,
-  memberId,
-}: ApproveReservationRequest) => {
+export const createApproveReservation = (
+  requestPath: ApproveReservationRequestPath,
+  reqeustBody: ApproveReservationRequestBody,
+) => {
+  const { reservationId } = requestPath;
+  const { memberId, trainerId } = reqeustBody;
+
   http.post<ApproveReservationApiResponse>({
     url: `${RESERVATION_BASE_URL}/${reservationId}/approve`,
     data: { memberId, trainerId },
@@ -95,7 +112,13 @@ export const createApproveReservation = ({
 };
 
 // 진행한 PT 처리
-export const createCompletedPt = ({ sessionId, isJoin }: CompletedPtRequest) => {
+export const createCompletedPt = (
+  requestPath: CompletedPtRequestPath,
+  requestBody: CompletedPtRequestBody,
+) => {
+  const { sessionId } = requestPath;
+  const { isJoin } = requestBody;
+
   http.post<CompletedPtApiResponse>({
     url: `${RESERVATION_BASE_URL}/${sessionId}/complete`,
     data: { isJoin },
@@ -103,11 +126,13 @@ export const createCompletedPt = ({ sessionId, isJoin }: CompletedPtRequest) => 
 };
 
 // 예약 변경 승인
-export const createConfirmReservationChange = ({
-  reservationId,
-  trainerId,
-  memberId,
-}: ConfirmReservationChangeRequest) => {
+export const createConfirmReservationChange = (
+  requestPath: ConfirmReservationChangeRequestPath,
+  requestBody: ConfirmReservationChangeRequestBody,
+) => {
+  const { reservationId } = requestPath;
+  const { memberId, trainerId } = requestBody;
+
   http.post<ConfirmReservationChangeApiResponse>({
     url: `${RESERVATION_BASE_URL}/${reservationId}/changes/apporove`,
     data: { memberId, trainerId },

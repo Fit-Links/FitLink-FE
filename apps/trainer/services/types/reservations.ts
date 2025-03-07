@@ -25,7 +25,7 @@ export type CalendarApiResponse = ResponseBase<CalendarResponse>;
 
 /* 예약 현황 조회 (리스트) */
 // 요청 파라미터(param)
-export type ReservationStatusParams = {
+export type ReservationStatusRequestQuery = {
   date?: string;
 };
 // 응답 데이터
@@ -39,7 +39,7 @@ export type ReservationStatusApiResponse = ResponseBase<ReservationStatusRespons
 
 /* 예약 상세 조회 (예약 확정 또는 수업 완료 상태) */
 // 요청 파라미터(path param)
-export type ReservationDetailStatusPathParam = ReservationPathParams;
+export type ReservationDetailStatusRequestPath = ReservationPathParams;
 // 응답 데이터
 type ReservationDetailStatusResponse = BaseReservationDetail<
   Extract<ReservationStatus, "예약 확정" | "수업 완료">,
@@ -51,7 +51,7 @@ export type ReservationDetailStatusApiResponse = ResponseBase<ReservationDetailS
 
 /* 예약 상세 대기 조회 */
 // 요청: 경로 변수(path param)
-export type ReservationDetailPendingStatusPathParams = ReservationPathParams;
+export type ReservationDetailPendingStatusRequestPath = ReservationPathParams;
 // 응답 데이터
 type ReservationDetailPendingStatusResponse = {
   waitingMembers: DetailedMemberInfo &
@@ -65,7 +65,7 @@ export type ReservationDetailPendingStatusApiResponse =
 
 /* 예약 불가 설정 */
 // 요청: Request Body
-export type ReservationSetNotAvailableRequest = {
+export type ReservationSetNotAvailableRequestBody = {
   date: string;
 };
 // 응답 데이터
@@ -77,7 +77,7 @@ export type ReservationSetNotAvailableApiResponse =
 
 /* 직접 예약 */
 // 요청: Request Body
-export type DirectReservationRequest = {
+export type DirectReservationRequestBody = {
   reservations: {
     trainerId: number;
     memberId: number;
@@ -97,7 +97,7 @@ export type DirectReservationApiResponse = ResponseBase<DirectReservationRespons
 
 /* 고정 예약 */
 // 요청: Request Body
-export type FixReservationRequest = {
+export type FixReservationRequestBody = {
   trainerId: number;
   memberId: number;
   name: string;
@@ -113,7 +113,8 @@ export type FixReservationApiResponse = ResponseBase<FixReservationResponse>;
 
 /* 예약 취소 */
 // 요청: 경로 변수와 Request Body 혼합
-export type CancelReservationRequest = ReservationPathParams & {
+export type CancelReservationRequestPath = ReservationPathParams;
+export type CancelReservationRequestBody = {
   cancel_reason: string;
 };
 // 응답 데이터
@@ -124,7 +125,8 @@ export type CancelReservationApiResponse = ResponseBase<CancelReservationRespons
 
 /* 예약 승인 */
 // 요청: 경로 변수와 Request Body 혼합
-export type ApproveReservationRequest = ReservationPathParams & {
+export type ApproveReservationRequestPath = ReservationPathParams;
+export type ApproveReservationRequestBody = {
   trainerId: number;
   memberId: number;
 };
@@ -136,8 +138,10 @@ export type ApproveReservationApiResponse = ResponseBase<ApproveReservationRespo
 
 /* 진행한 PT 처리 */
 // 요청: 경로 변수와 Request Body 혼합
-export type CompletedPtRequest = {
+export type CompletedPtRequestPath = {
   sessionId: number;
+};
+export type CompletedPtRequestBody = {
   isJoin: boolean;
 };
 // 응답 데이터
@@ -148,7 +152,8 @@ export type CompletedPtApiResponse = ResponseBase<CompletedPtResponse>;
 
 /* 예약 변경 승인 */
 // 요청: 경로 변수와 Request Body 혼합
-export type ConfirmReservationChangeRequest = ReservationPathParams & {
+export type ConfirmReservationChangeRequestPath = ReservationPathParams;
+export type ConfirmReservationChangeRequestBody = {
   trainerId: number;
   memberId: number;
 };
