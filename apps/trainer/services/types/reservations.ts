@@ -32,7 +32,7 @@ export type ReservationStatusParams = {
 };
 // 응답 데이터
 export type ReservationStatusResponse = {
-  reservations: Omit<BaseReservationListItem[], "memberInfo" | "sessionInfoId"> & {
+  reservations: Omit<BaseReservationListItem, "memberInfo" | "sessionInfoId">[] & {
     sessionInfoId: number | null;
     memberInfo: Partial<BaseMemberInfo>;
   };
