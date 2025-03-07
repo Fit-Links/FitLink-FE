@@ -31,15 +31,6 @@ export type AvailablePtTime = {
   endTime: string;
 };
 
-// 날짜, 시간 포맷 (템플릿 리터럴 타입)
-type Year = `${number}${number}${number}${number}`;
-type Month = `${number}${number}`;
-type Day = `${number}${number}`;
-type Hour = `${number}${number}`;
-type Minute = `${number}${number}`;
-export type ISODateString = `${Year}-${Month}-${Day}`;
-export type IsoDateTimeString = `${Year}-${Month}-${Day}T${Hour}:${Minute}`;
-
 // 예약 상태 (한글 리터럴)
 export type ReservationStatus = "예약 확정" | "예약 대기" | "예약 불가" | "수업 완료" | "휴뮤일";
 
@@ -51,7 +42,7 @@ export type BaseMemberInfo = {
 
 // 트레이너 등에서 사용하는 상세 회원 정보
 export type DetailedMemberInfo = BaseMemberInfo & {
-  birthdate: ISODateString;
+  birthdate: string;
   phoneNumber: string;
   profilePictureUrl: string;
 };
@@ -62,7 +53,7 @@ export type BaseReservationListItem = {
   sessionInfoId: number;
   isDayOff: boolean;
   dayOfWeek: DayOfWeek;
-  reservationDate: IsoDateTimeString;
+  reservationDate: string;
   status: ReservationStatus;
   memberInfo: BaseMemberInfo;
 };
@@ -73,7 +64,7 @@ export type BaseReservationDetail<
   TMember = BaseMemberInfo,
 > = {
   dayOfWeek: DayOfWeek;
-  reservationDate: IsoDateTimeString;
+  reservationDate: string;
   sessionId: number;
   status: TStatus;
   memberInfo: TMember;

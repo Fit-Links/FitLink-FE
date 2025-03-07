@@ -4,8 +4,6 @@ import {
   BaseReservationListItem,
   DayOfWeek,
   DetailedMemberInfo,
-  ISODateString,
-  IsoDateTimeString,
   ReservationPathParams,
   ReservationStatus,
   ResponseBase,
@@ -13,14 +11,14 @@ import {
 
 // 요청 파라미터 (param)
 export type CalendarParams = {
-  today: ISODateString;
+  today: string;
   type: "trainer";
 };
 // 응답 데이터
 export type CalendarResponse = {
   weekend: {
     dayOfWeek: DayOfWeek;
-    date: ISODateString;
+    date: string;
   }[];
 };
 export type CalendarApiResponse = ResponseBase<CalendarResponse>;
@@ -28,7 +26,7 @@ export type CalendarApiResponse = ResponseBase<CalendarResponse>;
 /* 예약 현황 조회 (리스트) */
 // 요청 파라미터(param)
 export type ReservationStatusParams = {
-  date?: ISODateString;
+  date?: string;
 };
 // 응답 데이터
 export type ReservationStatusResponse = {
@@ -59,7 +57,7 @@ export type ReservationDetailPendingStatusResponse = {
   waitingMembers: DetailedMemberInfo &
     Pick<BaseReservationListItem, "reservationId" | "dayOfWeek"> &
     {
-      reservationDates: IsoDateTimeString[];
+      reservationDates: string[];
     }[];
 };
 export type ReservationDetailPendingStatusApiResponse =
@@ -68,7 +66,7 @@ export type ReservationDetailPendingStatusApiResponse =
 /* 예약 불가 설정 */
 // 요청: Request Body
 export type ReservationSetNotAvailableRequest = {
-  date: IsoDateTimeString;
+  date: string;
 };
 // 응답 데이터
 export type ReservationSetNotAvailableResponse = {
@@ -84,7 +82,7 @@ export type DirectReservationRequest = {
     trainerId: number;
     memberId: number;
     name: string;
-    date: IsoDateTimeString[];
+    date: string[];
     priority: number;
   }[];
 };
@@ -103,7 +101,7 @@ export type FixReservationRequest = {
   trainerId: number;
   memberId: number;
   name: string;
-  reservations: { date: IsoDateTimeString }[];
+  reservations: { date: string }[];
 };
 // 응답 데이터
 export type FixReservationResponse = {
