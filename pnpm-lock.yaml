@@ -138,6 +138,9 @@ importers:
 
   apps/user:
     dependencies:
+      '@5unwan/core':
+        specifier: workspace:*
+        version: link:../../packages/core
       '@5unwan/ui':
         specifier: workspace:*
         version: link:../../packages/ui
