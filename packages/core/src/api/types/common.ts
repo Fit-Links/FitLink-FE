@@ -14,14 +14,19 @@ export type DayOfWeek =
   | "SATURDAY"
   | "SUNDAY";
 export type PtStatus = "COMPLETED" | "NO_SHOW" | "NONE" | "PENDING";
+export type PtInfo = {
+  sessionId: number;
+  reservationDate: string;
+  status: PtStatus;
+};
 export type SessionInfo = {
   sessionInfoId: number;
   totalCount: number;
   remainingCount: number;
 };
 export type PreferredWorkout = {
-  dayOfWeek: string;
-  preferenceTimes: Array<string>;
+  dayOfWeek: DayOfWeek;
+  preferenceTimes: string[];
 };
 export type AvailablePtTime = {
   availableTimeId: number;
