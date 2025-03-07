@@ -28,12 +28,10 @@ import {
   ConfirmReservationChangeRequestPath,
 } from "./types/reservations";
 
-// 예약 현황 조회
 export const getReservationStatus = ({ date }: ReservationStatusRequestQuery) => {
   http.get<ReservationStatusApiResponse>({ url: `${RESERVATION_BASE_URL}`, params: { date } });
 };
 
-// 예약 상세 조회
 export const getReservationDetailStatus = ({
   reservationId,
 }: ReservationDetailStatusRequestPath) => {
@@ -42,7 +40,6 @@ export const getReservationDetailStatus = ({
   });
 };
 
-// 예약 상세 대기 조회
 export const getReservationDetailStatusPendingStatus = ({
   reservationId,
 }: ReservationDetailPendingStatusRequestPath) => {
@@ -51,7 +48,6 @@ export const getReservationDetailStatusPendingStatus = ({
   });
 };
 
-// 예약 불가 설정
 export const createReservationSetNotAvailable = ({
   date,
 }: ReservationSetNotAvailableRequestBody) => {
@@ -63,7 +59,6 @@ export const createReservationSetNotAvailable = ({
   });
 };
 
-// 직접 예약
 export const createDirectReservation = ({ reservations }: DirectReservationRequestBody) => {
   http.post<DirectReservationApiResponse>({
     url: `${RESERVATION_BASE_URL}`,
@@ -71,7 +66,6 @@ export const createDirectReservation = ({ reservations }: DirectReservationReque
   });
 };
 
-// 고정 예약
 export const createFixReservation = ({
   memberId,
   name,
@@ -83,7 +77,6 @@ export const createFixReservation = ({
   });
 };
 
-// 예약 취소
 export const createCancelReservation = (
   requestPath: CancelReservationRequestPath,
   requestBody: CancelReservationRequestBody,
@@ -97,7 +90,6 @@ export const createCancelReservation = (
   });
 };
 
-// 예약 승인
 export const createApproveReservation = (
   requestPath: ApproveReservationRequestPath,
   reqeustBody: ApproveReservationRequestBody,
@@ -111,7 +103,6 @@ export const createApproveReservation = (
   });
 };
 
-// 진행한 PT 처리
 export const createCompletedPt = (
   requestPath: CompletedPtRequestPath,
   requestBody: CompletedPtRequestBody,
@@ -125,7 +116,6 @@ export const createCompletedPt = (
   });
 };
 
-// 예약 변경 승인
 export const createConfirmReservationChange = (
   requestPath: ConfirmReservationChangeRequestPath,
   requestBody: ConfirmReservationChangeRequestBody,
