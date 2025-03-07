@@ -30,6 +30,44 @@ export type AvailablePtTime = {
   startTime: string;
   endTime: string;
 };
+
+export type ReservationStatus = "예약 확정" | "예약 대기" | "예약 불가" | "수업 완료" | "휴뮤일";
+
+export type BaseMemberInfo = {
+  memberId: number;
+  name: string;
+};
+
+export type DetailedMemberInfo = BaseMemberInfo & {
+  birthdate: string;
+  phoneNumber: string;
+  profilePictureUrl: string;
+};
+
+export type BaseReservationListItem = {
+  reservationId: number;
+  sessionInfoId: number;
+  isDayOff: boolean;
+  dayOfWeek: DayOfWeek;
+  reservationDate: string;
+  status: ReservationStatus;
+  memberInfo: BaseMemberInfo;
+};
+
+export type BaseReservationDetail<
+  TStatus extends ReservationStatus = ReservationStatus,
+  TMember = BaseMemberInfo,
+> = {
+  dayOfWeek: DayOfWeek;
+  reservationDate: string;
+  sessionId: number;
+  status: TStatus;
+  memberInfo: TMember;
+};
+
+export type ReservationPathParams = {
+  reservationId: number;
+};
 export type Gender = "MALE" | "FEMALE";
 export type BaseSignupInfo = {
   name: string;

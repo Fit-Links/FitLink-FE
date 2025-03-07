@@ -46,6 +46,7 @@
     "typescript": "5.5.4"
   },
   "dependencies": {
+    "@5unwan/core": "workspace:*",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^6.3.0",
