@@ -12,16 +12,14 @@ import {
   ReservationDetailStatusRequestPath,
   ReservationStatusApiResponse,
   ReservationStatusRequestQuery,
-} from "./types/reservations";
+} from "./types/reservations.dto";
 
 const RESERVATION_BASE_URL = "reservations";
 
-// 예약 현황 조회
 export const getReservationStatus = ({ date }: ReservationStatusRequestQuery) => {
   http.get<ReservationStatusApiResponse>({ url: `${RESERVATION_BASE_URL}`, params: { date } });
 };
 
-// 예약 상세 조회
 export const getReservationDetailStatus = ({
   reservationId,
 }: ReservationDetailStatusRequestPath) => {
@@ -30,7 +28,6 @@ export const getReservationDetailStatus = ({
   });
 };
 
-// 직접 예약
 export const directReservation = ({ reservations }: DirectReservationRequestBody) => {
   http.post<DirectReservationApiResponse>({
     url: `${RESERVATION_BASE_URL}`,
@@ -38,7 +35,6 @@ export const directReservation = ({ reservations }: DirectReservationRequestBody
   });
 };
 
-// 예약 취소
 export const cancelReservation = (
   requestPath: CancelReservationRequestPath,
   requestBody: CancelReservationRequestBody,
@@ -54,7 +50,6 @@ export const cancelReservation = (
   });
 };
 
-// 예약 변경 요청
 export const reservationChange = (
   requestPath: ReservationChangeRequestPath,
   requestBody: ReservationChangeRequestBody,
