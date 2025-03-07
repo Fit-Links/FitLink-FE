@@ -7,6 +7,7 @@ const config: Config = {
     "./stories/**/*.{js,ts,jsx,tsx,mdx}",
     "node_modules/@5unwan/ui/**/*.tsx",
     "node_modules/trainer/**/*.tsx",
+    "node_modules/user/**/*.tsx",
   ],
   presets: [sharedConfig],
 };

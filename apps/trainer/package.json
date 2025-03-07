@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@5unwan/ui": "workspace:*",
+    "@5unwan/core": "workspace:*",
     "@tanstack/react-query": "^5.62.7",
     "axios": "^1.7.9",
     "date-fns": "^4.1.0",
