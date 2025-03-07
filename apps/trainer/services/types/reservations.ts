@@ -29,7 +29,7 @@ export type ReservationStatusParams = {
   date?: string;
 };
 // 응답 데이터
-export type ReservationStatusResponse = {
+type ReservationStatusResponse = {
   reservations: Omit<BaseReservationListItem, "memberInfo" | "sessionInfoId">[] & {
     sessionInfoId: number | null;
     memberInfo: Partial<BaseMemberInfo>;
@@ -41,7 +41,7 @@ export type ReservationStatusApiResponse = ResponseBase<ReservationStatusRespons
 // 요청 파라미터(path param)
 export type ReservationDetailStatusPathParam = ReservationPathParams;
 // 응답 데이터
-export type ReservationDetailStatusResponse = BaseReservationDetail<
+type ReservationDetailStatusResponse = BaseReservationDetail<
   Extract<ReservationStatus, "예약 확정" | "수업 완료">,
   DetailedMemberInfo
 > & {
@@ -53,7 +53,7 @@ export type ReservationDetailStatusApiResponse = ResponseBase<ReservationDetailS
 // 요청: 경로 변수(path param)
 export type ReservationDetailPendingStatusPathParams = ReservationPathParams;
 // 응답 데이터
-export type ReservationDetailPendingStatusResponse = {
+type ReservationDetailPendingStatusResponse = {
   waitingMembers: DetailedMemberInfo &
     Pick<BaseReservationListItem, "reservationId" | "dayOfWeek"> &
     {
@@ -69,7 +69,7 @@ export type ReservationSetNotAvailableRequest = {
   date: string;
 };
 // 응답 데이터
-export type ReservationSetNotAvailableResponse = {
+type ReservationSetNotAvailableResponse = {
   reservationId: number;
 };
 export type ReservationSetNotAvailableApiResponse =
@@ -87,7 +87,7 @@ export type DirectReservationRequest = {
   }[];
 };
 // 응답 데이터: 예약이 직접 확정된 경우 (예약 확정 상태만 포함)
-export type DirectReservationResponse = {
+type DirectReservationResponse = {
   reservation: {
     reservationId: number;
     status: Extract<ReservationStatus, "예약 확정">;
@@ -104,7 +104,7 @@ export type FixReservationRequest = {
   reservations: { date: string }[];
 };
 // 응답 데이터
-export type FixReservationResponse = {
+type FixReservationResponse = {
   reservations: {
     reservationId: number;
   }[];
@@ -117,7 +117,7 @@ export type CancelReservationRequest = ReservationPathParams & {
   cancel_reason: string;
 };
 // 응답 데이터
-export type CancelReservationResponse = {
+type CancelReservationResponse = {
   reservationId: number;
 };
 export type CancelReservationApiResponse = ResponseBase<CancelReservationResponse>;
@@ -129,7 +129,7 @@ export type ApproveReservationRequest = ReservationPathParams & {
   memberId: number;
 };
 // 응답 데이터
-export type ApproveReservationResponse = {
+type ApproveReservationResponse = {
   reservationId: number;
 };
 export type ApproveReservationApiResponse = ResponseBase<ApproveReservationResponse>;
@@ -141,7 +141,7 @@ export type CompletedPtRequest = {
   isJoin: boolean;
 };
 // 응답 데이터
-export type CompletedPtResponse = {
+type CompletedPtResponse = {
   sessionId: number;
 };
 export type CompletedPtApiResponse = ResponseBase<CompletedPtResponse>;
@@ -153,7 +153,7 @@ export type ConfirmReservationChangeRequest = ReservationPathParams & {
   memberId: number;
 };
 // 응답 데이터
-export type ConfirmReservationChangeResponse = {
+type ConfirmReservationChangeResponse = {
   reservationId: number;
 };
 export type ConfirmReservationChangeApiResponse = ResponseBase<ConfirmReservationChangeResponse>;
