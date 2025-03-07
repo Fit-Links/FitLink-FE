@@ -74,6 +74,5 @@ export type BaseSignupInfo = {
   birthDate: string;
   phoneNumber: string;
   gender: Gender;
-  // TODO [2025.03.06]: BE 이미지 관리 정책 확정 후 업데이트
-  // profileUrl: string;
+  profileUrl: string;
 };
