@@ -26,7 +26,7 @@ import {
   CompletedPtRequestPath,
   ConfirmReservationChangeRequestBody,
   ConfirmReservationChangeRequestPath,
-} from "./types/reservations";
+} from "./types/reservations.dto";
 
 // 예약 현황 조회
 export const getReservationStatus = ({ date }: ReservationStatusRequestQuery) => {

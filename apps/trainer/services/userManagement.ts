@@ -14,7 +14,7 @@ import {
   TargetUserEditPtHistoryApiResponse,
   UnlinkMemberApiResponse,
   UnlinkMemberRequestPath,
-} from "./types/userManagement";
+} from "./types/userManagement.dto";
 
 // PT 회원 리스트 확인
 export const getPtUserList = ({ q, page, size }: PtUserListRequestQuery) => {

@@ -16,7 +16,7 @@ import {
   EditMyInformationRequestBody,
   MyInformationApiResponse,
   TrainerCodeApiResponse,
-} from "./types/myInformation";
+} from "./types/myInformation.dto";
 
 // 내 정보 조회
 export const getMyInformation = () => {
