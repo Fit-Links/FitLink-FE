@@ -68,7 +68,37 @@ export type BaseReservationDetail<
 export type ReservationPathParams = {
   reservationId: number;
 };
+
+export type NotificationInfo = {
+  notificationId: number;
+  refId: number;
+  refType: "예약" | "세션" | "트레이너 연동";
+  notificationType: NotificationType;
+  memberInfo: DetailedMemberInfo;
+  createdAt: string;
+  content: string;
+  isProcessed: boolean;
+};
+
+export type NotificationType =
+  | "RESERVATION_REQUESTED"
+  | "RESERVATION_CANCEL_REQUEST"
+  | "RESERVATION_CHANGE_REQUEST"
+  | "SESSION_COMPLETED"
+  | "CONNECT"
+  | "DISCONNECT"
+  | "RESERVATION_CHANGE_REQUEST_REFUSED"
+  | "RESERVATION_APPROVE"
+  | "RESERVATION_CANCEL"
+  | "SESSION_DEDUCTED"
+  | "SESSION_REMINDER"
+  | "SESSION_CANCEL_REQUEST_APPROVED"
+  | "SESSION_CANCEL_REQUEST_REFUSED"
+  | "SESSION_REMAIN_5"
+  | "SESSION_EDITED";
+
 export type Gender = "MALE" | "FEMALE";
+
 export type BaseSignupInfo = {
   name: string;
   birthDate: string;
