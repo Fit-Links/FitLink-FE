@@ -12,8 +12,11 @@ export type AvailablePtTime = {
   startTime: string;
   endTime: string;
 };
-export type SignupRequest = BaseSignupInfo & {
+
+export type SignupRequestBody = BaseSignupInfo & {
   workoutSchedule: PreferredWorkout[];
 };
-export type SignupResponse = ResponseBase<{ accessToken: string; refreshToken: string }>;
-export type LogoutResponse = NoResponseData;
+
+export type SignupApiResponse = ResponseBase<{ accessToken: string; refreshToken: string }>;
+
+export type LogoutApiResponse = NoResponseData;
