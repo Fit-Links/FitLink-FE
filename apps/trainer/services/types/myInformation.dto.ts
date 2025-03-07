@@ -41,7 +41,7 @@ type AvailablePtTimeResponse = {
 export type AvailablePtTimeApiResponse = ResponseBase<AvailablePtTimeResponse>;
 
 /** PT 수업 가능 시간 삭제 요청 (경로 변수) */
-export type DeleteAvailablePtTimeRequestPath = { availableTimesId: number };
+export type DeleteAvailablePtTimeRequestPath = { availableTimeId: number };
 // 응답 데이터
 export type DeleteAvailableTimeApiResponse = NoResponseData;
 

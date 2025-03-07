@@ -45,9 +45,9 @@ export const getAvailablePtTime = () => {
 };
 
 // PT 수업 가능 시간 삭제
-export const deleteAvailablePtTime = ({ availableTimesId }: DeleteAvailablePtTimeRequestPath) => {
+export const deleteAvailablePtTime = ({ availableTimeId }: DeleteAvailablePtTimeRequestPath) => {
   http.delete<DeleteAvailableTimeApiResponse>({
-    url: `${USER_MANAGEMENT_BASE_URL}/available-times/${availableTimesId}`,
+    url: `${USER_MANAGEMENT_BASE_URL}/available-times/${availableTimeId}`,
   });
 };
 
