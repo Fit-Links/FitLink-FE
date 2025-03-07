@@ -1,7 +1,6 @@
-import http from "@trainer/utils/ApiClient";
-
 const RESERVATION_BASE_URL = "reservations";
 
+import http from "./core";
 import {
   ReservationDetailStatusPathParam,
   ReservationDetailStatusApiResponse,
