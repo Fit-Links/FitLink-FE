@@ -16,6 +16,6 @@ export const getNotification = () =>
 
 export const readNotification = (data: ReadNotificationRequestBody) =>
   http.patch<ReadNotificationApiResponse>({
-    url: `v1/notifications`,
+    url: `/v1/notifications`,
     data,
   });
