@@ -1,34 +1,15 @@
-import { ResponseBase } from "@5unwan/core/api/types/common";
+import { NotificationInfo, NotificationType, ResponseBase } from "@5unwan/core/api/types/common";
 
-export type NotificationInfo = {
-  notificationId: number;
-  notificationType: string;
-  refId: number;
-  // TODO [2025.03.06]: 알림 status값 종류 전달 받은 후 업데이트
-  status: "PROCESSING" | "COMPLETED";
-  createdAt: string;
-  message: string;
-  isRead: boolean;
-};
-export type NotificationType =
-  | "all"
-  | "connections"
-  | "sessions"
-  | "reservations"
-  | "connections-approval"
-  | "connections-unlink"
-  | "reservations-request"
-  | "reservations-cancel";
-export type GetNotificationParams = {
+export type GetNotificationRequestQuery = {
   type: NotificationType;
   name?: string;
 };
-export type GetNotificationResponse = ResponseBase<{
+export type GetNotificationApiResponse = ResponseBase<{
   notificationList: NotificationInfo[];
 }>;
-export type ReadNotificationRequest = {
+export type ReadNotificationRequestBody = {
   id: number;
 };
-export type ReadNotificationResponse = ResponseBase<{
+export type ReadNotificationApiResponse = ResponseBase<{
   notificationId: number;
 }>;
