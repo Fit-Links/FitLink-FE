@@ -26,7 +26,7 @@ import {
   CompletedPtRequestPath,
   ConfirmReservationChangeRequestBody,
   ConfirmReservationChangeRequestPath,
-} from "./types/reservations";
+} from "./types/reservations.dto";
 
 export const getReservationStatus = ({ date }: ReservationStatusRequestQuery) => {
   http.get<ReservationStatusApiResponse>({ url: `${RESERVATION_BASE_URL}`, params: { date } });
