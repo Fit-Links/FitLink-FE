@@ -32,7 +32,7 @@ export const disconnectTrainer = () => {
 };
 
 /** 내 정보 조회 */
-export const myInformation = () => {
+export const getMyInformation = () => {
   http.get<MyInformationApiResponse>({ url: `${USER_BASE_URL}/me` });
 };
 
@@ -45,7 +45,7 @@ export const editMyInformation = ({ name, phoneNumber }: EditMyInformationReques
 };
 
 /** 내 정보 상세 조회 */
-export const myInformationDetail = () => {
+export const getMyInformationDetail = () => {
   http.get<MyInformationDetailApiResponse>({ url: `${USER_BASE_URL}/me/detail` });
 };
 
@@ -58,7 +58,7 @@ export const editPreferredTime = (requestBody: EditPreferredTimeRequestBody) => 
 };
 
 /** 내 PT 내역 조회 */
-export const myPtHistory = (
+export const getMyPtHistory = (
   requestQuery: MyPtHistoryRequestQuery,
   requestPath: MyPtHistoryRequestPath,
 ) => {
