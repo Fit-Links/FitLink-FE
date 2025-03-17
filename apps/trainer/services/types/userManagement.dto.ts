@@ -1,6 +1,7 @@
 import {
   NoResponseData,
   PreferredWorkout,
+  PtInfo,
   PtStatus,
   ResponseBase,
   SessionInfo,
@@ -27,7 +28,7 @@ type PtUserListResponse = {
 };
 export type PtUserListApiResponse = ResponseBase<PtUserListResponse>;
 
-export type PtUserDetailRequestPath = { memberId: string };
+export type PtUserDetailRequestPath = { memberId: number };
 type PtUserDetailResponse = Omit<PtUser, "totalCount" | "remainingCount"> & {
   profilePictureUrl: string;
   sessionInfo: SessionInfo;
@@ -45,6 +46,15 @@ type SessionCountEditResponse = {
   remainingCount: number;
 };
 export type SessionCountEditApiResponse = ResponseBase<SessionCountEditResponse>;
+
+export type TargetMemberPtHistoryRequestQuery = { status: PtStatus; page: number; size: number };
+export type TargetMemberPtHistoryRequestPath = { memberId: number };
+type TargetMemberPtHistoryResponse = {
+  content: PtInfo[];
+  totalPages: string;
+  totalElements: string;
+};
+export type TargetMemberPtHistoryApiResponse = ResponseBase<TargetMemberPtHistoryResponse>;
 
 export type TargetMemberEditPtHistoryRequestPath = { memberId: string; sessionId: string };
 export type TargetMemberEditPtHistoryRequestBody = { status: PtStatus };
