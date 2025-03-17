@@ -17,3 +17,5 @@ const reservationQueries = {
       queryFn: () => getReservationDetailStatus({ reservationId }),
     }),
 };
+
+export default reservationQueries;

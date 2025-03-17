@@ -11,3 +11,5 @@ const notificationQueries = {
       queryFn: getNotification,
     }),
 };
+
+export default notificationQueries;
