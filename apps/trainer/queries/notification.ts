@@ -5,12 +5,13 @@ import { getNotification } from "@trainer/services/notification";
 
 export const notificationBaseKeys = {
   all: ["notification"] as const,
+  lists: () => [...notificationBaseKeys.all, "lists"] as const,
 };
 
 export const notificationQueries = {
-  notifications: (type: NotificationType, name?: string) =>
+  list: (type: NotificationType, name?: string) =>
     queryOptions({
-      queryKey: [...notificationBaseKeys.all, type, name] as const,
+      queryKey: [...notificationBaseKeys.lists(), type, name] as const,
       queryFn: () => getNotification({ type, name }),
     }),
 };

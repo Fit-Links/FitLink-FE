@@ -8,17 +8,16 @@ import {
 
 export const reservationBaseKeys = {
   all: ["reservation"] as const,
-  statuses: () => [...reservationBaseKeys.all, "statuses"] as const,
-  details: () => [...reservationBaseKeys.all, "details"] as const,
-  pendingDetails: () => [...reservationBaseKeys.all, "pendingDetails"] as const,
+  lists: () => [reservationBaseKeys.all, "lists"] as const,
+  details: () => [reservationBaseKeys.all, "details"] as const,
 };
 
 export const reservationQueries = {
-  status: (date: Date | string) => {
+  list: (date: Date | string) => {
     const parsedStringDate = String(date);
 
     return queryOptions({
-      queryKey: [...reservationBaseKeys.statuses(), parsedStringDate] as const,
+      queryKey: [...reservationBaseKeys.lists(), parsedStringDate] as const,
       queryFn: () => getReservationStatus({ date: parsedStringDate }),
     });
   },
@@ -29,7 +28,7 @@ export const reservationQueries = {
     }),
   pendingDetail: (reservationId: number) =>
     queryOptions({
-      queryKey: [...reservationBaseKeys.pendingDetails(), reservationId] as const,
+      queryKey: [...reservationBaseKeys.details(), reservationId] as const,
       queryFn: () => getReservationDetailPendingStatus({ reservationId: reservationId }),
     }),
 };

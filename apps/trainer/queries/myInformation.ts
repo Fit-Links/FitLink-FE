@@ -13,7 +13,7 @@ export const myInformationBaseKeys = {
 export const myInformationQueries = {
   myInformation: () =>
     queryOptions({
-      queryKey: myInformationBaseKeys.all,
+      queryKey: [myInformationBaseKeys.all, "profile"] as const,
       queryFn: getMyInformation,
     }),
   trainerCode: () =>
