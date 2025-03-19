@@ -36,7 +36,7 @@ export const getReservationDetailStatus = ({ reservationId }: ReservationDetailS
     url: `${RESERVATION_BASE_URL}/${reservationId}`,
   });
 
-export const getReservationDetailStatusPendingStatus = ({
+export const getReservationDetailPendingStatus = ({
   reservationId,
 }: ReservationDetailPendingStatusRequestPath) =>
   http.get<ReservationDetailPendingStatusApiResponse>({
