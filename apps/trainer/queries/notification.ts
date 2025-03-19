@@ -10,7 +10,7 @@ export const notificationBaseKeys = {
 export const notificationQueries = {
   notifications: (type: NotificationType, name?: string) =>
     queryOptions({
-      queryKey: [...notificationBaseKeys.all, type, name],
+      queryKey: [...notificationBaseKeys.all, type, name] as const,
       queryFn: () => getNotification({ type, name }),
     }),
 };

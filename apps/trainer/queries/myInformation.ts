@@ -18,12 +18,12 @@ export const myInformationQueries = {
     }),
   trainerCode: () =>
     queryOptions({
-      queryKey: [...myInformationBaseKeys.all, "trainerCode"],
+      queryKey: [...myInformationBaseKeys.all, "trainerCode"] as const,
       queryFn: getTrainerCode,
     }),
   ptAvailableTime: () =>
     queryOptions({
-      queryKey: [...myInformationBaseKeys.all, "ptAvailableTime"],
+      queryKey: [...myInformationBaseKeys.all, "ptAvailableTime"] as const,
       queryFn: getAvailablePtTime,
     }),
 };
