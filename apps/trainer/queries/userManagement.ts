@@ -14,13 +14,15 @@ const TO_NEXT_PAGE = 1;
 
 export const userManagementBaseKeys = {
   all: ["userManagement"] as const,
-  members: () => [...userManagementBaseKeys.all, "members"] as const,
+  targetMemberPtHistories: () => [...userManagementBaseKeys.all, "targetMemberPtHistory"] as const,
+  memberLists: () => [...userManagementBaseKeys.all, "memberLists"] as const,
+  memberDetails: () => [...userManagementBaseKeys.all, "memberDetails"] as const,
 };
 
 export const userManagementQueries = {
   targetMemberPtHistory: (memberId: number, status: PtStatus) =>
     infiniteQueryOptions({
-      queryKey: [...userManagementBaseKeys.all, "targetMemberPtHistory", memberId, status],
+      queryKey: [...userManagementBaseKeys.targetMemberPtHistories(), memberId, status] as const,
       queryFn: ({ pageParam }) =>
         getTargetMemberPtHistory(
           { status, page: pageParam, size: PT_HISTORY_PAGE_SIZE },
@@ -38,10 +40,10 @@ export const userManagementQueries = {
       refetchOnWindowFocus: false,
       refetchOnMount: false,
     }),
-  memberList: (q: string, size: number) =>
+  memberList: (q: string) =>
     infiniteQueryOptions({
-      queryKey: [...userManagementBaseKeys.members(), q, size],
-      queryFn: ({ pageParam }) => getPtUserList({ q, page: pageParam, size }),
+      queryKey: [...userManagementBaseKeys.memberLists(), q] as const,
+      queryFn: ({ pageParam }) => getPtUserList({ q, page: pageParam, size: PT_HISTORY_PAGE_SIZE }),
       getNextPageParam: (lastPage, _allPages, lastPageParam) => {
         if (lastPage.data.content.length === EMPTY_PAGE) {
           return undefined;
@@ -56,7 +58,7 @@ export const userManagementQueries = {
     }),
   memberDetail: (memberId: number) =>
     queryOptions({
-      queryKey: [...userManagementBaseKeys.members(), memberId],
+      queryKey: [...userManagementBaseKeys.memberDetails(), memberId] as const,
       queryFn: () => getPtUserDetail({ memberId }),
     }),
 };

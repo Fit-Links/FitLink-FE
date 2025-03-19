@@ -2,13 +2,15 @@ import { queryOptions } from "@tanstack/react-query";
 
 import {
   getReservationDetailStatus,
-  getReservationDetailStatusPendingStatus,
+  getReservationDetailPendingStatus,
   getReservationStatus,
 } from "@trainer/services/reservations";
 
 export const reservationBaseKeys = {
   all: ["reservation"] as const,
-  status: () => [...reservationBaseKeys.all, "status"] as const,
+  statuses: () => [...reservationBaseKeys.all, "statuses"] as const,
+  details: () => [...reservationBaseKeys.all, "details"] as const,
+  pendingDetails: () => [...reservationBaseKeys.all, "pendingDetails"] as const,
 };
 
 export const reservationQueries = {
@@ -16,18 +18,18 @@ export const reservationQueries = {
     const parsedStringDate = String(date);
 
     return queryOptions({
-      queryKey: [...reservationBaseKeys.status(), parsedStringDate],
+      queryKey: [...reservationBaseKeys.statuses(), parsedStringDate] as const,
       queryFn: () => getReservationStatus({ date: parsedStringDate }),
     });
   },
   detail: (reservationId: number) =>
     queryOptions({
-      queryKey: [...reservationBaseKeys.status(), "detail", reservationId],
+      queryKey: [...reservationBaseKeys.details(), reservationId] as const,
       queryFn: () => getReservationDetailStatus({ reservationId }),
     }),
-  pendingDetail: (reservatio: number) =>
+  pendingDetail: (reservationId: number) =>
     queryOptions({
-      queryKey: [...reservationBaseKeys.status(), "pending", reservatio],
-      queryFn: () => getReservationDetailStatusPendingStatus({ reservationId: reservatio }),
+      queryKey: [...reservationBaseKeys.pendingDetails(), reservationId] as const,
+      queryFn: () => getReservationDetailPendingStatus({ reservationId: reservationId }),
     }),
 };
