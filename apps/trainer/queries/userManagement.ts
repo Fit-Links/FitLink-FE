@@ -1,7 +1,11 @@
 import { PtStatus } from "@5unwan/core/api/types/common";
 import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query";
 
-import { getPtUserDetail, getTargetMemberPtHistory } from "@trainer/services/userManagement";
+import {
+  getPtUserDetail,
+  getPtUserList,
+  getTargetMemberPtHistory,
+} from "@trainer/services/userManagement";
 
 const PT_HISTORY_PAGE_SIZE = 3;
 const START_PAGE = 0;
@@ -12,7 +16,7 @@ export const userManagementBaseKeys = {
   all: ["userManagement"] as const,
   lists: () => [...userManagementBaseKeys.all, "lists"] as const,
   infos: () => [...userManagementBaseKeys.all, "infos"] as const,
-  info: (memberId: number) => [...userManagementBaseKeys.memberInfos(), memberId] as const,
+  info: (memberId: number) => [...userManagementBaseKeys.infos(), memberId] as const,
 };
 
 export const userManagementQueries = {
