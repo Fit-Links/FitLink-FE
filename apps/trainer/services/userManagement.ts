@@ -11,12 +11,27 @@ import {
   SessionCountEditRequestPath,
   TargetMemberEditPtHistoryRequestBody,
   TargetMemberEditPtHistoryRequestPath,
+  TargetMemberPtHistoryApiResponse,
+  TargetMemberPtHistoryRequestPath,
+  TargetMemberPtHistoryRequestQuery,
   TargetUserEditPtHistoryApiResponse,
   UnlinkMemberApiResponse,
   UnlinkMemberRequestPath,
 } from "./types/userManagement.dto";
 
-export const getPtUserList = ({ q, page, size }: PtUserListRequestQuery) => {
+export const getTargetMemberPtHistory = (
+  requestQuery: TargetMemberPtHistoryRequestQuery,
+  requestPath: TargetMemberPtHistoryRequestPath,
+) => {
+  const { memberId } = requestPath;
+
+  return http.get<TargetMemberPtHistoryApiResponse>({
+    url: `${TRAINER_BASE_URL}/members/${memberId}/sessions`,
+    params: requestQuery,
+  });
+};
+
+export const getPtUserList = ({ q, page, size }: PtUserListRequestQuery) =>
   http.get<PtUserListApiResponse>({
     url: `${TRAINER_BASE_URL}/members`,
     params: {
@@ -25,17 +40,14 @@ export const getPtUserList = ({ q, page, size }: PtUserListRequestQuery) => {
       size,
     },
   });
-};
 
-export const getPtUserDetail = ({ memberId }: PtUserDetailRequestPath) => {
+export const getPtUserDetail = ({ memberId }: PtUserDetailRequestPath) =>
   http.get<PtUserDetailApiResponse>({ url: `${TRAINER_BASE_URL}/members/${memberId}` });
-};
 
-export const unLinkMember = ({ memberId }: UnlinkMemberRequestPath) => {
+export const unLinkMember = ({ memberId }: UnlinkMemberRequestPath) =>
   http.post<UnlinkMemberApiResponse>({
     url: `${TRAINER_BASE_URL}/members/${memberId}/disconnect`,
   });
-};
 
 export const sessionCountEdit = (
   requestPath: SessionCountEditRequestPath,
@@ -43,7 +55,8 @@ export const sessionCountEdit = (
 ) => {
   const { memberId, sessionInfoId } = requestPath;
   const { totalCount, remainingCount } = requestBody;
-  http.patch<SessionCountEditApiResponse>({
+
+  return http.patch<SessionCountEditApiResponse>({
     url: `${TRAINER_BASE_URL}/${memberId}/session-info/${sessionInfoId}`,
     data: {
       totalCount,
@@ -58,7 +71,8 @@ export const targetMemberEditPtHistory = (
 ) => {
   const { memberId, sessionId } = requestPath;
   const { status } = requestBody;
-  http.patch<TargetUserEditPtHistoryApiResponse>({
+
+  return http.patch<TargetUserEditPtHistoryApiResponse>({
     url: `${TRAINER_BASE_URL}/members/${memberId}/using-sessions/${sessionId}`,
     data: {
       status,

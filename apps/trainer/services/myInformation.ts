@@ -18,11 +18,10 @@ import {
   TrainerCodeApiResponse,
 } from "./types/myInformation.dto";
 
-export const getMyInformation = () => {
+export const getMyInformation = () =>
   http.get<MyInformationApiResponse>({ url: `${TRAINER_BASE_URL}/me` });
-};
 
-export const editMyInformation = ({ name, phoneNumber }: EditMyInformationRequestBody) => {
+export const editMyInformation = ({ name, phoneNumber }: EditMyInformationRequestBody) =>
   http.patch<EditMyInformationApiResponse>({
     url: `${TRAINER_BASE_URL}/me`,
     data: {
@@ -30,30 +29,25 @@ export const editMyInformation = ({ name, phoneNumber }: EditMyInformationReques
       phoneNumber,
     },
   });
-};
 
-export const getTrainerCode = () => {
+export const getTrainerCode = () =>
   http.get<TrainerCodeApiResponse>({ url: `${TRAINER_BASE_URL}/trainer-code` });
-};
 
-export const getAvailablePtTime = () => {
+export const getAvailablePtTime = () =>
   http.get<AvailablePtTimeApiResponse>({ url: `${TRAINER_BASE_URL}/available-times` });
-};
 
-export const deleteAvailablePtTime = ({ availableTimeId }: DeleteAvailablePtTimeRequestPath) => {
+export const deleteAvailablePtTime = ({ availableTimeId }: DeleteAvailablePtTimeRequestPath) =>
   http.delete<DeleteAvailableTimeApiResponse>({
     url: `${TRAINER_BASE_URL}/available-times/${availableTimeId}`,
   });
-};
 
-export const addAvailablePtTime = ({ applyAt, availableTimes }: AddAvailablePtTimeRequestBody) => {
+export const addAvailablePtTime = ({ applyAt, availableTimes }: AddAvailablePtTimeRequestBody) =>
   http.post<AddAvailablePtTimeApiResponse>({
     url: `${TRAINER_BASE_URL}/available-times`,
     data: { applyAt, availableTimes },
   });
-};
 
-export const addTimeOff = ({ dayOfWeek, dayOfTime }: AddTimeOffRequestBody) => {
+export const addTimeOff = ({ dayOfWeek, dayOfTime }: AddTimeOffRequestBody) =>
   http.post<AddTimeOffApiResponse>({
     url: `${TRAINER_BASE_URL}/day-off`,
     data: {
@@ -61,7 +55,6 @@ export const addTimeOff = ({ dayOfWeek, dayOfTime }: AddTimeOffRequestBody) => {
       dayOfTime,
     },
   });
-};
 
 export const deleteTimeOff = (
   requestPath: DeleteTimeOffRequestPath,
@@ -70,7 +63,7 @@ export const deleteTimeOff = (
   const { dayOffId } = requestPath;
   const { dayOfWeek, dayOfTime } = requestBody;
 
-  http.delete<DeleteTimeOffApiResponse>({
+  return http.delete<DeleteTimeOffApiResponse>({
     url: `${TRAINER_BASE_URL}/day-off/${dayOffId}`,
     data: {
       dayOfWeek,
