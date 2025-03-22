@@ -60,13 +60,9 @@ function Popup({
           </DialogTitle>
         </DialogHeader>
 
-        {description && (
-          <DialogDescription>
-            {description
-              ?.split("\\n")
-              .map((line) => <p key={`popup_description_${line}`}>{line}</p>)}
-          </DialogDescription>
-        )}
+        <DialogDescription>
+          {description?.split("\\n").map((line) => <p key={`popup_description_${line}`}>{line}</p>)}
+        </DialogDescription>
 
         <DialogFooter>
           <DialogClose asChild>
