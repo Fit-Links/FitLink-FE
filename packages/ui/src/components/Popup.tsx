@@ -1,5 +1,9 @@
 import React from "react";
 
+import { cn } from "@ui/lib/utils";
+
+import useControllableState from "@ui/hooks/useControllableState";
+
 import { Button } from "./Button";
 import {
   Dialog,
@@ -18,6 +22,9 @@ type PopupButton = {
 };
 
 type PopupProps = {
+  prop?: boolean;
+  onChange?: () => void;
+  defaultProp?: boolean;
   title: string;
   description?: string;
   negative?: PopupButton;
@@ -25,10 +32,25 @@ type PopupProps = {
   children: React.ReactNode;
 };
 
-function Popup({ title, description, negative, positive, children }: PopupProps) {
+function Popup({
+  prop,
+  onChange,
+  defaultProp,
+  title,
+  description,
+  negative,
+  positive,
+  children,
+}: PopupProps) {
+  const [open = false, setOpen] = useControllableState({
+    prop: prop,
+    onChange: onChange,
+    defaultProp: defaultProp,
+  });
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+    <Dialog open={open} onOpenChange={setOpen}>
+      {children}
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
@@ -36,18 +58,20 @@ function Popup({ title, description, negative, positive, children }: PopupProps)
               <p key={`popup_title_${line}`}>{line}</p>
             ))}
           </DialogTitle>
-          {description && (
-            <DialogDescription>
-              {description
-                ?.split("\\n")
-                .map((line) => <p key={`popup_description_${line}`}>{line}</p>)}
-            </DialogDescription>
-          )}
         </DialogHeader>
+
+        {description && (
+          <DialogDescription>
+            {description
+              ?.split("\\n")
+              .map((line) => <p key={`popup_description_${line}`}>{line}</p>)}
+          </DialogDescription>
+        )}
+
         <DialogFooter>
           <DialogClose asChild>
             {negative && (
-              <Button variant="dark" onClick={negative.callback}>
+              <Button variant="secondary" onClick={negative.callback}>
                 {negative.label}
               </Button>
             )}
@@ -61,4 +85,17 @@ function Popup({ title, description, negative, positive, children }: PopupProps)
   );
 }
 
-export { Popup, type PopupProps };
+interface PopupTriggerProps {
+  asChild?: boolean;
+  className?: string;
+  children: React.ReactNode;
+}
+function PopupTrigger({ asChild = false, children, className }: PopupTriggerProps) {
+  return (
+    <DialogTrigger asChild={asChild} className={cn("w-full", className)}>
+      {children}
+    </DialogTrigger>
+  );
+}
+
+export { Popup, type PopupProps, PopupTrigger };
