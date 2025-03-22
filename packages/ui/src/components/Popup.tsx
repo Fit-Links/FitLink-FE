@@ -67,13 +67,17 @@ function Popup({
         <DialogFooter>
           <DialogClose asChild>
             {negative && (
-              <Button variant="secondary" onClick={negative.callback}>
+              <Button className="w-full" variant="secondary" onClick={negative.callback}>
                 {negative.label}
               </Button>
             )}
           </DialogClose>
           <DialogClose asChild>
-            {positive && <Button onClick={positive.callback}>{positive.label}</Button>}
+            {positive && (
+              <Button className="w-full" onClick={positive.callback}>
+                {positive.label}
+              </Button>
+            )}
           </DialogClose>
         </DialogFooter>
       </DialogContent>
