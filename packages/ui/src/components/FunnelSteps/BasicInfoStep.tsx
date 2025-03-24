@@ -99,12 +99,6 @@ function BasicInfoStep({ onNext }: BasicInfoStepProps) {
     event.preventDefault();
 
     const { name, birthDate, gender, profileUrl } = formDataRef.current;
-    console.log({
-      name,
-      birthDate,
-      gender,
-      profileUrl,
-    });
 
     const { success, errors } = validateForm({
       ...formDataRef.current,
@@ -112,11 +106,10 @@ function BasicInfoStep({ onNext }: BasicInfoStepProps) {
     });
     if (!success && errors) {
       setErrors(errors.fieldErrors);
-      console.log(errors);
 
       return;
     }
-    onNext(name!, birthDate!, gender!, profileUrl!);
+    onNext(name!, formatDateStringFromResidentId(birthDate)!, gender!, profileUrl!);
   };
 
   React.useEffect(() => {
