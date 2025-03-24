@@ -4,7 +4,7 @@ import { cn } from "@ui/lib/utils";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-import BottomNavigation from "./BottomNavigation";
+import BottomNavigation from "../BottomNavigation";
 
 // TODO[2025.03.18]: user 모든 경로 분류하기
 const PATHS = {
