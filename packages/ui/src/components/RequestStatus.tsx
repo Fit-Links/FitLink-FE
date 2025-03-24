@@ -3,7 +3,7 @@ import { useMemo } from "react";
 
 import Spinner from "./Spinner";
 
-type Status = "pending" | "success" | "error";
+export type Status = "pending" | "success" | "error";
 type StatusContent = {
   title: string;
   description?: string;
