@@ -1,7 +1,7 @@
 import { Viewport } from "next";
 
 import "./global.css";
-import FooterProvider from "@user/components/FooterProvider";
+import Providers from "@user/components/Providers";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className="bg-background-primary text-text-primary md:border-background-sub2 md:max-w-mobile relative box-content h-screen min-h-screen w-full md:mx-auto md:overflow-x-hidden md:border md:shadow-lg">
-        <FooterProvider>{children}</FooterProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
