@@ -9,7 +9,7 @@ type PhoneNumberStepProps = {
 function PhoneNumberStep({ onNext }: PhoneNumberStepProps) {
   return (
     <div className="flex h-full items-center justify-center">
-      <Button onClick={() => onNext("010-9999-9999")} className="w-full">
+      <Button onClick={() => onNext("01099999999")} className="w-full">
         다음
       </Button>
     </div>
