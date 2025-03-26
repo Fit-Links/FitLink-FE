@@ -7,7 +7,7 @@ import React from "react";
 
 import { SignupRequestBody } from "@user/services/types/auth.dto";
 
-import { useSignupForm } from "@user/hooks/useSignupForm";
+import { useSignupForm } from "../_hooks/useSignupForm";
 
 type ResultStepProps = {
   form: SignupRequestBody;

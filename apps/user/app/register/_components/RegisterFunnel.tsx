@@ -6,7 +6,7 @@ import PhoneNumberStep from "@ui/components/FunnelSteps/PhoneNumberStep";
 import WorkoutScheduleStep from "@ui/components/FunnelSteps/WorkoutScheduleStep";
 import { useFunnel } from "@use-funnel/browser";
 
-import ResultStep from "@user/components/ResultStep";
+import ResultStep from "./ResultStep";
 
 function RegisterFunnel() {
   const funnel = useFunnel<{

@@ -3,7 +3,7 @@ import React from "react";
 
 import TokenProvider from "@user/components/Providers/TokenProvider";
 
-const RegisterFunnel = dynamic(() => import("@user/components/RegisterFunnel/index"), {
+const RegisterFunnel = dynamic(() => import("./_components/RegisterFunnel"), {
   ssr: false,
 });
 
