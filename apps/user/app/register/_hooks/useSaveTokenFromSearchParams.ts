@@ -1,15 +1,10 @@
-"use client";
-
 import { setLocalStorage } from "@5unwan/core/utils/localStorage";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@user/constants/token";
 
-type TokenProviderProps = {
-  children: React.ReactNode;
-};
-function TokenProvider({ children }: TokenProviderProps) {
+export const useSaveTokenFromSearchParams = () => {
   const isInitializedRef = React.useRef(false);
   const params = useSearchParams();
   const pathname = usePathname();
@@ -28,8 +23,4 @@ function TokenProvider({ children }: TokenProviderProps) {
 
     router.replace(pathname);
   }, []);
-
-  return <>{children}</>;
-}
-
-export default TokenProvider;
+};
