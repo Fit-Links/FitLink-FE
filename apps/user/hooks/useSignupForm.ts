@@ -9,7 +9,7 @@ import { SignupApiResponse, SignupRequestBody } from "@user/services/types/auth.
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@user/constants/token";
 
 export const useSignupForm = () => {
-  const signupMutation = useMutation({
+  const { mutate, status } = useMutation({
     mutationFn: (signupInfo: SignupRequestBody) => signup(signupInfo),
     onSuccess: ({ data }) => {
       const { accessToken, refreshToken } = data;
@@ -22,8 +22,8 @@ export const useSignupForm = () => {
     signupForm: SignupRequestBody,
     options?: MutateOptions<SignupApiResponse, Error, SignupRequestBody, unknown>,
   ) => {
-    signupMutation.mutate(signupForm, options);
+    mutate(signupForm, options);
   };
 
-  return { onSubmit };
+  return { onSubmit, status };
 };

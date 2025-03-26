@@ -3,7 +3,7 @@ import { useMemo } from "react";
 
 import Spinner from "./Spinner";
 
-export type Status = "pending" | "success" | "error";
+export type Status = "pending" | "success" | "error" | "idle";
 type StatusContent = {
   title: string;
   description?: string;
@@ -25,6 +25,7 @@ function RequestStatus({ status, contentPerStatus }: RequestStatusProps) {
       success: success.title,
       error: error.title,
       pending: pending.title,
+      idle: pending.title,
     }),
     [error.title, pending.title, success.title],
   );
@@ -33,6 +34,7 @@ function RequestStatus({ status, contentPerStatus }: RequestStatusProps) {
       success: success.description,
       error: error.description,
       pending: pending.description,
+      idle: pending.description,
     }),
     [error.description, pending.description, success.description],
   );
@@ -47,6 +49,7 @@ function RequestStatus({ status, contentPerStatus }: RequestStatusProps) {
 }
 
 const RequestStatusIconMap = {
+  idle: Spinner,
   pending: Spinner,
   success: Check,
   error: CircleAlert,

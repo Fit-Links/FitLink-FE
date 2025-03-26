@@ -14,20 +14,15 @@ type ResultStepProps = {
 };
 function ResultStep({ form }: ResultStepProps) {
   const isInitializedRef = React.useRef(false);
-  const [status, setStatus] = React.useState<Status>("pending");
 
-  const { onSubmit } = useSignupForm();
+  const { onSubmit, status } = useSignupForm();
   const router = useRouter();
 
   const handleClick = (status: "success" | "error") => {
     if (status === "success") {
       router.replace("/");
     } else if (status === "error") {
-      setStatus("pending");
-      onSubmit(form, {
-        onSuccess: () => setStatus("success"),
-        onError: () => setStatus("error"),
-      });
+      onSubmit(form);
     }
   };
   React.useEffect(() => {
@@ -35,10 +30,7 @@ function ResultStep({ form }: ResultStepProps) {
 
     isInitializedRef.current = true;
 
-    onSubmit(form, {
-      onSuccess: () => setStatus("success"),
-      onError: () => setStatus("error"),
-    });
+    onSubmit(form);
   }, []);
 
   return (
@@ -71,7 +63,7 @@ type SignupButtonProps = {
   onClick: (status: "success" | "error") => void;
 };
 function SignupButton({ status, onClick }: SignupButtonProps) {
-  if (status === "pending") return <></>;
+  if (status === "pending" || status === "idle") return <></>;
 
   return (
     <Button size="xl" className="w-full" onClick={() => onClick(status)}>
