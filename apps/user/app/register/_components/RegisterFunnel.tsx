@@ -1,12 +1,24 @@
 "use client";
 
 import { Gender, PreferredWorkout } from "@5unwan/core/api/types/common";
-import BasicInfoStep from "@ui/components/FunnelSteps/BasicInfoStep";
-import PhoneNumberStep from "@ui/components/FunnelSteps/PhoneNumberStep";
-import WorkoutScheduleStep from "@ui/components/FunnelSteps/WorkoutScheduleStep";
 import { useFunnel } from "@use-funnel/browser";
+import dynamic from "next/dynamic";
 
-import ResultStep from "./ResultStep";
+const BasicInfoStep = dynamic(() => import("@ui/components/FunnelSteps/BasicInfoStep"), {
+  ssr: false,
+});
+const PhoneNumberStep = dynamic(() => import("@ui/components/FunnelSteps/PhoneNumberStep"), {
+  ssr: false,
+});
+const WorkoutScheduleStep = dynamic(
+  () => import("@ui/components/FunnelSteps/WorkoutScheduleStep"),
+  {
+    ssr: false,
+  },
+);
+const ResultStep = dynamic(() => import("./ResultStep"), {
+  ssr: false,
+});
 
 function RegisterFunnel() {
   const funnel = useFunnel<{
