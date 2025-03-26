@@ -36,9 +36,13 @@ function WorkoutForm({ onSubmit }: WorkoutFormProps) {
       preferenceTimes: [] as string[],
     })),
   ]);
+
   const filledDays = workoutForm
     ? workoutForm.map((dayForm) => dayForm.preferenceTimes.length > EMPTY_DAY_FORM)
     : Array.from({ length: 7 }, () => false);
+  const isFilled = workoutForm
+    ? workoutForm.some((dayForm) => dayForm.preferenceTimes.length > EMPTY_DAY_FORM)
+    : false;
 
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = () => {
     onSubmit(workoutForm);
@@ -64,7 +68,7 @@ function WorkoutForm({ onSubmit }: WorkoutFormProps) {
           timeCellInfo={generateTimeCells(currentDay)}
         />
       </div>
-      <Button onClick={handleClick} className="w-full" size="xl">
+      <Button onClick={handleClick} className="w-full" size="xl" disabled={!isFilled}>
         완료
       </Button>
     </div>
