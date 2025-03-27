@@ -11,13 +11,13 @@ type Props = Omit<HTMLAttributes<HTMLLIElement>, "onClick"> & NotificationProps;
 type NotificationProps = {
   isCompleted: boolean;
   memberName?: string;
-  avatarSrc: string;
+  avatarSrc?: string;
   message: string;
   eventDate?: Date | string;
   eventDetail?: Date | string;
   createdAt: Date | string;
   variant: Variant;
-  onClick: MouseEventHandler<HTMLLIElement>;
+  onClick?: MouseEventHandler<HTMLLIElement>;
 };
 
 const NotificationItem = forwardRef<HTMLLIElement, Props>((props, ref) => {
@@ -31,11 +31,13 @@ const NotificationItem = forwardRef<HTMLLIElement, Props>((props, ref) => {
     eventDetail,
     variant,
     onClick,
+    className,
     ...commonProps
   } = props;
 
   const handleClick: MouseEventHandler<HTMLLIElement> = (e) => {
-    if (isCompleted) return;
+    if (isCompleted || !onClick) return;
+
     onClick(e);
   };
 
@@ -52,6 +54,7 @@ const NotificationItem = forwardRef<HTMLLIElement, Props>((props, ref) => {
         {
           "cursor-default": isCompleted,
         },
+        className,
       )}
       onClick={handleClick}
       {...commonProps}

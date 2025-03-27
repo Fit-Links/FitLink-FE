@@ -3,7 +3,7 @@ import { Variant } from "./variants";
 import { Avatar, AvatarFallback, AvatarImage } from "../../components/Avatar";
 
 type Props = {
-  avatarSrc: string;
+  avatarSrc?: string;
   variant: Variant;
   isCompleted: boolean;
 };
