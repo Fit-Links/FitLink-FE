@@ -17,8 +17,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className="bg-background-primary text-text-primary md:border-background-sub2 md:max-w-mobile relative box-content min-h-screen w-full md:mx-auto md:overflow-x-hidden md:border md:shadow-lg">
-        <div className="px-4 pb-[5.063rem]">{children}</div>
+      <body className="bg-background-primary text-text-primary md:border-background-sub2 md:max-w-mobile relative box-content h-screen w-full md:mx-auto md:overflow-x-hidden md:border md:shadow-lg">
+        <div className="h-full px-4 pb-[5.063rem]">{children}</div>
         <BottomNavigation />
       </body>
     </html>
