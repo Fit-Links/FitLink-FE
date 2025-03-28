@@ -54,7 +54,7 @@ export type BaseReservationListItem = {
   sessionInfoId: number;
   isDayOff: boolean;
   dayOfWeek: DayOfWeek;
-  reservationDate: string;
+  reservationDate: string[];
   status: ReservationStatus;
   memberInfo: BaseMemberInfo;
 };
