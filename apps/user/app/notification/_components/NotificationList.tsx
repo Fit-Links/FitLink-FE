@@ -9,6 +9,7 @@ type NotificationListProps = {
 };
 
 function NotificationList({ notificationList }: NotificationListProps) {
+  // TODO[2025.03.30]: NotificationItem onClick 핸들러 구현 (알림 읽음 처리 API)
   return (
     <ul className="flex flex-col items-center gap-4">
       {notificationList?.map(({ content, sendDate, isProcessed }, index) => (
