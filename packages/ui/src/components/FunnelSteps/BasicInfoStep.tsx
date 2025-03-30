@@ -75,11 +75,11 @@ function BasicInfoStep({ onNext }: BasicInfoStepProps) {
 
   const [errors, setErrors] = React.useState<zodErrors["fieldErrors"]>({});
 
-  const updateSubmitDisability = React.useCallback(() => {
+  const updateSubmitDisability = () => {
     if (!submitRef.current) return;
 
     submitRef.current.disabled = !areRequiredFormFiledsFilled(formDataRef.current, REQUIRED_FIELDS);
-  }, []);
+  };
 
   const resetErrorField = <K extends keyof BasicInfoForm>(key: K) => {
     if (errors[key]) {
@@ -114,7 +114,7 @@ function BasicInfoStep({ onNext }: BasicInfoStepProps) {
 
   React.useEffect(() => {
     updateSubmitDisability();
-  }, [updateSubmitDisability]);
+  }, []);
 
   return (
     <div className="flex h-full flex-col">
