@@ -48,6 +48,13 @@ function WorkoutForm({ onSubmit }: WorkoutFormProps) {
     onSubmit(workoutForm);
   };
 
+  const handleSelectedChange = (value: string[]) => {
+    const newWorkoutForm = [...workoutForm];
+    newWorkoutForm[currentDay].preferenceTimes = value;
+
+    setWorkoutForm(newWorkoutForm);
+  };
+
   return (
     <div className="flex flex-1 flex-col justify-between">
       <div className="flex h-full flex-col gap-8">
@@ -59,12 +66,7 @@ function WorkoutForm({ onSubmit }: WorkoutFormProps) {
         />
         <TimeCellToggleGroup
           selected={workoutForm[currentDay].preferenceTimes}
-          onSelectedChange={(value) => {
-            const newWorkoutForm = [...workoutForm];
-            newWorkoutForm[currentDay].preferenceTimes = value;
-
-            setWorkoutForm(newWorkoutForm);
-          }}
+          onSelectedChange={handleSelectedChange}
           timeCellInfo={generateTimeCells(currentDay)}
         />
       </div>
