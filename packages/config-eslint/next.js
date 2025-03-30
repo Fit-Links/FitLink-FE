@@ -8,7 +8,7 @@ const project = resolve(process.cwd(), "tsconfig.json");
  */
 
 module.exports = {
-  extends: ["@5unwan/eslint-config/base", "plugin:@next/next/recommended"],
+  extends: ["@5unwan/eslint-config/base", "plugin:@next/next/recommended", "prettier"],
   parserOptions: {
     project,
   },
