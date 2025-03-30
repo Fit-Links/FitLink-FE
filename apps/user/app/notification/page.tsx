@@ -1,12 +1,13 @@
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 
-import NotificationContent from "./_components/NotificationContent";
+import Fallback from "./_components/Fallback";
+import NotificationContainer from "./_components/NotificationContainer";
 
 function NotificationPage() {
   return (
     <main className="h-full w-full">
-      <Suspense fallback={<span>loading...</span>}>
-        <NotificationContent />
+      <Suspense fallback={<Fallback />}>
+        <NotificationContainer />
       </Suspense>
     </main>
   );
