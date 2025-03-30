@@ -35,7 +35,7 @@ function ResultStep({ form }: ResultStepProps) {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex flex-1 items-center justify-center border border-white">
+      <div className="flex flex-1 items-center justify-center">
         <RequestStatus
           status={status}
           contentPerStatus={{
