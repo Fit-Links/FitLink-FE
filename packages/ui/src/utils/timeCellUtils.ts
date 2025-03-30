@@ -1,7 +1,24 @@
 const MIDNIGHT = 0;
 const NOON = 12;
 
-type DaysOfWeek = "MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN";
+type DaysOfWeek =
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+
+export const DAYS_OF_WEEK_MAP = [
+  "MONDAY",
+  "TUESDAY",
+  "WEDNESDAY",
+  "THURSDAY",
+  "FRIDAY",
+  "SATURDAY",
+  "SUNDAY",
+] satisfies DaysOfWeek[];
 
 export type TimeCell = {
   dayOfWeek: DaysOfWeek;

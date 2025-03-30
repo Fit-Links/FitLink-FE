@@ -6,6 +6,9 @@ import tailwindcssAnimate from "tailwindcss-animate";
 const config: Omit<Config, "content"> = {
   theme: {
     extend: {
+      screens: {
+        xs: '380px',
+      },
       colors: {
         brand: {
           primary: {
