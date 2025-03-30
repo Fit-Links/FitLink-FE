@@ -19,7 +19,7 @@ const notificationList = [
     },
     content: "회원님이 PT 예약을 요청하였습니다.",
     sendDate: "2025-02-12T18:00",
-    isProcessed: false,
+    isProcessed: true,
   },
   {
     notificationId: 1, //알림 ID
