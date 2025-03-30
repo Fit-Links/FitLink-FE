@@ -14,6 +14,9 @@
     "lint": {
       "dependsOn": ["^lint"]
     },
+    "deploy": {
+      "dependsOn": ["build", "lint"]
+    },
     "type-check": {},
     "dev": {
       "cache": false,
