@@ -1,4 +1,5 @@
 import { NotificationInfo } from "@5unwan/core/api/types/common";
+import { Text } from "@ui/components/Text";
 import React from "react";
 
 import NotificationList from "./NotificationList";
@@ -54,7 +55,7 @@ const notificationList = [
   },
 ];
 
-function NotificationContent() {
+function NotificationContainer() {
   // const { data } = useSuspenseQuery(notificationQueries.list());
 
   // const {
@@ -64,12 +65,12 @@ function NotificationContent() {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <span>{`${notificationList.length}개의 알림`}</span>
-        <div>최신순</div>
+        <Text.Body3>{`${notificationList.length}개의 알림`}</Text.Body3>
+        <Text.Body3>최신순</Text.Body3>
       </div>
       <NotificationList notificationList={notificationList} />
     </div>
   );
 }
 
-export default NotificationContent;
+export default NotificationContainer;
