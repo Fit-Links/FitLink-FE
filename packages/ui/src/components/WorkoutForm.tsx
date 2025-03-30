@@ -8,12 +8,12 @@ import DayOfWeekPicker from "./DayOfWeekPicker";
 import { Days } from "./DayOfWeekPicker/Days";
 import TimeCellToggleGroup from "./TimeCellToggleGroup";
 
-const START_HOUR = 6;
+const START_HOUR = 0;
 const PADDED_LENGTH = 2;
 const EMPTY_DAY_FORM = 0;
 
 const HOURS = Array.from(
-  { length: 18 },
+  { length: 24 },
   (_, i) => `${(i + START_HOUR).toString().padStart(PADDED_LENGTH, "0")}:00`,
 );
 
