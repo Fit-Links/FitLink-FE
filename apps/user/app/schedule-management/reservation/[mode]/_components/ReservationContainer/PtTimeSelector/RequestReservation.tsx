@@ -6,7 +6,7 @@ import RequestSuccessSheet, {
 } from "@user/app/schedule-management/_components/BottomSheet/RequestSuccessSheet";
 import { ROUTES } from "@user/app/schedule-management/_constants/route";
 
-import { RequestReservationMode } from "../../../page";
+import { RequestReservationMode } from "@user/app/schedule-management/reservation/[mode]/types/requestReservation";
 
 type RequestReservationProps = {
   mode: RequestReservationMode;

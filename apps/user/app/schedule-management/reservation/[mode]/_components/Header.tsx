@@ -4,7 +4,7 @@ import HeaderInfo from "@ui/components/Header";
 import { Text } from "@ui/components/Text";
 import { useRouter } from "next/navigation";
 
-import { RequestReservationMode } from "../page";
+import { RequestReservationMode } from "../types/requestReservation";
 
 type HeaderProps = {
   mode: RequestReservationMode;

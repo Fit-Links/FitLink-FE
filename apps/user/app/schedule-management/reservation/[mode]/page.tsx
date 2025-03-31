@@ -2,8 +2,8 @@ import { notFound } from "next/navigation";
 
 import Header from "./_components/Header";
 import ReservationContainer from "./_components/ReservationContainer";
+import { RequestReservationMode } from "./types/requestReservation";
 
-export type RequestReservationMode = "new" | "edit";
 export type ReservationParams = {
   params: {
     mode: RequestReservationMode;

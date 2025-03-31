@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 
+import { RequestReservationMode } from "@user/app/schedule-management/reservation/[mode]/types/requestReservation";
+
 import PtTimeSelector from "./PtTimeSelector";
 import TwoWeekCalendar from "./TwoWeekCalendar";
-import { RequestReservationMode } from "../../page";
 
 type ReservationContainerProps = {
   mode: RequestReservationMode;
