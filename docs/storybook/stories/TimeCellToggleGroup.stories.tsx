@@ -18,32 +18,32 @@ const meta: Meta<typeof TimeCellToggleGroup> = {
   args: {
     timeCellInfo: [
       {
-        dayOfWeek: "MON",
+        dayOfWeek: "MONDAY",
         time: "08:00",
         disabled: false,
       },
       {
-        dayOfWeek: "MON",
+        dayOfWeek: "MONDAY",
         time: "09:00",
         disabled: false,
       },
       {
-        dayOfWeek: "MON",
+        dayOfWeek: "MONDAY",
         time: "10:00",
         disabled: false,
       },
       {
-        dayOfWeek: "MON",
+        dayOfWeek: "MONDAY",
         time: "11:00",
         disabled: false,
       },
       {
-        dayOfWeek: "MON",
+        dayOfWeek: "MONDAY",
         time: "12:00",
         disabled: false,
       },
       {
-        dayOfWeek: "MON",
+        dayOfWeek: "MONDAY",
         time: "13:00",
         disabled: true,
       },

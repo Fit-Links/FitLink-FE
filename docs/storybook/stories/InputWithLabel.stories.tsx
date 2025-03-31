@@ -5,7 +5,6 @@ import {
   InputField,
   InputLabel,
   ResidentNumberInput,
-  InputWithLabelError,
 } from "@5unwan/ui/components/InputWithLabel/index";
 
 const meta: Meta<typeof InputWithLabel> = {
@@ -58,13 +57,12 @@ export const ResidentNumber: InputWithLabelStory = {
 export const Error: InputWithLabelStory = {
   args: {
     id: "tempID",
-    error: true,
+    error: '잘못된 이름입니다',
   },
   render: (args) => (
     <InputWithLabel {...args}>
       <InputLabel>이름</InputLabel>
       <InputField />
-      <InputWithLabelError>잘못된 이름입니다</InputWithLabelError>
     </InputWithLabel>
   ),
 };

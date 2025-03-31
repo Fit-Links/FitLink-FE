@@ -8,10 +8,10 @@ import TimeCellToggleGroup from "@ui/components/TimeCellToggleGroup";
 import { TimeCell } from "@ui/utils/timeCellUtils";
 
 const mockTimeCells: TimeCell[] = [
-  { dayOfWeek: "MON", time: "08:00", disabled: false },
-  { dayOfWeek: "MON", time: "09:00", disabled: false },
-  { dayOfWeek: "MON", time: "18:00", disabled: false },
-  { dayOfWeek: "MON", time: "19:00", disabled: true },
+  { dayOfWeek: "MONDAY", time: "08:00", disabled: false },
+  { dayOfWeek: "MONDAY", time: "09:00", disabled: false },
+  { dayOfWeek: "MONDAY", time: "18:00", disabled: false },
+  { dayOfWeek: "MONDAY", time: "19:00", disabled: true },
 ];
 
 describe("TimeCellToggleGroup Component", () => {

@@ -62,7 +62,9 @@ export default function Spinner({ size, className }: SpinnerProps) {
       {Array.from({ length: 8 }).map((_, index) => (
         <span
           key={SPINNER_KEYS[index]}
-          ref={(el) => (spinnerRefs.current[index] = el)}
+          ref={(el) => {
+            spinnerRefs.current[index] = el;
+          }}
           className={cn(spinnerVariants({ size }), className)}
           style={{
             transform: `rotate(${index * -ROTATION_DEGREE}deg) ${size === "small" ? "translateY(-0.5rem)" : "translateY(-0.625rem)"}`,

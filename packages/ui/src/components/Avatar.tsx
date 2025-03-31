@@ -49,7 +49,7 @@ const AvatarFallback = React.forwardRef<
       )}
       {...props}
     >
-      {children || <PersonOutlined color="action" />}
+      {children || <PersonOutlined color="inherit" />}
     </AvatarPrimitive.Fallback>
   </>
 ));

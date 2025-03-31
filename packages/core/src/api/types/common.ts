@@ -44,7 +44,7 @@ export type BaseMemberInfo = {
 };
 
 export type DetailedMemberInfo = BaseMemberInfo & {
-  birthdate: string;
+  birthDate: string;
   phoneNumber: string;
   profilePictureUrl: string;
 };
@@ -80,7 +80,7 @@ export type NotificationInfo = {
   refType: "예약" | "세션" | "트레이너 연동";
   notificationType: NotificationType;
   memberInfo: DetailedMemberInfo;
-  createdAt: string;
+  sendDate: string;
   content: string;
   isProcessed: boolean;
 };
