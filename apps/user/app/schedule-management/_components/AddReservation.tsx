@@ -1,8 +1,17 @@
 "use client";
 
 import { Button } from "@ui/components/Button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@ui/components/Dialog";
 import Icon from "@ui/components/Icon";
-import { Popup } from "@ui/components/Popup";
 import { useRouter } from "next/navigation";
 import { ComponentPropsWithoutRef } from "react";
 
@@ -29,16 +38,25 @@ function AddReservation({ trainerConnectStatus, ptCount }: AddReservationProps) 
   );
 
   if (popupData) {
-    const { title, description, positiveCallback, positiveLabel } = popupData;
+    const { title, description, popupCloseCallback, popupCloseLabel } = popupData;
 
     return (
-      <Popup
-        title={title}
-        description={description}
-        positive={{ label: positiveLabel, callback: positiveCallback }}
-      >
-        <AddReservationButton onClick={onClickButton} />
-      </Popup>
+      <Dialog>
+        <DialogTrigger asChild>
+          <AddReservationButton onClick={onClickButton} />
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{title}</DialogTitle>
+            <DialogDescription>{description}</DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <DialogClose>
+              <Button onClick={popupCloseCallback}>{popupCloseLabel}</Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     );
   }
 

@@ -1,6 +1,14 @@
 import { BaseReservationListItem } from "@5unwan/core/api/types/common";
 import { Badge } from "@ui/components/Badge";
 import { Button } from "@ui/components/Button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@ui/components/Dialog";
 import Icon from "@ui/components/Icon";
 import {
   Sheet,
@@ -40,10 +48,12 @@ function ReservationStatusSheet({
   const [isReservationCancelSheetOpen, setIsReservationCancelSheetOpen] = useState(false);
   const [isReservationCancelSuccessSheetOpen, setIsReservationCancelSuccessSheetOpen] =
     useState(false);
+  const [isReservationRemindCancelPopupOpen, setIsReservationRemindCancelPopupOpen] =
+    useState(false);
 
   const handleClickCancelButton = () => {
     if (status === "예약 대기") {
-      setIsReservationCancelSuccessSheetOpen(true);
+      setIsReservationRemindCancelPopupOpen(true);
 
       return;
     }
@@ -53,6 +63,10 @@ function ReservationStatusSheet({
 
   const handleClickChangeButton = () => {
     router.push(`${ROUTES.ROOT}/${ROUTES.EDIT_RESERVATION}?${searchParams.toString()}`);
+  };
+
+  const handleClickRemindButton = () => {
+    setIsReservationCancelSuccessSheetOpen(true);
   };
 
   return (
@@ -91,19 +105,16 @@ function ReservationStatusSheet({
                   예약 취소
                 </Button>
               </SheetClose>
-              {
-                //TODO: popup 컴포넌트 리팩토링 완료되면 추가하여 예약을 취소 리마인더 팝업 구현 예정
-                status !== "예약 대기" && (
-                  <SheetClose asChild>
-                    <Button
-                      onClick={handleClickChangeButton}
-                      className="bg-background-sub5 text-text-sub5 flex h-full w-full flex-1 items-center justify-center rounded-[0.625rem] transition-colors hover:bg-[#f5f5f5]"
-                    >
-                      예약 변경
-                    </Button>
-                  </SheetClose>
-                )
-              }
+              {status !== "예약 대기" && (
+                <SheetClose asChild>
+                  <Button
+                    onClick={handleClickChangeButton}
+                    className="bg-background-sub5 text-text-sub5 flex h-full w-full flex-1 items-center justify-center rounded-[0.625rem] transition-colors hover:bg-[#f5f5f5]"
+                  >
+                    예약 변경
+                  </Button>
+                </SheetClose>
+              )}
             </div>
           </SheetFooter>
         </SheetContent>
@@ -121,6 +132,27 @@ function ReservationStatusSheet({
         reservationContent={reservationContent}
         onChangeOpen={setIsReservationCancelSheetOpen}
       />
+
+      <Dialog
+        open={isReservationRemindCancelPopupOpen}
+        onOpenChange={setIsReservationRemindCancelPopupOpen}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>대기중인 예약을 취소하시겠습니까?</DialogTitle>
+          </DialogHeader>
+          <DialogFooter>
+            <DialogClose className="flex w-full items-center justify-center gap-[0.625rem]">
+              <Button variant="secondary" className="flex-1">
+                닫기
+              </Button>
+              <Button onClick={handleClickRemindButton} className="flex-1">
+                확인
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
