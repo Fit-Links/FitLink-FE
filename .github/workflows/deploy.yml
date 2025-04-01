@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   push:
-    branches: ['dev']
+    branches: ["dev"]
 
 jobs:
   build:
@@ -23,8 +23,8 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.AUTO_ACTIONS }}
         with:
-          source-directory: 'output'
-          destination-github-username: yjc2021
+          source-directory: "output"
+          destination-github-username: choi-ik
           destination-repository-name: FitLink-FE
           user-email: ${{ secrets.EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
