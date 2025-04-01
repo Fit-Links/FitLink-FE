@@ -6,7 +6,7 @@ import React, { useState } from "react";
 
 import Header from "./Header";
 import WeekRow from "./WeekRow";
-import { checkReservationIsFuture } from "../../_utils/checkReservationIsFuture";
+import { checkReservationIsFuture } from "../../_libs/checkReservationIsFuture";
 import ReservationStatusSheet from "../BottomSheet/ReservationStatusSheet";
 
 const mockReservations: BaseReservationListItem[] = [
@@ -15,7 +15,7 @@ const mockReservations: BaseReservationListItem[] = [
     sessionInfoId: 6,
     isDayOff: false,
     dayOfWeek: "MONDAY",
-    reservationDate: ["2025-03-17T12:00"],
+    reservationDate: ["2025-03-31T12:00"],
     status: "예약 확정",
     memberInfo: {
       memberId: 4,
@@ -27,7 +27,7 @@ const mockReservations: BaseReservationListItem[] = [
     sessionInfoId: 7,
     isDayOff: false,
     dayOfWeek: "MONDAY",
-    reservationDate: ["2025-03-31T12:00"],
+    reservationDate: ["2025-04-31T12:00"],
     status: "예약 확정",
     memberInfo: {
       memberId: 5,
@@ -39,7 +39,7 @@ const mockReservations: BaseReservationListItem[] = [
     sessionInfoId: 8,
     isDayOff: false,
     dayOfWeek: "THURSDAY",
-    reservationDate: ["2025-03-28T04:00", "2025-03-28T06:00"],
+    reservationDate: ["2025-04-28T04:00", "2025-04-28T06:00"],
     status: "예약 대기",
     memberInfo: {
       memberId: 6,
