@@ -8,7 +8,7 @@ import { ROUTES } from "@user/app/schedule-management/_constants/route";
 
 import { RequestReservationMode } from "@user/app/schedule-management/reservation/[mode]/types/requestReservation";
 
-type RequestReservationProps = {
+type ReservationRequestorProps = {
   mode: RequestReservationMode;
   open: boolean;
   onChangeOpen: (isOpen: boolean) => void;
@@ -37,21 +37,13 @@ const MODE_CONTENT_MAP: Record<
   },
 };
 
-function RequestReservation({
-  mode,
-  open,
-  onChangeOpen,
-  selectedDate,
-  selectedTime,
-  isActive,
-}: RequestReservationProps) {
+/** TODO:  props로 selectedDate, selectedTime, */
+function ReservationRequestor({ mode, open, onChangeOpen, isActive }: ReservationRequestorProps) {
   const router = useRouter();
 
   // TODO: selectedDate와 selectedTimes를 통해 예약 변경 요청 진행
   const handleClickRequestButton = () => {
     router.push(ROUTES.ROOT);
-    selectedDate;
-    selectedTime;
   };
 
   return (
@@ -72,4 +64,4 @@ function RequestReservation({
   );
 }
 
-export default RequestReservation;
+export default ReservationRequestor;

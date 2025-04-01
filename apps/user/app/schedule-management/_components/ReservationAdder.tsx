@@ -19,13 +19,16 @@ import { ROUTES } from "../_constants/route";
 import { TrainerConnectStatus } from "../_types/addReservation";
 import { resolveTrainerConnectionFlow } from "../_utils/resolveTrainerConnectionFlow";
 
-type AddReservationProps = {
+type ReservationAdderProps = {
   trainerConnectStatus: TrainerConnectStatus;
   ptCount: number;
 };
 
-function AddReservation({ trainerConnectStatus, ptCount }: AddReservationProps) {
+function ReservationAdder({ trainerConnectStatus, ptCount }: ReservationAdderProps) {
   const router = useRouter();
+
+  /** TODO: 트레이너 연결 상태 추출 */
+  // const { data: myInformation } = useSuspenseQuery(myInformationQueries.summary());
 
   const onGoNewReservation = () => router.push(`${ROUTES.ROOT}/${ROUTES.NEW_RESERVATION}`);
   const onRequestConnect = () => router.push(ROUTES.TRAINER_CODE);
@@ -63,7 +66,7 @@ function AddReservation({ trainerConnectStatus, ptCount }: AddReservationProps) 
   return <AddReservationButton onClick={onClickButton} />;
 }
 
-export default AddReservation;
+export default ReservationAdder;
 
 function AddReservationButton(props: ComponentPropsWithoutRef<"button">) {
   return (
