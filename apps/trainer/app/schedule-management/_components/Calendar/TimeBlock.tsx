@@ -26,7 +26,7 @@ export default function TimeBlock({
   return (
     <div
       className={cn(
-        "bg-background-sub1 hover:bg-background-sub2 text-text-primary relative flex h-[3.9375rem] w-[2.625rem] cursor-pointer flex-col items-center justify-center gap-1 rounded-[0.125rem] p-1",
+        "bg-background-sub1 hover:bg-background-sub2 text-text-primary relative flex h-[3.9375rem] w-full cursor-pointer flex-col items-center justify-center gap-1 rounded-[0.125rem] p-1",
         isToday(date) && "bg-background-sub3 hover:bg-background-sub4",
         reservationStatus !== undefined &&
           reservationStatus === "예약 대기" &&

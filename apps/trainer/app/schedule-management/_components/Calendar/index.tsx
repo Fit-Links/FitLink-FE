@@ -1,4 +1,5 @@
 "use client";
+import { cn } from "@ui/lib/utils";
 import { useRef, useState } from "react";
 import SwiperConfig from "swiper";
 import { Virtual } from "swiper/modules";
@@ -21,7 +22,11 @@ const initialWeeks = Array.from({ length: 105 }, (_, i) =>
   getWeekDates(getOffsetDate(currentDate, (i - TOTAL_WEEKS) * WEEK_LENGTH)),
 );
 
-export default function Calendar() {
+type CalendarProps = {
+  className?: string;
+};
+
+export default function Calendar({ className }: CalendarProps) {
   const [currentWeek, setCurrentWeek] = useState(getWeekDates(currentDate));
 
   const timeColumnRef = useRef<HTMLDivElement>(null);
@@ -39,19 +44,16 @@ export default function Calendar() {
   useSyncScroll(timeColumnRef, scheduleRef);
 
   return (
-    <section className="h-fit w-fit">
+    <section className={cn("md:max-w-mobile relative h-full w-full", className)}>
       <DayOfWeek currentWeek={currentWeek} currentMonth={currentMonth} />
-      <div className="flex h-[35.9375rem] w-[356px]">
+      <div className="flex h-full w-full pt-[4.8375rem]">
         <div
           ref={timeColumnRef}
           className="h-full w-fit overflow-auto [&::-webkit-scrollbar]:hidden"
         >
           <TimeColumn />
         </div>
-        <div
-          className="flex w-[306px] overflow-auto [&::-webkit-scrollbar]:hidden"
-          ref={scheduleRef}
-        >
+        <div className="flex w-full overflow-auto [&::-webkit-scrollbar]:hidden" ref={scheduleRef}>
           <Swiper
             className="h-max w-full"
             modules={[Virtual]}
