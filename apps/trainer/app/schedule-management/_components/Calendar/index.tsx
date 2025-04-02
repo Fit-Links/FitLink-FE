@@ -1,18 +1,22 @@
 "use client";
 import { cn } from "@ui/lib/utils";
+import { addHours, startOfDay } from "date-fns";
 import { useRef, useState } from "react";
 import SwiperConfig from "swiper";
 import { Virtual } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
+
 import useSyncScroll from "@trainer/hooks/useSyncScroll";
 
 import { getOffsetDate, getWeekDates } from "@trainer/utils/CalendarUtils";
 
+import DayColumn from "./DayColumn";
 import DayOfWeek from "./DayOfWeek";
+import TimeBlock from "./TimeBlock";
 import TimeColumn from "./TimeColumn";
-import WeekSchedule from "./WeekSchedule";
+import WeekRow from "./WeekRow";
 
 const WEEK_LENGTH = 7;
 const MONTH_START_INDEX = 1;
@@ -65,7 +69,21 @@ export default function Calendar({ className }: CalendarProps) {
           >
             {initialWeeks.map((week, index) => (
               <SwiperSlide key={`${week}-${index}`} virtualIndex={index}>
-                <WeekSchedule dayOfWeek={week} />
+                <WeekRow key={`${week}`}>
+                  {week.map((date) => {
+                    const todayHours = Array.from({ length: 24 }, (_, index) =>
+                      addHours(startOfDay(date), index),
+                    );
+
+                    return (
+                      <DayColumn key={`${date}`}>
+                        {todayHours.map((time, index) => (
+                          <TimeBlock key={`${time}-${index}`} date={time} />
+                        ))}
+                      </DayColumn>
+                    );
+                  })}
+                </WeekRow>
               </SwiperSlide>
             ))}
           </Swiper>
