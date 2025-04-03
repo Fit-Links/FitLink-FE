@@ -1,5 +1,3 @@
-import React from "react";
-
 import Header from "./_components/Header";
 import MemberListContainer from "./_components/MemberListContainer";
 

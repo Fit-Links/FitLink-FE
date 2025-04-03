@@ -1,5 +1,3 @@
-import React from "react";
-
 import CalendarHintGroup from "@trainer/components/CalendarHintGroup";
 
 import Calendar from "./_components/Calendar";
