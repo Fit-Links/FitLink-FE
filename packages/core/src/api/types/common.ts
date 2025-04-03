@@ -36,7 +36,7 @@ export type AvailablePtTime = {
   endTime: string;
 };
 
-export type ReservationStatus = "예약 확정" | "예약 대기" | "예약 불가" | "수업 완료" | "휴뮤일";
+export type ReservationStatus = "예약 확정" | "예약 대기" | "예약 불가" | "수업 완료" | "휴무일";
 
 export type BaseMemberInfo = {
   memberId: number;
@@ -54,7 +54,7 @@ export type BaseReservationListItem = {
   sessionInfoId: number;
   isDayOff: boolean;
   dayOfWeek: DayOfWeek;
-  reservationDate: string;
+  reservationDate: string | string[];
   status: ReservationStatus;
   memberInfo: BaseMemberInfo;
 };
