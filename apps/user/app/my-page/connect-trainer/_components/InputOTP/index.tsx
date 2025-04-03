@@ -6,11 +6,12 @@ import {
   InputOTPSlot,
 } from "@ui/components/InputOTP";
 import React, { useState } from "react";
+
 type otp_status = "default" | "focused" | "filled" | "error";
 
-export default function InputOTP() {
-  const OTP_LENGTH = 5;
+const OTP_LENGTH = 5;
 
+export default function InputOTP() {
   const [otpValue, setOtpValue] = useState("");
   const [status, setStatus] = useState<otp_status>("default");
   const [errorMessage, setErrorMessage] = useState("");
