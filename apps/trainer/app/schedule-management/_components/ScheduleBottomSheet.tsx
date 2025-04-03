@@ -32,7 +32,7 @@ export default function ScheduleBottomSheet({
         <SheetHeader className="items-center">
           <SheetTitle>{selectedFormatDate}</SheetTitle>
         </SheetHeader>
-        <TimeOptionList />
+        <TimeOptionList selectedDate={selectedFormatDate!} />
       </SheetContent>
     </Sheet>
   );
