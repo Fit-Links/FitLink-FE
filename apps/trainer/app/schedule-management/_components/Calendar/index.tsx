@@ -86,7 +86,7 @@ export default function Calendar() {
           <TimeColumn />
         </div>
         <div
-          className="flex h-full w-full overflow-y-scroll [&::-webkit-scrollbar]:hidden"
+          className="h-full w-full overflow-y-scroll [&::-webkit-scrollbar]:hidden"
           ref={scheduleRef}
         >
           <Swiper
