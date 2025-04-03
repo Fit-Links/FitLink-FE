@@ -2,11 +2,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/Avatar";
 import { Badge } from "@ui/components/Badge";
 import Icon from "@ui/components/Icon";
 import { cn } from "@ui/lib/utils";
-import { ReactNode } from "react";
+import { ComponentProps, ReactNode } from "react";
 
 import { formatToMeridiem } from "@trainer/utils/ProfileCardUtils";
 
-type ProfileCardProps = {
+type ProfileCardProps = ComponentProps<"section"> & {
   className?: string;
   imgUrl: string;
   userName: string;
@@ -69,7 +69,7 @@ function Content({ PTReservationOtherTime, children }: ContentProps) {
   return (
     <div
       className={cn(
-        "flex flex-1 justify-end",
+        "flex h-full flex-1 justify-end",
         PTReservationOtherTime ? "min-h-[5.625rem] items-start" : "min-h-[3.125rem] items-center",
       )}
     >
@@ -99,15 +99,17 @@ export default function ProfileCard({
   PTReservationOtherTime,
   ellipsIcon,
   children,
+  ...props
 }: ProfileCardProps) {
   const userAge = CURRENT_YEAR - userBirth.getFullYear() + AGE_OFFSET_KOREAN;
 
   return (
     <section
       className={cn(
-        "bg-background-sub2 text-text-primary hover:bg-background-sub3 relative flex min-h-[5.625rem] w-[22.375rem] items-center rounded-[0.625rem] py-[1.25rem] pr-2 transition-colors",
+        "bg-background-sub2 text-text-primary hover:bg-background-sub3 relative flex w-[22.375rem] items-center rounded-[0.625rem] py-[1.25rem] pr-2 transition-colors",
         className,
       )}
+      {...props}
     >
       <UserInfo
         imgUrl={imgUrl}
