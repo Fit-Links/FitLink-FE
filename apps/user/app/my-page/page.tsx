@@ -19,7 +19,7 @@ import ConnectedTrainerItem from "./_components/PTInformation/ConnectedTrainerIt
 import ScheduleInformationItem from "./_components/PTInformation/ScheduleInformationItem";
 
 export default function MyPage() {
-  const [mockData] = useState<MyInformationApiResponse["data"]>({
+  const mockData = useState<MyInformationApiResponse["data"]>({
     memberId: 1,
     name: "홍길동",
     trainerId: 1,
