@@ -2,7 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/Avatar";
 import { ProfileItem } from "@ui/components/ProfileItem";
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { MyInformationDetailApiResponse } from "@user/services/types/myInformation.dto";
 

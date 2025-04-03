@@ -2,7 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/Avatar";
 import { Button } from "@ui/components/Button";
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { MyInformationDetailApiResponse } from "@user/services/types/myInformation.dto";
 

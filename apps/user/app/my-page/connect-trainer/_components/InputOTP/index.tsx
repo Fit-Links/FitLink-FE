@@ -5,7 +5,7 @@ import {
   InputOTPMessage,
   InputOTPSlot,
 } from "@ui/components/InputOTP";
-import React, { useState } from "react";
+import { useState } from "react";
 
 type otp_status = "default" | "focused" | "filled" | "error";
 

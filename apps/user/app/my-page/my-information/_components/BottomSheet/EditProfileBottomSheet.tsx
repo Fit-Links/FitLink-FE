@@ -6,7 +6,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@ui/components/Sheet";
-import React, { useRef } from "react";
+import { useRef } from "react";
 
 import { MyInformationDetailApiResponse } from "@user/services/types/myInformation.dto";
 
