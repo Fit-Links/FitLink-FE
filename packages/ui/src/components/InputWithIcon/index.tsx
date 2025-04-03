@@ -13,9 +13,9 @@ type InputWithIconProps = HTMLAttributes<HTMLDivElement> & {
 };
 type InputIconProps = HTMLAttributes<HTMLLabelElement>;
 type InputFiledProps = ComponentProps<"input"> & {
-  value?: string | number;
-  defaultValue?: string | number;
-  onChangeValue?: (value: string | number) => void;
+  value?: string;
+  defaultValue?: string;
+  onChangeValue?: (value: string) => void;
 };
 
 const InputWithIcon = forwardRef<HTMLDivElement, InputWithIconProps>(
