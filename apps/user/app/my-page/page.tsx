@@ -2,7 +2,6 @@
 
 import { Badge } from "@ui/components/Badge";
 import { ProfileItem } from "@ui/components/ProfileItem";
-import { useState } from "react";
 
 import {
   MyInformationApiResponse,
@@ -19,7 +18,7 @@ import ConnectedTrainerItem from "./_components/PTInformation/ConnectedTrainerIt
 import ScheduleInformationItem from "./_components/PTInformation/ScheduleInformationItem";
 
 export default function MyPage() {
-  const mockData = useState<MyInformationApiResponse["data"]>({
+  const mockData: MyInformationApiResponse["data"] = {
     memberId: 1,
     name: "홍길동",
     trainerId: 1,
@@ -68,9 +67,9 @@ export default function MyPage() {
         preferenceTimes: ["10:00", "12:00"],
       },
     ],
-  });
+  };
 
-  const [ptHistory] = useState<MyPtHistoryApiResponse["data"]>({
+  const ptHistory: MyPtHistoryApiResponse["data"] = {
     content: [
       {
         sessionId: 1,
@@ -90,7 +89,7 @@ export default function MyPage() {
     ],
     totalPages: "1",
     totalElements: "1",
-  });
+  };
 
   return (
     <main className="flex h-screen w-full flex-col overflow-hidden">
