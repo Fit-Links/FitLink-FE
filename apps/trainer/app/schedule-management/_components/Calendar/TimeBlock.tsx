@@ -1,47 +1,71 @@
+/* eslint-disable no-magic-numbers */
 "use client";
 
 import { cn } from "@ui/lib/utils";
-import { ComponentProps } from "react";
+import { ComponentProps, useState } from "react";
+
+import ScheduleBottomSheet from "@trainer/app/schedule-management/_components/ScheduleBottomSheet";
+
+import { ModifiedReservationListItem } from "@trainer/services/types/reservations.dto";
 
 import { isToday } from "@trainer/utils/CalendarUtils";
 
-type ResercationStateType = "예약 대기" | "예약 확정";
+import { RESERVATION_CONFIG } from "../../_constants/reservationConfig";
 
 type TimeBlockProps = ComponentProps<"div"> & {
   date: Date;
-  userName?: string;
   PTstatus?: string;
   isNotificationRead?: boolean;
-  reservationStatus?: ResercationStateType;
+  reservationContent: ModifiedReservationListItem[];
 };
 
 export default function TimeBlock({
   date,
-  userName,
-  PTstatus,
   isNotificationRead,
-  reservationStatus,
+  reservationContent,
   ...props
 }: TimeBlockProps) {
+  const reservationBlockConfig =
+    reservationContent.length > 0 && reservationContent[0].status !== "휴무일"
+      ? RESERVATION_CONFIG[reservationContent[0].status]
+      : null;
+  const reservationBlockStyle = reservationBlockConfig?.style;
+  const reservationBlockContent = reservationBlockConfig?.content(reservationContent[0]);
+  const reservationBlockPtStatus = reservationBlockConfig?.ptStatus({
+    reservationContents: reservationContent,
+  });
+
+  const [isScheduleBottomSheetOpen, setIsScheduleBottomSheetOpen] = useState(false);
+
+  const handleClickBlock = () => {
+    if (!reservationContent.length) {
+      setIsScheduleBottomSheetOpen(true);
+    }
+  };
+
   return (
-    <div
-      className={cn(
-        "bg-background-sub1 hover:bg-background-sub2 text-text-primary relative flex h-[3.9375rem] w-full cursor-pointer flex-col items-center justify-center gap-1 rounded-[0.125rem] p-1",
-        isToday(date) && "bg-background-sub3 hover:bg-background-sub4",
-        reservationStatus !== undefined &&
-          reservationStatus === "예약 대기" &&
-          "bg-brand-secondary-500 hover:bg-brand-secondary-600",
-        reservationStatus !== undefined &&
-          reservationStatus === "예약 확정" &&
-          "bg-brand-primary-500 hover:bg-brand-primary-600",
-      )}
-      {...props}
-    >
-      <span className="text-body-2">{userName}</span>
-      <span className="text-[0.625rem]">{PTstatus}</span>
-      {isNotificationRead && (
-        <span className="bg-notification absolute right-1 top-1 h-[4px] w-[4px] rounded-full" />
-      )}
-    </div>
+    <>
+      <div
+        onClick={handleClickBlock}
+        className={cn(
+          "bg-background-sub1 hover:bg-background-sub2 text-text-primary relative flex h-[3.9375rem] w-full cursor-pointer flex-col items-center justify-center gap-1 rounded-[0.125rem] p-1",
+          isToday(date) && "bg-background-sub3 hover:bg-background-sub4",
+          reservationBlockStyle,
+        )}
+        {...props}
+      >
+        <span className="text-body-2 whitespace-pre-line">{reservationBlockContent}</span>
+        <span className="text-body-2">{reservationBlockPtStatus}</span>
+        {isNotificationRead && (
+          <span className="bg-notification absolute right-1 top-1 h-[4px] w-[4px] rounded-full" />
+        )}
+      </div>
+
+      <ScheduleBottomSheet
+        open={isScheduleBottomSheetOpen}
+        onChangeOpen={setIsScheduleBottomSheetOpen}
+        selectedDate={date}
+      />
+    </>
   );
 }

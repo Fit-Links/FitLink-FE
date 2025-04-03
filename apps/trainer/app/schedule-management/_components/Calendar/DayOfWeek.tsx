@@ -13,7 +13,7 @@ const DAY_LIST = ["일", "월", "화", "수", "목", "금", "토"] as const;
 
 export default function DayOfWeek({ currentWeek, currentMonth }: DayOfWeekProps) {
   return (
-    <div className="md:max-w-mobile bg-background-primary absolute top-0 z-10 mb-1 h-[4.4375rem] w-full">
+    <div className="md:max-w-mobile bg-background-primary absolute top-0 z-10 h-[4.4375rem] w-full pb-1">
       <div className="text-text-primary flex h-full w-full items-center justify-center">
         <div className="text-subhead-2 mr-2 flex h-full w-[2.625rem] items-center justify-center">
           {currentMonth}월

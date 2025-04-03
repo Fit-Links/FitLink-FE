@@ -7,5 +7,5 @@ type WeekRowProps = {
 };
 
 export default function WeekRow({ children }: WeekRowProps) {
-  return <div className="flex gap-[0.125rem]">{children}</div>;
+  return <div className="flex h-full gap-[0.125rem]">{children}</div>;
 }
