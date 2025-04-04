@@ -16,6 +16,7 @@ type Props = {
   onExceedToggleLimit?: () => void;
   timeCellInfo: TimeCell[];
   variant?: TimeCellToggleVariant;
+  className?: string;
 };
 function TimeCellToggleGroup({
   toggleLimit,
@@ -24,6 +25,7 @@ function TimeCellToggleGroup({
   onExceedToggleLimit,
   timeCellInfo,
   variant = "default",
+  className,
 }: Props) {
   const handleChange = (value: string[]) => {
     if (toggleLimit && value.length > toggleLimit) {
@@ -41,7 +43,7 @@ function TimeCellToggleGroup({
       type="multiple"
       value={selected}
       onValueChange={handleChange}
-      className="flex flex-col items-start gap-[2rem]"
+      className={cn("flex flex-col items-start gap-[2rem]", className)}
     >
       <TimeCellToggleSection type="am">
         {am.map(({ dayOfWeek, time, disabled }, index) => (
