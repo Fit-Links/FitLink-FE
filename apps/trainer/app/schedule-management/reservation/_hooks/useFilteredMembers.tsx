@@ -5,7 +5,7 @@ import { PtUser } from "@trainer/services/types/userManagement.dto";
 function useFilteredMembers(members: PtUser[], searchValue: string) {
   const normalizedSearch = searchValue.trim().toLowerCase();
 
-  const membersWithNormalizedName = useMemo(
+  const membersWithNormalizedName: PtUser[] = useMemo(
     () =>
       members.map((member) => ({
         ...member,
