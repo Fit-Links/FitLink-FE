@@ -7,7 +7,7 @@ import { PtUser, PtUserListApiResponse } from "@trainer/services/types/userManag
 import MemberCard from "./MemberCard";
 import ReservationAdderButton from "./ReservationAdderButton";
 import SearchBar from "./SearchBar";
-import useFilteredMembers from "../../_hooks/useFilteredMembers";
+import useFilteredMembers from "../../reservation/_hooks/useFilteredMembers";
 
 function MemberListContainer() {
   const [inputValue, setInputValue] = useState<string>("");
