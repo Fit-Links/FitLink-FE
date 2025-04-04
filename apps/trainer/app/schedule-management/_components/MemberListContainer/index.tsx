@@ -1,15 +1,22 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 
 import { PtUser, PtUserListApiResponse } from "@trainer/services/types/userManagement.dto";
 
 import MemberCard from "./MemberCard";
-import ReservationAdderButton from "./ReservationAdderButton";
 import SearchBar from "./SearchBar";
 import useFilteredMembers from "../../reservation/_hooks/useFilteredMembers";
 
-function MemberListContainer() {
+type MemberListContainerProps = {
+  renderFooterReservationButton: ({
+    selectedMemberInformation,
+  }: {
+    selectedMemberInformation: PtUser | null;
+  }) => ReactNode;
+};
+
+function MemberListContainer({ renderFooterReservationButton }: MemberListContainerProps) {
   const [inputValue, setInputValue] = useState<string>("");
   const [selectedMemberInformation, setSelectedMemberInformation] = useState<PtUser | null>(null);
 
@@ -42,7 +49,7 @@ function MemberListContainer() {
         />
       </section>
       <footer className="bg-background-primary h-[3.375rem] w-full">
-        <ReservationAdderButton selectedMemberInformation={selectedMemberInformation} />
+        {renderFooterReservationButton({ selectedMemberInformation })}
       </footer>
     </>
   );
