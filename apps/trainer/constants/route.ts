@@ -3,4 +3,5 @@ export const ROUTES = {
   RESERVATION: "/reservation",
   FIXED_RESERVATION: "/fixed-reservation",
   SELECT_PT_TIMES: "/select-pt-times",
+  DATOFF_MANAGEMENT: "/dayoff-management",
 };
