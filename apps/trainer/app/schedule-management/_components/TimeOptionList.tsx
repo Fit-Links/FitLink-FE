@@ -40,6 +40,8 @@ export default function TimeOptionList({
       case "FIXED_RESERVATION":
         router.push(`${ROOT}${ROUTES[route]}`);
         break;
+      case "DATOFF_MANAGEMENT":
+        router.push(`${ROOT}${ROUTES[route]}`);
     }
   };
 
@@ -59,6 +61,7 @@ export default function TimeOptionList({
           <div>PT 예약</div>
         </TimeOption.Content>
       </TimeOption>
+
       <TimeOption onClick={() => handleClickTimeOption("FIXED_RESERVATION")}>
         <TimeOption.Icon iconName={"CalendarClock"} />
         <TimeOption.Content>
@@ -66,6 +69,7 @@ export default function TimeOptionList({
           <div>고정 예약</div>
         </TimeOption.Content>
       </TimeOption>
+
       <Sheet>
         <SheetTrigger asChild>
           <TimeOption>
@@ -97,7 +101,8 @@ export default function TimeOptionList({
           </SheetFooter>
         </SheetContent>
       </Sheet>
-      <TimeOption>
+
+      <TimeOption onClick={() => handleClickTimeOption("DATOFF_MANAGEMENT")}>
         <TimeOption.Icon iconName={"CalendarMinus"} />
         <TimeOption.Content>
           <div>휴무일</div>
