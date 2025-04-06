@@ -48,7 +48,7 @@ function DayoffAdderButton({ selectedDate }: DayoffAdderButtonProps) {
           </SheetDescription>
         </SheetHeader>
         <div className="text-headline bg-background-sub1 flex h-[5.625rem] w-full flex-col items-center justify-center rounded-[0.625rem]">
-          {formatDate}
+          {formatDate} 하루종일
         </div>
         <SheetFooter>
           <SheetClose asChild>
