@@ -20,7 +20,7 @@ export default function ScheduleBottomSheet({
   className,
   trigger,
 }: ScheduleBottomSheetProps) {
-  const selectedFormatDate = DateController(selectedDate).validate()?.toDateTimeWithDayFormat();
+  const selectedFormatDate = DateController(selectedDate).toDateTimeWithDayFormat();
 
   return (
     <Sheet open={open} onOpenChange={onChangeOpen}>
@@ -32,7 +32,11 @@ export default function ScheduleBottomSheet({
         <SheetHeader className="items-center">
           <SheetTitle>{selectedFormatDate}</SheetTitle>
         </SheetHeader>
-        <TimeOptionList selectedDate={selectedFormatDate!} />
+        <TimeOptionList
+          selectedDate={selectedDate}
+          selectedFormatDate={selectedFormatDate}
+          onChangeOpen={onChangeOpen}
+        />
       </SheetContent>
     </Sheet>
   );
