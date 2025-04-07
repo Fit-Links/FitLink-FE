@@ -1,17 +1,20 @@
 import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "@ui/components/Dropdown";
 import React from "react";
 
-type MemberWorkoutScheduleProps = {
+type WorkoutScheduleProps = {
   memberId: number;
+  triggerText?: string;
 };
 
 /** MemberID를 바탕으로 회원의 상세 정보를 가져와 회원의 운동 가능한 시간 드랍다운으로 나타내기 */
-function MemberWorkoutSchedule({ memberId }: MemberWorkoutScheduleProps) {
+function WorkoutSchedule({ triggerText, memberId }: WorkoutScheduleProps) {
   const workoutSchedules = MOCK_MEMBER_SCHEDULE[memberId];
 
   return (
     <Dropdown>
-      <DropdownTrigger>{`${workoutSchedules[0].day} ${workoutSchedules[0].hours}`}</DropdownTrigger>
+      <DropdownTrigger>
+        {triggerText ? triggerText : `${workoutSchedules[0].day} ${workoutSchedules[0].hours}`}
+      </DropdownTrigger>
       <DropdownContent>
         {workoutSchedules.map(({ day, hours }) => (
           <DropdownItem key={day} className="flex gap-2">
@@ -24,7 +27,7 @@ function MemberWorkoutSchedule({ memberId }: MemberWorkoutScheduleProps) {
   );
 }
 
-export default MemberWorkoutSchedule;
+export default WorkoutSchedule;
 
 const MOCK_MEMBER_SCHEDULE: { [key: number]: { day: string; hours: string }[] } = {
   1: [

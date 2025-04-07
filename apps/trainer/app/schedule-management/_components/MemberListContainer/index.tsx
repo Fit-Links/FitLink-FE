@@ -4,7 +4,7 @@ import React, { ReactNode, useState } from "react";
 
 import { PtUser, PtUserListApiResponse } from "@trainer/services/types/userManagement.dto";
 
-import MemberCard from "./MemberCard";
+import MemberCardList from "./MemberCardList";
 import SearchBar from "./SearchBar";
 import useFilteredMembers from "../../reservation/_hooks/useFilteredMembers";
 
@@ -42,11 +42,17 @@ function MemberListContainer({ renderFooterReservationButton }: MemberListContai
     <>
       <section className="flex h-full w-full flex-col overflow-hidden pb-3 pt-[1.688rem]">
         <SearchBar value={inputValue} onChangeValue={setInputValue} />
-        <MemberCard
-          memberList={filteredMembers}
-          selectedMemberInformation={selectedMemberInformation}
-          onChangeSelectMemberInformation={handleClickSelectMember}
-        />
+        <section className="relative h-full overflow-hidden">
+          <div className="bg-background-primary absolute top-0 z-10 box-content flex h-7 w-full justify-between">
+            <div>회원 {filteredMembers.length}명</div>
+            <div>최신 등록순</div>
+          </div>
+          <MemberCardList
+            memberList={filteredMembers}
+            selectedMemberInformation={selectedMemberInformation}
+            onChangeSelectMemberInformation={handleClickSelectMember}
+          />
+        </section>
       </section>
       <footer className="bg-background-primary h-[3.375rem] w-full">
         {renderFooterReservationButton({ selectedMemberInformation })}
