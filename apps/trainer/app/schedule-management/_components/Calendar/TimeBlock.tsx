@@ -1,6 +1,7 @@
 /* eslint-disable no-magic-numbers */
 "use client";
 
+import { ReservationStatus } from "@5unwan/core/api/types/common";
 import { cn } from "@ui/lib/utils";
 import { ComponentProps, useState } from "react";
 
@@ -11,6 +12,7 @@ import { ModifiedReservationListItem } from "@trainer/services/types/reservation
 import { isToday } from "@trainer/utils/CalendarUtils";
 
 import { RESERVATION_CONFIG } from "../../_constants/reservationConfig";
+import { SheetAdapter } from "../ReservationManagementSheet";
 
 type TimeBlockProps = ComponentProps<"div"> & {
   date: Date;
@@ -35,12 +37,31 @@ export default function TimeBlock({
     reservationContents: reservationContent,
   });
 
+  const currentStatus: Exclude<ReservationStatus, "휴무일"> | null =
+    reservationContent.length > 0 && reservationContent[0].status !== "휴무일"
+      ? reservationContent[0].status
+      : null;
+
   const [isScheduleBottomSheetOpen, setIsScheduleBottomSheetOpen] = useState(false);
+  const [isReservationManagementSheetOpen, setIsReservationManagementSheetOpen] = useState(false);
+
+  const RenderSheet =
+    currentStatus &&
+    SheetAdapter[currentStatus](
+      {
+        open: isReservationManagementSheetOpen,
+        onChangeOpen: setIsReservationManagementSheetOpen,
+        selectedDate: date,
+      },
+      reservationContent,
+    );
 
   const handleClickBlock = () => {
     if (!reservationContent.length) {
       setIsScheduleBottomSheetOpen(true);
     }
+
+    setIsReservationManagementSheetOpen(true);
   };
 
   return (
@@ -55,7 +76,7 @@ export default function TimeBlock({
         {...props}
       >
         <span className="text-body-2 whitespace-pre-line">{reservationBlockContent}</span>
-        <span className="text-body-2">{reservationBlockPtStatus}</span>
+        <span className="text-body-5">{reservationBlockPtStatus}</span>
         {isNotificationRead && (
           <span className="bg-notification absolute right-1 top-1 h-[4px] w-[4px] rounded-full" />
         )}
@@ -66,6 +87,8 @@ export default function TimeBlock({
         onChangeOpen={setIsScheduleBottomSheetOpen}
         selectedDate={date}
       />
+
+      {RenderSheet}
     </>
   );
 }
