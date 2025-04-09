@@ -18,7 +18,7 @@ export const resolveTrainerConnectionFlow = (
     TrainerConnectStatus,
     (ptCount: number) => { popupData: PopupData | null; onClickButton: () => void }
   > = {
-    CONNECTED: (ptCount) => {
+    CONNECTED: () => {
       if (ptCount === 0) {
         return {
           popupData: {
