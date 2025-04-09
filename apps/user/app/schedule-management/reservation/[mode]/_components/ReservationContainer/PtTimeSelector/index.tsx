@@ -13,7 +13,7 @@ import {
 import TimeCellToggleGroup from "@ui/components/TimeCellToggleGroup";
 import { TimeCell } from "@ui/utils/timeCellUtils";
 import { isSameDay } from "date-fns";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 import { RequestReservationMode } from "@user/app/schedule-management/reservation/[mode]/types/requestReservation";
 
@@ -28,6 +28,11 @@ type PtTimeSelectorProps = {
 const MOCK_TIME_CELL_INFO: TimeCell[] = [
   { dayOfWeek: "MONDAY", time: "01:00", disabled: false },
   { dayOfWeek: "MONDAY", time: "02:00", disabled: false },
+  { dayOfWeek: "MONDAY", time: "02:00", disabled: false },
+  { dayOfWeek: "MONDAY", time: "03:00", disabled: false },
+  { dayOfWeek: "MONDAY", time: "04:00", disabled: false },
+  { dayOfWeek: "MONDAY", time: "05:00", disabled: false },
+  { dayOfWeek: "MONDAY", time: "06:00", disabled: false },
   { dayOfWeek: "MONDAY", time: "07:00", disabled: false },
   { dayOfWeek: "MONDAY", time: "08:00", disabled: false },
   { dayOfWeek: "MONDAY", time: "09:00", disabled: false },
@@ -40,6 +45,11 @@ const MOCK_TIME_CELL_INFO: TimeCell[] = [
   { dayOfWeek: "MONDAY", time: "16:00", disabled: false },
   { dayOfWeek: "MONDAY", time: "17:00", disabled: false },
   { dayOfWeek: "MONDAY", time: "18:00", disabled: false },
+  { dayOfWeek: "MONDAY", time: "19:00", disabled: false },
+  { dayOfWeek: "MONDAY", time: "20:00", disabled: false },
+  { dayOfWeek: "MONDAY", time: "21:00", disabled: false },
+  { dayOfWeek: "MONDAY", time: "22:00", disabled: false },
+  { dayOfWeek: "MONDAY", time: "23:00", disabled: false },
 ];
 
 function PtTimeSelector({ mode, selectedDate, reservationDateTime }: PtTimeSelectorProps) {
@@ -82,26 +92,29 @@ function PtTimeSelector({ mode, selectedDate, reservationDateTime }: PtTimeSelec
     validateSelectedTimesForEdit();
   }, [selectedTimes]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!hasInitialized) {
       setHasInitialized(true);
 
       return;
     }
+
     setSelectedTimes([]);
   }, [selectedDate]);
 
   return (
-    <>
-      <TimeCellToggleGroup
-        className="md:max-w-mobile mt-10"
-        selected={selectedTimes}
-        onSelectedChange={setSelectedTimes}
-        onExceedToggleLimit={handleExceedToggleLimit}
-        variant="notification"
-        toggleLimit={mode === "new" ? 2 : 1}
-        timeCellInfo={MOCK_TIME_CELL_INFO}
-      />
+    <section className="mt-1 flex h-full flex-col overflow-hidden">
+      <section className="mb-1 h-full overflow-y-scroll">
+        <TimeCellToggleGroup
+          className="md:max-w-mobile my-10"
+          selected={selectedTimes}
+          onSelectedChange={setSelectedTimes}
+          onExceedToggleLimit={handleExceedToggleLimit}
+          variant="notification"
+          toggleLimit={mode === "new" ? 2 : 1}
+          timeCellInfo={MOCK_TIME_CELL_INFO}
+        />
+      </section>
 
       <ReservationRequestor
         mode={mode}
@@ -121,7 +134,7 @@ function PtTimeSelector({ mode, selectedDate, reservationDateTime }: PtTimeSelec
             <DialogTitle>
               당일 수업 시간 변경은 변경할 시간보다
               <br />
-              현재 시간이 1시간 이상 빨라야 합니다.
+              현재 시간이 1시간 이상 빨라야 합니다
             </DialogTitle>
           </DialogHeader>
           <DialogFooter>
@@ -147,7 +160,7 @@ function PtTimeSelector({ mode, selectedDate, reservationDateTime }: PtTimeSelec
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </>
+    </section>
   );
 }
 

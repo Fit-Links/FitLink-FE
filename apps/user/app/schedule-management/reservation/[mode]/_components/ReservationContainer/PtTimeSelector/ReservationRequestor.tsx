@@ -55,8 +55,8 @@ function ReservationRequestor({ mode, open, onChangeOpen, isActive }: Reservatio
       closeSheetText="확인"
       onClickCloseButton={handleClickRequestButton}
     >
-      <RequestSucccessSheetTrigger>
-        <Button disabled={!isActive} className="absolute bottom-0 h-[3.375rem] w-full">
+      <RequestSucccessSheetTrigger asChild>
+        <Button disabled={!isActive} className="h-[3.375rem] w-full">
           {MODE_CONTENT_MAP[mode].buttonText}
         </Button>
       </RequestSucccessSheetTrigger>

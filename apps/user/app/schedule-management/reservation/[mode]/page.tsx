@@ -27,7 +27,7 @@ function Reservation({ params, searchParams }: ReservationParams) {
   const [reservationDate, reservationDateTime] = searchParams?.reservationDate?.split("T") ?? [];
 
   return (
-    <main className="relative flex h-full flex-col items-center">
+    <main className="flex h-full flex-col items-center overflow-hidden">
       <Header mode={mode} />
       <ReservationContainer
         mode={mode}
