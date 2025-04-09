@@ -17,7 +17,7 @@ import { useEffect, useLayoutEffect, useState } from "react";
 
 import { RequestReservationMode } from "@user/app/schedule-management/reservation/[mode]/types/requestReservation";
 
-import RequestReservation from "./RequestReservation";
+import ReservationRequestor from "./ReservationRequestor";
 
 type PtTimeSelectorProps = {
   mode: RequestReservationMode;
@@ -103,7 +103,7 @@ function PtTimeSelector({ mode, selectedDate, reservationDateTime }: PtTimeSelec
         timeCellInfo={MOCK_TIME_CELL_INFO}
       />
 
-      <RequestReservation
+      <ReservationRequestor
         mode={mode}
         open={isRequestSuccessSheetOpen}
         onChangeOpen={setIsRequestSuccessSheetOpen}
