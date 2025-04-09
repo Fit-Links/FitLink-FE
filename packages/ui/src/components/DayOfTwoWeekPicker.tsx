@@ -9,6 +9,7 @@ import { cn } from "@ui/lib/utils";
 import useControllableState from "@ui/hooks/useControllableState";
 
 type DayOfTwoWeekPickerProps = {
+  className?: string;
   selectDate?: Date;
   onSelectDate?: (date: Date) => void;
   defaultDate?: Date;
@@ -28,6 +29,7 @@ type WeeksProps = {
 const WEEK_DAYS = ["일", "월", "화", "수", "목", "금", "토"] as const;
 
 export default function DayOfTwoWeekPicker({
+  className,
   selectDate,
   defaultDate,
   onSelectDate,
@@ -40,7 +42,7 @@ export default function DayOfTwoWeekPicker({
   const currentDate = new Date();
 
   return (
-    <section className="w-[22.375rem] border">
+    <section className={cn("w-full", className)}>
       <Caption currentYear={currentDate.getFullYear()} currentMonth={currentDate.getMonth() + 1} />
       <WeekHeader />
       <Weeks
@@ -54,7 +56,7 @@ export default function DayOfTwoWeekPicker({
 
 function Caption({ currentYear, currentMonth }: CaptionProps) {
   return (
-    <div className="text-title-2 text-text-primary mb-2.5 flex h-[2.188rem] w-[22.375rem] items-center justify-center">
+    <div className="text-title-2 text-text-primary mb-2.5 flex h-[2.188rem] w-full items-center justify-center">
       {`${currentYear}.${String(currentMonth).padStart(2, "0")}`}
     </div>
   );

@@ -10,6 +10,7 @@ const NOT_FOUND = -1;
 type TimeCellToggleVariant = "default" | "notification";
 
 type Props = {
+  className?: string;
   toggleLimit?: number;
   selected: string[];
   onSelectedChange: (value: string[]) => void;
@@ -23,6 +24,7 @@ function TimeCellToggleGroup({
   onSelectedChange,
   onExceedToggleLimit,
   timeCellInfo,
+  className,
   variant = "default",
 }: Props) {
   const handleChange = (value: string[]) => {
@@ -41,7 +43,7 @@ function TimeCellToggleGroup({
       type="multiple"
       value={selected}
       onValueChange={handleChange}
-      className="flex flex-col items-start gap-[2rem]"
+      className={cn("flex flex-col items-start gap-[2rem]", className)}
     >
       <TimeCellToggleSection type="am">
         {am.map(({ dayOfWeek, time, disabled }, index) => (

@@ -1,6 +1,6 @@
+import { DayPicker } from "@5unwan/ui/components/DayPicker/index";
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { DayPicker } from "@5unwan/ui/components/DayPicker";
 import { useState } from "react";
 
 const meta: Meta<typeof DayPicker> = {

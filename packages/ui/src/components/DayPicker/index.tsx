@@ -1,46 +1,22 @@
 "use client";
 
 import { ko } from "date-fns/locale";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { ComponentProps, Dispatch, useState } from "react";
+import { ComponentProps, useState } from "react";
 import { DayPicker as Calendar } from "react-day-picker";
 
-import { cn } from "../lib/utils";
-import { currentYearWithMonth, isWeekend } from "../utils/DayPickerUtils";
+import { cn } from "@ui/lib/utils";
 
-const MONTH_OFFSET = 1;
+import { isWeekend } from "@ui/utils/DayPickerUtils";
+
+import { Caption } from "./Caption";
 
 export type DayPickerProps = ComponentProps<typeof Calendar> & {
   mode: "single";
+  currentMonth?: Date;
+  onChangeMonth?: (month: Date) => void;
   selectedDate?: Date;
   onChangeSelectedDate?: (date: Date | undefined) => void;
 };
-type CaptionProps = {
-  month: Date;
-  setMonth: Dispatch<React.SetStateAction<Date>>;
-};
-
-function Caption({ month, setMonth }: CaptionProps) {
-  const handlePrevMonth = () => {
-    setMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() - MONTH_OFFSET));
-  };
-
-  const handleNextMonth = () => {
-    setMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() + MONTH_OFFSET));
-  };
-
-  return (
-    <div className="flex items-center justify-center gap-3 text-center">
-      <button onClick={handlePrevMonth}>
-        <ChevronLeft className={"cursor-pointer"} />
-      </button>
-      <span className="font-mono">{currentYearWithMonth(month)}</span>
-      <button onClick={handleNextMonth}>
-        <ChevronRight className={"cursor-pointer"} />
-      </button>
-    </div>
-  );
-}
 
 function DayPicker({
   className,
@@ -48,6 +24,8 @@ function DayPicker({
   showOutsideDays = true,
   components,
   selectedDate,
+  currentMonth,
+  onChangeMonth,
   onChangeSelectedDate,
   ...props
 }: DayPickerProps) {
@@ -62,7 +40,7 @@ function DayPicker({
 
   return (
     <Calendar
-      month={month}
+      month={currentMonth || month}
       fixedWeeks
       onMonthChange={setMonth}
       selected={selectedDate || date}
@@ -97,8 +75,10 @@ function DayPicker({
         ...classNames,
       }}
       components={{
+        Caption: () => (
+          <Caption month={currentMonth || month} onChangeMonth={onChangeMonth || setMonth} />
+        ),
         ...components,
-        Caption: () => <Caption month={month} setMonth={setMonth} />,
       }}
       {...props}
     />

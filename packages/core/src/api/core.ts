@@ -33,7 +33,7 @@ export const initCoreApi = ({ baseUrl, tokenProvider }: CoreApiConfig) => {
   });
 
   axiosInstance.interceptors.response.use(
-    (response) => response,
+    (response) => response.data,
     (error: AxiosError) => Promise.reject(error),
   );
 };

@@ -6,6 +6,8 @@ import {
   SessionInfo,
 } from "@5unwan/core/api/types/common";
 
+import { TrainerConnectStatus } from "@user/app/schedule-management/_types/addReservation";
+
 export type ConnectTrainerRequestBody = {
   trainerCode: string;
 };
@@ -20,6 +22,7 @@ type MyInformationResponse = {
   name: string;
   trainerId: number;
   trainerName: string;
+  connectingStatus: TrainerConnectStatus;
   profilePictureUrl: string;
   sessionInfo: SessionInfo;
   workoutSchedules: (PreferredWorkout & { workoutScheduleId: string })[];
