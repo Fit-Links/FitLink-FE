@@ -15,7 +15,7 @@ jobs:
         run: apk add ruby && gem install mustache
 
       - name: Prepare output
-        run: bash ./build.sh
+        run: sh ./build.sh
 
       - name: Pushes to another repository
         id: push_directory
