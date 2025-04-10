@@ -19,6 +19,7 @@ import ScheduleInformationItem from "./_components/PTInformation/ScheduleInforma
 
 export default function MyPage() {
   const mockData: MyInformationApiResponse["data"] = {
+    connectingStatus: "CONNECTED", // 또는 올바른 기본값을 넣으세요.
     memberId: 1,
     name: "홍길동",
     trainerId: 1,
