@@ -3,7 +3,13 @@ import { ComponentProps } from "react";
 
 import { cn } from "@ui/lib/utils";
 
-const ProfileItemVariants = {
+const ProfileItemVariants: Record<
+  string,
+  {
+    icon: Icon;
+    content: string;
+  }
+> = {
   calendar: {
     icon: "CalendarMinus2",
     content: "휴무일 설정",
@@ -42,7 +48,7 @@ type ProfileItemProps = ComponentProps<"div"> & {
   variant: keyof typeof ProfileItemVariants;
 };
 
-function ProfileItem({ className, variant, ...props }: ProfileItemProps) {
+export function ProfileItem({ className, variant, ...props }: ProfileItemProps) {
   return (
     <div
       className={cn(
@@ -110,4 +116,4 @@ function ProfileItemContent({ className, ...props }: ProfileItemContentProps) {
   );
 }
 
-export { ProfileItem, ProfileItemIcon, ProfileItemHeader, ProfileItemContent };
+export { ProfileItemIcon, ProfileItemHeader, ProfileItemContent };
