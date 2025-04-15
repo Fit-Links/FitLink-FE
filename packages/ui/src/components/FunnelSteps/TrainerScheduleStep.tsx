@@ -26,6 +26,15 @@ const setHalfHours = (relative: number) => {
 const setTimePeriods = (relative: number) => {
   return relative ? "오후" : "오전";
 };
+const generateTrainerScheduleTime = (
+  timePeriod: string | null,
+  hours: string | null,
+  minutes: string | null,
+) => {
+  if (timePeriod === null || hours === null || minutes === null) return null;
+
+  return `${timePeriod} ${hours}:${minutes}`;
+};
 
 type TrainerScheduleStepProps = {
   onNext: (availablePtTimes: Omit<AvailablePtTime, "availableTimeId">[]) => void;
@@ -44,14 +53,14 @@ function TrainerScheduleStep({ onNext }: TrainerScheduleStepProps) {
       startTime: string | null;
       endTime: string | null;
     }[]
-  >([
-    ...Array.from({ length: 7 }, (_v, index) => ({
+  >(
+    Array.from({ length: 7 }, (_v, index) => ({
       dayOfWeek: DAYS_OF_WEEK_MAP[index],
       isHoliday: false,
       startTime: null,
       endTime: null,
     })),
-  ]);
+  );
 
   const filledDays = trainerSchedule
     ? trainerSchedule.map(
@@ -105,8 +114,11 @@ function TrainerScheduleStep({ onNext }: TrainerScheduleStepProps) {
               onOpenChange={(open) => {
                 if (open === false) {
                   const newTrainerSchedule = [...trainerSchedule];
-                  newTrainerSchedule[currentDay].startTime =
-                    `${timePeriodRef.current} ${hoursRef.current}:${minutesRef.current}`;
+                  newTrainerSchedule[currentDay].startTime = generateTrainerScheduleTime(
+                    timePeriodRef.current,
+                    hoursRef.current,
+                    minutesRef.current,
+                  );
                   setTrainerSchedule(newTrainerSchedule);
                 }
               }}
