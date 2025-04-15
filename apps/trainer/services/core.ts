@@ -2,10 +2,9 @@ import http, { initCoreApi } from "@5unwan/core/api/core";
 import { getLocalStorage } from "@5unwan/core/utils/localStorage";
 
 import { ACCESS_TOKEN_KEY } from "@trainer/constants/token";
+import { BASE_URL } from "@trainer/constants/url";
 
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-
-if (!baseUrl) {
+if (!BASE_URL) {
   throw new Error("NEXT_PUBLIC_API_BASE_URL 환경 변수가 설정되어 있지 않습니다.");
 }
 
@@ -18,6 +17,6 @@ const tokenProvider = () => {
   return null;
 };
 
-initCoreApi({ baseUrl, tokenProvider });
+initCoreApi({ baseUrl: BASE_URL, tokenProvider });
 
 export default http;
