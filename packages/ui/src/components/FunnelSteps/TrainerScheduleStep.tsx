@@ -74,7 +74,6 @@ function TrainerScheduleStep({ onNext }: TrainerScheduleStepProps) {
     : false;
 
   const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = () => {
-    console.log(trainerSchedule);
     onNext(trainerSchedule);
   };
 
