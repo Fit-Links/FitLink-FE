@@ -58,7 +58,7 @@ export function ProfileItem({ className, variant, ...props }: ProfileItemProps) 
       {...props}
     >
       <section className="flex">
-        <ProfileItemIcon icon={ProfileItemVariants[variant].icon} />
+        <ProfileItemIcon icon={ProfileItemVariants[variant].icon as Icon} />
         <ProfileItemHeader content={ProfileItemVariants[variant].content} />
       </section>
       <ProfileItemContent>{props.children}</ProfileItemContent>
@@ -116,4 +116,4 @@ function ProfileItemContent({ className, ...props }: ProfileItemContentProps) {
   );
 }
 
-export { ProfileItemIcon, ProfileItemHeader, ProfileItemContent };
+export { ProfileItemIcon, ProfileItemHeader, ProfileItemContent, ProfileItemVariants };
