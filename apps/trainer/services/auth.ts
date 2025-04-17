@@ -1,5 +1,4 @@
-import http from "@5unwan/core/api/core";
-
+import http from "./core";
 import { LogoutApiResponse, SignupRequestBody, SignupApiResponse } from "./types/auth.dto";
 
 export const signup = (data: SignupRequestBody) =>
