@@ -10,7 +10,7 @@ export default function BottomNavigation() {
   ];
 
   return (
-    <nav className="bg-background-primary flex h-[5.063rem] w-full items-center justify-around border-t border-gray-400">
+    <nav className="bg-background-primary border-background-sub2 md:max-w-mobile fixed bottom-0 z-10 flex h-[5.063rem] w-full justify-around border-t">
       {navigationItems.map(({ icon: Icon, label }, index) => (
         <div key={`${label}-${index}`} className="flex flex-1 items-center justify-center">
           <button className="text-background-sub4 hover:text-background-sub5 flex w-12 flex-col items-center justify-center gap-1">

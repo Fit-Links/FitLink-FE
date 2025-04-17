@@ -24,12 +24,21 @@ export type CalendarApiResponse = ResponseBase<CalendarResponse>;
 export type ReservationStatusRequestQuery = {
   date?: string;
 };
-type ReservationStatusResponse = {
-  reservations: Omit<BaseReservationListItem, "memberInfo" | "sessionInfoId">[] & {
-    sessionInfoId: number | null;
-    memberInfo: Partial<BaseMemberInfo>;
-  };
+
+type NullableMemberInfo = { [K in keyof BaseMemberInfo]: BaseMemberInfo[K] | null };
+
+export type ModifiedReservationListItem = Omit<
+  BaseReservationListItem,
+  "sessionInfoId" | "memberInfo"
+> & {
+  sessionInfoId: number | null;
+  memberInfo: NullableMemberInfo;
 };
+
+type ReservationStatusResponse = {
+  reservations: ModifiedReservationListItem[];
+};
+
 export type ReservationStatusApiResponse = ResponseBase<ReservationStatusResponse>;
 
 export type ReservationDetailStatusRequestPath = ReservationPathParams;

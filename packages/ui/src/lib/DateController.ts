@@ -56,7 +56,7 @@ const DateController = (date: string | Date) => {
         if (date instanceof Date && !isNaN(date.getTime())) return DateController(date);
 
         return undefined;
-      } catch (e) {
+      } catch {
         return undefined;
       }
     },
@@ -93,7 +93,7 @@ const DateController = (date: string | Date) => {
       const hour = targetDate.getHours();
       const minute = targetDate.getMinutes();
 
-      return `${month}. ${day} (${toKoreanDayOfWeekFormat()}) ${hour}:${minute}`;
+      return `${month}. ${day} (${toKoreanDayOfWeekFormat()}) ${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
     },
     // 메서드 체이닝을 지원하지 않습니다
     toKoreanDayOfWeekFormat,
