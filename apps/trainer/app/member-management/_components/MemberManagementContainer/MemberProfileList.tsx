@@ -62,7 +62,7 @@ function MemberProfileList({ memberInformations }: MemberProfileListProps) {
       return selectedMember;
     });
 
-    router.push(`${ROUTES.MEMBER_INFORMATION.ROOT}?memberId=${selectedMemberId}`);
+    router.push(`${ROUTES.MEMBER_MANAGEMENT.ROOT}/${selectedMemberId}`);
   };
 
   const handleClickPtTotalCountEdit = () => {
