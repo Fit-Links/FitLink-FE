@@ -26,6 +26,7 @@ function DayoffAdderButton({ selectedDate }: DayoffAdderButtonProps) {
 
   /** TODO: 버튼 클릭 시 휴무일 추가 API 붙히기 */
   const handleClickDayoffAdder = () => {
+    // TODO: 휴무일 추가 API에 주입할 포맷 날짜 데이터
     // const validateDate = format(selectedDate, "yyyy-MM-dd");
     router.push(ROUTES.ROOT);
   };
