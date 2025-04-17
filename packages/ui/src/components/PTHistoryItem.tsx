@@ -16,8 +16,9 @@ type PTHistoryItemProps = {
   reservationDate: string | Date;
   status: keyof typeof PTHistoryStatusMap;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
+  className?: string;
 };
-function PTHistoryItem({ reservationDate, status, onClick }: PTHistoryItemProps) {
+function PTHistoryItem({ reservationDate, status, onClick, className }: PTHistoryItemProps) {
   try {
     const validatedController = DateController(reservationDate).validate();
     const isClickable = onClick && status === "NONE";
@@ -30,6 +31,7 @@ function PTHistoryItem({ reservationDate, status, onClick }: PTHistoryItemProps)
           {
             "bg-background-sub2": isClickable,
           },
+          className,
         )}
       >
         {validatedController.toServiceFormat().untilMinutes}
