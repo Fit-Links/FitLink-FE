@@ -49,6 +49,7 @@ export default function TimeOptionList({
   const handleCloseScheduleBottomSheet = () => {
     onChangeOpen(false);
 
+    // TODO: 예약 불가 처리 API에 주입할 포맷 데이터
     // const formatDate = format(selectedDate, "yyyy-MM-dd'T'HH:mm");
   };
 
