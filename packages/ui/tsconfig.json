@@ -8,6 +8,6 @@
     },
     "types": ["node", "jest", "@testing-library/jest-dom"]
   },
-  "include": ["."],
+  "include": [".", "./**/*.d.ts"],
   "exclude": ["dist", "build", "node_modules"]
 }

@@ -31,7 +31,7 @@ export const isCheckDayOff = (
 
   return reservations.some((content) => {
     if (content.status === "휴무일") {
-      return isSameDay(date, new Date(content.reservationDate as string));
+      return isSameDay(date, new Date(content.reservationDate[0]));
     }
   });
 };

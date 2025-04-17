@@ -108,7 +108,7 @@ const MOCK_RESERVATION_DATA: ReservationStatusApiResponse["data"] = {
       sessionInfoId: 6,
       isDayOff: false,
       dayOfWeek: "WEDNESDAY",
-      reservationDate: "2025-04-30T18:00",
+      reservationDate: ["2025-04-30T18:00"],
       status: "예약 확정",
       memberInfo: {
         memberId: 5,
@@ -120,7 +120,7 @@ const MOCK_RESERVATION_DATA: ReservationStatusApiResponse["data"] = {
       sessionInfoId: 11,
       isDayOff: false,
       dayOfWeek: "TUESDAY",
-      reservationDate: "2025-04-01T11:00",
+      reservationDate: ["2025-04-01T11:00"],
       status: "수업 완료",
       memberInfo: {
         memberId: 12,
@@ -132,7 +132,7 @@ const MOCK_RESERVATION_DATA: ReservationStatusApiResponse["data"] = {
       sessionInfoId: 3,
       isDayOff: false,
       dayOfWeek: "MONDAY",
-      reservationDate: "2025-04-28T15:00",
+      reservationDate: ["2025-04-28T15:00"],
       status: "예약 대기",
       memberInfo: {
         memberId: 13,
@@ -144,7 +144,7 @@ const MOCK_RESERVATION_DATA: ReservationStatusApiResponse["data"] = {
       sessionInfoId: 4,
       isDayOff: false,
       dayOfWeek: "MONDAY",
-      reservationDate: "2025-04-28T15:00",
+      reservationDate: ["2025-04-28T15:00"],
       status: "예약 대기",
       memberInfo: {
         memberId: 14,
@@ -156,7 +156,7 @@ const MOCK_RESERVATION_DATA: ReservationStatusApiResponse["data"] = {
       sessionInfoId: 5,
       isDayOff: false,
       dayOfWeek: "MONDAY",
-      reservationDate: "2025-04-28T15:00",
+      reservationDate: ["2025-04-28T15:00"],
       status: "예약 대기",
       memberInfo: {
         memberId: 15,
@@ -168,7 +168,7 @@ const MOCK_RESERVATION_DATA: ReservationStatusApiResponse["data"] = {
       sessionInfoId: null,
       isDayOff: true,
       dayOfWeek: "THURSDAY",
-      reservationDate: "2025-04-03",
+      reservationDate: ["2025-04-03"],
       status: "휴무일",
       memberInfo: {
         memberId: null,
@@ -180,7 +180,7 @@ const MOCK_RESERVATION_DATA: ReservationStatusApiResponse["data"] = {
       sessionInfoId: null,
       isDayOff: true,
       dayOfWeek: "FRIDAY",
-      reservationDate: "2025-04-04",
+      reservationDate: ["2025-04-04"],
       status: "휴무일",
       memberInfo: {
         memberId: null,

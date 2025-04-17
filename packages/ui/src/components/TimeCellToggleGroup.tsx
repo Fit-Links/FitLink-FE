@@ -10,13 +10,13 @@ const NOT_FOUND = -1;
 type TimeCellToggleVariant = "default" | "notification";
 
 type Props = {
+  className?: string;
   toggleLimit?: number;
   selected: string[];
   onSelectedChange: (value: string[]) => void;
   onExceedToggleLimit?: () => void;
   timeCellInfo: TimeCell[];
   variant?: TimeCellToggleVariant;
-  className?: string;
 };
 function TimeCellToggleGroup({
   toggleLimit,
@@ -24,8 +24,8 @@ function TimeCellToggleGroup({
   onSelectedChange,
   onExceedToggleLimit,
   timeCellInfo,
-  variant = "default",
   className,
+  variant = "default",
 }: Props) {
   const handleChange = (value: string[]) => {
     if (toggleLimit && value.length > toggleLimit) {
