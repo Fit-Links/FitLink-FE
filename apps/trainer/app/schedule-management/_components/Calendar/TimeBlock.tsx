@@ -1,5 +1,4 @@
 /* eslint-disable no-magic-numbers */
-"use client";
 
 import { ReservationStatus } from "@5unwan/core/api/types/common";
 import { cn } from "@ui/lib/utils";
