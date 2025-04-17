@@ -17,7 +17,7 @@ function MemberCardList({
   selectedMemberInformation,
   onChangeSelectMemberInformation,
 }: MemberCardListProps) {
-  const handleClickSelectMember = (selectedMemberId: number) => {
+  const handleClickSelectMember = (selectedMemberId: number) => () => {
     const selectedMember = memberList.find(({ memberId }) => memberId === selectedMemberId);
     onChangeSelectMemberInformation(selectedMember ? selectedMember : null);
   };
@@ -35,7 +35,7 @@ function MemberCardList({
           className={cn(
             selectedMemberInformation?.memberId === memberId && "border-brand-primary-500 border",
           )}
-          onClick={() => handleClickSelectMember(memberId)}
+          onClick={handleClickSelectMember(memberId)}
         >
           <WorkoutSchedule memberId={memberId} />
         </MemberProfileCard>

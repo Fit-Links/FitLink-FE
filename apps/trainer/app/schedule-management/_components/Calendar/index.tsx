@@ -21,7 +21,7 @@ import {
   isCheckDayOff,
   mergeDateAndTime,
   parsedReservationContent,
-} from "../../_utils/CalendarUtils";
+} from "../../_libs/CalendarUtils";
 
 const WEEK_LENGTH = 7;
 const MONTH_START_INDEX = 1;
