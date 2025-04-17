@@ -1,3 +1,5 @@
+"use client";
+
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle } from "@ui/components/Sheet";
 import DateController from "@ui/lib/DateController";
 import { usePathname, useRouter } from "next/navigation";

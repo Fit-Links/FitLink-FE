@@ -1,3 +1,5 @@
+"use client";
+
 import { ReservationStatus } from "@5unwan/core/api/types/common";
 import { Badge } from "@ui/components/Badge";
 import { Button } from "@ui/components/Button";
