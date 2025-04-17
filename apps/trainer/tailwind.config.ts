@@ -6,7 +6,8 @@ const config: Config = {
   content: [
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@5unwan/ui/dist/**/*.{js,ts,jsx,tsx,mdx}",
+    "./hoc/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/@5unwan/ui/src/components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   presets: [sharedConfig],
 };
