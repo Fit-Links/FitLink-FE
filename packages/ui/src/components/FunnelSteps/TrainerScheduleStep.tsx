@@ -76,6 +76,26 @@ function TrainerScheduleStep({ onNext }: TrainerScheduleStepProps) {
   const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = () => {
     onNext(trainerSchedule);
   };
+  const handleHolidaySwitchChange = (checked: boolean) => {
+    const newTrainerSchedule = [...trainerSchedule];
+    newTrainerSchedule[currentDay].isHoliday = checked;
+    if (checked) {
+      newTrainerSchedule[currentDay].startTime = null;
+      newTrainerSchedule[currentDay].endTime = null;
+    }
+    setTrainerSchedule(newTrainerSchedule);
+  };
+  const createTimeDialogHandler = (time: "startTime" | "endTime") => (open: boolean) => {
+    if (open === false) {
+      const newTrainerSchedule = [...trainerSchedule];
+      newTrainerSchedule[currentDay][time] = generateTrainerScheduleTime(
+        timePeriodRef.current,
+        hoursRef.current,
+        minutesRef.current,
+      );
+      setTrainerSchedule(newTrainerSchedule);
+    }
+  };
 
   return (
     <div className="flex h-full flex-col border">
@@ -95,33 +115,13 @@ function TrainerScheduleStep({ onNext }: TrainerScheduleStepProps) {
             <label>휴무일로 설정하기</label>
             <Switch
               checked={trainerSchedule[currentDay].isHoliday}
-              onCheckedChange={(checked) => {
-                const newTrainerSchedule = [...trainerSchedule];
-                newTrainerSchedule[currentDay].isHoliday = checked;
-                if (checked) {
-                  newTrainerSchedule[currentDay].startTime = null;
-                  newTrainerSchedule[currentDay].endTime = null;
-                }
-                setTrainerSchedule(newTrainerSchedule);
-              }}
+              onCheckedChange={handleHolidaySwitchChange}
             />
           </div>
 
           <div className="flex items-start justify-between">
             <label>시작 시간</label>
-            <Dialog
-              onOpenChange={(open) => {
-                if (open === false) {
-                  const newTrainerSchedule = [...trainerSchedule];
-                  newTrainerSchedule[currentDay].startTime = generateTrainerScheduleTime(
-                    timePeriodRef.current,
-                    hoursRef.current,
-                    minutesRef.current,
-                  );
-                  setTrainerSchedule(newTrainerSchedule);
-                }
-              }}
-            >
+            <Dialog onOpenChange={createTimeDialogHandler("startTime")}>
               <DialogTrigger>
                 <Button size="md" className="w-[6.8125rem]">
                   {trainerSchedule[currentDay].startTime || DEFAULT_TIME}
@@ -173,16 +173,7 @@ function TrainerScheduleStep({ onNext }: TrainerScheduleStepProps) {
 
           <div className="flex items-start justify-between">
             <label>종료 시간</label>
-            <Dialog
-              onOpenChange={(open) => {
-                if (open === false) {
-                  const newTrainerSchedule = [...trainerSchedule];
-                  newTrainerSchedule[currentDay].endTime =
-                    `${timePeriodRef.current} ${hoursRef.current}:${minutesRef.current}`;
-                  setTrainerSchedule(newTrainerSchedule);
-                }
-              }}
-            >
+            <Dialog onOpenChange={createTimeDialogHandler("endTime")}>
               <DialogTrigger>
                 <Button size="md" className="w-[6.8125rem]">
                   {trainerSchedule[currentDay].endTime || DEFAULT_TIME}
