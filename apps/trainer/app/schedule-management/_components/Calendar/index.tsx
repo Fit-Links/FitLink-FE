@@ -1,5 +1,4 @@
 "use client";
-import { addHours, isEqual, isSameDay, startOfDay } from "date-fns";
 import { useRef, useState } from "react";
 import SwiperConfig from "swiper";
 import { Virtual } from "swiper/modules";
@@ -18,6 +17,11 @@ import DayOfWeek from "./DayOfWeek";
 import TimeBlock from "./TimeBlock";
 import TimeColumn from "./TimeColumn";
 import WeekRow from "./WeekRow";
+import {
+  isCheckDayOff,
+  mergeDateAndTime,
+  parsedReservationContent,
+} from "../../_utils/CalendarUtils";
 
 const WEEK_LENGTH = 7;
 const MONTH_START_INDEX = 1;
@@ -40,37 +44,6 @@ export default function Calendar() {
     const newWeek = initialWeeks[activeIndex];
 
     setCurrentWeek(newWeek);
-  };
-
-  const mergeDateAndTime = (date: Date) => {
-    return Array.from({ length: 24 }, (_, index) => addHours(startOfDay(date), index));
-  };
-
-  const parsedReservationContent = (
-    reservationContents: ReservationStatusApiResponse["data"],
-    date: Date,
-  ) => {
-    const { reservations } = reservationContents;
-
-    return reservations.filter((content) => {
-      if (content.status === "휴무일") {
-        return;
-      }
-
-      return Array.isArray(content.reservationDate)
-        ? isEqual(date, content.reservationDate[0])
-        : isEqual(date, content.reservationDate);
-    });
-  };
-
-  const isCheckDayOff = (reservationContents: ReservationStatusApiResponse["data"], date: Date) => {
-    const { reservations } = reservationContents;
-
-    return reservations.some((content) => {
-      if (content.status === "휴무일") {
-        return isSameDay(date, new Date(content.reservationDate as string));
-      }
-    });
   };
 
   useSyncScroll(timeColumnRef, scheduleRef);
