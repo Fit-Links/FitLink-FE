@@ -4,8 +4,8 @@ import React from "react";
 import { MYPAGE_ROUTES } from "@trainer/constants/mypageRoute";
 
 import MyPageHeader from "./_components/MyPageHeader";
+import ProfileItemForRouting from "./_components/ProfileItemForRouting";
 import ScheduleInformation from "./_components/ScheduleInformation";
-import ProfileItemForRouting from "./trainer-code/_components/ProfileItemForRouting";
 
 export type SpanScheduleUnit = {
   dayOfWeek: DaysOfWeek;
