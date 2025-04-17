@@ -6,7 +6,7 @@ import React from "react";
 
 import BottomNavigation from "../BottomNavigation";
 
-// TODO[2025.03.18]: user 모든 경로 분류하기
+// TODO[2025.04.14]: trainer 모든 경로 분류하기
 const PATHS = {
   WITH_FOOTER: new Set(["/", "/schedule-management"]),
   WITHOUT_FOOTER: new Set(["/register", "/login"]),

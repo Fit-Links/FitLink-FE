@@ -1,5 +1,4 @@
 import { PreferredWorkout } from "@5unwan/core/api/types/common";
-import React from "react";
 
 import Header from "@ui/components/Header";
 import WorkoutForm from "@ui/components/WorkoutForm";
