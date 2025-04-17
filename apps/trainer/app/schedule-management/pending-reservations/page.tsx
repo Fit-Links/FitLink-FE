@@ -24,3 +24,10 @@
 // }
 
 // export default PendingReservations;
+
+// 빌드 에러 방지를 위한 Dummy export
+function page() {
+  return <div></div>;
+}
+
+export default page;
