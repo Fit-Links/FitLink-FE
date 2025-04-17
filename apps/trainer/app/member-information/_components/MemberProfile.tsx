@@ -6,6 +6,7 @@ import Icon from "@ui/components/Icon";
 import ProfileHeader from "@ui/components/ProfileHeader";
 import { ProfileItem } from "@ui/components/ProfileItem";
 import PTPreference from "@ui/components/PTPreference";
+import { DaysOfWeek } from "@ui/utils/makeWeekSchedule";
 
 function MemberProfile() {
   return (
@@ -41,7 +42,7 @@ function MemberProfile() {
   );
 }
 
-const MOCK_WORKOUT_SCHEDULE = [
+const MOCK_WORKOUT_SCHEDULE: { dayOfWeek: DaysOfWeek; preferenceTimes: string[] }[] = [
   {
     dayOfWeek: "MON",
     preferenceTimes: ["10:00", "11:00", "12:00"],
