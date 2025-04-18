@@ -15,7 +15,8 @@ import Icon from "@ui/components/Icon";
 import { useRouter } from "next/navigation";
 import { ComponentPropsWithoutRef } from "react";
 
-import { ROUTES } from "../_constants/route";
+import RouteInstance from "@user/constants/routes";
+
 import { TrainerConnectStatus } from "../_types/addReservation";
 import { resolveTrainerConnectionFlow } from "../_utils/resolveTrainerConnectionFlow";
 
@@ -30,8 +31,9 @@ function ReservationAdder({ trainerConnectStatus, ptCount }: ReservationAdderPro
   /** TODO: 트레이너 연결 상태 추출 */
   // const { data: myInformation } = useSuspenseQuery(myInformationQueries.summary());
 
-  const onGoNewReservation = () => router.push(`${ROUTES.ROOT}/${ROUTES.NEW_RESERVATION}`);
-  const onRequestConnect = () => router.push(ROUTES.TRAINER_CODE);
+  const onGoNewReservation = () => router.push(RouteInstance.reservation("new"));
+
+  const onRequestConnect = () => router.push(RouteInstance["connect-trainer"]());
 
   const { popupData, onClickButton } = resolveTrainerConnectionFlow(
     trainerConnectStatus,
