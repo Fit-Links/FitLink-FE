@@ -24,9 +24,10 @@ import { cn } from "@ui/lib/utils";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import RouteInstance from "@user/constants/routes";
+
 import RequestSuccessSheet from "./RequestSuccessSheet";
 import ReservationCancelSheet from "./ReservationCancelSheet";
-import { ROUTES } from "../../_constants/route";
 
 type ReservationStatusSheetProps = {
   open: boolean;
@@ -62,7 +63,9 @@ function ReservationStatusSheet({
   };
 
   const handleClickChangeButton = () => {
-    router.push(`${ROUTES.ROOT}/${ROUTES.EDIT_RESERVATION}?${searchParams.toString()}`);
+    router.push(
+      RouteInstance.reservation("edit", { reservationDate: searchParams.get("reservationDate") }),
+    );
   };
 
   const handleClickRemindButton = () => {

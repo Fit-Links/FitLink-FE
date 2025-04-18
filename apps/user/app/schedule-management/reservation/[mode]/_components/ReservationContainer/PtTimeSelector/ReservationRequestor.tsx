@@ -4,7 +4,8 @@ import { useRouter } from "next/navigation";
 import RequestSuccessSheet, {
   RequestSucccessSheetTrigger,
 } from "@user/app/schedule-management/_components/BottomSheet/RequestSuccessSheet";
-import { ROUTES } from "@user/app/schedule-management/_constants/route";
+
+import RouteInstance from "@user/constants/routes";
 
 import { RequestReservationMode } from "@user/app/schedule-management/reservation/[mode]/types/requestReservation";
 
@@ -43,7 +44,7 @@ function ReservationRequestor({ mode, open, onChangeOpen, isActive }: Reservatio
 
   // TODO: selectedDate와 selectedTimes를 통해 예약 변경 요청 진행
   const handleClickRequestButton = () => {
-    router.push(ROUTES.ROOT);
+    router.push(RouteInstance.root());
   };
 
   return (
