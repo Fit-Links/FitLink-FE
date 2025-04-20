@@ -1,5 +1,5 @@
+import Icon from "@ui/components/Icon";
 import { ProfileItem, ProfileItemVariants } from "@ui/components/ProfileItem";
-import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useCallback } from "react";
 
@@ -25,7 +25,7 @@ export default function NavigateProfileItem({ className, variant }: NavigateProf
 
   return (
     <ProfileItem className={className} variant={variant}>
-      <ChevronRight onClick={handleClickRoute} />
+      <Icon name="ChevronRight" size="lg" onClick={handleClickRoute} />
     </ProfileItem>
   );
 }

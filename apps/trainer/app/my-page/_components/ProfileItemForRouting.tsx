@@ -1,7 +1,7 @@
 "use client";
 
+import Icon from "@ui/components/Icon";
 import { ProfileItem } from "@ui/components/ProfileItem";
-import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -19,7 +19,7 @@ export default function ProfileItemForRouting({ variant, url }: ProfileItemForRo
 
   return (
     <ProfileItem variant={variant}>
-      <ChevronRight onClick={handleClickRouting} />
+      <Icon name="ChevronRight" size="lg" onClick={handleClickRouting} />
     </ProfileItem>
   );
 }
