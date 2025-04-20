@@ -1,7 +1,6 @@
 {
   "name": "@5unwan/core",
   "version": "0.0.0",
-  "type": "module",
   "description": "",
   "license": "MIT",
   "scripts": {
