@@ -3,7 +3,7 @@ import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-import { ROUTE } from "../../_constants/route";
+import RouteInstance from "@user/constants/routes";
 
 interface MemorizedProfileLinkProps {
   value: string;
@@ -13,7 +13,7 @@ export const MemorizedChangePhoneLink = React.memo(({ value }: MemorizedProfileL
   const router = useRouter();
 
   const handleClickRoutingVerifyPhone = () => {
-    router.push(ROUTE.VERIFY_PHONE);
+    router.push(RouteInstance["verify-phone"]());
   };
 
   return (

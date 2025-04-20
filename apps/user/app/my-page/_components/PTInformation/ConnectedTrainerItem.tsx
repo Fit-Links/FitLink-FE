@@ -4,7 +4,7 @@ import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-import { ROUTE } from "../../_constants/route";
+import RouteInstance from "@user/constants/routes";
 
 interface TrainerInformationProps {
   trainerName: string;
@@ -26,9 +26,11 @@ export default function ConnectedTrainerItem({ trainerName }: TrainerInformation
             trainerName ? "text-text-sub2" : "text-text-primary",
           )}
           onClick={() => {
-            trainerName
-              ? handleClickRouting(ROUTE.MY_TRAINER_INFORMATION)
-              : handleClickRouting(ROUTE.CONNECT_TRAINER);
+            handleClickRouting(
+              trainerName
+                ? RouteInstance["my-trainer-information"]()
+                : RouteInstance["connect-trainer"](),
+            );
           }}
         >
           {trainerName ? trainerName : "연동하기"}
