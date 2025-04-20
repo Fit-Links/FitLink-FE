@@ -14,7 +14,7 @@ function PtHistoryFilterButton({
   selectedPtStatus,
   onChangeSelectedPtStatus,
 }: PtHistoryFilterButtonProps) {
-  const handleClick = (status: string) => {
+  const handleClick = (status: string) => () => {
     onChangeSelectedPtStatus(status);
   };
 
@@ -23,7 +23,7 @@ function PtHistoryFilterButton({
       {ptStatusOptions.map((status) => (
         <Button
           key={status}
-          onClick={() => handleClick(status)}
+          onClick={handleClick(status)}
           className={cn(
             "bg-background-sub2 text-body-1 hover:bg-background-sub5 hover:text-text-sub5 h-8 rounded-[0.625rem] px-[0.813rem] py-[0.625rem] transition-colors",
             {
