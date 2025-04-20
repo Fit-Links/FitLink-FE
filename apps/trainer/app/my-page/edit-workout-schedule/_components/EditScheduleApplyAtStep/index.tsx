@@ -17,8 +17,12 @@ export default function EditScheduleApplyAtStep({ onNext }: EditScheduleApplyAtS
     }
   };
 
+  const handleClickNext = () => {
+    onNext(selectedDate.toISOString());
+  };
+
   return (
-    <section className="bg-background-primary text-text-primary flex h-screen w-full flex-col  justify-between px-4">
+    <section className="bg-background-primary text-text-primary flex h-screen w-full flex-col  justify-between">
       <div>
         <Header title="변경 시점 적용" />
 
@@ -29,12 +33,7 @@ export default function EditScheduleApplyAtStep({ onNext }: EditScheduleApplyAtS
         />
       </div>
 
-      <Button
-        className="mb-[2.125rem] w-full"
-        size="lg"
-        variant="brand"
-        onClick={() => onNext(selectedDate.toISOString())}
-      >
+      <Button className="mb-[2.125rem] w-full" size="lg" variant="brand" onClick={handleClickNext}>
         다음
       </Button>
     </section>
