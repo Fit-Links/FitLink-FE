@@ -21,7 +21,7 @@ import { PtUser, PtUserListApiResponse } from "@trainer/services/types/userManag
 
 import ProfileCard, { MenuIcon } from "@trainer/components/ProfileCard";
 
-import { ROUTES } from "@trainer/constants/route";
+import RouteInstance from "@trainer/constants/route";
 
 import PtRemainingCountEditSheet from "./PtRemainingCountEditSheet";
 import PtTotalCountEditSheet from "./PtTotalCountEditSheet";
@@ -62,7 +62,7 @@ function MemberProfileList({ memberInformations }: MemberProfileListProps) {
       return selectedMember;
     });
 
-    router.push(`${ROUTES.MEMBER_MANAGEMENT.ROOT}/${selectedMemberId}`);
+    router.push(RouteInstance["member-management"](String(selectedMemberId)));
   };
 
   const handleClickPtTotalCountEdit = () => {
