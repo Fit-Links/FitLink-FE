@@ -116,11 +116,11 @@ export default function EditScheduleStep({ onNext }: EditScheduleStepProps) {
                 )}
                 onClick={() => handleClickOpenPicker("startTime")}
               >
-                {formatAvailableScheduleToMeridiem(workoutSchedule[currentDay]?.startTime)}
+                {formatAvailableScheduleToMeridiem(workoutSchedule[currentDay]?.startTime ?? "")}
               </Button>
               {openPicker === "startTime" && (
                 <MerdiemTimePicker
-                  time={workoutSchedule[currentDay]?.startTime}
+                  time={workoutSchedule[currentDay]?.startTime ?? ""}
                   type="startTime"
                   onChangeTime={handleChangeTime}
                 />
@@ -135,11 +135,11 @@ export default function EditScheduleStep({ onNext }: EditScheduleStepProps) {
                 )}
                 onClick={() => handleClickOpenPicker("endTime")}
               >
-                {formatAvailableScheduleToMeridiem(workoutSchedule[currentDay]?.endTime)}
+                {formatAvailableScheduleToMeridiem(workoutSchedule[currentDay]?.endTime ?? "")}
               </Button>
               {openPicker === "endTime" && (
                 <MerdiemTimePicker
-                  time={workoutSchedule[currentDay]?.endTime}
+                  time={workoutSchedule[currentDay]?.endTime ?? ""}
                   type="endTime"
                   onChangeTime={handleChangeTime}
                 />

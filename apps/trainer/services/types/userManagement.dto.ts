@@ -11,9 +11,9 @@ export type PtUser = {
   memberId: number;
   name: string;
   birthDate: string;
+  profilePictureUrl: string;
   phoneNumber: string;
-  totalCount: number;
-  remainingCount: number;
+  sessionInfo: SessionInfo;
 };
 
 export type PtUserListRequestQuery = {

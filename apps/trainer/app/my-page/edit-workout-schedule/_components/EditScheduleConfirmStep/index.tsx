@@ -9,8 +9,8 @@ import Header from "../../../_components/Header";
 
 type EditScheduleConfirmStepProps = {
   context: {
-    scheduleApplyAt: string;
-    availablePtTime: AvailablePtTime[];
+    scheduleApplyAt?: string;
+    availablePtTime?: AvailablePtTime[];
   };
 };
 export default function EditScheduleConfirmStep({ context }: EditScheduleConfirmStepProps) {
@@ -24,7 +24,7 @@ export default function EditScheduleConfirmStep({ context }: EditScheduleConfirm
 
         <div className="bg-background-sub2 mt-[3.25rem] min-h-[3rem] w-full rounded-lg py-[1.25rem]">
           <p className="text-subhead-1 text-text-primary">
-            {context.availablePtTime.map((time) => (
+            {context.availablePtTime?.map((time) => (
               <p key={time.availableTimeId}>{formatAvailableScheduleConfirm(time)}</p>
             ))}
           </p>

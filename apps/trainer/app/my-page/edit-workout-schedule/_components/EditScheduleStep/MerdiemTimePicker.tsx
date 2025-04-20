@@ -10,41 +10,46 @@ type MerdiemTimePickerProps = {
 };
 
 const PERIOD_MAP = {
-  오전: 0,
-  오후: 1,
-};
+  0: "오전",
+  1: "오후",
+} as const;
 
-const PERIOD_SPLIT_NUMBER = 12;
+const NUMBER_PADDING = 2;
+const AM_PERIOD = 0;
 const PM_PERIOD = 1;
+const PERIOD_SPLIT_NUMBER = 12;
 
 const setHalfHours = (relative: number) => {
   return relative ? "30" : "00";
 };
 
 const setTimePeriods = (relative: number) => {
-  return relative ? "오후" : "오전";
+  return PERIOD_MAP[relative as keyof typeof PERIOD_MAP];
 };
 
-const isPM = (timePeriod: number) => {
-  return timePeriod === PM_PERIOD;
+type PeriodType = (typeof PERIOD_MAP)[keyof typeof PERIOD_MAP];
+
+const isPM = (timePeriod: PeriodType) => {
+  return timePeriod === PERIOD_MAP[PM_PERIOD];
 };
 
 const generateTrainerScheduleTime = (
-  timePeriod: number,
+  timePeriod: PeriodType,
   hours: string | null,
   minutes: string | null,
 ) => {
-  const PERIOD_NUMBER = PERIOD_MAP[timePeriod as keyof typeof PERIOD_MAP];
-  const adjustedHours = isPM(PERIOD_NUMBER) ? Number(hours) + PERIOD_SPLIT_NUMBER : Number(hours);
+  const adjustedHours = isPM(timePeriod) ? Number(hours) + PERIOD_SPLIT_NUMBER : Number(hours);
 
-  return `${adjustedHours}:${minutes}`;
+  return `${adjustedHours.toString().padStart(NUMBER_PADDING, "0")}:${minutes}`;
 };
 
 function MerdiemTimePicker({ time, type, onChangeTime }: MerdiemTimePickerProps) {
   const timePickerRef = useRef<HTMLDivElement | null>(null);
 
-  const timePeriodRef = useRef(
-    Number(time.split(":")[0]) < PERIOD_SPLIT_NUMBER ? PERIOD_MAP.오전 : PERIOD_MAP.오후,
+  const timePeriodRef = useRef<PeriodType>(
+    Number(time.split(":")[0]) < PERIOD_SPLIT_NUMBER
+      ? PERIOD_MAP[AM_PERIOD]
+      : PERIOD_MAP[PM_PERIOD],
   );
 
   const hour = Number(time.split(":")[0]);
@@ -71,7 +76,11 @@ function MerdiemTimePicker({ time, type, onChangeTime }: MerdiemTimePickerProps)
     >
       <div className="h-[180px] w-[70px]">
         <TimePicker
-          initIdx={timePeriodRef.current}
+          initIdx={Number(
+            Object.keys(PERIOD_MAP).find(
+              (key) => PERIOD_MAP[Number(key) as keyof typeof PERIOD_MAP] === timePeriodRef.current,
+            ),
+          )}
           length={2}
           width={40}
           loop={false}

@@ -1,7 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { CalendarClock, CalendarMinus2, CalendarX2, Dumbbell } from "lucide-react";
+import TimeOption from "trainer/app/schedule-management/_components/TimeOption";
 
-import TimeOption from "trainer/components/TimeOption";
+import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof TimeOption> = {
   component: TimeOption,

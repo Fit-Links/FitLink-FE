@@ -19,7 +19,7 @@ import { formatDateStringToKorean } from "@trainer/utils/avaliableScheduleUtils"
 
 interface ScheduleChangeResultSheetProps {
   children: React.ReactNode;
-  scheduleApplyAt: string;
+  scheduleApplyAt?: string;
 }
 
 export default function ScheduleChangeResultSheet({

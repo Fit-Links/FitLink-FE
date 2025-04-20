@@ -7,9 +7,9 @@ import { MYPAGE_ROUTES } from "@trainer/constants/mypageRoute";
 
 const NAVIGATE_ROUTE = {
   code: MYPAGE_ROUTES.CODE,
-  phone: MYPAGE_ROUTES.PHONE,
+  phone: MYPAGE_ROUTES.VERIFICATION_PHONE,
   myInformation: MYPAGE_ROUTES.MY_INFORMATION,
-  editMyWorkoutSchedules: MYPAGE_ROUTES.EDIT_MY_WORKOUT_SCHEDULES,
+  editMyWorkoutSchedules: MYPAGE_ROUTES.EDIT_WORKOUT_SCHEDULE,
 } as const;
 
 type NavigateProfileItemProps = {

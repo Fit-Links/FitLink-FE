@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 "use client";
 
 import { Button } from "@ui/components/Button";
@@ -14,20 +15,25 @@ import Stepper from "@ui/components/Stepper";
 import { cn } from "@ui/lib/utils";
 import { ComponentType, ReactNode, useState } from "react";
 
+import { PtUser } from "@trainer/services/types/userManagement.dto";
+
 type WithBottomSheetStepperProps = {
   className?: string;
   title: string;
   description?: string;
   incrementOptions?: number[];
-  children: ReactNode;
+  children?: ReactNode;
+  initialStep?: number;
+  open?: boolean;
+  onChangeOpen?: (isOpen: boolean) => void;
+  selectedMemberInformation: PtUser | null;
 };
 
 type ApproveOrModifyCTAButtonProps = {
   value: number;
   onChangeClose: (isOpen: boolean) => void;
+  selectedMemberInformation: PtUser | null;
 };
-
-const INITIALSTEP = 0;
 
 export const WithBottomSheetStepper = (
   ApproveOrModifyCTAButton: ComponentType<ApproveOrModifyCTAButtonProps>,
@@ -38,8 +44,12 @@ export const WithBottomSheetStepper = (
     description,
     incrementOptions,
     children,
+    selectedMemberInformation,
+    initialStep,
+    open,
+    onChangeOpen,
   }: WithBottomSheetStepperProps) {
-    const [step, setStep] = useState(INITIALSTEP);
+    const [step, setStep] = useState(initialStep || 0);
     const [openBottomSheet, setOpenBottomSheet] = useState(false);
 
     const handleChangeValueIncrementValue = (incrementValue: number) => () => {
@@ -51,15 +61,24 @@ export const WithBottomSheetStepper = (
     };
 
     const handleClickSheetVisible = (isOpen: boolean) => {
+      if (onChangeOpen) {
+        onChangeOpen(isOpen);
+
+        return;
+      }
+
       setOpenBottomSheet(isOpen);
     };
 
     return (
-      <Sheet open={openBottomSheet} onOpenChange={handleClickSheetVisible}>
+      <Sheet open={open || openBottomSheet} onOpenChange={onChangeOpen || handleClickSheetVisible}>
         <SheetTrigger asChild>{children}</SheetTrigger>
         <SheetContent
           side={"bottom"}
-          className={cn("flex h-fit w-full flex-col items-center", className)}
+          className={cn(
+            "md:max-w-mobile left-1/2 flex h-fit w-full -translate-x-1/2 flex-col items-center",
+            className,
+          )}
         >
           <SheetHeader className={cn("items-center", !description && "mb-0")}>
             {title && <SheetTitle className={cn(!description && "mb-0")}>{title}</SheetTitle>}
@@ -80,7 +99,11 @@ export const WithBottomSheetStepper = (
           </div>
           <Stepper value={step} onChangeValue={handleChangeValue} className="border-none" />
           <SheetFooter className="w-full">
-            <ApproveOrModifyCTAButton value={step} onChangeClose={handleClickSheetVisible} />
+            <ApproveOrModifyCTAButton
+              value={step}
+              onChangeClose={handleClickSheetVisible}
+              selectedMemberInformation={selectedMemberInformation}
+            />
           </SheetFooter>
         </SheetContent>
       </Sheet>

@@ -1,10 +1,14 @@
-import { AvailablePtTimeEntry } from "@trainer/services/types/myInformation.dto";
+import { AvailablePtTime } from "@5unwan/core/api/types/common";
 
 /* eslint-disable no-magic-numbers */
 
 const WEEK_DAYS = ["월", "화", "수", "목", "금", "토", "일"] as const;
 
-export const formatAvailableScheduleToMeridiem = (time: string) => {
+export const formatAvailableScheduleToMeridiem = (time: string | null) => {
+  if (!time) {
+    return "";
+  }
+
   if (!/^\d{1,2}:\d{2}$/.test(time)) {
     throw new Error(`Invalid time format: "${time}" (Expected "HH:mm")`);
   }
@@ -26,23 +30,27 @@ export const formatAvailableScheduleToMeridiem = (time: string) => {
   }
 };
 
-export const formatAvailableScheduleConfirm = (availableSchedule: AvailablePtTimeEntry) => {
+export const formatAvailableScheduleConfirm = (availableSchedule: AvailablePtTime) => {
   const { availableTimeId, isHoliday, startTime, endTime } = availableSchedule;
 
   if (isHoliday) return;
 
-  return `${WEEK_DAYS[availableTimeId]} ${formatAvailableScheduleToMeridiem(startTime)} - ${formatAvailableScheduleToMeridiem(endTime)}`;
+  return `${WEEK_DAYS[availableTimeId]} ${startTime} - ${endTime}`;
 };
 
 export const formatDateToKorean = (date: Date): string => {
   const year = date.getFullYear();
-  const month = date.getMonth() + 1;
+  const month = date.getMonth() + 1; // getMonth()는 0-11을 반환하므로 1을 더합니다
   const day = date.getDate();
 
   return `${year}년 ${month}월 ${day}일`;
 };
 
-export const formatDateStringToKorean = (dateString: string | number): string => {
+export const formatDateStringToKorean = (dateString: string | number | undefined): string => {
+  if (!dateString) {
+    return "";
+  }
+
   const date = new Date(dateString);
 
   return formatDateToKorean(date);
