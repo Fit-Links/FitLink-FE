@@ -20,13 +20,13 @@ export const formatAvailableScheduleToMeridiem = (time: string | null) => {
   }
 
   if (hour === 0) {
-    return `오전 12 : ${minute.toString().padStart(2, "0")}`;
+    return `오전 12:${minute.toString().padStart(2, "0")}`;
   } else if (hour < 12) {
-    return `오전 ${hour} : ${minute.toString().padStart(2, "0")}`;
+    return `오전 ${hour}:${minute.toString().padStart(2, "0")}`;
   } else if (hour === 12) {
-    return `오후 12 : ${minute.toString().padStart(2, "0")}`;
+    return `오후 12:${minute.toString().padStart(2, "0")}`;
   } else {
-    return `오후 ${hour - 12} : ${minute.toString().padStart(2, "0")}`;
+    return `오후 ${hour - 12}:${minute.toString().padStart(2, "0")}`;
   }
 };
 
@@ -35,12 +35,15 @@ export const formatAvailableScheduleConfirm = (availableSchedule: AvailablePtTim
 
   if (isHoliday) return;
 
-  return `${WEEK_DAYS[availableTimeId]} ${startTime} - ${endTime}`;
+  const formattedStartTime = formatAvailableScheduleToMeridiem(startTime);
+  const formattedEndTime = formatAvailableScheduleToMeridiem(endTime);
+
+  return `${WEEK_DAYS[availableTimeId]} ${formattedStartTime} - ${formattedEndTime}`;
 };
 
 export const formatDateToKorean = (date: Date): string => {
   const year = date.getFullYear();
-  const month = date.getMonth() + 1; // getMonth()는 0-11을 반환하므로 1을 더합니다
+  const month = date.getMonth() + 1;
   const day = date.getDate();
 
   return `${year}년 ${month}월 ${day}일`;
