@@ -15,7 +15,7 @@ type EditScheduleConfirmStepProps = {
 };
 export default function EditScheduleConfirmStep({ context }: EditScheduleConfirmStepProps) {
   return (
-    <section className="bg-background-primary text-text-primary flex h-screen w-full flex-col justify-between px-4">
+    <section className="bg-background-primary text-text-primary flex h-screen w-full flex-col justify-between">
       <div className="w-full text-center">
         <Header title="PT 수업 시간" />
         <p className="text-body-1 text-text-sub2 mt-[0.625rem]">

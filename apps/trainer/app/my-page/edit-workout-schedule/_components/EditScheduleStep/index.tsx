@@ -89,7 +89,7 @@ export default function EditScheduleStep({ onNext }: EditScheduleStepProps) {
   };
 
   return (
-    <section className="bg-background-primary text-text-primary flex h-screen w-full flex-col justify-between px-4">
+    <section className="bg-background-primary text-text-primary flex h-screen w-full flex-col justify-between">
       <div>
         <Header title="PT 수업 시간" />
 

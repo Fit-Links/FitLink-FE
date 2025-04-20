@@ -171,7 +171,7 @@ const MOCK_AVAILABLE_PT_TIME: PTScheduleProps = {
 
 function page() {
   return (
-    <main className="bg-background-primary text-text-primary h-screen w-full px-4">
+    <main className="bg-background-primary text-text-primary h-screen w-full">
       <MyPageHeader name={MOCK.name} imageSrc={MOCK.profilePictureUrl} />
 
       <ProfileItemForRouting variant="code" url={MYPAGE_ROUTES.CODE} />

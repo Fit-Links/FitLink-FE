@@ -38,7 +38,7 @@ export default function MyInformationContainer() {
   };
 
   return (
-    <section className="bg-background-primary text-text-primary flex h-screen w-full flex-col items-center px-4">
+    <section className="bg-background-primary text-text-primary flex h-screen w-full flex-col items-center">
       <Header title="내 정보" />
 
       <Avatar className="mt-[1.563rem] h-[6.313rem] w-[6.313rem]">
