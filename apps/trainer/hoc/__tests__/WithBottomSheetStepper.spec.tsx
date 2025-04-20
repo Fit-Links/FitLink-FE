@@ -5,9 +5,24 @@ import { Button } from "@ui/components/Button";
 import { WithBottomSheetStepper } from "@trainer/hoc/WithBottomSheetStepper";
 import { render, screen } from "test-utils";
 
+import { PtUser } from "@trainer/services/types/userManagement.dto";
+
 type WrappedComponentProps = {
   value: number;
   onChangeClose: (isOpen: boolean) => void;
+};
+
+const MOCK_USER_INFORMATION: PtUser = {
+  memberId: 1,
+  name: "홍길동",
+  birthDate: "2002-01-12",
+  phoneNumber: "01028321232",
+  profilePictureUrl: "",
+  sessionInfo: {
+    sessionInfoId: 1,
+    totalCount: 1,
+    remainingCount: 2,
+  },
 };
 
 function MockComponent({ value, onChangeClose }: WrappedComponentProps) {
@@ -24,7 +39,11 @@ const BottomSheetWithStepper = WithBottomSheetStepper(MockComponent);
 describe("WithBottomSheetStepper", () => {
   it("트리거를 클릭하면 바텀시트가 열려야 한다.", async () => {
     render(
-      <BottomSheetWithStepper title="Test Title" description="Test Description">
+      <BottomSheetWithStepper
+        title="Test Title"
+        description="Test Description"
+        selectedMemberInformation={MOCK_USER_INFORMATION}
+      >
         <Button>Open Bottom Sheet</Button>
       </BottomSheetWithStepper>,
     );
@@ -42,6 +61,7 @@ describe("WithBottomSheetStepper", () => {
         title="Test Title"
         description="Test Description"
         incrementOptions={[5, 10, 15]}
+        selectedMemberInformation={MOCK_USER_INFORMATION}
       >
         <Button>Open Bottom Sheet</Button>
       </BottomSheetWithStepper>,
@@ -66,7 +86,11 @@ describe("WithBottomSheetStepper", () => {
 
   it("onChangeOpen이 호출되어 바텀시트를 닫아야 한다.", async () => {
     render(
-      <BottomSheetWithStepper title="Test Title" description="Test Description">
+      <BottomSheetWithStepper
+        title="Test Title"
+        description="Test Description"
+        selectedMemberInformation={MOCK_USER_INFORMATION}
+      >
         <Button>Open Bottom Sheet</Button>
       </BottomSheetWithStepper>,
     );
