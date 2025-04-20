@@ -1,11 +1,11 @@
 "use client";
 
 import { Button } from "@ui/components/Button";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { PtUser } from "@trainer/services/types/userManagement.dto";
 
-import { ROUTES } from "@trainer/constants/route";
+import RouteInstance from "@trainer/constants/route";
 
 type SelectTimeRouteButtonProps = {
   selectedMemberInformation: PtUser | null;
@@ -13,11 +13,12 @@ type SelectTimeRouteButtonProps = {
 
 function SelectTimeRouteButton({ selectedMemberInformation }: SelectTimeRouteButtonProps) {
   const router = useRouter();
-  const pathName = usePathname();
 
   const handleClickRoute = () => {
     router.push(
-      `${pathName}${ROUTES.SELECT_PT_TIMES}?memberInformation=${encodeURIComponent(JSON.stringify(selectedMemberInformation as PtUser))}`,
+      RouteInstance["select-pt-times"]("", {
+        memberInformation: encodeURIComponent(JSON.stringify(selectedMemberInformation as PtUser)),
+      }),
     );
   };
 

@@ -20,7 +20,7 @@ function MemberProfileCard({
 }: MemberProfileCardProps) {
   return (
     <ProfileCard
-      key={`${memberId}-${name}`}
+      key={`${memberId}-${userName}`}
       imgUrl={imgUrl}
       userBirth={userBirth}
       userName={userName}

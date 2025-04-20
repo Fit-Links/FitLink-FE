@@ -13,7 +13,7 @@ import {
 import DateController from "@ui/lib/DateController";
 import { useRouter } from "next/navigation";
 
-import { ROUTES } from "@trainer/constants/route";
+import RouteInstance from "@trainer/constants/route";
 
 type DayoffAdderButtonProps = {
   selectedDate?: Date;
@@ -28,7 +28,7 @@ function DayoffAdderButton({ selectedDate }: DayoffAdderButtonProps) {
   const handleClickDayoffAdder = () => {
     // TODO: 휴무일 추가 API에 주입할 포맷 날짜 데이터
     // const validateDate = format(selectedDate, "yyyy-MM-dd");
-    router.push(ROUTES.ROOT);
+    router.push(RouteInstance["schedule-management"]());
   };
 
   return (

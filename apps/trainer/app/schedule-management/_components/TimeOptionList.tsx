@@ -13,7 +13,7 @@ import {
 } from "@ui/components/Sheet";
 import { useRouter } from "next/navigation";
 
-import { ROUTES } from "@trainer/constants/route";
+import RouteInstance from "@trainer/constants/route";
 
 import TimeOption from "./TimeOption";
 
@@ -23,25 +23,27 @@ type TimeOptionListProps = {
   onChangeOpen: (isOpen: boolean) => void;
 };
 
+type Route = keyof typeof RouteInstance;
+
 export default function TimeOptionList({
   // selectedDate,
   selectedFormatDate,
   onChangeOpen,
 }: TimeOptionListProps) {
-  const { ROOT } = ROUTES;
-
   const router = useRouter();
 
-  const handleClickTimeOption = (route: Exclude<keyof typeof ROUTES, "ROOT">) => {
+  const handleClickTimeOption = (
+    route: Extract<Route, "reservation" | "fixed-reservation" | "dayoff-management">,
+  ) => {
     switch (route) {
-      case "RESERVATION":
-        router.push(`${ROOT}${ROUTES[route]}?selectedDate=${selectedFormatDate}`);
+      case "reservation":
+        router.push(RouteInstance.reservation("", { selectedDate: selectedFormatDate }));
         break;
-      case "FIXED_RESERVATION":
-        router.push(`${ROOT}${ROUTES[route]}`);
+      case "fixed-reservation":
+        router.push(RouteInstance["fixed-reservation"]());
         break;
-      case "DATOFF_MANAGEMENT":
-        router.push(`${ROOT}${ROUTES[route]}`);
+      case "dayoff-management":
+        router.push(RouteInstance["dayoff-management"]());
     }
   };
 
@@ -56,14 +58,14 @@ export default function TimeOptionList({
   // TODO: 추후 각 TimeOption 클릭 시 이동할 페이지의 경로 Name이 정해지면 클릭 이벤트 추가
   return (
     <div className="mb-[1.625rem] ml-[1.063rem] mt-[1.25rem] flex items-center gap-1.5 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-      <TimeOption onClick={() => handleClickTimeOption("RESERVATION")}>
+      <TimeOption onClick={() => handleClickTimeOption("reservation")}>
         <TimeOption.Icon iconName={"Dumbbell"} />
         <TimeOption.Content>
           <div>PT 예약</div>
         </TimeOption.Content>
       </TimeOption>
 
-      <TimeOption onClick={() => handleClickTimeOption("FIXED_RESERVATION")}>
+      <TimeOption onClick={() => handleClickTimeOption("fixed-reservation")}>
         <TimeOption.Icon iconName={"CalendarClock"} />
         <TimeOption.Content>
           <div>PT</div>
@@ -103,7 +105,7 @@ export default function TimeOptionList({
         </SheetContent>
       </Sheet>
 
-      <TimeOption onClick={() => handleClickTimeOption("DATOFF_MANAGEMENT")}>
+      <TimeOption onClick={() => handleClickTimeOption("dayoff-management")}>
         <TimeOption.Icon iconName={"CalendarMinus"} />
         <TimeOption.Content>
           <div>휴무일</div>
