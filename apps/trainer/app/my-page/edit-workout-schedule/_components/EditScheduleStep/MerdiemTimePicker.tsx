@@ -3,11 +3,8 @@ import React, { useRef } from "react";
 
 import { useOutsideClick } from "@trainer/hooks/useOutsideClick";
 
-type MerdiemTimePickerProps = {
-  time: string;
-  type: "startTime" | "endTime";
-  onChangeTime: (key: "startTime" | "endTime", time: string) => void;
-};
+import { PeriodType } from "../../_types/schedule";
+import { isPM, setHalfHours, setTimePeriods } from "../../_utils/avliableScheduleUtils";
 
 const PERIOD_MAP = {
   0: "오전",
@@ -15,23 +12,8 @@ const PERIOD_MAP = {
 } as const;
 
 const NUMBER_PADDING = 2;
-const AM_PERIOD = 0;
-const PM_PERIOD = 1;
+
 const PERIOD_SPLIT_NUMBER = 12;
-
-const setHalfHours = (relative: number) => {
-  return relative ? "30" : "00";
-};
-
-const setTimePeriods = (relative: number) => {
-  return PERIOD_MAP[relative as keyof typeof PERIOD_MAP];
-};
-
-type PeriodType = (typeof PERIOD_MAP)[keyof typeof PERIOD_MAP];
-
-const isPM = (timePeriod: PeriodType) => {
-  return timePeriod === PERIOD_MAP[PM_PERIOD];
-};
 
 const generateTrainerScheduleTime = (
   timePeriod: PeriodType,
@@ -43,13 +25,17 @@ const generateTrainerScheduleTime = (
   return `${adjustedHours.toString().padStart(NUMBER_PADDING, "0")}:${minutes}`;
 };
 
+type MerdiemTimePickerProps = {
+  time: string;
+  type: "startTime" | "endTime";
+  onChangeTime: (key: "startTime" | "endTime", time: string) => void;
+};
+
 function MerdiemTimePicker({ time, type, onChangeTime }: MerdiemTimePickerProps) {
   const timePickerRef = useRef<HTMLDivElement | null>(null);
 
   const timePeriodRef = useRef<PeriodType>(
-    Number(time.split(":")[0]) < PERIOD_SPLIT_NUMBER
-      ? PERIOD_MAP[AM_PERIOD]
-      : PERIOD_MAP[PM_PERIOD],
+    Number(time.split(":")[0]) < PERIOD_SPLIT_NUMBER ? "오전" : "오후",
   );
 
   const hour = Number(time.split(":")[0]);
