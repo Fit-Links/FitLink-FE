@@ -71,7 +71,7 @@ function Content({ PTReservationOtherTime, children }: ContentProps) {
   return (
     <div
       className={cn(
-        "flex flex-1 justify-end",
+        "flex h-full flex-1 justify-end",
         PTReservationOtherTime ? "min-h-[5.625rem] items-start" : "min-h-[3.125rem] items-center",
       )}
     >
@@ -108,7 +108,7 @@ export default function ProfileCard({
   return (
     <section
       className={cn(
-        "bg-background-sub2 text-text-primary hover:bg-background-sub3 relative flex min-h-[5.625rem] w-[22.375rem] items-center rounded-[0.625rem] py-[1.25rem] pr-2 transition-colors",
+        "bg-background-sub2 text-text-primary hover:bg-background-sub3 relative flex w-[22.375rem] items-center rounded-[0.625rem] py-[1.25rem] pr-2 transition-colors",
         className,
       )}
       {...props}

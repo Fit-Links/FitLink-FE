@@ -56,7 +56,7 @@ const DateController = (date: string | Date) => {
         if (date instanceof Date && !isNaN(date.getTime())) return DateController(date);
 
         return undefined;
-      } catch (e) {
+      } catch {
         return undefined;
       }
     },

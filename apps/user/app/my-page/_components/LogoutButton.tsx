@@ -13,7 +13,7 @@ import {
 import { useRouter } from "next/navigation";
 import React from "react";
 
-import { ROUTE } from "../_constants/route";
+import RouteInstance from "@user/constants/routes";
 
 export default function LogoutButton() {
   const router = useRouter();
@@ -21,7 +21,7 @@ export default function LogoutButton() {
   const handleClickLogout = () => {
     // TODO
     // 로그아웃 요청
-    router.push(ROUTE.LOGIN);
+    router.push(RouteInstance.login());
   };
 
   return (

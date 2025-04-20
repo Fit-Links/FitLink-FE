@@ -4,8 +4,9 @@ import React from "react";
 
 import { MyInformationApiResponse } from "@user/services/types/myInformation.dto";
 
+import RouteInstance from "@user/constants/routes";
+
 import LogoutButton from "./LogoutButton";
-import { ROUTE } from "../_constants/route";
 
 interface HeaderProps {
   userInformation: MyInformationApiResponse["data"];
@@ -23,7 +24,7 @@ export default function ProfileHeader({ userInformation }: HeaderProps) {
       <Profile>
         <Profile.Section
           onClick={() => {
-            handleClickRouting(ROUTE.MY_INFORMATION);
+            handleClickRouting(RouteInstance["my-information"]());
           }}
         >
           <Profile.Avatar name="홍길동" imageSrc={userInformation.profilePictureUrl} />
