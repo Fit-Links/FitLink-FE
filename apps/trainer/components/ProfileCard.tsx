@@ -26,6 +26,8 @@ type UserInfoProps = Pick<
 
 type ContentProps = Pick<ProfileCardProps, "PTReservationOtherTime" | "children">;
 
+type MenuIconProps = Omit<ComponentProps<typeof Icon>, "name">;
+
 const AGE_OFFSET_KOREAN = 1;
 const CURRENT_YEAR = new Date().getFullYear();
 
@@ -78,14 +80,15 @@ function Content({ PTReservationOtherTime, children }: ContentProps) {
   );
 }
 
-function MenuIcon() {
+export function MenuIcon({ ...props }: MenuIconProps) {
   // TODO: MenuIcon 핸들러 추가
   return (
     <Icon
       name="Ellipsis"
-      className="text-text-sub3 absolute right-1 top-0.5 cursor-pointer"
+      className="text-text-sub3 absolute right-1 top-0.5 z-10 cursor-pointer"
       aria-label="프로필 카드 메뉴 버튼"
       size="lg"
+      {...props}
     />
   );
 }
@@ -97,7 +100,6 @@ export default function ProfileCard({
   userBirth,
   phoneNumber,
   PTReservationOtherTime,
-  ellipsIcon,
   children,
   ...props
 }: ProfileCardProps) {
@@ -119,7 +121,6 @@ export default function ProfileCard({
         PTReservationOtherTime={PTReservationOtherTime}
       />
       <Content PTReservationOtherTime={PTReservationOtherTime}>{children}</Content>
-      {ellipsIcon && <MenuIcon />}
     </section>
   );
 }

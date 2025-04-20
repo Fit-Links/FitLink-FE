@@ -1,20 +1,4 @@
 /* eslint-disable no-magic-numbers */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-// export const ROUTES = {
-//   ROOT: "/schedule-management",
-//   RESERVATION: "/reservation",
-//   FIXED_RESERVATION: "/fixed-reservation",
-//   SELECT_PT_TIMES: "/select-pt-times",
-//   DATOFF_MANAGEMENT: "/dayoff-management",
-//   PENDING_RESERVATIONS: "/pending-reservations",
-// };
-
-/**
- * 라우트 컨벤션
- * private 변수들은 접두사로 "_"를 붙인다.
- * 라우트의 Key는 소문자로 현재 app 디렉토리 내 페이지 네이밍과 동일하게 짓는다.
- */
 
 const ROUTE_DIVIDER = "/";
 const SEARCH_PARAMS_DIVIDER = "&";
@@ -41,6 +25,12 @@ class ROUTES {
   private _login = () => [...this._root(), "login"];
 
   private "_sns-verification" = () => [...this._root(), "sns-verification"];
+
+  private "_member-management" = (routeParams?: string) => [
+    ...this._root(),
+    "member-management",
+    routeParams,
+  ];
 
   private "_schedule-management" = () => [...this._root(), "schedule-management"];
   private "_dayoff-management" = () => [...this["_schedule-management"](), "dayoff-management"];
@@ -74,6 +64,13 @@ class ROUTES {
   get "sns-verification"() {
     return () => {
       return this["_sns-verification"]().join(ROUTE_DIVIDER);
+    };
+  }
+  get "member-management"() {
+    return (routeParams?: string) => {
+      const filteredRoute = this["_member-management"](routeParams).filter(filterEmptyDynamicRoute);
+
+      return filteredRoute.join(ROUTE_DIVIDER);
     };
   }
   get "schedule-management"() {
