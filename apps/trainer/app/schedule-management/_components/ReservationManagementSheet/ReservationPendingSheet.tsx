@@ -2,11 +2,11 @@
 
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle } from "@ui/components/Sheet";
 import DateController from "@ui/lib/DateController";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { ModifiedReservationListItem } from "@trainer/services/types/reservations.dto";
 
-import { ROUTES } from "@trainer/constants/route";
+import RouteInstance from "@trainer/constants/route";
 
 import TimeOptionList from "../TimeOptionList";
 
@@ -24,13 +24,15 @@ function ReservationPendingSheet({
   memberInformations,
 }: ReservationPendingSheetProps) {
   const router = useRouter();
-  const pathName = usePathname();
 
   const selectedFormatDate = DateController(selectedDate).toDateTimeWithDayFormat();
 
   const handleClickRoutePendingReservationPage = () => {
     router.push(
-      `${pathName}${ROUTES.PENDING_RESERVATIONS}?members=${encodeURIComponent(JSON.stringify(memberInformations))}&selectedDate=${selectedFormatDate}`,
+      RouteInstance["pending-reservations"]("", {
+        members: encodeURIComponent(JSON.stringify(memberInformations)),
+        selectedDate: selectedFormatDate,
+      }),
     );
   };
 

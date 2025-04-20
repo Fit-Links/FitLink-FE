@@ -7,6 +7,8 @@ import React from "react";
 
 import { SignupRequestBody } from "@trainer/services/types/auth.dto";
 
+import RouteInstance from "@trainer/constants/route";
+
 import { useSignupForm } from "../_hooks/useSignupForm";
 
 type ResultStepProps = {
@@ -20,7 +22,7 @@ function ResultStep({ form }: ResultStepProps) {
 
   const handleClick = (status: "success" | "error") => {
     if (status === "success") {
-      router.replace("/");
+      router.replace(RouteInstance.root());
     } else if (status === "error") {
       onSubmit(form);
     }
