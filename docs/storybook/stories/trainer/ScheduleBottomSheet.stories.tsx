@@ -1,5 +1,6 @@
+import ScheduleBottomSheet from "trainer/app/schedule-management/_components/ScheduleBottomSheet";
+
 import type { Meta, StoryObj } from "@storybook/react";
-import ScheduleBottomSheet from "trainer/components/ScheduleBottomSheet";
 
 const meta: Meta<typeof ScheduleBottomSheet> = {
   component: ScheduleBottomSheet,
