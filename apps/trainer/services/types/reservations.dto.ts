@@ -51,12 +51,12 @@ type ReservationDetailStatusResponse = BaseReservationDetail<
 export type ReservationDetailStatusApiResponse = ResponseBase<ReservationDetailStatusResponse>;
 
 export type ReservationDetailPendingStatusRequestPath = ReservationPathParams;
+export type ReservationDetailPendingStatus = DetailedMemberInfo &
+  Pick<BaseReservationListItem, "reservationId" | "dayOfWeek"> & {
+    reservationDates: string[];
+  };
 type ReservationDetailPendingStatusResponse = {
-  waitingMembers: DetailedMemberInfo &
-    Pick<BaseReservationListItem, "reservationId" | "dayOfWeek"> &
-    {
-      reservationDates: string[];
-    }[];
+  waitingMembers: Array<ReservationDetailPendingStatus>;
 };
 export type ReservationDetailPendingStatusApiResponse =
   ResponseBase<ReservationDetailPendingStatusResponse>;
