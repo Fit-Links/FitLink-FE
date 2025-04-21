@@ -7,7 +7,7 @@ import { useCallback, useState } from "react";
 
 import { MyInformationApiResponse } from "@trainer/services/types/myInformation.dto";
 
-import { MYPAGE_ROUTES } from "@trainer/constants/mypageRoute";
+import RouteInstance from "@trainer/constants/route";
 
 import EditProfileButton from "./EditProfileButton";
 import { MemorizedProfileItem } from "./MemorizedProfileItem";
@@ -57,7 +57,7 @@ export default function MyInformationContainer() {
       <MemorizedProfileItem variant="phone" value={mockData.phoneNumber}>
         <section
           className="text-text-sub3 flex items-center"
-          onClick={() => handleClickNavigate(MYPAGE_ROUTES.VERIFICATION_PHONE)}
+          onClick={() => handleClickNavigate(RouteInstance["edit-verificated-phone"]())}
         >
           변경 <ChevronRight />
         </section>
