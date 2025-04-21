@@ -3,5 +3,5 @@ type PhoneVerificationProps = {
 };
 
 export default function PhoneVerification({ children }: PhoneVerificationProps) {
-  return <section className="flex h-full w-full flex-col">{children}</section>;
+  return <section className="flex h-full w-full flex-col items-center">{children}</section>;
 }

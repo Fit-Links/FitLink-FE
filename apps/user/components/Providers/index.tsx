@@ -2,7 +2,6 @@
 "use client";
 
 import { isServer, QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import React from "react";
 
 import FooterProvider from "./FooterProvider";
@@ -39,7 +38,6 @@ function Providers({ children }: ProvidersProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <FooterProvider>{children}</FooterProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }
