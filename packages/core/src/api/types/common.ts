@@ -25,6 +25,7 @@ export type SessionInfo = {
   remainingCount: number;
 };
 export type PreferredWorkout = {
+  workoutScheduleId: number;
   dayOfWeek: DayOfWeek;
   preferenceTimes: string[];
 };
