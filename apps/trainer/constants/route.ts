@@ -51,6 +51,15 @@ class ROUTES {
     routeParams,
   ];
 
+  private "_my-page" = () => [...this._root(), "my-page"];
+  private "_my-information" = () => [...this["_my-page"](), "my-information"];
+  private "_trainer-code" = () => [...this["_my-page"](), "trainer-code"];
+  private "_edit-workout-schedule" = () => [...this["_my-page"](), "edit-workout-schedule"];
+  private "_edit-verificated-phone" = () => [
+    ...this["_my-information"](),
+    "edit-verificated-phone",
+  ];
+
   get root() {
     return () => {
       return this._root().join(ROUTE_DIVIDER) + "/";
@@ -66,6 +75,7 @@ class ROUTES {
       return this["_sns-verification"]().join(ROUTE_DIVIDER);
     };
   }
+
   get "member-management"() {
     return (routeParams?: string) => {
       const filteredRoute = this["_member-management"](routeParams).filter(filterEmptyDynamicRoute);
@@ -136,6 +146,32 @@ class ROUTES {
       return queryString
         ? `${beforeSearchParams.join(ROUTE_DIVIDER)}?${queryString}`
         : beforeSearchParams.join(ROUTE_DIVIDER);
+    };
+  }
+  get "my-page"() {
+    return () => {
+      return this["_my-page"]().join(ROUTE_DIVIDER);
+    };
+  }
+  get "my-information"() {
+    return () => {
+      return this["_my-information"]().join(ROUTE_DIVIDER);
+    };
+  }
+  get "trainer-code"() {
+    return () => {
+      return this["_trainer-code"]().join(ROUTE_DIVIDER);
+    };
+  }
+  get "edit-workout-schedule"() {
+    return () => {
+      return this["_edit-workout-schedule"]().join(ROUTE_DIVIDER);
+    };
+  }
+
+  get "edit-verificated-phone"() {
+    return () => {
+      return this["_edit-verificated-phone"]().join(ROUTE_DIVIDER);
     };
   }
 }
