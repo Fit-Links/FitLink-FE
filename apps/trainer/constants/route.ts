@@ -148,6 +148,7 @@ class ROUTES {
         : beforeSearchParams.join(ROUTE_DIVIDER);
     };
   }
+
   get "my-page"() {
     return () => {
       return this["_my-page"]().join(ROUTE_DIVIDER);
@@ -168,7 +169,6 @@ class ROUTES {
       return this["_edit-workout-schedule"]().join(ROUTE_DIVIDER);
     };
   }
-
   get "edit-verificated-phone"() {
     return () => {
       return this["_edit-verificated-phone"]().join(ROUTE_DIVIDER);
