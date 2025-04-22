@@ -29,7 +29,8 @@ type PtUserListResponse = {
 export type PtUserListApiResponse = ResponseBase<PtUserListResponse>;
 
 export type PtUserDetailRequestPath = { memberId: number };
-type PtUserDetailResponse = Omit<PtUser, "totalCount" | "remainingCount"> & {
+type PtUserDetailResponse = PtUser & {
+  connectingStatus: "CONNECTED";
   profilePictureUrl: string;
   sessionInfo: SessionInfo;
   workoutSchedules: PreferredWorkout[];
