@@ -33,7 +33,7 @@ function PtHistoryList({ ptHistories }: PtHistoryListProps) {
 
   return (
     <>
-      <section className="mt-5 flex h-full w-full flex-col gap-[0.625rem] overflow-y-auto">
+      <section className="mt-5 flex h-full w-full flex-col gap-[0.625rem] overflow-y-auto [&::-webkit-scrollbar]:hidden">
         {ptHistories.map(({ reservationDate, sessionId, status }) => (
           <PTHistoryItem
             key={sessionId}
