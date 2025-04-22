@@ -1,7 +1,7 @@
 import { DaysOfWeek } from "@ui/utils/makeWeekSchedule";
 import React from "react";
 
-import { MYPAGE_ROUTES } from "@trainer/constants/mypageRoute";
+import RouteInstance from "@trainer/constants/route";
 
 import MyPageHeader from "./_components/MyPageHeader";
 import ProfileItemForRouting from "./_components/ProfileItemForRouting";
@@ -174,8 +174,8 @@ function page() {
     <main className="bg-background-primary text-text-primary h-screen w-full">
       <MyPageHeader name={MOCK.name} imageSrc={MOCK.profilePictureUrl} />
 
-      <ProfileItemForRouting variant="code" url={MYPAGE_ROUTES.CODE} />
-      <ProfileItemForRouting variant="calendar" url={MYPAGE_ROUTES.EDIT_WORKOUT_SCHEDULE} />
+      <ProfileItemForRouting variant="code" url={RouteInstance["trainer-code"]()} />
+      <ProfileItemForRouting variant="calendar" url={RouteInstance["edit-workout-schedule"]()} />
 
       <ScheduleInformation className="mt-[1.563rem]" ptSchedule={MOCK_AVAILABLE_PT_TIME} />
     </main>

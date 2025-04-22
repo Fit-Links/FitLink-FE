@@ -13,12 +13,14 @@ import {
 import { useRouter } from "next/navigation";
 import React from "react";
 
+import RouteInstance from "@trainer/constants/route";
+
 export default function LogoutButton() {
   const router = useRouter();
   const handleClickLogout = () => {
     // TODO
     // 로그아웃 요청
-    router.push("/");
+    router.push(RouteInstance.root());
   };
 
   return (

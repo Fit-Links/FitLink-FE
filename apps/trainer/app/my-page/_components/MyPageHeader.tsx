@@ -4,7 +4,7 @@ import ProfileHeader from "@ui/components/ProfileHeader";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-import { MYPAGE_ROUTES } from "@trainer/constants/mypageRoute";
+import RouteInstance from "@trainer/constants/route";
 
 import LogoutButton from "./LogoutButton";
 
@@ -22,7 +22,7 @@ function MyPageHeader({ name, imageSrc }: MyPageHeaderProps) {
   return (
     <section className="flex w-full justify-between">
       <ProfileHeader>
-        <ProfileHeader.Section onClick={() => handleClickLogout(MYPAGE_ROUTES.MY_INFORMATION)}>
+        <ProfileHeader.Section onClick={() => handleClickLogout(RouteInstance["my-information"]())}>
           <ProfileHeader.Avatar name={name} imageSrc={imageSrc} />
           <ProfileHeader.Name name={name} />
         </ProfileHeader.Section>
