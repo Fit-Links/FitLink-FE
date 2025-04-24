@@ -1,10 +1,10 @@
 import IconThumbnail from "./IconThumbnail";
-import { Variant } from "./variants";
+import { notificationType } from "./variants";
 import { Avatar, AvatarFallback, AvatarImage } from "../../components/Avatar";
 
 type Props = {
   avatarSrc?: string;
-  variant: Variant;
+  variant: notificationType;
   isCompleted: boolean;
 };
 

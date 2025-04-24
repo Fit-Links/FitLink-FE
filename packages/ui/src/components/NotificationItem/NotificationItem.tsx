@@ -2,7 +2,7 @@ import { forwardRef, HTMLAttributes, MouseEventHandler } from "react";
 
 import NotificationContent from "./NotificationContent";
 import NotificationThumbnail from "./NotificationThumbnail";
-import { Variant } from "./variants";
+import { notificationType } from "./variants";
 import DateController from "../../lib/DateController";
 import { cn } from "../../lib/utils";
 
@@ -16,7 +16,7 @@ type NotificationProps = {
   eventDate?: Date | string;
   eventDetail?: Date | string;
   createdAt: Date | string;
-  variant: Variant;
+  variant: notificationType;
   onClick?: MouseEventHandler<HTMLLIElement>;
 };
 

@@ -8,7 +8,7 @@ import {
   X,
 } from "lucide-react";
 
-import { Variant } from "./variants";
+import { notificationType } from "./variants";
 import { cn } from "../../lib/utils";
 
 const NumberIconMap = {
@@ -27,6 +27,12 @@ const NumberIcon = (value: number) => {
 };
 
 const NotificationIconMap = {
+  "연동 승인": HeartHandshake,
+  "연동 해제": UserRoundX,
+  "예약 요청": Calendar,
+  "예약 변경": History,
+  "예약 취소": CalendarX2,
+  세션: Dumbbell,
   preExercise: Dumbbell,
   postExercise: Dumbbell,
   exerciseConfirm: NumberIcon(NumberIconMap["exerciseConfirm"]),
@@ -41,14 +47,22 @@ const NotificationIconMap = {
 
 function NotificationIcon({
   className,
-  variant = "preExercise",
+  variant = "세션",
 }: {
   className?: string;
-  variant: Variant;
+  variant: notificationType;
 }) {
-  const Icon = NotificationIconMap[variant];
+  try {
+    if (!NotificationIconMap[variant])
+      throw new Error("NotificationIconMap에 정의되지 않은 variant입니다");
+    const Icon = NotificationIconMap[variant];
 
-  return <Icon className={cn("text-text-primary", className)} />;
+    return <Icon className={cn("text-text-primary", className)} />;
+  } catch (e) {
+    console.error(e);
+
+    return <Dumbbell className={cn("text-text-primary", className)} />;
+  }
 }
 
 function IconThumbnail({
@@ -58,7 +72,7 @@ function IconThumbnail({
   isCompleted,
 }: {
   className?: string;
-  variant: Variant;
+  variant: notificationType;
   size: "sm" | "lg";
   isCompleted: boolean;
 }) {
