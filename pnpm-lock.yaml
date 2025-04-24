@@ -50,6 +50,9 @@ importers:
       axios:
         specifier: ^1.7.9
         version: 1.7.9
+      cookies-next:
+        specifier: 4.3.0
+        version: 4.3.0
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
@@ -2939,6 +2942,9 @@ packages:
   cookie@0.7.2:
     resolution: {integrity: sha512-yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w==}
     engines: {node: '>= 0.6'}
+
+  cookies-next@4.3.0:
+    resolution: {integrity: sha512-XxeCwLR30cWwRd94sa9X5lRCDLVujtx73tv+N0doQCFIDl83fuuYdxbu/WQUt9aSV7EJx7bkMvJldjvzuFqr4w==}
 
   core-util-is@1.0.2:
     resolution: {integrity: sha512-3lqz5YjWTYnW6dlDa5TLaTCcShfar1e40rmcJVwCBJC6mWlFuj0eCHIElmG1g5kyuJ/GD+8Wn4FFCcz4gJPfaQ==}
@@ -8697,6 +8703,11 @@ snapshots:
   convert-source-map@2.0.0: {}
 
   cookie@0.7.2: {}
+
+  cookies-next@4.3.0:
+    dependencies:
+      '@types/cookie': 0.6.0
+      cookie: 0.7.2
 
   core-util-is@1.0.2: {}
 
