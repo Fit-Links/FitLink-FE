@@ -76,31 +76,35 @@ export type ReservationPathParams = {
 
 export type NotificationInfo = {
   notificationId: number;
-  refId: number;
-  refType: "예약" | "세션" | "트레이너 연동";
-  notificationType: NotificationType;
-  memberInfo: DetailedMemberInfo;
-  sendDate: string;
+  type: NotificationType;
   content: string;
+  sendDate: string;
   isProcessed: boolean;
 };
 
+export type NotificationDetailInfo = {
+  notificationId: number;
+  refId: number;
+  type: NotificationType;
+  content: string;
+  sendDate: string;
+  isProcessed: boolean;
+  userDetail: Omit<DetailedMemberInfo, "memberId">;
+};
+
 export type NotificationType =
-  | "RESERVATION_REQUESTED"
-  | "RESERVATION_CANCEL_REQUEST"
-  | "RESERVATION_CHANGE_REQUEST"
-  | "SESSION_COMPLETED"
+  | "연동 승인"
+  | "연동 해제"
+  | "예약 요청"
+  | "예약 변경"
+  | "예약 취소"
+  | "세션";
+export type NotificationQueryType =
   | "CONNECT"
   | "DISCONNECT"
-  | "RESERVATION_CHANGE_REQUEST_REFUSED"
-  | "RESERVATION_APPROVE"
-  | "RESERVATION_CANCEL"
-  | "SESSION_DEDUCTED"
-  | "SESSION_REMINDER"
-  | "SESSION_CANCEL_REQUEST_APPROVED"
-  | "SESSION_CANCEL_REQUEST_REFUSED"
-  | "SESSION_REMAIN_5"
-  | "SESSION_EDITED";
+  | "RESERVATION_REQUEST"
+  | "RESERVATION_CHANGE_CANCEL"
+  | "SESSION";
 
 export type Gender = "MALE" | "FEMALE";
 
