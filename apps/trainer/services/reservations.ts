@@ -1,6 +1,6 @@
 const RESERVATION_BASE_URL = "reservations";
 
-import http from "./core";
+import http from "../app/apiCore";
 import {
   ReservationDetailStatusApiResponse,
   ReservationStatusApiResponse,

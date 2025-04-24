@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, Method } from "ax
 
 type CoreApiConfig = {
   baseUrl: string;
-  tokenProvider?: () => string | null;
+  tokenProvider?: () => Promise<string | null>;
 };
 
 const HTTP_METHODS = {
@@ -22,10 +22,10 @@ export const initCoreApi = ({ baseUrl, tokenProvider }: CoreApiConfig) => {
     headers: { "Content-Type": "application/json" },
   });
 
-  axiosInstance.interceptors.request.use((config) => {
-    const token = tokenProvider ? tokenProvider() : null;
+  axiosInstance.interceptors.request.use(async (config) => {
+    const token = tokenProvider ? await tokenProvider() : null;
 
-    if (token && config.headers) {
+    if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
 
