@@ -1,4 +1,4 @@
-import http from "@5unwan/core/api/core";
+import http from "@user/app/apiCore";
 
 import {
   GetNotificationApiResponse,
