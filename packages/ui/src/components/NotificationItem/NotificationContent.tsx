@@ -1,4 +1,5 @@
-import { Variant } from "./variants";
+import { NotificationType } from "@5unwan/core/api/types/common";
+
 import { cn } from "../../lib/utils";
 
 type NotificationContentProps = {
@@ -7,7 +8,7 @@ type NotificationContentProps = {
   eventDate?: string;
   createdAt?: string;
   eventDetail?: string;
-  variant: Variant;
+  variant: NotificationType;
 };
 function NotificationContent({
   isCompleted,
@@ -29,19 +30,19 @@ function NotificationContent({
       <span>{message}</span>
 
       <p>
-        {eventDate && <span>{`${eventDate} ${variant === "edit" ? "→ " : ""}`}</span>}
+        {eventDate && <span>{`${eventDate} ${variant === "예약 변경" ? "→ " : ""}`}</span>}
         {eventDetail && (
           <span
             className={cn(
               "text-brand-primary-500 transition-colors",
               {
-                "text-brand-primary-700": variant !== "session" && isCompleted,
+                "text-brand-primary-700": variant !== "세션" && isCompleted,
               },
               {
-                "text-text-primary": variant === "session" && !isCompleted,
+                "text-text-primary": variant === "세션" && !isCompleted,
               },
               {
-                "text-text-sub3": variant === "session" && isCompleted,
+                "text-text-sub3": variant === "세션" && isCompleted,
               },
             )}
           >

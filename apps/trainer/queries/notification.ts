@@ -1,4 +1,4 @@
-import { NotificationType } from "@5unwan/core/api/types/common";
+import { NotificationQueryType } from "@5unwan/core/api/types/common";
 import { queryOptions } from "@tanstack/react-query";
 
 import { getNotification } from "@trainer/services/notification";
@@ -9,9 +9,9 @@ export const notificationBaseKeys = {
 };
 
 export const notificationQueries = {
-  list: (type: NotificationType, name?: string) =>
+  list: (type?: NotificationQueryType, q?: string) =>
     queryOptions({
-      queryKey: [...notificationBaseKeys.lists(), type, name] as const,
-      queryFn: () => getNotification({ type, name }),
+      queryKey: [...notificationBaseKeys.lists(), type, q] as const,
+      queryFn: () => getNotification({ type, q }),
     }),
 };
