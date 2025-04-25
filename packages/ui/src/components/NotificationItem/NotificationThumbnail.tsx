@@ -1,10 +1,11 @@
+import { NotificationType } from "@5unwan/core/api/types/common";
+
 import IconThumbnail from "./IconThumbnail";
-import { notificationType } from "./variants";
 import { Avatar, AvatarFallback, AvatarImage } from "../../components/Avatar";
 
 type Props = {
   avatarSrc?: string;
-  variant: notificationType;
+  variant: NotificationType;
   isCompleted: boolean;
 };
 

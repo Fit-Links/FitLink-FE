@@ -1,8 +1,7 @@
-import { NotificationInfo } from "@5unwan/core/api/types/common";
+import { NotificationInfo, NotificationType } from "@5unwan/core/api/types/common";
 import NotificationItem from "@ui/components/NotificationItem/NotificationItem";
 import React, { MouseEventHandler } from "react";
 
-import { notificationType } from "../_constants/notification";
 import { parseMessageFromContent } from "../_utils/parser";
 
 type NotificationItemContainerProps = {
@@ -19,7 +18,7 @@ function NotificationItemContainer({ notification, onClick }: NotificationItemCo
   return (
     <NotificationItem
       message={message}
-      variant={type as notificationType}
+      variant={type as NotificationType}
       createdAt={sendDate}
       avatarSrc={profilePictureUrl}
       memberName={name}

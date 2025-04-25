@@ -1,3 +1,4 @@
+import { NotificationType } from "@5unwan/core/api/types/common";
 import {
   Calendar,
   CalendarX2,
@@ -8,7 +9,6 @@ import {
   X,
 } from "lucide-react";
 
-import { notificationType } from "./variants";
 import { cn } from "../../lib/utils";
 
 const NumberIconMap = {
@@ -50,7 +50,7 @@ function NotificationIcon({
   variant = "세션",
 }: {
   className?: string;
-  variant: notificationType;
+  variant: NotificationType;
 }) {
   try {
     if (!NotificationIconMap[variant])
@@ -72,7 +72,7 @@ function IconThumbnail({
   isCompleted,
 }: {
   className?: string;
-  variant: notificationType;
+  variant: NotificationType;
   size: "sm" | "lg";
   isCompleted: boolean;
 }) {

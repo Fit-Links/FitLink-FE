@@ -1,4 +1,5 @@
-import { notificationType } from "./variants";
+import { NotificationType } from "@5unwan/core/api/types/common";
+
 import { cn } from "../../lib/utils";
 
 type NotificationContentProps = {
@@ -7,7 +8,7 @@ type NotificationContentProps = {
   eventDate?: string;
   createdAt?: string;
   eventDetail?: string;
-  variant: notificationType;
+  variant: NotificationType;
 };
 function NotificationContent({
   isCompleted,
