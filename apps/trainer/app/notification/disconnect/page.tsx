@@ -1,27 +1,34 @@
 "use client";
 
-import { DetailedMemberInfo } from "@5unwan/core/api/types/common";
+import { NotificationInfo } from "@5unwan/core/api/types/common";
 import Header from "@ui/components/Header";
-import NotificationItem from "@ui/components/NotificationItem/NotificationItem";
 import { ToggleGroup, ToggleGroupItem } from "@ui/components/ToggleGroup";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import NotificationSideBar from "@trainer/components/NotificationSideBar";
 
+import NotificationItemContainer from "../_components/NotificationItemContainer";
 import NotificationSearch from "../_components/NotificationSearch";
-import { notificationType } from "../_constants/notification";
 
 function DisconnectNotificationPage() {
   const [isNotificationSearchOpen, setIsNotificationSearchOpen] = useState(false);
   const [status, setStatus] = useState("all");
-
-  const selectedMemberRef = useRef<DetailedMemberInfo>();
+  const [selectedNotification, setSelectedNotification] = useState<NotificationInfo>();
 
   const handleSelectResult = () => {
     setIsNotificationSearchOpen(false);
   };
-  const handleNotificationClick = (memberInformation: DetailedMemberInfo) => () => {
-    selectedMemberRef.current = memberInformation;
+  const handleNotificationClick = (notification: NotificationInfo) => () => {
+    const { notificationId, type, content, sendDate, isProcessed } = notification;
+    if (notificationId !== selectedNotification?.notificationId) {
+      setSelectedNotification({
+        notificationId,
+        type,
+        content,
+        sendDate,
+        isProcessed,
+      });
+    }
   };
 
   return (
@@ -50,91 +57,40 @@ function DisconnectNotificationPage() {
         <ToggleGroupItem value="complete">처리</ToggleGroupItem>
       </ToggleGroup>
       <ul>
-        {DUMMY_MEMBER_NOTIFICATION_RESULT.map(
-          ({ notificationId, notificationType, memberInfo, message, sendDate, isProcessed }) => (
-            <NotificationItem
-              message={message}
-              variant={notificationType as notificationType}
-              createdAt={sendDate}
-              avatarSrc={memberInfo.profilePictureUrl}
-              memberName={memberInfo.name}
-              isCompleted={isProcessed}
-              key={`notification-${notificationId}`}
-              className="w-full"
-              onClick={handleNotificationClick(memberInfo)}
-            />
-          ),
-        )}
+        {DUMMY_NOTIFICATION.map((notification) => (
+          <NotificationItemContainer
+            notification={notification as NotificationInfo}
+            onClick={handleNotificationClick(notification as NotificationInfo)}
+          />
+        ))}
       </ul>
     </div>
   );
 }
 
 export default DisconnectNotificationPage;
-const DUMMY_MEMBER_NOTIFICATION_RESULT = [
-  {
-    notificationId: 1, //알림 ID
-    refId: 1, // 연동 ID
-    refType: "예약", //알람 종류 ["예약","세션","트레이너 연동"]
-    notificationType: "예약 요청", // 알림종류
-    memberInfo: {
-      memberId: 1,
-      name: "홍길동",
-      birthDate: "1996-07-13",
-      phoneNumber: "01057145507",
-      profilePictureUrl: "https://",
-    },
-    message: "회원님이 PT 예약을 요청하였습니다.",
-    sendDate: "2025-02-12T18:00",
-    isProcessed: false,
-  },
-  {
-    notificationId: 1, //알림 ID
-    refId: 1, // 연동 ID
-    refType: "예약", //알람 종류 ["예약","세션","트레이너 연동"]
-    notificationType: "예약 변경", // 알림종류
-    memberInfo: {
-      memberId: 1,
-      name: "홍길동",
-      birthDate: "1996-07-13",
-      phoneNumber: "01057145507",
-      profilePictureUrl: "https://",
-    },
-    message: "회원님이 PT 예약을 요청하였습니다.",
-    sendDate: "2025-02-12T18:00",
-    isProcessed: false,
-  },
-  {
-    notificationId: 1, //알림 ID
-    refId: 1, // 연동 ID
-    refType: "예약", //알람 종류 ["예약","세션","트레이너 연동"]
-    notificationType: "예약 취소", // 알림종류
-    memberInfo: {
-      memberId: 1,
-      name: "홍길동",
-      birthDate: "1996-07-13",
-      phoneNumber: "01057145507",
-      profilePictureUrl: "https://",
-    },
-    message: "회원님이 PT 예약을 요청하였습니다.",
-    sendDate: "2025-02-12T18:00",
-    isProcessed: false,
-  },
-  {
-    notificationId: 2, //알림 ID
-    refId: 2, // 수업 ID
-    refType: "세션", //알람 종류 ["예약","세션","트레이너 연동"]
-    notificationType: "세션 완료", // 알림타입
 
-    memberInfo: {
-      memberId: 1,
-      name: "홍길동",
-      birthDate: "1996-07-13",
-      phoneNumber: "01057145507",
-      profilePictureUrl: "https://",
-    },
-    message: "세션이 완료 되었습니다.",
-    sendDate: "2025-02-12T18:00",
-    isProcessed: true,
+const DUMMY_NOTIFICATION = [
+  {
+    notificationId: 3,
+    type: "연동 해제",
+    content: "홍길동 회원이 연동을 해제했습니다",
+    sendDate: "2025-04-05T17:25:15.883592",
+    isProcessed: false,
+  },
+
+  {
+    notificationId: 1,
+    type: "연동 해제",
+    content: "홍길동 회원이 연동을 해제했습니다",
+    sendDate: "2025-04-05T17:25:15.883592",
+    isProcessed: false,
+  },
+  {
+    notificationId: 5,
+    type: "연동 해제",
+    content: "홍길동 회원이 연동을 해제했습니다",
+    sendDate: "2025-04-05T17:25:15.883592",
+    isProcessed: false,
   },
 ];
