@@ -59,8 +59,6 @@ function NotificationIcon({
 
     return <Icon className={cn("text-text-primary", className)} />;
   } catch (e) {
-    console.error(e);
-
     return <Dumbbell className={cn("text-text-primary", className)} />;
   }
 }
