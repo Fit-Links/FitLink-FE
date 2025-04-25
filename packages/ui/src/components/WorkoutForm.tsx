@@ -26,7 +26,7 @@ const generateTimeCells: (dayOfWeek: Days) => TimeCell[] = (dayOfWeek) => {
 };
 
 type WorkoutFormProps = {
-  onSubmit: (workoutSchedule: PreferredWorkout[]) => void;
+  onSubmit: (workoutSchedule: Omit<PreferredWorkout, "workoutScheduleId">[]) => void;
 };
 function WorkoutForm({ onSubmit }: WorkoutFormProps) {
   const [currentDay, setCurrentDay] = React.useState<Days>(Days.Monday);

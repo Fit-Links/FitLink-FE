@@ -6,7 +6,7 @@ import WorkoutForm from "@ui/components/WorkoutForm";
 const TIME_CELL_SPAN = 50;
 
 type WorkoutScheduleStepProps = {
-  onNext: (workoutSchedule: PreferredWorkout[]) => void;
+  onNext: (workoutSchedule: Omit<PreferredWorkout, "workoutScheduleId">[]) => void;
 };
 function WorkoutScheduleStep({ onNext }: WorkoutScheduleStepProps) {
   return (

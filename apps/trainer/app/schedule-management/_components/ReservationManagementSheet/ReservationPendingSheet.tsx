@@ -43,7 +43,7 @@ function ReservationPendingSheet({
           <SheetTitle className="flex justify-center">{selectedFormatDate}</SheetTitle>
         </SheetHeader>
         <div
-          className="text-body-1 bg-background-sub1 flex h-[5.625rem] w-full items-center justify-center rounded-[0.625rem]"
+          className="text-body-1 bg-background-sub1 flex h-[5.625rem] w-full cursor-pointer items-center justify-center rounded-[0.625rem]"
           onClick={handleClickRoutePendingReservationPage}
         >
           해당 시간에 PT 예약을 요청한 회원은

@@ -2,13 +2,13 @@
 import { ModifiedReservationListItem } from "@trainer/services/types/reservations.dto";
 
 import Header from "./_components/Header";
-// import PendingReservationContainer from "./_components/PendingReservationContainer";
+import PendingReservationContainer from "./_components/PendingReservationContainer";
 
 type PendingReservationsProps = {
   searchParams: { members: string; selectedDate: string };
 };
+
 function PendingReservations({ searchParams }: PendingReservationsProps) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const members: ModifiedReservationListItem[] = JSON.parse(
     decodeURIComponent(searchParams.members),
   );
@@ -16,10 +16,10 @@ function PendingReservations({ searchParams }: PendingReservationsProps) {
   return (
     <main className="flex h-full flex-col">
       <Header />
-      {/* <PendingReservationContainer
+      <PendingReservationContainer
         memberInformations={members}
         selectedDate={searchParams.selectedDate}
-      /> */}
+      />
     </main>
   );
 }
