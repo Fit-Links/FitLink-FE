@@ -2,6 +2,8 @@
 import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "@ui/components/Dropdown";
 import Icon from "@ui/components/Icon";
 import { cn } from "@ui/lib/utils";
+import { format, parse } from "date-fns";
+import { ko } from "date-fns/locale";
 
 import MemberProfileCard from "@trainer/app/schedule-management/_components/MemberProfileCard";
 
@@ -16,6 +18,7 @@ import { DAYS } from "@trainer/constants/Day";
 import { formatContinuousTimes } from "../../_utils/formatContinuousTimes";
 
 type MemberCardListProps = {
+  selectedDate?: string;
   hasOtherReservations: boolean;
   selectedMemberInformation: ReservationDetailPendingStatus | null;
   onChangeSelectMemberInformation: (
@@ -27,17 +30,28 @@ function MemberCardList({
   hasOtherReservations,
   selectedMemberInformation,
   onChangeSelectMemberInformation,
+  selectedDate,
 }: MemberCardListProps) {
   /**
    * TODO: memberId를 통해 회원 상세 정보를 리스트로 가져와 PT 가능 시간을 프로필카드 Dropdown에 나타내기
    * TODO: reservationDate를 통해 상세 대기 목록을 모두 가져오기
    */
 
-  const formatedTime = (date: string[]) => {
+  const formatedTime = (dates: string[]) => {
     if (!hasOtherReservations) return undefined;
-    if (date.length === 1) return undefined;
+    if (dates.length === 1) return undefined;
 
-    return date[1].split("T")[1];
+    if (selectedDate) {
+      const parsedDate = parse(selectedDate, "M. d (E) HH:mm", new Date(), {
+        locale: ko,
+      });
+
+      const timeOnly = format(parsedDate, "HH:mm");
+
+      return dates.filter((date) => date.split("T")[1] !== timeOnly)[0].split("T")[1];
+    }
+
+    return undefined;
   };
 
   const handleClickMemberCard = (memberId: number) => () => {
@@ -60,8 +74,6 @@ function MemberCardList({
         );
 
         if (hasOtherReservations && reservationDates.length === 1) return;
-
-        hasOtherReservations && reservationDates.length > 1 && console.log(reservationDates[1]);
 
         return (
           <MemberProfileCard
@@ -127,7 +139,7 @@ const MOCK_PENDING_MEMBERS: ReservationDetailPendingStatusApiResponse["data"] = 
       phoneNumber: "01057645507",
       profilePictureUrl: "https://",
       reservationId: 11,
-      reservationDates: ["2025-02-12T18:00", "2025-02-12T20:00"],
+      reservationDates: ["2025-04-28T15:00", "2025-04-28T20:00"],
       dayOfWeek: "MONDAY",
     },
     {
@@ -137,7 +149,7 @@ const MOCK_PENDING_MEMBERS: ReservationDetailPendingStatusApiResponse["data"] = 
       phoneNumber: "01057645507",
       profilePictureUrl: "https://",
       reservationId: 11,
-      reservationDates: ["2025-02-12T18:00", "2025-02-12T20:00"],
+      reservationDates: ["2025-04-28T15:00", "2025-04-28T19:00"],
       dayOfWeek: "MONDAY",
     },
   ],

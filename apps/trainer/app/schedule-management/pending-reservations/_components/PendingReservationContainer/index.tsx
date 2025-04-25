@@ -42,6 +42,7 @@ function PendingReservationContainer({
         />
         <p className="text-body-3 mt-[1.563rem] w-full text-left">다른 시간에도 가능한 회원</p>
         <MemberCardList
+          selectedDate={selectedDate}
           hasOtherReservations={true}
           selectedMemberInformation={selectedMemberInformation}
           onChangeSelectMemberInformation={setSelectedMemberInformation}
