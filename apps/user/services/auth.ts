@@ -1,4 +1,4 @@
-import http from "./core";
+import http from "../app/apiCore";
 import { LogoutApiResponse, SignupRequestBody, SignupApiResponse } from "./types/auth.dto";
 
 export const signup = (data: SignupRequestBody) =>
