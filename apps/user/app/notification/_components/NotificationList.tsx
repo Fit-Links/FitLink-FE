@@ -12,12 +12,12 @@ function NotificationList({ notificationList }: NotificationListProps) {
   // TODO[2025.03.30]: NotificationItem onClick 핸들러 구현 (알림 읽음 처리 API)
   return (
     <ul className="flex flex-col items-center gap-4">
-      {notificationList?.map(({ content, sendDate, isProcessed }, index) => (
+      {notificationList?.map(({ content, sendDate, isProcessed, type }, index) => (
         <NotificationItem
           message={content}
           createdAt={sendDate}
           isCompleted={isProcessed}
-          variant="reserve"
+          variant={type}
           key={`${sendDate}-${index}`}
           className="w-full"
         />

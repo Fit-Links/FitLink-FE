@@ -33,37 +33,37 @@ export default function MyPage() {
     },
     workoutSchedules: [
       {
-        workoutScheduleId: "1",
+        workoutScheduleId: 1,
         dayOfWeek: "MONDAY",
         preferenceTimes: ["10:00", "12:00"],
       },
       {
-        workoutScheduleId: "2",
+        workoutScheduleId: 2,
         dayOfWeek: "TUESDAY",
         preferenceTimes: ["10:00", "12:00"],
       },
       {
-        workoutScheduleId: "3",
+        workoutScheduleId: 3,
         dayOfWeek: "WEDNESDAY",
         preferenceTimes: ["10:00", "12:00"],
       },
       {
-        workoutScheduleId: "4",
+        workoutScheduleId: 4,
         dayOfWeek: "THURSDAY",
         preferenceTimes: ["10:00", "12:00"],
       },
       {
-        workoutScheduleId: "5",
+        workoutScheduleId: 5,
         dayOfWeek: "FRIDAY",
         preferenceTimes: ["10:00", "12:00"],
       },
       {
-        workoutScheduleId: "6",
+        workoutScheduleId: 6,
         dayOfWeek: "SATURDAY",
         preferenceTimes: ["10:00", "12:00"],
       },
       {
-        workoutScheduleId: "7",
+        workoutScheduleId: 7,
         dayOfWeek: "SUNDAY",
         preferenceTimes: ["10:00", "12:00"],
       },
