@@ -1,7 +1,48 @@
+"use client";
+
+import { useRef } from "react";
+
+import { Button } from "../Button";
+import PhoneVerificationGuide from "./PhoneVerificationGuide";
+import PhoneVerificationImage from "./PhoneVerificationImage";
+import PhoneVerificationNotice from "./PhoneVerificationNotice";
+
 type PhoneVerificationProps = {
-  children: React.ReactNode;
+  onClick: () => void;
+  verificationToken?: string;
 };
 
-export default function PhoneVerification({ children }: PhoneVerificationProps) {
-  return <section className="flex h-full w-full flex-col items-center">{children}</section>;
+const generateSnsBody = (token?: string) => {
+  return `[Fitlink]\n${token}`;
+};
+function PhoneVerification({ onClick, verificationToken }: PhoneVerificationProps) {
+  const linkRef = useRef<HTMLAnchorElement>(null);
+  const handleButtonClick = () => {
+    linkRef.current?.click();
+    onClick();
+  };
+
+  return (
+    <main className="flex h-full w-full flex-col items-center">
+      <PhoneVerificationGuide />
+      <PhoneVerificationImage />
+      <PhoneVerificationNotice />
+      <Button
+        size="xl"
+        className="text-headline w-full"
+        onClick={handleButtonClick}
+        disabled={!verificationToken}
+      >
+        인증 메시지 보내기
+      </Button>
+      <a
+        ref={linkRef}
+        href={`sms:verification@fitlink.biz?body=${generateSnsBody(verificationToken)}`}
+        className="hidden"
+        aria-label="verification-link"
+      />
+    </main>
+  );
 }
+
+export default PhoneVerification;
