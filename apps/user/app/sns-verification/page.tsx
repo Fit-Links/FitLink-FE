@@ -26,7 +26,6 @@ function SnsVerificationPage() {
     refetchInterval: (query) => {
       if (query.state.data?.data) {
         const { status } = query.state.data.data;
-        console.log(status);
         if (status === "REQUIRED_REGISTER") return false;
       }
 
