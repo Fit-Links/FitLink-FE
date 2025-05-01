@@ -25,7 +25,7 @@ type MyInformationResponse = {
   connectingStatus: TrainerConnectStatus;
   profilePictureUrl: string;
   sessionInfo: SessionInfo;
-  workoutSchedules: (PreferredWorkout & { workoutScheduleId: string })[];
+  workoutSchedules: PreferredWorkout[];
 };
 export type MyInformationApiResponse = ResponseBase<MyInformationResponse>;
 

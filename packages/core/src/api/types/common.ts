@@ -112,7 +112,6 @@ export type Gender = "MALE" | "FEMALE";
 export type BaseSignupInfo = {
   name: string;
   birthDate: string;
-  phoneNumber: string;
   gender: Gender;
   profileUrl: string;
 };

@@ -9,9 +9,6 @@ import { useSaveTokenFromSearchParams } from "../_hooks/useSaveTokenFromSearchPa
 const BasicInfoStep = dynamic(() => import("@ui/components/FunnelSteps/BasicInfoStep"), {
   ssr: false,
 });
-const PhoneNumberStep = dynamic(() => import("@ui/components/FunnelSteps/PhoneNumberStep"), {
-  ssr: false,
-});
 const WorkoutScheduleStep = dynamic(
   () => import("@ui/components/FunnelSteps/WorkoutScheduleStep"),
   {
@@ -27,7 +24,6 @@ function RegisterFunnel() {
 
   const funnel = useFunnel<{
     basicInfo: BasicInfoStep;
-    phoneNumber: PhoneNumberStep;
     workoutSchedule: WorkoutScheduleStep;
     result: ResultStep;
   }>({
@@ -43,14 +39,8 @@ function RegisterFunnel() {
       return (
         <BasicInfoStep
           onNext={(name, birthDate, gender, profileUrl) =>
-            funnel.history.push("phoneNumber", { name, birthDate, gender, profileUrl })
+            funnel.history.push("workoutSchedule", { name, birthDate, gender, profileUrl })
           }
-        />
-      );
-    case "phoneNumber":
-      return (
-        <PhoneNumberStep
-          onNext={(phoneNumber) => funnel.history.push("workoutSchedule", { phoneNumber })}
         />
       );
     case "workoutSchedule":
@@ -75,30 +65,19 @@ type BasicInfoStep = {
   birthDate?: string;
   gender?: Gender;
   profileUrl?: string;
-  phoneNumber?: string;
-  workoutSchedule?: PreferredWorkout[];
-};
-type PhoneNumberStep = {
-  name: string;
-  birthDate: string;
-  gender: Gender;
-  profileUrl: string;
-  phoneNumber?: string;
-  workoutSchedule?: PreferredWorkout[];
+  workoutSchedule?: Omit<PreferredWorkout, "workoutScheduleId">[];
 };
 type WorkoutScheduleStep = {
   name: string;
   birthDate: string;
   gender: Gender;
   profileUrl: string;
-  phoneNumber: string;
-  workoutSchedule?: PreferredWorkout[];
+  workoutSchedule?: Omit<PreferredWorkout, "workoutScheduleId">[];
 };
 type ResultStep = {
   name: string;
   birthDate: string;
   gender: Gender;
   profileUrl: string;
-  phoneNumber: string;
-  workoutSchedule: PreferredWorkout[];
+  workoutSchedule: Omit<PreferredWorkout, "workoutScheduleId">[];
 };

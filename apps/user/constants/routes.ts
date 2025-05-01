@@ -20,6 +20,7 @@ const generateQueryString = (searchParams: Partial<{ [key: string]: string | nul
 
 class ROUTES {
   private _root = () => [""];
+  private "_sns-verification" = () => [...this._root(), "sns-verification"];
   private _login = () => [...this._root(), "login"];
   private _register = () => [...this._root(), "register"];
   private "_my-page" = () => [...this._root(), "my-page"];
@@ -39,6 +40,9 @@ class ROUTES {
 
   get root() {
     return () => this._root().join(ROUTE_DIVIDER) + "/";
+  }
+  get "sns-verification"() {
+    return () => this["_sns-verification"]().join(ROUTE_DIVIDER);
   }
   get login() {
     return () => this._login().join(ROUTE_DIVIDER);
