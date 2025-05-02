@@ -58,7 +58,7 @@ function NotificationIcon({
     const Icon = NotificationIconMap[variant];
 
     return <Icon className={cn("text-text-primary", className)} />;
-  } catch (e) {
+  } catch {
     return <Dumbbell className={cn("text-text-primary", className)} />;
   }
 }
