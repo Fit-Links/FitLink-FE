@@ -1,6 +1,6 @@
 import { TRAINER_BASE_URL } from "@trainer/constants/baseUrl";
 
-import http from "./core";
+import http from "../app/apiCore";
 import {
   AddAvailablePtTimeApiResponse,
   AddAvailablePtTimeRequestBody,

@@ -1,4 +1,4 @@
-import http from "./core";
+import http from "../app/apiCore";
 import {
   CancelReservationApiResponse,
   CancelReservationRequestBody,

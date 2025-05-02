@@ -29,7 +29,7 @@ type PtUserListResponse = {
 export type PtUserListApiResponse = ResponseBase<PtUserListResponse>;
 
 export type PtUserDetailRequestPath = { memberId: number };
-type PtUserDetailResponse = PtUser & {
+type PtUserDetailResponse = Omit<PtUser, "totalCount" | "remainingCount"> & {
   connectingStatus: "CONNECTED";
   profilePictureUrl: string;
   sessionInfo: SessionInfo;

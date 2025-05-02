@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "test": "jest"
   },
   "lint-staged": {
     "**/*.{ts,tsx}": [
@@ -21,6 +23,7 @@
     "@tanstack/react-query-devtools": "^5.71.1",
     "@use-funnel/browser": "^0.0.13",
     "axios": "^1.7.9",
+    "cookies-next": "4.3.0",
     "date-fns": "^4.1.0",
     "lucide-react": "^0.471.1",
     "next": "14.2.20",
