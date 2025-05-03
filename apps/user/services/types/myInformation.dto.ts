@@ -1,4 +1,5 @@
 import {
+  FixieReservation,
   NoResponseData,
   PreferredWorkout,
   PtInfo,
@@ -24,6 +25,7 @@ type MyInformationResponse = {
   trainerName: string;
   connectingStatus: TrainerConnectStatus;
   profilePictureUrl: string;
+  fixieReservations: FixieReservation[];
   sessionInfo: SessionInfo;
   workoutSchedules: PreferredWorkout[];
 };

@@ -29,6 +29,11 @@ export type PreferredWorkout = {
   dayOfWeek: DayOfWeek;
   preferenceTimes: string[];
 };
+
+export type FixieReservation = {
+  reservationId: number;
+  reservationDateTime: string;
+};
 export type AvailablePtTime = {
   availableTimeId: number;
   dayOfWeek: DayOfWeek;
