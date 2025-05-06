@@ -1,4 +1,5 @@
 import {
+  AvailablePtTime,
   FixieReservation,
   NoResponseData,
   PreferredWorkout,
@@ -71,3 +72,18 @@ type MyPtHistoryResponse = {
   totalElements: string;
 };
 export type MyPtHistoryApiResponse = ResponseBase<MyPtHistoryResponse>;
+
+export type MyTrainerWorkoutRequestPath = {
+  trainerId: number;
+};
+
+type MyTrainerCurrentScheduleResponse = {
+  applyAt: string;
+  schedules: AvailablePtTime[];
+};
+
+export type MyTrainerAvailableTimeResponse = {
+  currentSchedule: MyTrainerCurrentScheduleResponse;
+};
+
+export type MyTrainerAvailableTimeApiResponse = ResponseBase<MyTrainerAvailableTimeResponse>;
