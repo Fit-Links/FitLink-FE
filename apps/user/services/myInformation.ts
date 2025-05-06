@@ -12,6 +12,7 @@ import {
   MyPtHistoryApiResponse,
   MyPtHistoryRequestPath,
   MyPtHistoryRequestQuery,
+  MyTrainerAvailableTimeApiResponse,
 } from "./types/myInformation.dto";
 
 const USER_BASE_URL = "members";
@@ -41,7 +42,7 @@ export const getMyInformationDetail = () =>
 
 export const editPreferredTime = (requestBody: EditPreferredTimeRequestBody) =>
   http.put<EditPreferredTimeApiResponse>({
-    url: `${USER_BASE_URL}/me/workout-schedult`,
+    url: `${USER_BASE_URL}/me/workout-schedule`,
     data: requestBody,
   });
 
@@ -57,3 +58,8 @@ export const getMyPtHistory = (
     params: { status, size, page },
   });
 };
+
+export const getMyTrainerAvailableTime = (trainerId: number) =>
+  http.get<MyTrainerAvailableTimeApiResponse>({
+    url: `${USER_BASE_URL}/trainers/${trainerId}/available-times`,
+  });
