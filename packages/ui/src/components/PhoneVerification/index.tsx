@@ -37,7 +37,7 @@ function PhoneVerification({ onClick, verificationToken }: PhoneVerificationProp
       </Button>
       <a
         ref={linkRef}
-        href={`sms:verification@fitlink.biz?body=${generateSnsBody(verificationToken)}`}
+        href={`sms:verification@fitlink.biz&body=${generateSnsBody(verificationToken)}`}
         className="hidden"
         aria-label="verification-link"
       />
