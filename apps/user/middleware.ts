@@ -9,7 +9,10 @@ export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
 
   /** TODO: login 경로는 임시 경로로 추후 sns-verification 페이지 작업자가 해당 페이지로 이동하는 로직으로 12번 라인 수정 */
-  if (url.pathname === RouteInstance["sns-verification"]()) {
+  if (
+    url.pathname === RouteInstance["sns-verification"]() ||
+    url.pathname === RouteInstance["root"]()
+  ) {
     const accessToken = url.searchParams.get("accessToken");
     const refreshToken = url.searchParams.get("refreshToken");
 
