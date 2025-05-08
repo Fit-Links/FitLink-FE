@@ -26,6 +26,8 @@ class ROUTES {
 
   private "_sns-verification" = () => [...this._root(), "sns-verification"];
 
+  private _register = () => [...this._root(), "register"];
+
   private "_member-management" = (routeParams?: string) => [
     ...this._root(),
     "member-management",
@@ -73,6 +75,11 @@ class ROUTES {
   get "sns-verification"() {
     return () => {
       return this["_sns-verification"]().join(ROUTE_DIVIDER);
+    };
+  }
+  get register() {
+    return () => {
+      return this._register().join(ROUTE_DIVIDER);
     };
   }
 
