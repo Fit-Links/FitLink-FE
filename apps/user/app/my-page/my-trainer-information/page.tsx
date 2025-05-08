@@ -1,13 +1,11 @@
-import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 
 import { myInformationQueries } from "@user/queries/myInformation";
-
-import { getQueryClient } from "@user/components/Providers/getQueryClient";
 
 import MyTrainerInformationContainer from "./_components/MyTrainerInformationContainer";
 
 export default async function MyTrainerInformation() {
-  const queryClient = getQueryClient();
+  const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(myInformationQueries.detail());
 

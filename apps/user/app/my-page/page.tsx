@@ -1,10 +1,8 @@
-import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 
 import { myInformationQueries } from "@user/queries/myInformation";
 
 import { MyInformationApiResponse } from "@user/services/types/myInformation.dto";
-
-import { getQueryClient } from "@user/components/Providers/getQueryClient";
 
 import MyPageContainer from "./_components/MyPageContainer";
 import PTHistoryContent from "./_components/PTHistory/PTHistoryContent";
@@ -12,7 +10,7 @@ import PTHistoryFilter from "./_components/PTHistory/PTHistoryFilter";
 import PTHistoryProvider from "./_components/PTHistory/PTHistoryProvider";
 
 export default async function MyPage() {
-  const queryClient = getQueryClient();
+  const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery<MyInformationApiResponse>(myInformationQueries.summary());
 
