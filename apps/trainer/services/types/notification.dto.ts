@@ -22,3 +22,6 @@ export type ReadNotificationRequestBody = {
 export type ReadNotificationApiResponse = ResponseBase<{
   notificationId: number;
 }>;
+export type SendPushTokenRequestBody = {
+  pushToken: string;
+};
