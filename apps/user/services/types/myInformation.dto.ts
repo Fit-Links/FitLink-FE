@@ -22,12 +22,12 @@ export type DisconnectTrainerApiResponse = ResponseBase<DisconnectTrainerRespons
 type MyInformationResponse = {
   memberId: number;
   name: string;
-  trainerId: number;
-  trainerName: string;
-  connectingStatus: TrainerConnectStatus;
-  profilePictureUrl: string;
-  fixieReservations: FixieReservation[];
-  sessionInfo: SessionInfo;
+  trainerId: number | null;
+  trainerName: string | null;
+  connectingStatus: TrainerConnectStatus | null;
+  profilePictureUrl: string | null;
+  fixedReservations: FixieReservation[];
+  sessionInfo: SessionInfo | null;
   workoutSchedules: PreferredWorkout[];
 };
 export type MyInformationApiResponse = ResponseBase<MyInformationResponse>;
