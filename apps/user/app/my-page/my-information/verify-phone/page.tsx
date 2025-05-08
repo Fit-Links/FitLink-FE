@@ -10,7 +10,7 @@ import Header from "../../_components/Header";
 const MOCK_TOKEN = "1234567890";
 
 export default function VerifyPhone() {
-  // const navigation = useRouter();
+  // const router = useRouter();
 
   // const [hasClicked, setHasClicked] = useState(false);
 
@@ -18,23 +18,13 @@ export default function VerifyPhone() {
     //   setHasClicked(true);
   };
 
-  // const { data: tokenData, isPending: isTokenPending } = useQuery(authQueries.snsToken());
-
-  // const { data: statusData } = useQuery({
-  //   ...authQueries.status(),
-  //   enabled: hasClicked,
-  //   refetchInterval: (query) => {
-  //     return REFETCH_INTERVAL;
-  //   },
-  // });
-
   // if (statusData && statusData.data) {
   //   const { status } = statusData.data;
 
   //   TODO: 휴대폰 변경 요청 상태 또한 필요로 되어 보임
   //   // REGISTER가 아닌 휴대폰 변경 요청 상태 또한 필요로 되어 보임
 
-  //   navigation.back();
+  //   router.back();
   // }
 
   return (
