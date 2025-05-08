@@ -22,7 +22,9 @@ const getFireBaseToken = async () => {
 
     return token;
   } catch (error) {
-    console.error(error);
+    if (process.env.NODE_ENV === "development") console.error(error);
+
+    return undefined;
   }
 };
 export const useFCMToken = () => {
@@ -37,7 +39,8 @@ export const useFCMToken = () => {
         pushToken: fcmToken,
       });
     } else {
-      console.log("No registration token available. Request permission to generate one.");
+      if (process.env.NODE_ENV === "development")
+        console.log("No registration token available. Request permission to generate one.");
     }
   };
 
@@ -46,7 +49,8 @@ export const useFCMToken = () => {
       initializeApp(firebaseConfig);
       fireBaseMessageToken();
     } catch (error) {
-      console.error("FCM 연동 중 오류가 발생했습니다", error);
+      if (process.env.NODE_ENV === "development")
+        console.error("FCM 연동 중 오류가 발생했습니다", error);
     }
   };
 
