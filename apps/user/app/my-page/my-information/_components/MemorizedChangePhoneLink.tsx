@@ -1,3 +1,5 @@
+"use client";
+
 import { ProfileItem } from "@ui/components/ProfileItem";
 import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
