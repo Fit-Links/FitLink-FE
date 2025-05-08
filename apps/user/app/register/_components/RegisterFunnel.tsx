@@ -4,8 +4,6 @@ import { Gender, PreferredWorkout } from "@5unwan/core/api/types/common";
 import { useFunnel } from "@use-funnel/browser";
 import dynamic from "next/dynamic";
 
-import { useSaveTokenFromSearchParams } from "../_hooks/useSaveTokenFromSearchParams";
-
 const BasicInfoStep = dynamic(() => import("@ui/components/FunnelSteps/BasicInfoStep"), {
   ssr: false,
 });
@@ -20,8 +18,6 @@ const ResultStep = dynamic(() => import("./ResultStep"), {
 });
 
 function RegisterFunnel() {
-  useSaveTokenFromSearchParams();
-
   const funnel = useFunnel<{
     basicInfo: BasicInfoStep;
     workoutSchedule: WorkoutScheduleStep;
