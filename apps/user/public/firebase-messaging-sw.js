@@ -19,16 +19,11 @@ const firebaseConfig = {
   measurementId: "G-TN218GZV1J"
 };
 
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-// const firebaseApp = initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
-// const messaging = getMessaging(firebaseApp);
 
 messaging.onBackgroundMessage(messaging, (payload) => {
-  console.log('[firebase-messaging-sw.js] Received background message ', payload);
-  // Customize notification here
   const notificationTitle = 'Background Message Title';
   const notificationOptions = {
     body: 'Background Message body.',
