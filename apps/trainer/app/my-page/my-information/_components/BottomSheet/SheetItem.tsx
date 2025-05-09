@@ -19,7 +19,7 @@ export default function SheetItem({ icon, label, variant = "default", onClick }:
   return (
     <Button
       className={cn(
-        "bg-background-sub1 hover:bg-background-sub3 flex h-[2.813rem] w-full items-center gap-[0.625rem] rounded-md px-[0.625rem]",
+        "bg-background-sub1 hover:bg-background-sub3 flex h-[2.813rem] w-full items-center justify-start gap-[0.625rem] rounded-md px-[0.625rem]",
         variants[variant],
       )}
       onClick={onClick}
