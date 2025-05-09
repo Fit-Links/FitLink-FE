@@ -36,6 +36,8 @@ export default function MyPageContainer() {
   //   makeWeekSchedule({ type: "block", schedule: preferredSchedule }),
   // ) as ObjectEntries<Record<DaysOfWeek, string>>;
 
+  // TODO:
+  // Suspense, ErroBoundary 필요
   return (
     <div>
       <ProfileHeader
@@ -53,7 +55,7 @@ export default function MyPageContainer() {
       </ProfileItem>
 
       <ConnectedTrainerItem
-        trainerId={myInformation?.trainerId}
+        connectingStatus={myInformation?.connectingStatus}
         trainerName={myInformation?.trainerName}
       />
 

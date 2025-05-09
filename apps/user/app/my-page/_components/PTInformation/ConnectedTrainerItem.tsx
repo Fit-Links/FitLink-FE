@@ -6,18 +6,29 @@ import { cn } from "@ui/lib/utils";
 import { useRouter } from "next/navigation";
 import React from "react";
 
+import { TrainerConnectStatus } from "@user/app/schedule-management/_types/addReservation";
+
 import RouteInstance from "@user/constants/routes";
 
 interface TrainerInformationProps {
-  trainerId: number | null;
+  connectingStatus: TrainerConnectStatus | null;
   trainerName: string | null;
 }
 
-export default function ConnectedTrainerItem({ trainerId, trainerName }: TrainerInformationProps) {
+export default function ConnectedTrainerItem({
+  connectingStatus,
+  trainerName,
+}: TrainerInformationProps) {
   const router = useRouter();
 
-  const handleClickRouting = (path: string) => {
-    router.push(path);
+  const connected = connectingStatus === "CONNECTED";
+
+  const handleClickRouting = () => {
+    if (connected) {
+      router.push(RouteInstance["my-trainer-information"]());
+    } else {
+      router.push(RouteInstance["connect-trainer"]());
+    }
   };
 
   return (
@@ -26,17 +37,11 @@ export default function ConnectedTrainerItem({ trainerId, trainerName }: Trainer
         <div
           className={cn(
             "flex items-center gap-0",
-            trainerId ? "text-text-sub2" : "text-text-primary",
+            connected ? "text-text-sub2" : "text-text-primary",
           )}
-          onClick={() => {
-            handleClickRouting(
-              trainerId
-                ? RouteInstance["my-trainer-information"]()
-                : RouteInstance["connect-trainer"](),
-            );
-          }}
+          onClick={handleClickRouting}
         >
-          {trainerId ? trainerName : "연동하기"}
+          {connected ? trainerName : "연동하기"}
           <Icon name="ChevronRight" className="cursor-pointer" size="lg" />
         </div>
       </ProfileItemContent>
