@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./Avatar";
 import { Button } from "./Button";
 
 type ProfileImagePickerProps = {
-  onFileChange: (fileUrl: string) => void;
+  onFileChange: (file: File) => void;
   error?: string | boolean;
 };
 
@@ -21,8 +21,10 @@ function ProfileImagePicker({ onFileChange, error }: ProfileImagePickerProps) {
   const handleFileChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const files = event.target.files;
     if (files && files.length) {
-      const newUrl = URL.createObjectURL(files[0]);
-      onFileChange(newUrl);
+      const targetFile = files[0];
+
+      const newUrl = URL.createObjectURL(targetFile);
+      onFileChange(targetFile);
       setImageUrl(newUrl);
     }
   };

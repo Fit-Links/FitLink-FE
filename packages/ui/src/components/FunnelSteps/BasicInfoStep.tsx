@@ -17,21 +17,21 @@ import { formatDateStringFromResidentId } from "@ui/utils/formatDateStringFromRe
 
 const NAME_REGEX = /[a-zA-Z가-힣]+$/;
 const REQUIRED_FIELDS = Object.freeze({
-  profileUrl: true,
+  profileImage: true,
   name: true,
   gender: true,
   birthDate: true,
 });
 
 type BasicInfoForm = {
-  profileUrl?: string;
+  profileImage?: File;
   name?: string;
   gender?: Gender;
   birthDate?: string;
 };
 
 const formSchema = z.object({
-  profileUrl: z.string(),
+  profileImage: z.any(),
   name: z.string().regex(NAME_REGEX),
   gender: z.enum(["MALE", "FEMALE"]),
   birthDate: z.string().date(),
@@ -61,12 +61,12 @@ const areRequiredFormFiledsFilled = (
 };
 type zodErrors = z.inferFlattenedErrors<typeof formSchema>;
 type BasicInfoStepProps = {
-  onNext: (name: string, birthDate: string, gender: Gender, profileUrl: string) => void;
+  onNext: (name: string, birthDate: string, gender: Gender, profileImage: File) => void;
 };
 
 function BasicInfoStep({ onNext }: BasicInfoStepProps) {
   const formDataRef = React.useRef<{
-    profileUrl?: string;
+    profileImage?: File;
     name?: string;
     gender?: Gender;
     birthDate?: string;
@@ -98,7 +98,7 @@ function BasicInfoStep({ onNext }: BasicInfoStepProps) {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
-    const { name, birthDate, gender, profileUrl } = formDataRef.current;
+    const { name, birthDate, gender, profileImage } = formDataRef.current;
 
     const { success, errors } = validateForm({
       ...formDataRef.current,
@@ -109,7 +109,7 @@ function BasicInfoStep({ onNext }: BasicInfoStepProps) {
 
       return;
     }
-    onNext(name!, formatDateStringFromResidentId(birthDate)!, gender!, profileUrl!);
+    onNext(name!, formatDateStringFromResidentId(birthDate)!, gender!, profileImage!);
   };
 
   React.useEffect(() => {
@@ -124,11 +124,11 @@ function BasicInfoStep({ onNext }: BasicInfoStepProps) {
       <form onSubmit={handleSubmit} className="flex flex-1 flex-col justify-between pt-[15px]">
         <div>
           <ProfileImagePicker
-            onFileChange={(fileUrl) => {
-              resetErrorField("profileUrl");
-              handleFieldChange("profileUrl", fileUrl);
+            onFileChange={(file) => {
+              resetErrorField("profileImage");
+              handleFieldChange("profileImage", file);
             }}
-            error={parseMessageFromZodError("profileUrl", errors)}
+            error={parseMessageFromZodError("profileImage", errors)}
           />
           <InputWithLabel id="a" error={parseMessageFromZodError("name", errors)}>
             <InputLabel>이름</InputLabel>
