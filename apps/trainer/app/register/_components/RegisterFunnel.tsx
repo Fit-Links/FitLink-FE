@@ -4,12 +4,7 @@ import { AvailablePtTime, Gender } from "@5unwan/core/api/types/common";
 import { useFunnel } from "@use-funnel/browser";
 import dynamic from "next/dynamic";
 
-import { useSaveTokenFromSearchParams } from "../_hooks/useSaveTokenFromSearchParams";
-
 const BasicInfoStep = dynamic(() => import("@ui/components/FunnelSteps/BasicInfoStep"), {
-  ssr: false,
-});
-const PhoneNumberStep = dynamic(() => import("@ui/components/FunnelSteps/PhoneNumberStep"), {
   ssr: false,
 });
 const TrainerScheduleStep = dynamic(
@@ -23,15 +18,12 @@ const ResultStep = dynamic(() => import("./ResultStep"), {
 });
 
 function RegisterFunnel() {
-  useSaveTokenFromSearchParams();
-
   const funnel = useFunnel<{
     basicInfo: BasicInfoStep;
-    phoneNumber: PhoneNumberStep;
-    availableTimes: TrainerScheduleStep;
+    trainerSchedule: TrainerScheduleStep;
     result: ResultStep;
   }>({
-    id: "register-user",
+    id: "register-trainer",
     initial: {
       step: "basicInfo",
       context: {},
@@ -43,17 +35,11 @@ function RegisterFunnel() {
       return (
         <BasicInfoStep
           onNext={(name, birthDate, gender, profileUrl) =>
-            funnel.history.push("phoneNumber", { name, birthDate, gender, profileUrl })
+            funnel.history.push("trainerSchedule", { name, birthDate, gender, profileUrl })
           }
         />
       );
-    case "phoneNumber":
-      return (
-        <PhoneNumberStep
-          onNext={(phoneNumber) => funnel.history.push("availableTimes", { phoneNumber })}
-        />
-      );
-    case "availableTimes":
+    case "trainerSchedule":
       return (
         <TrainerScheduleStep
           onNext={(availableTimes) =>
@@ -77,15 +63,6 @@ type BasicInfoStep = {
   birthDate?: string;
   gender?: Gender;
   profileUrl?: string;
-  phoneNumber?: string;
-  availableTimes?: AvailablePtTimeWithoutId[];
-};
-type PhoneNumberStep = {
-  name: string;
-  birthDate: string;
-  gender: Gender;
-  profileUrl: string;
-  phoneNumber?: string;
   availableTimes?: AvailablePtTimeWithoutId[];
 };
 type TrainerScheduleStep = {
@@ -93,7 +70,6 @@ type TrainerScheduleStep = {
   birthDate: string;
   gender: Gender;
   profileUrl: string;
-  phoneNumber: string;
   availableTimes?: AvailablePtTimeWithoutId[];
 };
 type ResultStep = {
@@ -101,6 +77,5 @@ type ResultStep = {
   birthDate: string;
   gender: Gender;
   profileUrl: string;
-  phoneNumber: string;
   availableTimes: AvailablePtTimeWithoutId[];
 };
