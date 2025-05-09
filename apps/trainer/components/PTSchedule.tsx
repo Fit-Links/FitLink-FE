@@ -36,7 +36,6 @@ type PTScheduleItemProps = {
   schedules: SpanScheduleUnit[];
 };
 function PTScheduleItem({ current, applyAt, schedules }: PTScheduleItemProps) {
-  console.log(schedules);
   const isCurrent = current && !applyAt;
 
   const weekSchedule = Object.entries(
@@ -78,15 +77,11 @@ function PTScheduleItem({ current, applyAt, schedules }: PTScheduleItemProps) {
         </DropdownTrigger>
         <DropdownContent>
           {/* eslint-disable-next-line no-magic-numbers */}
-          {weekSchedule.slice(1).map(([dayOfWeek, schedule]: [DaysOfWeek, string | null]) => {
-            console.log(weekSchedule);
-
-            return (
-              <DropdownItem
-                key={dayOfWeek}
-              >{`${DAYS_OF_WEEK[dayOfWeek]} ${schedule === "-" || schedule === null ? "휴무일" : schedule}`}</DropdownItem>
-            );
-          })}
+          {weekSchedule.slice(1).map(([dayOfWeek, schedule]: [DaysOfWeek, string | null]) => (
+            <DropdownItem
+              key={dayOfWeek}
+            >{`${DAYS_OF_WEEK[dayOfWeek]} ${schedule === "-" || schedule === null ? "휴무일" : schedule}`}</DropdownItem>
+          ))}
         </DropdownContent>
       </Dropdown>
     </div>

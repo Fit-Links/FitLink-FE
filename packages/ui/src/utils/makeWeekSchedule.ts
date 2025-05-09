@@ -49,7 +49,6 @@ export const makeWeekSchedule = (timeSchedule: TimeBlockSchedule | TimeSpanSched
   };
   if (timeSchedule.type === "span") {
     timeSchedule.schedule.forEach(({ dayOfWeek, startTime, endTime, isHoliday }) => {
-      console.log(dayOfWeek, startTime, endTime, isHoliday);
       if (!isHoliday || !startTime || !endTime) weekScheduleMap[dayOfWeek] = "-";
       else weekScheduleMap[dayOfWeek] = `${startTime} - ${endTime}`;
     });
