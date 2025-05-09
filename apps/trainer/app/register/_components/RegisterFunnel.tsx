@@ -1,18 +1,18 @@
 "use client";
 
-import { Gender, PreferredWorkout } from "@5unwan/core/api/types/common";
+import { AvailablePtTime, Gender } from "@5unwan/core/api/types/common";
 import { useMutation } from "@tanstack/react-query";
 import { useFunnel } from "@use-funnel/browser";
 import dynamic from "next/dynamic";
 
-import { registerUserProfileImage, uploadImage } from "@user/services/attachment";
-import { createPresignedUrl } from "@user/services/attachment";
+import { registerUserProfileImage, uploadImage } from "@trainer/services/attachment";
+import { createPresignedUrl } from "@trainer/services/attachment";
 
 const BasicInfoStep = dynamic(() => import("@ui/components/FunnelSteps/BasicInfoStep"), {
   ssr: false,
 });
-const WorkoutScheduleStep = dynamic(
-  () => import("@ui/components/FunnelSteps/WorkoutScheduleStep"),
+const TrainerScheduleStep = dynamic(
+  () => import("@ui/components/FunnelSteps/TrainerScheduleStep"),
   {
     ssr: false,
   },
@@ -24,10 +24,10 @@ const ResultStep = dynamic(() => import("./ResultStep"), {
 function RegisterFunnel() {
   const funnel = useFunnel<{
     basicInfo: BasicInfoStep;
-    workoutSchedule: WorkoutScheduleStep;
+    trainerSchedule: TrainerScheduleStep;
     result: ResultStep;
   }>({
-    id: "register-user",
+    id: "register-trainer",
     initial: {
       step: "basicInfo",
       context: {},
@@ -91,7 +91,7 @@ function RegisterFunnel() {
         <BasicInfoStep
           onNext={async (name, birthDate, gender, profileImage) => {
             const attachmentId = await handleUploadProfileImage(profileImage);
-            funnel.history.push("workoutSchedule", {
+            funnel.history.push("trainerSchedule", {
               name,
               birthDate,
               gender,
@@ -100,12 +100,12 @@ function RegisterFunnel() {
           }}
         />
       );
-    case "workoutSchedule":
+    case "trainerSchedule":
       return (
-        <WorkoutScheduleStep
-          onNext={(workoutSchedule) =>
+        <TrainerScheduleStep
+          onNext={(availableTimes) =>
             funnel.history.replace("result", {
-              workoutSchedule,
+              availableTimes,
             })
           }
         />
@@ -117,24 +117,26 @@ function RegisterFunnel() {
 
 export default RegisterFunnel;
 
+type AvailablePtTimeWithoutId = Omit<AvailablePtTime, "availableTimeId">;
+
 type BasicInfoStep = {
   name?: string;
   birthDate?: string;
   gender?: Gender;
   attachmentId?: number;
-  workoutSchedule?: Omit<PreferredWorkout, "workoutScheduleId">[];
+  availableTimes?: AvailablePtTimeWithoutId[];
 };
-type WorkoutScheduleStep = {
+type TrainerScheduleStep = {
   name: string;
   birthDate: string;
   gender: Gender;
   attachmentId: number;
-  workoutSchedule?: Omit<PreferredWorkout, "workoutScheduleId">[];
+  availableTimes?: AvailablePtTimeWithoutId[];
 };
 type ResultStep = {
   name: string;
   birthDate: string;
   gender: Gender;
   attachmentId: number;
-  workoutSchedule: Omit<PreferredWorkout, "workoutScheduleId">[];
+  availableTimes: AvailablePtTimeWithoutId[];
 };

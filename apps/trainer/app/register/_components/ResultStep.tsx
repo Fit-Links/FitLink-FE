@@ -9,7 +9,9 @@ import {
   SignupApiResponse,
   SignupRequestBody,
   UserVerificationStatus,
-} from "@user/services/types/auth.dto";
+} from "@trainer/services/types/auth.dto";
+
+import RouteInstance from "@trainer/constants/route";
 
 import { useFCMToken } from "../_hooks/useFCMToken";
 import { useSignupForm } from "../_hooks/useSignupForm";
@@ -88,9 +90,10 @@ function ResultStep({ form }: ResultStepProps) {
 
   const handleClick = (status: Status, userStatus: UserVerificationStatus) => () => {
     if (status === "success") {
-      router.replace("/");
+      router.replace(RouteInstance.root());
     } else if (status === "error") {
-      if (userStatus === "NORMAL" || userStatus === "REQUIRED_SMS") router.replace("/login");
+      if (userStatus === "NORMAL" || userStatus === "REQUIRED_SMS")
+        router.replace(RouteInstance.login());
       else if (userStatus === "REQUIRED_REGISTER") onSubmit(form);
     }
   };

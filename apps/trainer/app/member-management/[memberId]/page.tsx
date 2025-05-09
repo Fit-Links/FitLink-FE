@@ -6,7 +6,7 @@ import PtHistoryContainer from "./_components/PtHistoryContainer";
 
 function MemberInformation() {
   return (
-    <main className="flex h-full flex-col overflow-y-auto">
+    <main className="flex h-full flex-col overflow-y-auto [&::-webkit-scrollbar]:hidden">
       <Header />
       <MemberProfile />
       <PtHistoryContainer ptHistories={MOCK_PT_HISTORIES} />

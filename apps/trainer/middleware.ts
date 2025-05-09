@@ -8,7 +8,10 @@ import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "./constants/token";
 export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
 
-  if (url.pathname === RouteInstance["sns-verification"]()) {
+  if (
+    url.pathname === RouteInstance["sns-verification"]() ||
+    url.pathname === RouteInstance.root()
+  ) {
     const accessToken = url.searchParams.get("accessToken");
     const refreshToken = url.searchParams.get("refreshToken");
 
@@ -43,4 +46,4 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
-export const config = { matcher: [RouteInstance["sns-verification"]()] };
+export const config = { matcher: ["/", "/sns-verification"] };

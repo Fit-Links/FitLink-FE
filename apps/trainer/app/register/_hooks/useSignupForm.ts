@@ -2,8 +2,8 @@
 
 import { MutateOptions, useMutation } from "@tanstack/react-query";
 
-import { signup } from "@user/services/auth";
-import { SignupApiResponse, SignupRequestBody } from "@user/services/types/auth.dto";
+import { signup } from "@trainer/services/auth";
+import { SignupApiResponse, SignupRequestBody } from "@trainer/services/types/auth.dto";
 
 export const useSignupForm = (
   persistentOptions?: Omit<

@@ -118,5 +118,5 @@ export type BaseSignupInfo = {
   name: string;
   birthDate: string;
   gender: Gender;
-  profileUrl: string;
+  attachmentId: number;
 };

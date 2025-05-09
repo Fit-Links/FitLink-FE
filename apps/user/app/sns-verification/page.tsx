@@ -10,7 +10,7 @@ import { authQueries } from "@user/queries/auth";
 const REFETCH_INTERVAL = 5000;
 
 function SnsVerificationPage() {
-  const navigation = useRouter();
+  const router = useRouter();
 
   const [hasClicked, setHasClicked] = useState(false);
 
@@ -18,7 +18,8 @@ function SnsVerificationPage() {
     setHasClicked(true);
   };
 
-  const { data: tokenData, isPending: isTokenDataPending } = useQuery(authQueries.snsToken());
+  const { data: tokenData, status: tokenStatus } = useQuery(authQueries.snsToken());
+  //TODO: token 요청이 실패할 경우 정책 구현
 
   const { data: statusData } = useQuery({
     ...authQueries.status(),
@@ -36,13 +37,17 @@ function SnsVerificationPage() {
   if (statusData && statusData.data) {
     const { status } = statusData.data;
 
-    if (status === "REQUIRED_REGISTER") navigation.push("/register");
+    if (status === "REQUIRED_REGISTER") router.push("/register");
   }
 
   return (
     <PhoneVerification
       onClick={handleClick}
-      verificationToken={!isTokenDataPending ? tokenData?.data.verificationToken : undefined}
+      verificationToken={
+        tokenStatus === "success" && tokenData.success
+          ? tokenData?.data.verificationToken
+          : undefined
+      }
     />
   );
 }

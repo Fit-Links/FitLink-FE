@@ -4,6 +4,7 @@ import React from "react";
 import { AccordionItem, AccordionTrigger, AccordionContent } from "@ui/components/Accordion";
 import { Text } from "@ui/components/Text";
 
+import Icon from "./Icon";
 import {
   DAYS_OF_WEEK,
   DaysOfWeek,
@@ -17,22 +18,25 @@ type WorkoutSchedule = {
 }[];
 type PTPreferenceProps = {
   workoutSchedule: WorkoutSchedule;
+  triggerText?: string;
+  hasEllipsis?: boolean;
+  onEllipsisClick?: () => void;
 };
-function PTPreference({ workoutSchedule }: PTPreferenceProps) {
+function PTPreference({
+  workoutSchedule,
+  triggerText = "PT 희망시간",
+  hasEllipsis,
+  onEllipsisClick,
+}: PTPreferenceProps) {
   const weekSchedule = Object.entries(
     makeWeekSchedule({ type: "block", schedule: workoutSchedule }),
   ) as ObjectEntries<Record<DaysOfWeek, string>>;
 
-  const handleEditClick = () => {
-    return;
-
-    //TODO: ellipsis 클릭 핸들러 로직 추가
-  };
-
   return (
     <AccordionItem value="item-1">
-      <AccordionTrigger>
-        <Text.Headline1>PT 희망시간</Text.Headline1>
+      <AccordionTrigger className="flex justify-around">
+        <Text.Headline1>{triggerText}</Text.Headline1>
+        <Icon name="ChevronDown" size="lg" />
       </AccordionTrigger>
       <AccordionContent className="bg-background-sub1 flex items-start rounded-[10px] p-4 ">
         <div className="flex flex-col items-start">
@@ -43,7 +47,7 @@ function PTPreference({ workoutSchedule }: PTPreferenceProps) {
             >{`${DAYS_OF_WEEK[dayOfWeek]} ${schedule}`}</Text.Body1>
           ))}
         </div>
-        <Ellipsis onClick={handleEditClick} className="cursor-pointer" />
+        {hasEllipsis && <Ellipsis onClick={onEllipsisClick} className="cursor-pointer" />}
       </AccordionContent>
     </AccordionItem>
   );

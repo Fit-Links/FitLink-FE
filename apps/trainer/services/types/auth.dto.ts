@@ -12,3 +12,14 @@ export type SignupRequestBody = BaseSignupInfo & {
 export type SignupApiResponse = ResponseBase<{ accessToken: string; refreshToken: string }>;
 
 export type LogoutApiResponse = NoResponseData;
+
+export type GetUserVerificationStatusApiResponse = ResponseBase<{
+  status: UserVerificationStatus;
+  accessToken: string;
+}>;
+
+export type GetSnsVerificationTokenApiResponse = ResponseBase<{
+  verificationToken: string;
+}>;
+
+export type UserVerificationStatus = "REQUIRED_REGISTER" | "REQUIRED_SMS" | "NORMAL";
