@@ -26,8 +26,6 @@ export default function LogoutButton() {
   });
 
   const handleClickLogout = () => {
-    // TODO
-    // 로그아웃 요청
     mutate(undefined, {
       onSuccess: () => {
         if (isSuccess) {
