@@ -1,8 +1,12 @@
 "use client";
 
 import { Gender, PreferredWorkout } from "@5unwan/core/api/types/common";
+import { useMutation } from "@tanstack/react-query";
 import { useFunnel } from "@use-funnel/browser";
 import dynamic from "next/dynamic";
+
+import { registerUserProfileImage, uploadImage } from "@user/services/attachment";
+import { createPresignedUrl } from "@user/services/attachment";
 
 const BasicInfoStep = dynamic(() => import("@ui/components/FunnelSteps/BasicInfoStep"), {
   ssr: false,
@@ -30,13 +34,70 @@ function RegisterFunnel() {
     },
   });
 
+  const createPresignedUrlMutation = useMutation({
+    mutationFn: createPresignedUrl,
+  });
+  const uploadImageMutation = useMutation({
+    mutationFn: uploadImage,
+  });
+  const registerUserProfileImageMutation = useMutation({
+    mutationFn: registerUserProfileImage,
+  });
+
+  const handleUploadProfileImage = async (imageFile: File) => {
+    try {
+      const {
+        data: { presignedUrl, attachmentId },
+        status: createPresignedUrlStatus,
+        success: createPresignedUrlSuccess,
+        msg: createPresignedUrlMsg,
+      } = await createPresignedUrlMutation.mutateAsync({
+        fileName: imageFile.name,
+        contentLength: imageFile.size.toString(),
+        contentType: imageFile.type,
+      });
+
+      if (!createPresignedUrlSuccess)
+        throw new Error(
+          `Error occured during createPresignedUrl\nStatus:${createPresignedUrlStatus}\nMessage:${createPresignedUrlMsg}`,
+        );
+
+      await uploadImageMutation.mutateAsync({
+        presignedUrl,
+        imageFile,
+      });
+
+      const {
+        status: registerUserProfileImageStatus,
+        success: registerUserProfileImageSuccess,
+        msg: registerUserProfileImageMsg,
+      } = await registerUserProfileImageMutation.mutateAsync({
+        attachmentId,
+      });
+
+      if (!registerUserProfileImageSuccess)
+        throw new Error(
+          `Error occured during createPresignedUrl\nStatus:${registerUserProfileImageStatus}\nMessage:${registerUserProfileImageMsg}`,
+        );
+
+      return attachmentId;
+    } catch {
+      //TODO: 에러 처리 로직 추가
+    }
+  };
   switch (funnel.step) {
     case "basicInfo":
       return (
         <BasicInfoStep
-          onNext={(name, birthDate, gender, profileUrl) =>
-            funnel.history.push("workoutSchedule", { name, birthDate, gender, profileUrl })
-          }
+          onNext={async (name, birthDate, gender, profileImage) => {
+            const attachmentId = await handleUploadProfileImage(profileImage);
+            funnel.history.push("workoutSchedule", {
+              name,
+              birthDate,
+              gender,
+              attachmentId: attachmentId!,
+            });
+          }}
         />
       );
     case "workoutSchedule":
@@ -60,20 +121,20 @@ type BasicInfoStep = {
   name?: string;
   birthDate?: string;
   gender?: Gender;
-  profileUrl?: string;
+  attachmentId?: number;
   workoutSchedule?: Omit<PreferredWorkout, "workoutScheduleId">[];
 };
 type WorkoutScheduleStep = {
   name: string;
   birthDate: string;
   gender: Gender;
-  profileUrl: string;
+  attachmentId: number;
   workoutSchedule?: Omit<PreferredWorkout, "workoutScheduleId">[];
 };
 type ResultStep = {
   name: string;
   birthDate: string;
   gender: Gender;
-  profileUrl: string;
+  attachmentId: number;
   workoutSchedule: Omit<PreferredWorkout, "workoutScheduleId">[];
 };
