@@ -30,7 +30,7 @@ export default function MyAvailableTimeContainer() {
 
   const AVAILABLE_PT_TIME: PTScheduleProps = {
     currentSchedules: currentSchedules ?? [],
-    scheduledChanges: [scheduledChanges],
+    scheduledChanges: scheduledChanges ? [scheduledChanges] : [],
   };
 
   return <ScheduleInformation className="mt-[1.563rem]" ptSchedule={AVAILABLE_PT_TIME} />;
