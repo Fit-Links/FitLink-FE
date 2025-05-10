@@ -1,13 +1,20 @@
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import React from "react";
 
-import Header from "../_components/Header";
+import { myInformationQueries } from "@trainer/queries/myInformation";
+
 import TrainerCodeContainer from "./_components/TrainerCodeContainer";
 
-export default function page() {
+export default async function TrainnerCode() {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(myInformationQueries.trainerCode());
+
   return (
     <main className="bg-background-primary text-text-primary flex h-screen w-full flex-col items-center">
-      <Header title="트레이너 코드" />
-      <TrainerCodeContainer />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <TrainerCodeContainer />
+      </HydrationBoundary>
     </main>
   );
 }
