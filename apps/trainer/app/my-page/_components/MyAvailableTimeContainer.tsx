@@ -5,6 +5,8 @@ import { DaysOfWeek } from "@ui/utils/makeWeekSchedule";
 
 import { myInformationQueries } from "@trainer/queries/myInformation";
 
+import { AvailablePtTimeEntry } from "@trainer/services/types/myInformation.dto";
+
 import ScheduleInformation from "./ScheduleInformation";
 
 export type SpanScheduleUnit = {
@@ -16,21 +18,19 @@ export type SpanScheduleUnit = {
 };
 
 export type PTScheduleProps = {
-  currentSchedules: SpanScheduleUnit[];
+  currentSchedules: AvailablePtTimeEntry[];
   scheduledChanges: {
     applyAt: string;
-    schedules: SpanScheduleUnit[];
+    schedules: AvailablePtTimeEntry[];
   }[];
 };
 
 export default function MyAvailableTimeContainer() {
   const { data: response } = useSuspenseQuery(myInformationQueries.ptAvailableTime());
 
-  const { currentSchedules, scheduledChanges } = response;
-
   const AVAILABLE_PT_TIME: PTScheduleProps = {
-    currentSchedules: currentSchedules ?? [],
-    scheduledChanges: scheduledChanges ? [scheduledChanges] : [],
+    currentSchedules: response.currentSchedules ? response.currentSchedules.schedules : [],
+    scheduledChanges: response.scheduledChanges ? [response.scheduledChanges] : [],
   };
 
   return <ScheduleInformation className="mt-[1.563rem]" ptSchedule={AVAILABLE_PT_TIME} />;

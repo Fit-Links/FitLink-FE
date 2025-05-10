@@ -76,6 +76,6 @@ export const deleteTimeOff = (
 };
 
 export const getDayOff = () =>
-  http.get<GetDayOffApiResponse["data"]>({
+  http.get<GetDayOffApiResponse>({
     url: `/v1/${TRAINER_BASE_URL}/me/day-off`,
   });

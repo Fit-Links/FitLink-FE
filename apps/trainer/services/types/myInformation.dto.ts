@@ -29,7 +29,7 @@ type TrainerCodeResponse = { trainerCode: string };
 export type TrainerCodeApiResponse = ResponseBase<TrainerCodeResponse>;
 
 type AvailablePtTimeResponse = {
-  currentSchedules: AvailablePtTimeEntry[];
+  currentSchedules: { applyAt: string; schedules: AvailablePtTimeEntry[] };
   scheduledChanges: {
     applyAt: string;
     schedules: AvailablePtTimeEntry[];
