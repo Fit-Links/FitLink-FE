@@ -1,4 +1,6 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, Method } from "axios";
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, Method } from "axios";
+
+import { ResponseBase } from "./types/common";
 
 type CoreApiConfig = {
   baseUrl: string;
@@ -33,7 +35,21 @@ export const initCoreApi = ({ baseUrl, tokenProvider }: CoreApiConfig) => {
   });
 
   axiosInstance.interceptors.response.use(
-    (response) => response.data,
+    (response: AxiosResponse<ResponseBase<unknown>>) => {
+      const data = response.data;
+      // eslint-disable-next-line no-magic-numbers
+      if (data.status >= 200 && data.status < 300 && data.success) return response;
+
+      return Promise.reject(
+        new AxiosError(
+          data.msg,
+          data.status.toString(),
+          response.config,
+          response.request,
+          response,
+        ),
+      );
+    },
     (error: AxiosError) => Promise.reject(error),
   );
 };
@@ -52,7 +68,7 @@ const createApiMethod =
     return axiosInstance!({
       ...config,
       method: methodType,
-    });
+    }).then((response: AxiosResponse<T>) => response.data);
   };
 
 const http = {
