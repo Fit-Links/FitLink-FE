@@ -8,27 +8,17 @@ import {
 } from "@ui/components/Sheet";
 import { useRef } from "react";
 
-import { MyInformationApiResponse } from "@trainer/services/types/myInformation.dto";
-
 import SheetItem from "./SheetItem";
 
 interface EditProfileBottomSheetProps {
   children: React.ReactNode;
-  onChangeMyInformation: (key: keyof MyInformationApiResponse["data"], value: string) => void;
 }
 
-export default function EditProfileBottomSheet({
-  children,
-  onChangeMyInformation,
-}: EditProfileBottomSheetProps) {
+export default function EditProfileBottomSheet({ children }: EditProfileBottomSheetProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleClickOpenAlbum = () => {
     inputRef.current?.click();
-  };
-
-  const handleClickDeleteProfileImage = () => {
-    onChangeMyInformation("profileUrl", "");
   };
 
   const handleChangeProfileImage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,8 +26,11 @@ export default function EditProfileBottomSheet({
 
     if (!file) return;
 
-    const uri = URL.createObjectURL(file as Blob);
-    onChangeMyInformation("profileUrl", uri);
+    // TODO: 프로필 사진 삭제 API 요청
+  };
+
+  const handleClickDeleteProfileImage = () => {
+    // TODO: 프로필 사진 삭제 API 요청
   };
 
   return (
@@ -51,7 +44,7 @@ export default function EditProfileBottomSheet({
       />
       <Sheet>
         <SheetTrigger asChild>{children}</SheetTrigger>
-        <SheetContent side={"bottom"}>
+        <SheetContent side={"bottom"} className="md:max-w-mobile left-1/2 w-full -translate-x-1/2">
           <SheetTitle></SheetTitle>
           <SheetDescription className="flex flex-col gap-[0.625rem]">
             <SheetClose asChild>
