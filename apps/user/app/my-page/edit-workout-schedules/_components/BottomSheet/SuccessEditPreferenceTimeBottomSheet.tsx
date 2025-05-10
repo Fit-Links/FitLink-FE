@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@ui/components/Button";
 import Icon from "@ui/components/Icon";
 import {
@@ -10,7 +12,10 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@ui/components/Sheet";
+import { useRouter } from "next/navigation";
 import React from "react";
+
+import RouteInstance from "@user/constants/routes";
 
 interface SuccessEditPreferenceTimeBottomSheetProps {
   open: boolean;
@@ -20,10 +25,16 @@ function SuccessEditPreferenceTimeBottomSheet({
   open,
   onOpenChange,
 }: SuccessEditPreferenceTimeBottomSheetProps) {
+  const router = useRouter();
+
+  const handleClickClose = () => {
+    router.push(RouteInstance["my-page"]());
+  };
+
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetTrigger></SheetTrigger>
-      <SheetContent side={"bottom"}>
+      <SheetContent side={"bottom"} className="md:max-w-mobile left-1/2 w-full -translate-x-1/2">
         <SheetHeader>
           <SheetTitle className="flex justify-center">
             <Icon name="Check" className="h-[3.125rem] w-[3.125rem]" background="brand" />
@@ -37,7 +48,7 @@ function SuccessEditPreferenceTimeBottomSheet({
         </SheetDescription>
         <SheetFooter>
           <SheetClose asChild>
-            <Button variant={"brand"} className="h-[2.5rem] w-full">
+            <Button variant={"brand"} className="h-[2.5rem] w-full" onClick={handleClickClose}>
               확인
             </Button>
           </SheetClose>

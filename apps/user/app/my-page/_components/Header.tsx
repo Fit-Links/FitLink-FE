@@ -1,3 +1,5 @@
+"use client";
+
 import HeaderInfo from "@ui/components/Header";
 import { useRouter } from "next/navigation";
 
@@ -13,7 +15,7 @@ export default function Header({ title }: HeaderProps) {
   };
 
   return (
-    <HeaderInfo>
+    <HeaderInfo className="min-h-[2.188rem]">
       <HeaderInfo.Left>
         <HeaderInfo.Back onClick={handleClickBack} />
       </HeaderInfo.Left>

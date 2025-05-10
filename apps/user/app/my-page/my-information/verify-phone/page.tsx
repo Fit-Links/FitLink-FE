@@ -1,16 +1,36 @@
 "use client";
 
-import { Button } from "@ui/components/Button";
 import React from "react";
 
+import VerificationPhoneContainer from "./_components/VerificationPhoneContainer";
 import Header from "../../_components/Header";
 
+// const REFETCH_INTERVAL = 5000;
+
+const MOCK_TOKEN = "1234567890";
+
 export default function VerifyPhone() {
+  // const router = useRouter();
+
+  // const [hasClicked, setHasClicked] = useState(false);
+
+  const handleClick = () => {
+    //   setHasClicked(true);
+  };
+
+  // if (statusData && statusData.data) {
+  //   const { status } = statusData.data;
+
+  //   TODO: 휴대폰 변경 요청 상태 또한 필요로 되어 보임
+  //   // REGISTER가 아닌 휴대폰 변경 요청 상태 또한 필요로 되어 보임
+
+  //   router.back();
+  // }
+
   return (
     <main className="flex h-screen w-full flex-col items-center justify-between">
       <Header title="휴대폰 인증" />
-
-      <Button className="relative bottom-[2.125rem] h-[3.375rem] w-full">변경</Button>
+      <VerificationPhoneContainer onClick={handleClick} verificationToken={MOCK_TOKEN} />
     </main>
   );
 }
