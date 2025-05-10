@@ -13,7 +13,7 @@ type PhoneVerificationProps = {
 };
 
 const generateSnsBody = (token?: string) => {
-  return `[Fitlink]\n${token}`;
+  return `[Fitlink]%0A${token}`;
 };
 function PhoneVerification({ onClick, verificationToken }: PhoneVerificationProps) {
   const linkRef = useRef<HTMLAnchorElement>(null);
