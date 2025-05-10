@@ -14,6 +14,7 @@ import {
   DeleteTimeOffRequestPath,
   EditMyInformationApiResponse,
   EditMyInformationRequestBody,
+  GetDayOffApiResponse,
   MyInformationApiResponse,
   TrainerCodeApiResponse,
 } from "./types/myInformation.dto";
@@ -73,3 +74,8 @@ export const deleteTimeOff = (
     },
   });
 };
+
+export const getDayOff = () =>
+  http.get<GetDayOffApiResponse["data"]>({
+    url: `/v1/${TRAINER_BASE_URL}/me/day-off`,
+  });
