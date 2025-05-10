@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 import { AvailablePtTime } from "@5unwan/core/api/types/common";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { useRef, useState } from "react";
@@ -35,6 +36,26 @@ const generateTrainerScheduleTime = (
 
   return `${timePeriod} ${hours}:${minutes}`;
 };
+
+function convertKoreanTimeTo24Hour(timeStr: string): string {
+  const PAD_LENGTH = 2;
+  const match = timeStr.match(/(오전|오후)\s(\d{2}):(\d{2})/);
+
+  if (!match) {
+    throw new Error("Invalid time format");
+  }
+
+  const [, period, hourStr, minute] = match;
+  let hour = parseInt(hourStr, 10);
+
+  if (period === "오전") {
+    if (hour === 12) hour = 0;
+  } else if (period === "오후") {
+    if (hour !== 12) hour += 12;
+  }
+
+  return `${hour.toString().padStart(PAD_LENGTH, "0")}:${minute}`;
+}
 
 type TrainerScheduleStepProps = {
   onNext: (availablePtTimes: Omit<AvailablePtTime, "availableTimeId">[]) => void;
@@ -74,7 +95,14 @@ function TrainerScheduleStep({ onNext }: TrainerScheduleStepProps) {
     : false;
 
   const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = () => {
-    onNext(trainerSchedule);
+    const formattedTrainerSchedule = trainerSchedule.map((schedule) => {
+      const copy = { ...schedule };
+      if (copy.startTime) copy.startTime = convertKoreanTimeTo24Hour(copy.startTime);
+      if (copy.endTime) copy.endTime = convertKoreanTimeTo24Hour(copy.endTime);
+
+      return copy;
+    });
+    onNext(formattedTrainerSchedule);
   };
   const handleHolidaySwitchChange = (checked: boolean) => {
     const newTrainerSchedule = [...trainerSchedule];
