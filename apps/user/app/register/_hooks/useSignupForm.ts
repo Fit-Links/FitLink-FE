@@ -1,17 +1,19 @@
 "use client";
 
 import { MutateOptions, useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 
 import { signup } from "@user/services/auth";
 import { SignupApiResponse, SignupRequestBody } from "@user/services/types/auth.dto";
 
 export const useSignupForm = (
   persistentOptions?: Omit<
-    MutateOptions<SignupApiResponse, Error, SignupRequestBody, unknown>,
+    MutateOptions<SignupApiResponse, AxiosError, SignupRequestBody, unknown>,
     "mutationFn"
   >,
 ) => {
   const {
+    error,
     mutate,
     status: networkStatus,
     data,
@@ -22,10 +24,10 @@ export const useSignupForm = (
 
   const onSubmit = (
     signupForm: SignupRequestBody,
-    options?: MutateOptions<SignupApiResponse, Error, SignupRequestBody, unknown>,
+    options?: MutateOptions<SignupApiResponse, AxiosError, SignupRequestBody, unknown>,
   ) => {
     mutate(signupForm, options);
   };
 
-  return { onSubmit, networkStatus, data };
+  return { onSubmit, networkStatus, data, error };
 };
