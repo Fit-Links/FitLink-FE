@@ -1,3 +1,4 @@
+import { useMutation } from "@tanstack/react-query";
 import { Badge } from "@ui/components/Badge";
 import { Button } from "@ui/components/Button";
 import {
@@ -13,15 +14,25 @@ import {
 import { useRouter } from "next/navigation";
 import React from "react";
 
+import { logout } from "@user/services/auth";
+
 import RouteInstance from "@user/constants/routes";
 
 export default function LogoutButton() {
   const router = useRouter();
 
+  const { mutate, isSuccess } = useMutation({
+    mutationFn: logout,
+  });
+
   const handleClickLogout = () => {
-    // TODO
-    // 로그아웃 요청
-    router.push(RouteInstance.login());
+    mutate(undefined, {
+      onSuccess: () => {
+        if (isSuccess) {
+          router.push(RouteInstance.login());
+        }
+      },
+    });
   };
 
   return (

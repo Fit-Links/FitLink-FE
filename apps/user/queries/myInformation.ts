@@ -4,6 +4,7 @@ import {
   getMyInformation,
   getMyInformationDetail,
   getMyPtHistory,
+  getMyTrainerAvailableTime,
 } from "@user/services/myInformation";
 import { MyPtHistoryStatus } from "@user/services/types/myInformation.dto";
 
@@ -34,7 +35,7 @@ export const myInformationQueries = {
       queryFn: ({ pageParam }) =>
         getMyPtHistory({ status, page: pageParam, size: PT_HISTORY_PAGE_SIZE }, { memberId }),
       getNextPageParam: (lastPage, _allPages, lastPageParam) => {
-        if (lastPage.data.content.length === EMPTY_PAGE) {
+        if (lastPage.data?.content.length === EMPTY_PAGE) {
           return undefined;
         }
 
@@ -43,5 +44,10 @@ export const myInformationQueries = {
       initialPageParam: START_PAGE,
       refetchOnWindowFocus: false,
       refetchOnMount: false,
+    }),
+  trainerAvailableTime: (trainerId: number) =>
+    queryOptions({
+      queryKey: [...myInformationBaseKeys.all(), "trainerAvailableTime", trainerId],
+      queryFn: () => getMyTrainerAvailableTime(trainerId),
     }),
 };

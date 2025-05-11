@@ -1,3 +1,6 @@
+"use client";
+
+import { useMutation } from "@tanstack/react-query";
 import {
   Sheet,
   SheetClose,
@@ -8,27 +11,27 @@ import {
 } from "@ui/components/Sheet";
 import { useRef } from "react";
 
-import { MyInformationDetailApiResponse } from "@user/services/types/myInformation.dto";
-
 import SheetItem from "@user/components/SheetItem";
 
 interface EditProfileBottomSheetProps {
   children: React.ReactNode;
-  onChangeMyInformation: (key: keyof MyInformationDetailApiResponse["data"], value: string) => void;
 }
 
-export default function EditProfileBottomSheet({
-  children,
-  onChangeMyInformation,
-}: EditProfileBottomSheetProps) {
+export default function EditProfileBottomSheet({ children }: EditProfileBottomSheetProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleClickOpenAlbum = () => {
     inputRef.current?.click();
   };
 
+  const { mutate } = useMutation({
+    // 이미지 없는 경우 여쭤보기
+    // 이미지 있는 경우 삭제
+  });
+
   const handleClickDeleteProfileImage = () => {
-    onChangeMyInformation("profilePictureUrl", "");
+    // onChangeMyInformation("profilePictureUrl", "");
+    mutate();
   };
 
   const handleChangeProfileImage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,8 +39,8 @@ export default function EditProfileBottomSheet({
 
     if (!file) return;
 
-    const uri = URL.createObjectURL(file as Blob);
-    onChangeMyInformation("profilePictureUrl", uri);
+    // const uri = URL.createObjectURL(file as Blob);
+    // onChangeMyInformation("profilePictureUrl", uri);
   };
 
   return (
