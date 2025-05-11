@@ -1,31 +1,24 @@
-import { Suspense } from "@suspensive/react";
-import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+"use client";
 
-import { myInformationQueries } from "@user/queries/myInformation";
+import { Suspense } from "@suspensive/react";
 
 import Fallback from "./_components/Fallback";
 import Header from "../_components/Header";
 import MyDetailInformations from "./_components/MyDetailInformations";
 import MyInformationAvatar from "./_components/MyInformationAvatar";
 
-export default async function MyInformation() {
-  const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery(myInformationQueries.detail());
-
+export default function MyInformation() {
   return (
     <main className="flex h-screen w-full flex-col items-center ">
       <Header title="내 정보" />
 
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        {/* <ErrorBoundary fallback={<NetworkFallback />}> */}
-        <MyInformationAvatar />
+      {/* <ErrorBoundary fallback={<NetworkFallback />}> */}
+      <MyInformationAvatar />
 
-        <Suspense fallback={<Fallback />}>
-          <MyDetailInformations />
-        </Suspense>
-        {/* </ErrorBoundary> */}
-      </HydrationBoundary>
+      <Suspense fallback={<Fallback />}>
+        <MyDetailInformations />
+      </Suspense>
+      {/* </ErrorBoundary> */}
     </main>
   );
 }

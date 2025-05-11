@@ -1,42 +1,39 @@
 "use client";
 
 import { PtInfo, PtStatus } from "@5unwan/core/api/types/common";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import PTHistoryItem from "@ui/components/PTHistoryItem";
 import { useContext } from "react";
 
-import { MyPtHistoryApiResponse } from "@user/services/types/myInformation.dto";
+import { myInformationQueries } from "@user/queries/myInformation";
+
+import { MyInformationApiResponse } from "@user/services/types/myInformation.dto";
 
 import { PTHistoryContext } from "./PTHistoryContext";
-
-const ptHistory: MyPtHistoryApiResponse["data"] = {
-  content: [
-    {
-      sessionId: 1,
-      reservationDate: "2024-01-01",
-      status: "COMPLETED",
-    },
-  ],
-  totalPages: "1",
-  totalElements: "10",
-};
 
 export default function PTHistoryContent() {
   const { historyFilter } = useContext(PTHistoryContext);
 
-  // const { data: myInformation } = useQuery(myInformationQueries.summary());
+  const queryClient = useQueryClient();
 
-  // const memberId = myInformation?.data?.memberId;
+  const summaryData = queryClient.getQueryData<MyInformationApiResponse>(
+    myInformationQueries.summary().queryKey,
+  );
 
-  // if (memberId) {
-  // const { data: historys } = useInfiniteQuery(
-  //   myInformationQueries.ptHistory(memberId, undefined),
-  // );
-  // }
+  const memberId = summaryData?.data?.memberId;
+
+  if (!memberId) return;
+
+  const { data: ptHistory, isLoading } = useInfiniteQuery(
+    myInformationQueries.ptHistory(memberId, "SESSION_CANCELLED"),
+  );
+
+  if (isLoading) return <div></div>;
 
   return (
     <section className="mt-[1.25rem] flex flex-col gap-[0.625rem] overflow-y-auto pb-2">
       {ptHistory &&
-        ptHistory.content.map((item: PtInfo) => {
+        ptHistory.pages[0].data.content.map((item: PtInfo) => {
           if (item.status !== historyFilter && historyFilter !== "ALL") return;
 
           return (
