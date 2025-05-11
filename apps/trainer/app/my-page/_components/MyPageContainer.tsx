@@ -22,7 +22,7 @@ export default function MyPageContainer() {
       <MyPageHeader name={myInformationData?.name} imageSrc={myInformationData?.profileUrl} />
 
       <ProfileItemForRouting variant="code" url={RouteInstance["trainer-code"]()} />
-      <ProfileItemForRouting variant="calendar" url={RouteInstance["edit-workout-schedule"]()} />
+      <ProfileItemForRouting variant="calendar" url={RouteInstance["schedule-management"]()} />
     </section>
   );
 }

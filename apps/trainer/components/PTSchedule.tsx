@@ -12,15 +12,21 @@ import {
 import { Ellipsis } from "lucide-react";
 import React from "react";
 
-import {
-  PTScheduleProps,
-  SpanScheduleUnit,
-} from "@trainer/app/my-page/_components/MyAvailableTimeContainer";
+import { SpanScheduleUnit } from "@trainer/app/my-page/_components/MyAvailableTimeContainer";
 
-function PTSchedule({ currentSchedules, scheduledChanges }: PTScheduleProps) {
+type PTSchedulesProps = {
+  currentSchedules: SpanScheduleUnit[];
+  scheduledChanges: {
+    applyAt: string;
+    schedules: SpanScheduleUnit[];
+  }[];
+  callback: () => void;
+};
+
+function PTSchedule({ currentSchedules, scheduledChanges, callback }: PTSchedulesProps) {
   return (
     <div className="flex flex-col items-center gap-[0.5rem]">
-      <PTScheduleItem current={true} schedules={currentSchedules} />
+      <PTScheduleItem current={true} schedules={currentSchedules} callback={callback} />
       {scheduledChanges.map(({ applyAt, schedules }, index) => (
         <PTScheduleItem key={`scheduled-${index}`} applyAt={applyAt} schedules={schedules} />
       ))}
@@ -34,8 +40,9 @@ type PTScheduleItemProps = {
   current?: boolean;
   applyAt?: string;
   schedules: SpanScheduleUnit[];
+  callback?: () => void;
 };
-function PTScheduleItem({ current, applyAt, schedules }: PTScheduleItemProps) {
+function PTScheduleItem({ current, applyAt, schedules, callback }: PTScheduleItemProps) {
   const isCurrent = current && !applyAt;
 
   const weekSchedule = Object.entries(
@@ -44,9 +51,7 @@ function PTScheduleItem({ current, applyAt, schedules }: PTScheduleItemProps) {
   const mondaySchedule = weekSchedule[Days.Monday];
 
   const handleEditClick = () => {
-    alert("clicked");
-
-    //TODO: ellipsis 클릭 핸들러 로직 추가
+    callback?.();
   };
 
   return (
