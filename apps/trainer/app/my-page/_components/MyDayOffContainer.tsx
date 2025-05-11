@@ -2,6 +2,7 @@
 
 import { DayOfWeek } from "@5unwan/core/api/types/common";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import Icon from "@ui/components/Icon";
 import React from "react";
 
@@ -21,26 +22,17 @@ type DayOffInformation = {
 };
 
 export default function MyDayOffContainer() {
+  const queryClient = useQueryClient();
   const { data: response } = useSuspenseQuery(myInformationQueries.dayOff());
-
-  const dayOffList = response.data;
-
-  if (dayOffList.length === NoDayOff) return;
-
-  const holidayList = dayOffList.map((dayOff) => {
-    const dayOfWeek = getDayOfWeek(dayOff.dayOffDate);
-
-    return {
-      ...dayOff,
-      dayOfWeek,
-    };
-  });
 
   const { mutate, isSuccess, isError } = useMutation({
     mutationFn: (params: {
       requestPath: { dayOffId: number };
       requestBody: DeleteTimeOffRequestBody;
     }) => deleteTimeOff(params.requestPath, params.requestBody),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: myInformationQueries.dayOff().queryKey });
+    },
   });
 
   const handleDeleteDayOff = (holiday: DayOffInformation) => {
@@ -69,12 +61,28 @@ export default function MyDayOffContainer() {
     );
   };
 
+  const dayOffList = response.data;
+
+  if (dayOffList.length === NoDayOff) return;
+
+  const holidayList = dayOffList.map((dayOff) => {
+    const dayOfWeek = getDayOfWeek(dayOff.dayOffDate);
+
+    return {
+      ...dayOff,
+      dayOfWeek,
+    };
+  });
+
   return (
     <section className="mt-[1.563rem] w-full">
       <p className="text-headline mb-[0.625rem]">휴무일</p>
       <section className="flex flex-col gap-1">
         {holidayList.map((holiday) => (
-          <div className="bg-background-sub1 text-text-primary flex h-[3.375rem] w-full items-center justify-between rounded-lg px-[0.9375rem]">
+          <div
+            key={`holiday-${holiday.dayOffId}`}
+            className="bg-background-sub1 text-text-primary flex h-[3.375rem] w-full items-center justify-between rounded-lg px-[0.9375rem]"
+          >
             <span>
               {holiday.dayOffDate} {DAYS[holiday.dayOfWeek as keyof typeof DAYS]}
             </span>
