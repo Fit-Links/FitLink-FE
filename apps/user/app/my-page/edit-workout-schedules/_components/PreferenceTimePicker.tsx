@@ -1,4 +1,7 @@
-import { useEffect, useState } from "react";
+"use client";
+
+import WorkoutForm from "@ui/components/WorkoutForm";
+import { useState } from "react";
 
 import SuccessEditPreferenceTimeBottomSheet from "./BottomSheet/SuccessEditPreferenceTimeBottomSheet";
 
@@ -12,15 +15,9 @@ function PreferenceTimePicker() {
     //
   };
 
-  useEffect(() => {
-    // TODO
-    // 워크아웃 폼 버튼에 적용
-    handleClickOnSubmit();
-  }, [isSheetOpen]);
-
   return (
     <section className="flex flex-1 flex-col justify-between">
-      {/* 용재님이 만드신 WorkoutForm */}
+      <WorkoutForm onSubmit={handleClickOnSubmit} />
       <SuccessEditPreferenceTimeBottomSheet open={isSheetOpen} onOpenChange={setIsSheetOpen} />
     </section>
   );

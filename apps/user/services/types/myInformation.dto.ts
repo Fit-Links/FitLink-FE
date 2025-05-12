@@ -1,4 +1,6 @@
 import {
+  AvailablePtTime,
+  FixieReservation,
   NoResponseData,
   PreferredWorkout,
   PtInfo,
@@ -20,11 +22,12 @@ export type DisconnectTrainerApiResponse = ResponseBase<DisconnectTrainerRespons
 type MyInformationResponse = {
   memberId: number;
   name: string;
-  trainerId: number;
-  trainerName: string;
-  connectingStatus: TrainerConnectStatus;
-  profilePictureUrl: string;
-  sessionInfo: SessionInfo;
+  trainerId: number | null;
+  trainerName: string | null;
+  connectingStatus: TrainerConnectStatus | null;
+  profilePictureUrl: string | null;
+  fixedReservations: FixieReservation[];
+  sessionInfo: SessionInfo | null;
   workoutSchedules: PreferredWorkout[];
 };
 export type MyInformationApiResponse = ResponseBase<MyInformationResponse>;
@@ -69,3 +72,18 @@ type MyPtHistoryResponse = {
   totalElements: string;
 };
 export type MyPtHistoryApiResponse = ResponseBase<MyPtHistoryResponse>;
+
+export type MyTrainerWorkoutRequestPath = {
+  trainerId: number;
+};
+
+type MyTrainerCurrentScheduleResponse = {
+  applyAt: string;
+  schedules: AvailablePtTime[];
+};
+
+export type MyTrainerAvailableTimeResponse = {
+  currentSchedule: MyTrainerCurrentScheduleResponse;
+};
+
+export type MyTrainerAvailableTimeApiResponse = ResponseBase<MyTrainerAvailableTimeResponse>;

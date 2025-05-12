@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@ui/components/Button";
 import { useContext } from "react";
 

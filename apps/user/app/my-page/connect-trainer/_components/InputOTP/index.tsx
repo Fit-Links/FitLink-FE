@@ -1,3 +1,6 @@
+"use client";
+
+import { useMutation } from "@tanstack/react-query";
 import { Button } from "@ui/components/Button";
 import {
   InputOTP as InputOTPComponent,
@@ -5,19 +8,28 @@ import {
   InputOTPMessage,
   InputOTPSlot,
 } from "@ui/components/InputOTP";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+
+import { connectTrainer } from "@user/services/myInformation";
 
 type otp_status = "default" | "focused" | "filled" | "error";
 
-const OTP_LENGTH = 5;
+const OTP_LENGTH = 6;
 
 export default function InputOTP() {
-  const [otpValue, setOtpValue] = useState("");
+  const router = useRouter();
+  const [trainerCode, setTrainerCode] = useState("");
   const [status, setStatus] = useState<otp_status>("default");
   const [errorMessage, setErrorMessage] = useState("");
 
+  const { mutate, isSuccess } = useMutation({
+    mutationKey: ["connectTrainer"],
+    mutationFn: (trainerCode: string) => connectTrainer({ trainerCode }),
+  });
+
   const handleChangeValue = (newValue: string) => {
-    setOtpValue(newValue);
+    setTrainerCode(newValue);
 
     if (newValue.length === OTP_LENGTH) {
       setStatus("filled");
@@ -32,11 +44,16 @@ export default function InputOTP() {
   const handleRequestConnectTrainer = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    // TODO
-    // 트레이너 코드 제출 시, 코드가 서버에 없는 경우 variant를 error로 설정
-
-    setStatus("error");
-    setErrorMessage("입력한 코드를 확인해 주세요.");
+    mutate(trainerCode, {
+      onSuccess: () => {
+        if (isSuccess) {
+          router.back();
+        } else {
+          setStatus("error");
+          setErrorMessage("입력한 코드를 확인해 주세요.");
+        }
+      },
+    });
   };
 
   return (
@@ -56,7 +73,7 @@ export default function InputOTP() {
         type="submit"
         className="relative bottom-2 h-[3.5rem] w-full"
         onClick={handleRequestConnectTrainer}
-        disabled={otpValue.length !== OTP_LENGTH}
+        disabled={trainerCode.length !== OTP_LENGTH}
       >
         연동 요청
       </Button>
