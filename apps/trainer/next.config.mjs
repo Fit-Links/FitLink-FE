@@ -11,6 +11,9 @@ const pwaConfig = withPWA({
   dest: "public",
   disable: !isProd,
   runtimeCaching: [],
+  register: true,
+  skipWaiting: true,
+  clientsClaim: true,
 });
 
 /** @type {import('next').NextConfig} */
