@@ -18,7 +18,7 @@ const NAVIGATION_ITEMS: NavigationItemsProp[] = [
 
 export default function BottomNavigation() {
   return (
-    <nav className="bg-background-primary border-background-sub2 md:max-w-mobile fixed bottom-0 z-10 flex h-[5.063rem] w-full justify-around border-t">
+    <nav className="bg-background-primary border-background-sub2 md:max-w-mobile fixed bottom-0 z-10 flex h-[5.063rem] w-full justify-around border">
       {NAVIGATION_ITEMS.map(({ label, icon: Icon }) => (
         <button
           key={`navigation-${label}`}

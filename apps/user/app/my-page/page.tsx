@@ -93,7 +93,7 @@ export default function MyPage() {
   };
 
   return (
-    <main className="flex h-screen w-full flex-col overflow-hidden">
+    <main className="flex h-full w-full flex-col overflow-hidden">
       <ProfileHeader userInformation={mockData} />
 
       <ProfileItem className="mt-[1.563rem]" variant="dumbbell">

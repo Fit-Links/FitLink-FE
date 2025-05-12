@@ -8,10 +8,18 @@ import RouteInstance from "@user/constants/routes";
 
 import BottomNavigation from "../BottomNavigation";
 
-// TODO[2025.03.18]: user 모든 경로 분류하기
 const PATHS = {
-  WITH_FOOTER: new Set(["/", RouteInstance["schedule-management"]()]),
-  WITHOUT_FOOTER: new Set([RouteInstance.register(), RouteInstance.login()]),
+  WITH_FOOTER: new Set([
+    "/",
+    RouteInstance["schedule-management"](),
+    RouteInstance.notification(),
+    RouteInstance["my-page"](),
+  ]),
+  WITHOUT_FOOTER: new Set([
+    RouteInstance.register(),
+    RouteInstance.login(),
+    RouteInstance["sns-verification"](),
+  ]),
 };
 
 const doesPathNeedFooter = (pathName: string) => PATHS.WITH_FOOTER.has(pathName);
@@ -23,8 +31,8 @@ function FooterProvider({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div
-        className={cn("h-full px-4", {
-          "pb-[5.063rem]": hasFooter,
+        className={cn("md:border-background-sub2 w-full flex-1 px-4 md:border-x md:border-t", {
+          "pb-[5.625rem]": hasFooter,
           "pb-[2.125rem]": !hasFooter,
         })}
       >
