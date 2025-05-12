@@ -1,11 +1,14 @@
-import { NotificationInfo, NotificationType, ResponseBase } from "@5unwan/core/api/types/common";
+import { NotificationInfo, ResponseBase } from "@5unwan/core/api/types/common";
 
 export type GetNotificationRequestQuery = {
-  type: NotificationType;
-  name?: string;
+  page: number;
+  size: number;
 };
 export type GetNotificationApiResponse = ResponseBase<{
-  notificationList: NotificationInfo[];
+  content: NotificationInfo[];
+  totalPages: number;
+  totalElements: number;
+  hasNext: boolean;
 }>;
 export type ReadNotificationRequestBody = {
   id: number;

@@ -2,17 +2,16 @@ import http from "@user/app/apiCore";
 
 import {
   GetNotificationApiResponse,
+  GetNotificationRequestQuery,
   ReadNotificationApiResponse,
   ReadNotificationRequestBody,
   SendPushTokenRequestBody,
 } from "./types/notification.dto";
 
-export const getNotification = () =>
+export const getNotification = ({ page, size }: GetNotificationRequestQuery) =>
   http.get<GetNotificationApiResponse>({
     url: `/v1/notifications`,
-    params: {
-      type: "all",
-    },
+    params: { page, size },
   });
 
 export const readNotification = (data: ReadNotificationRequestBody) =>
