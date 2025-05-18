@@ -17,17 +17,27 @@ import {
 const RESERVATION_BASE_URL = "reservations";
 
 export const getReservationStatus = ({ date }: ReservationStatusRequestQuery) =>
-  http.get<ReservationStatusApiResponse>({ url: `${RESERVATION_BASE_URL}`, params: { date } });
+  http.get<ReservationStatusApiResponse>({ url: `/v1/${RESERVATION_BASE_URL}`, params: { date } });
 
 export const getReservationDetailStatus = ({ reservationId }: ReservationDetailStatusRequestPath) =>
   http.get<ReservationDetailStatusApiResponse>({
-    url: `${RESERVATION_BASE_URL}/${reservationId}},`,
+    url: `/v1/${RESERVATION_BASE_URL}/${reservationId}`,
   });
 
-export const directReservation = ({ reservations }: DirectReservationRequestBody) =>
+export const directReservation = ({
+  trainerId,
+  memberId,
+  name,
+  dates,
+}: DirectReservationRequestBody) =>
   http.post<DirectReservationApiResponse>({
-    url: `${RESERVATION_BASE_URL}`,
-    data: { reservations },
+    url: `/v1/${RESERVATION_BASE_URL}`,
+    data: {
+      trainerId,
+      memberId,
+      name,
+      dates,
+    },
   });
 
 export const cancelReservation = (
@@ -35,12 +45,13 @@ export const cancelReservation = (
   requestBody: CancelReservationRequestBody,
 ) => {
   const { reservationId } = requestPath;
-  const { cancel_reason } = requestBody;
+  const { cancelReason, cancelDate } = requestBody;
 
   return http.post<CancelReservationApiResponse>({
-    url: `${RESERVATION_BASE_URL}/${reservationId}}/cancel`,
+    url: `/v1/${RESERVATION_BASE_URL}/${reservationId}/cancel`,
     data: {
-      cancel_reason,
+      cancelReason,
+      cancelDate,
     },
   });
 };
@@ -50,15 +61,13 @@ export const reservationChange = (
   requestBody: ReservationChangeRequestBody,
 ) => {
   const { reservationId } = requestPath;
-  const { reservationDate, reservationDay, changeDate, changeDay } = requestBody;
+  const { reservationDate, changeRequestDate } = requestBody;
 
   return http.post<ReservationChangeApiResponse>({
-    url: `${RESERVATION_BASE_URL}/${reservationId}`,
+    url: `/v1/${RESERVATION_BASE_URL}/${reservationId}/change-request`,
     data: {
       reservationDate,
-      reservationDay,
-      changeDate,
-      changeDay,
+      changeRequestDate,
     },
   });
 };
