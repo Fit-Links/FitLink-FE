@@ -1,47 +1,72 @@
-import { NotificationType } from "@5unwan/core/api/types/common";
+"use client";
+
+import { API_THROTTLE_LIMIT, throttle } from "@5unwan/core/utils/throttle";
+import { useMutation, useQueryClient, useSuspenseInfiniteQuery } from "@tanstack/react-query";
+import NotificationItem from "@ui/components/NotificationItem/NotificationItem";
 import { Text } from "@ui/components/Text";
-import React from "react";
+import React, { useRef } from "react";
 
-import NotificationList from "./NotificationList";
+import { notificationQueries } from "@user/queries/notification";
 
-const notificationList = [
-  {
-    notificationId: 1,
-    type: "예약 요청" as NotificationType,
-    content: "예약 내용 0",
-    sendDate: "2025-04-09T17:25:15.879023",
-    isProcessed: false,
-  },
-  {
-    notificationId: 4,
-    type: "예약 요청" as NotificationType,
-    content: "예약 내용 3" as NotificationType,
-    sendDate: "2025-04-06T17:25:15.882954",
-    isProcessed: false,
-  },
-  {
-    notificationId: 6,
-    type: "세션" as NotificationType,
-    content: "세션 내용 5",
-    sendDate: "2025-04-04T17:25:15.884254",
-    isProcessed: false,
-  },
-];
+import { readNotification } from "@user/services/notification";
+
+import useIntersectionObserver from "@user/hooks/useIntersectionObserver";
+
+import EmptyList from "./EmptyList";
 
 function NotificationContainer() {
-  // const { data } = useSuspenseQuery(notificationQueries.list());
+  const intersectionRef = useRef(null);
+  const queryClient = useQueryClient();
 
-  // const {
-  //   data: { notificationList },
-  // } = data;
+  const { data, hasNextPage, isFetchingNextPage, fetchNextPage } = useSuspenseInfiniteQuery(
+    notificationQueries.list(),
+  );
+
+  const { isPending, variables, mutate } = useMutation({
+    mutationFn: readNotification,
+    onSettled: () => queryClient.invalidateQueries(notificationQueries.list()),
+  });
+
+  const throttled = throttle((id: number) => mutate({ id }), API_THROTTLE_LIMIT);
+  const handleClick = (id: number) => () => throttled(id);
+
+  const handleIntersect = () => {
+    if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+  };
+
+  useIntersectionObserver({
+    target: intersectionRef,
+    handleIntersect: handleIntersect,
+  });
 
   return (
-    <div>
-      <div className="flex items-center justify-between">
-        <Text.Body3>{`${notificationList.length}개의 알림`}</Text.Body3>
+    <div className="h-full">
+      <div className="bg-background-primary sticky top-[35px] flex items-center justify-between py-2">
+        <Text.Body3>{`${data.pages[0].data.totalElements}개의 알림`}</Text.Body3>
         <Text.Body3>최신순</Text.Body3>
       </div>
-      <NotificationList notificationList={notificationList} />
+      {data.pages[0].data.totalElements ? (
+        <ul className="flex flex-col items-center gap-4">
+          {data.pages.map((group) =>
+            group.data.content.map(
+              ({ notificationId, content, sendDate, isProcessed, type }, index) => (
+                <NotificationItem
+                  message={content}
+                  createdAt={sendDate}
+                  isCompleted={isPending && notificationId === variables.id ? true : isProcessed}
+                  variant={type}
+                  key={`${sendDate}-${index}`}
+                  onClick={handleClick(notificationId)}
+                  className="w-full"
+                />
+              ),
+            ),
+          )}
+          <div ref={intersectionRef} />
+        </ul>
+      ) : (
+        <EmptyList />
+      )}
     </div>
   );
 }
