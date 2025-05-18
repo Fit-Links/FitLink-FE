@@ -73,10 +73,6 @@ function ReservationStatusSheet({
     );
   };
 
-  /** TODO: 예약 대기에 대하여 취소 신청 로직
-   * 그런데, 예약 대기의 경우 1,2지망 총 2개의 시간대가 있을 수 있는데 이 2가지 시간대를 한번에 다 보내야하나?
-   * 아니면 반복분을 통해 인덱스 별로 따로 보내줘야하나?
-   */
   const handleClickRemindButton = () => {
     reservationCancel({
       reservationId: reservationId,
