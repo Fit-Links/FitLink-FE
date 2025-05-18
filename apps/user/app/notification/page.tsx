@@ -1,5 +1,7 @@
 import { Suspense } from "react";
 
+export const dynamic = "force-dynamic";
+
 import Fallback from "./_components/Fallback";
 import NotificationContainer from "./_components/NotificationContainer";
 
