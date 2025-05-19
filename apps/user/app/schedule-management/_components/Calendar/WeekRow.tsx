@@ -23,14 +23,18 @@ export default function WeekRow({
   onChangeOpen,
 }: WeekRowProps) {
   const findReservationByDate = (date: Date) => {
-    return reservationContent.find((status) => isSameDay(status.reservationDate[0], date));
+    return reservationContent.find((status) => isSameDay(status.reservationDates[0], date));
   };
 
   const handleClickDate = (date: Date) => {
     const reservationContent = findReservationByDate(date);
 
     onChangeSelectedDate(date);
-    onSelectedReservationContent(reservationContent);
+    onSelectedReservationContent(
+      reservationContent?.status === "예약 취소 요청" || reservationContent?.status === "예약 취소"
+        ? undefined
+        : reservationContent,
+    );
     onChangeOpen(true);
   };
 

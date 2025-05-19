@@ -17,7 +17,10 @@ type ReservationConfig = {
 };
 
 export const RESERVATION_CONFIG: Record<
-  Exclude<ModifiedReservationListItem["status"], "휴무일">,
+  Exclude<
+    ModifiedReservationListItem["status"],
+    "휴무일" | "예약 취소 요청" | "예약 변경 요청" | "예약 취소"
+  >,
   ReservationConfig
 > = {
   "수업 완료": {
