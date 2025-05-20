@@ -65,3 +65,7 @@ type TargetMemberEditPtHistoryResponse = {
   sessionStatus: PtStatus;
 };
 export type TargetUserEditPtHistoryApiResponse = ResponseBase<TargetMemberEditPtHistoryResponse>;
+
+export type ProcessMemberConnectionInquiryRequestPath = { notificationId: number };
+export type ProcessMemberConnectionInquiryRequestBody = { isApproved: boolean };
+export type ProcessMemberConnectionInquiryApiResponse = ResponseBase<null>;

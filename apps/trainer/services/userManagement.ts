@@ -2,6 +2,8 @@ import { TRAINER_BASE_URL } from "@trainer/constants/baseUrl";
 
 import http from "../app/apiCore";
 import {
+  ProcessMemberConnectionInquiryRequestBody,
+  ProcessMemberConnectionInquiryRequestPath,
   PtUserDetailApiResponse,
   PtUserDetailRequestPath,
   PtUserListApiResponse,
@@ -79,3 +81,12 @@ export const targetMemberEditPtHistory = (
     },
   });
 };
+
+export const processMemberConnectionInquiry = (
+  { notificationId }: ProcessMemberConnectionInquiryRequestPath,
+  requestBody: ProcessMemberConnectionInquiryRequestBody,
+) =>
+  http.post({
+    url: `${TRAINER_BASE_URL}/connect-requests/${notificationId}/decision`,
+    data: requestBody,
+  });
