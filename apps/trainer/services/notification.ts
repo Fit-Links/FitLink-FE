@@ -1,5 +1,9 @@
-import http from "@5unwan/core/api/core";
+import http from "@trainer/app/apiCore";
 
+import {
+  GetNotificationDetailApiResponse,
+  GetNotificationDetailRequestPath,
+} from "./types/notification.dto";
 import {
   GetNotificationApiResponse,
   GetNotificationRequestQuery,
@@ -13,7 +17,10 @@ export const getNotification = (params: GetNotificationRequestQuery) =>
     url: `/v1/notifications`,
     params,
   });
-
+export const getNotificationDetail = ({ notificationId }: GetNotificationDetailRequestPath) =>
+  http.get<GetNotificationDetailApiResponse>({
+    url: `/v1/notifications/${notificationId}`,
+  });
 export const readNotification = (data: ReadNotificationRequestBody) =>
   http.patch<ReadNotificationApiResponse>({
     url: `/v1/notifications`,

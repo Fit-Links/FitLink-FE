@@ -8,9 +8,14 @@ import {
 export type GetNotificationRequestQuery = {
   type?: NotificationQueryType;
   q?: string;
+  page: number;
+  size: number;
 };
 export type GetNotificationApiResponse = ResponseBase<{
   content: NotificationInfo[];
+  totalPages: number;
+  totalElements: number;
+  hasNext: boolean;
 }>;
 export type GetNotificationDetailRequestPath = {
   notificationId: number;
