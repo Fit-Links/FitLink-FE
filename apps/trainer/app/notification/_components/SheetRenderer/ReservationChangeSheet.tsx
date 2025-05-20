@@ -1,3 +1,4 @@
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Badge } from "@ui/components/Badge";
 import { Button } from "@ui/components/Button";
 import Icon from "@ui/components/Icon";
@@ -10,10 +11,15 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@ui/components/Sheet";
-import { useState } from "react";
+import { Suspense, useState } from "react";
+
+import { notificationQueries } from "@trainer/queries/notification";
 
 import ProfileCard from "@trainer/components/ProfileCard";
+import QueryErrorBoundary from "@trainer/components/QueryErrorBoundary";
 
+import SheetErrorFallback from "./SheetErrorFallback";
+import SheetFallback from "./SheetFallback";
 import { formatSessionData } from "../../_utils/formatter";
 
 type ReservationChangeSheetProps = {
@@ -22,17 +28,72 @@ type ReservationChangeSheetProps = {
   onChangeOpen: (isOpen: boolean) => void;
   eventDateDescription: string;
 };
+
+type ReservationChangeSheetContentProps = {
+  notificationId: number;
+  eventDateDescription: string;
+  handleDeclineClick: () => void;
+  handleAcceptClick: () => void;
+};
+function ReservationChangeSheetContent({
+  notificationId,
+  eventDateDescription,
+  handleDeclineClick,
+  handleAcceptClick,
+}: ReservationChangeSheetContentProps) {
+  const { data } = useSuspenseQuery(notificationQueries.detail(notificationId));
+  const {
+    userDetail: { name, profilePictureUrl, birthDate, phoneNumber },
+  } = data.data;
+
+  const {
+    sessionInfo: { remainingCount, totalCount },
+  } = DUMMY_MEMBER_DETAIL;
+
+  return (
+    <>
+      <SheetHeader className="items-center">
+        <SheetTitle className="flex justify-center">PT 예약 변경</SheetTitle>
+        <SheetDescription>{eventDateDescription}</SheetDescription>
+      </SheetHeader>
+      <ProfileCard
+        imgUrl={profilePictureUrl}
+        userBirth={new Date(birthDate)}
+        userName={name as string}
+        phoneNumber={phoneNumber}
+        className="bg-background-sub1 w-full hover:bg-none"
+      >
+        <Badge variant={"sub2"}>{formatSessionData(remainingCount, totalCount)}</Badge>
+      </ProfileCard>
+      <SheetFooter>
+        <div className="flex w-full justify-center gap-[0.625rem]">
+          <SheetClose asChild>
+            <Button
+              size={"xl"}
+              className="w-full"
+              variant={"secondary"}
+              onClick={handleDeclineClick}
+            >
+              거절
+            </Button>
+          </SheetClose>
+          <SheetClose asChild>
+            <Button size={"xl"} className="w-full" variant={"negative"} onClick={handleAcceptClick}>
+              승인
+            </Button>
+          </SheetClose>
+        </div>
+      </SheetFooter>
+    </>
+  );
+}
 function ReservationChangeSheet({
+  notificationId,
   open,
   onChangeOpen,
   eventDateDescription,
 }: ReservationChangeSheetProps) {
-  //TODO: 알림 상세 내역 조회 API 연결
   //TODO: 회원 상세 정보 조회 API 연결
-  const { name, phoneNumber, profilePictureUrl, birthDate } = DUMMY_NOTIFICATION_DETAIL;
-  const {
-    sessionInfo: { remainingCount, totalCount },
-  } = DUMMY_MEMBER_DETAIL;
 
   const [isDeclineSheetOpen, setIsDeclineSheetOpen] = useState(false);
   const [isAcceptSheetOpen, setIsAccepSheetOpen] = useState(false);
@@ -48,43 +109,16 @@ function ReservationChangeSheet({
     <>
       <Sheet open={open} onOpenChange={onChangeOpen}>
         <SheetContent side={"bottom"} className="md:max-w-mobile left-1/2 w-full -translate-x-1/2">
-          <SheetHeader className="items-center">
-            <SheetTitle className="flex justify-center">PT 예약 변경</SheetTitle>
-            <SheetDescription>{eventDateDescription}</SheetDescription>
-          </SheetHeader>
-          <ProfileCard
-            imgUrl={profilePictureUrl}
-            userBirth={new Date(birthDate)}
-            userName={name as string}
-            phoneNumber={phoneNumber}
-            className="bg-background-sub1 w-full hover:bg-none"
-          >
-            <Badge variant={"sub2"}>{formatSessionData(remainingCount, totalCount)}</Badge>
-          </ProfileCard>
-          <SheetFooter>
-            <div className="flex w-full justify-center gap-[0.625rem]">
-              <SheetClose asChild>
-                <Button
-                  size={"xl"}
-                  className="w-full"
-                  variant={"secondary"}
-                  onClick={handleDeclineClick}
-                >
-                  거절
-                </Button>
-              </SheetClose>
-              <SheetClose asChild>
-                <Button
-                  size={"xl"}
-                  className="w-full"
-                  variant={"negative"}
-                  onClick={handleAcceptClick}
-                >
-                  승인
-                </Button>
-              </SheetClose>
-            </div>
-          </SheetFooter>
+          <QueryErrorBoundary fallback={SheetErrorFallback}>
+            <Suspense fallback={<SheetFallback />}>
+              <ReservationChangeSheetContent
+                notificationId={notificationId}
+                eventDateDescription={eventDateDescription}
+                handleDeclineClick={handleDeclineClick}
+                handleAcceptClick={handleAcceptClick}
+              />
+            </Suspense>
+          </QueryErrorBoundary>
         </SheetContent>
       </Sheet>
       <Sheet open={isDeclineSheetOpen} onOpenChange={setIsDeclineSheetOpen}>
@@ -94,7 +128,7 @@ function ReservationChangeSheet({
               <Icon name="Check" size="lg" />
             </Button>
             <SheetTitle className="text-center">회원의 예약 변경을 거절했습니다</SheetTitle>
-            <SheetDescription>{name} 회원에게 예약 변경 거절 알림이 전송돼요</SheetDescription>
+            <SheetDescription>회원에게 예약 변경 거절 알림이 전송돼요</SheetDescription>
           </SheetHeader>
           <SheetFooter>
             <SheetClose asChild>
@@ -135,9 +169,9 @@ const DUMMY_MEMBER_DETAIL = {
     remainingCount: 1,
   },
 };
-const DUMMY_NOTIFICATION_DETAIL = {
-  name: "홍길동",
-  birthDate: "1999-10-14",
-  phoneNumber: "01023212321",
-  profilePictureUrl: "http://123",
-};
+// const DUMMY_NOTIFICATION_DETAIL = {
+//   name: "홍길동",
+//   birthDate: "1999-10-14",
+//   phoneNumber: "01023212321",
+//   profilePictureUrl: "http://123",
+// };
