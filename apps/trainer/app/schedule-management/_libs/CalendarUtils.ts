@@ -1,13 +1,13 @@
 import { addHours, isEqual, isSameDay, startOfDay } from "date-fns";
 
-import { ReservationStatusApiResponse } from "@trainer/services/types/reservations.dto";
+import { GetReservationStatusApiResponse } from "@trainer/services/types/reservations.dto";
 
 export const mergeDateAndTime = (date: Date) => {
   return Array.from({ length: 24 }, (_, index) => addHours(startOfDay(date), index));
 };
 
 export const parsedReservationContent = (
-  reservationContents: ReservationStatusApiResponse["data"],
+  reservationContents: GetReservationStatusApiResponse["data"],
   date: Date,
 ) => {
   const { reservations } = reservationContents;
@@ -24,7 +24,7 @@ export const parsedReservationContent = (
 };
 
 export const isCheckDayOff = (
-  reservationContents: ReservationStatusApiResponse["data"],
+  reservationContents: GetReservationStatusApiResponse["data"],
   date: Date,
 ) => {
   const { reservations } = reservationContents;

@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import {
   ModifiedReservationListItem,
-  ReservationDetailPendingStatus,
+  ReservationWaitingMember,
 } from "@trainer/services/types/reservations.dto";
 
 import ApproveButton from "./ApproveButton";
@@ -19,7 +19,7 @@ function PendingReservationContainer({
   selectedDate,
 }: PendingReservationContainerProps) {
   const [selectedMemberInformation, setSelectedMemberInformation] =
-    useState<ReservationDetailPendingStatus | null>(null);
+    useState<ReservationWaitingMember | null>(null);
 
   return (
     <section className="flex h-full w-full flex-col overflow-hidden pt-[1.688rem]">

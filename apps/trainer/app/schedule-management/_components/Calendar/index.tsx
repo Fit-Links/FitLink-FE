@@ -6,7 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
 
-import { ReservationStatusApiResponse } from "@trainer/services/types/reservations.dto";
+import { GetReservationStatusApiResponse } from "@trainer/services/types/reservations.dto";
 
 import useSyncScroll from "@trainer/hooks/useSyncScroll";
 
@@ -101,7 +101,7 @@ export default function Calendar() {
   );
 }
 
-const MOCK_RESERVATION_DATA: ReservationStatusApiResponse["data"] = {
+const MOCK_RESERVATION_DATA: GetReservationStatusApiResponse["data"] = {
   reservations: [
     {
       reservationId: 1,
