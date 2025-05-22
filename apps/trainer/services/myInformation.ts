@@ -7,7 +7,7 @@ import {
   AddTimeOffApiResponse,
   AddTimeOffRequestBody,
   AvailablePtTimeApiResponse,
-  DeleteAvailablePtTimeRequestPath,
+  DeleteAvailablePtTimeParams,
   DeleteAvailableTimeApiResponse,
   DeleteTimeOffApiResponse,
   DeleteTimeOffRequestBody,
@@ -20,7 +20,7 @@ import {
 } from "./types/myInformation.dto";
 
 export const getMyInformation = () =>
-  http.get<MyInformationApiResponse["data"]>({ url: `/v1/${TRAINER_BASE_URL}/me` });
+  http.get<MyInformationApiResponse>({ url: `/v1/${TRAINER_BASE_URL}/me` });
 
 export const editMyInformation = ({ name, phoneNumber }: EditMyInformationRequestBody) =>
   http.patch<EditMyInformationApiResponse>({
@@ -32,26 +32,26 @@ export const editMyInformation = ({ name, phoneNumber }: EditMyInformationReques
   });
 
 export const getTrainerCode = () =>
-  http.get<TrainerCodeApiResponse["data"]>({ url: `/v1/${TRAINER_BASE_URL}/me/trainer-code` });
+  http.get<TrainerCodeApiResponse>({ url: `/v1/${TRAINER_BASE_URL}/me/trainer-code` });
 
 export const getAvailablePtTime = () =>
-  http.get<AvailablePtTimeApiResponse["data"]>({
+  http.get<AvailablePtTimeApiResponse>({
     url: `/v1/${TRAINER_BASE_URL}/me/available-times`,
   });
 
-export const deleteAvailablePtTime = ({ availableTimeId }: DeleteAvailablePtTimeRequestPath) =>
-  http.delete<DeleteAvailableTimeApiResponse["data"]>({
-    url: `/v1/${TRAINER_BASE_URL}/me/available-times/${availableTimeId}`,
+export const deleteAvailablePtTime = ({ applyAt }: DeleteAvailablePtTimeParams) =>
+  http.delete<DeleteAvailableTimeApiResponse>({
+    url: `/v1/${TRAINER_BASE_URL}/me/available-times?applyAt=${applyAt}`,
   });
 
 export const addAvailablePtTime = ({ applyAt, availableTimes }: AddAvailablePtTimeRequestBody) =>
-  http.post<AddAvailablePtTimeApiResponse["data"]>({
+  http.post<AddAvailablePtTimeApiResponse>({
     url: `/v1/${TRAINER_BASE_URL}/me/available-times`,
     data: { applyAt, availableTimes },
   });
 
 export const addTimeOff = ({ dayOfWeek, dayOfTime }: AddTimeOffRequestBody) =>
-  http.post<AddTimeOffApiResponse["data"]>({
+  http.post<AddTimeOffApiResponse>({
     url: `/v1/${TRAINER_BASE_URL}/me/day-off`,
     data: {
       dayOfWeek,

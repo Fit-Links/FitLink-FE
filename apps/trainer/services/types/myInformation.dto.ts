@@ -17,7 +17,7 @@ type MyInformationResponse = {
   name: string;
   birthDate: string;
   phoneNumber: string;
-  profileUrl: string;
+  profilePictureUrl: string;
 };
 export type MyInformationApiResponse = ResponseBase<MyInformationResponse>;
 
@@ -38,6 +38,7 @@ type AvailablePtTimeResponse = {
 export type AvailablePtTimeApiResponse = ResponseBase<AvailablePtTimeResponse>;
 
 export type DeleteAvailablePtTimeRequestPath = { availableTimeId: number };
+export type DeleteAvailablePtTimeParams = { applyAt: string };
 export type DeleteAvailableTimeApiResponse = NoResponseData;
 
 export type AddAvailablePtTimeRequestBody = {
