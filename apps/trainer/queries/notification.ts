@@ -15,11 +15,11 @@ export const notificationBaseKeys = {
 };
 
 export const notificationQueries = {
-  list: (type?: NotificationQueryType, q?: string) =>
+  list: ({ memberId, type, q }: { memberId?: number; type?: NotificationQueryType; q?: string }) =>
     infiniteQueryOptions({
-      queryKey: [...notificationBaseKeys.lists(), type, q],
+      queryKey: [...notificationBaseKeys.lists(), memberId, type, q],
       queryFn: ({ pageParam }) =>
-        getNotification({ page: pageParam, size: NOTIFICATION_PAGE_SIZE, type, q }),
+        getNotification({ page: pageParam, size: NOTIFICATION_PAGE_SIZE, memberId, type, q }),
       placeholderData: keepPreviousData,
       getNextPageParam: (lastPage, _allPages, lastPageParam) => {
         if (lastPage.data.content.length === EMPTY_PAGE) {
