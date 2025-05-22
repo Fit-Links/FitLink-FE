@@ -17,7 +17,7 @@ export type PtUser = {
 };
 
 export type PtUserListRequestQuery = {
-  q: string;
+  q?: string;
   page?: number;
   size?: number;
 };
@@ -40,7 +40,7 @@ export type PtUserDetailApiResponse = ResponseBase<PtUserDetailResponse>;
 export type UnlinkMemberRequestPath = { memberId: string };
 export type UnlinkMemberApiResponse = NoResponseData;
 
-export type SessionCountEditRequestPath = { memberId: string; sessionInfoId: string };
+export type SessionCountEditRequestPath = { memberId: number; sessionInfoId: number };
 export type SessionCountEditRequestBody = { totalCount?: number; remainingCount?: number };
 type SessionCountEditResponse = {
   totalCount: number;
@@ -68,4 +68,7 @@ export type TargetUserEditPtHistoryApiResponse = ResponseBase<TargetMemberEditPt
 
 export type ProcessMemberConnectionInquiryRequestPath = { notificationId: number };
 export type ProcessMemberConnectionInquiryRequestBody = { isApproved: boolean };
-export type ProcessMemberConnectionInquiryApiResponse = ResponseBase<null>;
+export type ProcessMemberConnectionInquiryApiResponse = ResponseBase<{
+  memberId: number;
+  sessionInfoId: number;
+}>;
