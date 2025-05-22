@@ -4,7 +4,7 @@ import { API_THROTTLE_LIMIT, throttle } from "@5unwan/core/utils/throttle";
 import { useMutation, useQueryClient, useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import NotificationItem from "@ui/components/NotificationItem/NotificationItem";
 import { Text } from "@ui/components/Text";
-import React, { useRef } from "react";
+import React, { Fragment, useRef } from "react";
 
 import { notificationQueries } from "@user/queries/notification";
 
@@ -47,21 +47,23 @@ function NotificationContainer() {
       </div>
       {data.pages[0].data.totalElements ? (
         <ul className="flex flex-col items-center gap-4">
-          {data.pages.map((group) =>
-            group.data.content.map(
-              ({ notificationId, content, sendDate, isProcessed, type }, index) => (
-                <NotificationItem
-                  message={content}
-                  createdAt={sendDate}
-                  isCompleted={isPending && notificationId === variables.id ? true : isProcessed}
-                  variant={type}
-                  key={`${sendDate}-${index}`}
-                  onClick={handleClick(notificationId)}
-                  className="w-full"
-                />
-              ),
-            ),
-          )}
+          {data.pages.map((group, index) => (
+            <Fragment key={`notificationGroup-${index}`}>
+              {group.data.content.map(
+                ({ notificationId, content, sendDate, isProcessed, type }) => (
+                  <NotificationItem
+                    message={content}
+                    createdAt={sendDate}
+                    isCompleted={isPending && notificationId === variables.id ? true : isProcessed}
+                    variant={type}
+                    onClick={handleClick(notificationId)}
+                    className="w-full"
+                    key={`notification-${notificationId}`}
+                  />
+                ),
+              )}
+            </Fragment>
+          ))}
           <div ref={intersectionRef} />
         </ul>
       ) : (
