@@ -1,7 +1,7 @@
 "use client";
 
 import { DayOfWeek } from "@5unwan/core/api/types/common";
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import Icon from "@ui/components/Icon";
 import React from "react";
@@ -9,21 +9,24 @@ import React from "react";
 import { myInformationQueries } from "@trainer/queries/myInformation";
 
 import { deleteTimeOff } from "@trainer/services/myInformation";
-import { DeleteTimeOffRequestBody } from "@trainer/services/types/myInformation.dto";
+import {
+  DayOffInformation,
+  DeleteTimeOffRequestBody,
+} from "@trainer/services/types/myInformation.dto";
 
 import { DAYS } from "@trainer/constants/Day";
 
 const NoDayOff = 0;
 
-type DayOffInformation = {
+type RequestDayOffInformation = {
   dayOffId: number;
   dayOffDate: string;
-  dayOfWeek: string;
+  dayOfWeek: DayOfWeek;
 };
 
 export default function MyDayOffContainer() {
   const queryClient = useQueryClient();
-  const { data: response } = useSuspenseQuery(myInformationQueries.dayOff());
+  const { data: response } = useQuery(myInformationQueries.dayOff());
 
   const { mutate, isSuccess, isError } = useMutation({
     mutationFn: (params: {
@@ -35,19 +38,17 @@ export default function MyDayOffContainer() {
     },
   });
 
-  const handleDeleteDayOff = (holiday: DayOffInformation) => {
+  const handleDeleteDayOff = (holiday: RequestDayOffInformation) => {
     mutate(
       {
         requestPath: { dayOffId: holiday.dayOffId },
         requestBody: {
-          dayOfWeek: holiday.dayOfWeek as DayOfWeek,
+          dayOfWeek: holiday.dayOfWeek,
           dayOfTime: holiday.dayOffDate,
         },
       },
       {
         onSuccess: () => {
-          // TODO:
-
           if (isSuccess) {
             console.log("성공적으로 삭제되었습니다.");
           }
@@ -61,11 +62,13 @@ export default function MyDayOffContainer() {
     );
   };
 
-  const dayOffList = response.data;
+  if (!response) return;
+
+  const dayOffList = response?.data;
 
   if (dayOffList.length === NoDayOff) return;
 
-  const holidayList = dayOffList.map((dayOff) => {
+  const holidayList: RequestDayOffInformation[] = dayOffList.map((dayOff: DayOffInformation) => {
     const dayOfWeek = getDayOfWeek(dayOff.dayOffDate);
 
     return {
@@ -78,7 +81,7 @@ export default function MyDayOffContainer() {
     <section className="mt-[1.563rem] w-full">
       <p className="text-headline mb-[0.625rem]">휴무일</p>
       <section className="flex flex-col gap-1">
-        {holidayList.map((holiday) => (
+        {holidayList.map((holiday: RequestDayOffInformation) => (
           <div
             key={`holiday-${holiday.dayOffId}`}
             className="bg-background-sub1 text-text-primary flex h-[3.375rem] w-full items-center justify-between rounded-lg px-[0.9375rem]"
@@ -99,9 +102,9 @@ export default function MyDayOffContainer() {
   );
 }
 
-const getDayOfWeek = (dateString: string): string => {
+const getDayOfWeek = (dateString: string): DayOfWeek => {
   const date = new Date(dateString);
   const days = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
 
-  return days[date.getDay()];
+  return days[date.getDay()] as DayOfWeek;
 };

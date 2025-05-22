@@ -1,6 +1,6 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { DaysOfWeek } from "@ui/utils/makeWeekSchedule";
 
 import { myInformationQueries } from "@trainer/queries/myInformation";
@@ -26,11 +26,19 @@ export type PTScheduleProps = {
 };
 
 export default function MyAvailableTimeContainer() {
-  const { data: response } = useSuspenseQuery(myInformationQueries.ptAvailableTime());
+  const { data: response } = useQuery(myInformationQueries.ptAvailableTime());
+
+  if (!response) return;
+
+  const availablePtTimeData = response.data;
 
   const AVAILABLE_PT_TIME: PTScheduleProps = {
-    currentSchedules: response.currentSchedules ? response.currentSchedules.schedules : [],
-    scheduledChanges: response.scheduledChanges ? [response.scheduledChanges] : [],
+    currentSchedules: availablePtTimeData?.currentSchedules
+      ? availablePtTimeData.currentSchedules.schedules
+      : [],
+    scheduledChanges: availablePtTimeData?.scheduledChanges
+      ? [availablePtTimeData.scheduledChanges]
+      : [],
   };
 
   return <ScheduleInformation className="mt-[1.563rem]" ptSchedule={AVAILABLE_PT_TIME} />;

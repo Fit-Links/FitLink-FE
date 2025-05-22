@@ -1,11 +1,9 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
 import { myInformationQueries } from "@trainer/queries/myInformation";
-
-import { MyInformationApiResponse } from "@trainer/services/types/myInformation.dto";
 
 import RouteInstance from "@trainer/constants/route";
 
@@ -13,15 +11,24 @@ import MyPageHeader from "./MyPageHeader";
 import ProfileItemForRouting from "../_components/ProfileItemForRouting";
 
 export default function MyPageContainer() {
-  const { data: response } = useSuspenseQuery(myInformationQueries.myInformation());
+  const { data: response } = useQuery(myInformationQueries.myInformation());
 
-  const myInformationData: MyInformationApiResponse["data"] = response;
+  if (!response) return;
+
+  const myInformationData = response.data;
 
   return (
     <section>
-      <MyPageHeader name={myInformationData?.name} imageSrc={myInformationData?.profileUrl} />
+      <MyPageHeader
+        name={myInformationData?.name}
+        imageSrc={myInformationData?.profilePictureUrl}
+      />
 
-      <ProfileItemForRouting variant="code" url={RouteInstance["trainer-code"]()} />
+      <ProfileItemForRouting
+        className="mt-[1.5625rem]"
+        variant="code"
+        url={RouteInstance["trainer-code"]()}
+      />
       <ProfileItemForRouting variant="calendar" url={RouteInstance["schedule-management"]()} />
     </section>
   );
