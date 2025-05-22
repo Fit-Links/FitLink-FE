@@ -1,5 +1,7 @@
+/* eslint-disable no-magic-numbers */
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@ui/components/Button";
 import {
   Dialog,
@@ -15,29 +17,24 @@ import Icon from "@ui/components/Icon";
 import { useRouter } from "next/navigation";
 import { ComponentPropsWithoutRef } from "react";
 
+import { myInformationQueries } from "@user/queries/myInformation";
+
 import RouteInstance from "@user/constants/routes";
 
-import { TrainerConnectStatus } from "../_types/addReservation";
 import { resolveTrainerConnectionFlow } from "../_utils/resolveTrainerConnectionFlow";
 
-type ReservationAdderProps = {
-  trainerConnectStatus: TrainerConnectStatus;
-  ptCount: number;
-};
-
-function ReservationAdder({ trainerConnectStatus, ptCount }: ReservationAdderProps) {
+function ReservationAdder() {
   const router = useRouter();
 
-  /** TODO: 트레이너 연결 상태 추출 */
-  // const { data: myInformation } = useSuspenseQuery(myInformationQueries.summary());
+  /** TODO: 내정보 API 호출 후, Response 내의 트레이너 연결 상태 추출 */
+  const { data: myInformation } = useQuery(myInformationQueries.summary());
 
   const onGoNewReservation = () => router.push(RouteInstance.reservation("new"));
-
   const onRequestConnect = () => router.push(RouteInstance["connect-trainer"]());
 
   const { popupData, onClickButton } = resolveTrainerConnectionFlow(
-    trainerConnectStatus,
-    ptCount,
+    myInformation?.data?.connectingStatus ?? "UNCONNECTED",
+    myInformation?.data?.sessionInfo?.totalCount ?? 0,
     onRequestConnect,
     onGoNewReservation,
   );

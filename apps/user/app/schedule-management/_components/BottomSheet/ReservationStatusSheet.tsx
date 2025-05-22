@@ -14,7 +14,6 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
@@ -28,6 +27,7 @@ import RouteInstance from "@user/constants/routes";
 
 import RequestSuccessSheet from "./RequestSuccessSheet";
 import ReservationCancelSheet from "./ReservationCancelSheet";
+import { useReservationCancelMutation } from "../../_hooks/mutation/useReservationCancelMutation";
 
 type ReservationStatusSheetProps = {
   open: boolean;
@@ -42,15 +42,17 @@ function ReservationStatusSheet({
 }: ReservationStatusSheetProps) {
   const router = useRouter();
 
-  const { status, reservationDate } = reservationContent;
-  const searchParams = new URLSearchParams({ reservationDate: reservationDate[0] });
-  const validateDates = reservationDate.map((content) => DateController(content).validate());
+  const { status, reservationDates, reservationId } = reservationContent;
+
+  const validateDates = reservationDates.map((content) => DateController(content).validate());
 
   const [isReservationCancelSheetOpen, setIsReservationCancelSheetOpen] = useState(false);
   const [isReservationCancelSuccessSheetOpen, setIsReservationCancelSuccessSheetOpen] =
     useState(false);
   const [isReservationRemindCancelPopupOpen, setIsReservationRemindCancelPopupOpen] =
     useState(false);
+
+  const { reservationCancel } = useReservationCancelMutation();
 
   const handleClickCancelButton = () => {
     if (status === "예약 대기") {
@@ -64,11 +66,20 @@ function ReservationStatusSheet({
 
   const handleClickChangeButton = () => {
     router.push(
-      RouteInstance.reservation("edit", { reservationDate: searchParams.get("reservationDate") }),
+      RouteInstance.reservation("edit", {
+        reservationDate: reservationDates[0],
+        reservationId: String(reservationId),
+      }),
     );
   };
 
   const handleClickRemindButton = () => {
+    reservationCancel({
+      reservationId: reservationId,
+      cancelReason: "예약 대기 취소 요청",
+      cancelDate: reservationDates[0],
+    });
+
     setIsReservationCancelSuccessSheetOpen(true);
   };
 
@@ -81,11 +92,11 @@ function ReservationStatusSheet({
           </SheetClose>
           <SheetHeader>
             <SheetTitle className="flex justify-center">{reservationContent?.status}</SheetTitle>
-            <SheetDescription className="flex justify-center">
+            <div className="text-body-1 flex justify-center">
               {status === "예약 대기" && (
                 <Badge className="mb-5 h-8 w-[6.313rem] rounded-full">예약 대기중</Badge>
               )}
-            </SheetDescription>
+            </div>
             <div className="bg-background-sub1 flex h-[5.625rem] w-full flex-col items-center justify-center rounded-[0.625rem]">
               {validateDates.map((validateDate) => (
                 <p key={validateDate?.toAbsolute()}>
@@ -95,30 +106,38 @@ function ReservationStatusSheet({
             </div>
           </SheetHeader>
           <SheetFooter>
-            <div className="flex h-[3.375rem] w-full gap-2">
+            {status === "예약 변경 요청" ? (
               <SheetClose asChild>
-                <Button
-                  onClick={handleClickCancelButton}
-                  className={cn(
-                    "bg-background-sub1 hover:bg-background-sub3 flex h-full w-full flex-1 items-center justify-center rounded-[0.625rem] transition-colors",
-                    reservationContent.status === "예약 대기" &&
-                      "bg-background-sub5 text-text-sub5 hover:bg-[#f5f5f5]",
-                  )}
-                >
-                  예약 취소
+                <Button className="bg-background-sub1  hover:bg-background-sub3 flex h-[3.375rem] w-full items-center justify-center ">
+                  확인
                 </Button>
               </SheetClose>
-              {status !== "예약 대기" && (
+            ) : (
+              <div className="flex h-[3.375rem] w-full gap-2">
                 <SheetClose asChild>
                   <Button
-                    onClick={handleClickChangeButton}
-                    className="bg-background-sub5 text-text-sub5 flex h-full w-full flex-1 items-center justify-center rounded-[0.625rem] transition-colors hover:bg-[#f5f5f5]"
+                    onClick={handleClickCancelButton}
+                    className={cn(
+                      "bg-background-sub1 hover:bg-background-sub3 flex h-full w-full flex-1 items-center justify-center rounded-[0.625rem] transition-colors",
+                      reservationContent.status === "예약 대기" &&
+                        "bg-background-sub5 text-text-sub5 hover:bg-[#f5f5f5]",
+                    )}
                   >
-                    예약 변경
+                    예약 취소
                   </Button>
                 </SheetClose>
-              )}
-            </div>
+                {status !== "예약 대기" && (
+                  <SheetClose asChild>
+                    <Button
+                      onClick={handleClickChangeButton}
+                      className="bg-background-sub5 text-text-sub5 flex h-full w-full flex-1 items-center justify-center rounded-[0.625rem] transition-colors hover:bg-[#f5f5f5]"
+                    >
+                      예약 변경
+                    </Button>
+                  </SheetClose>
+                )}
+              </div>
+            )}
           </SheetFooter>
         </SheetContent>
       </Sheet>

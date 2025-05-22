@@ -13,6 +13,8 @@ import {
   MyPtHistoryRequestPath,
   MyPtHistoryRequestQuery,
   MyTrainerAvailableTimeApiResponse,
+  TrainerAvailableTimesApiResponse,
+  TrainerAvailableTimesRequestPath,
 } from "./types/myInformation.dto";
 
 const USER_BASE_URL = "members";
@@ -62,4 +64,9 @@ export const getMyPtHistory = (
 export const getMyTrainerAvailableTime = (trainerId: number) =>
   http.get<MyTrainerAvailableTimeApiResponse>({
     url: `/v1/${USER_BASE_URL}/trainers/${trainerId}/available-times`,
+  });
+
+export const getTrainerAvailableTimes = ({ trainerId }: TrainerAvailableTimesRequestPath) =>
+  http.get<TrainerAvailableTimesApiResponse>({
+    url: `/v1/trainers/${trainerId}/available-times`,
   });

@@ -5,6 +5,7 @@ import RequestStatus, { Status } from "@ui/components/RequestStatus";
 import { useRouter } from "next/navigation";
 import React from "react";
 
+import { saveTokens } from "@trainer/services/auth";
 import { SignupRequestBody, UserVerificationStatus } from "@trainer/services/types/auth.dto";
 
 import RouteInstance from "@trainer/constants/route";
@@ -73,8 +74,14 @@ const generateErrorMessage = (userStatus: UserSignupStatus) => {
 function ResultStep({ form }: ResultStepProps) {
   const initailizeFCM = useFCMToken();
   const { onSubmit, networkStatus, error } = useSignupForm({
-    onSuccess: () => {
-      initailizeFCM();
+    onSuccess: async ({ data }) => {
+      const {
+        data: { success },
+      } = await saveTokens(data);
+
+      if (success) initailizeFCM();
+
+      // TODO: success false 시 정책 구현
       // TODO: status 별 정책 구현
     },
   });

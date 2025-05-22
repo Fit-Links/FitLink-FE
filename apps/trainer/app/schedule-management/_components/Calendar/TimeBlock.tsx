@@ -28,7 +28,7 @@ export default function TimeBlock({
 }: TimeBlockProps) {
   const reservationBlockConfig =
     reservationContent.length > 0 && reservationContent[0].status !== "휴무일"
-      ? RESERVATION_CONFIG[reservationContent[0].status]
+      ? RESERVATION_CONFIG[reservationContent[0].status as keyof typeof RESERVATION_CONFIG]
       : null;
   const reservationBlockStyle = reservationBlockConfig?.style;
   const reservationBlockContent = reservationBlockConfig?.content(reservationContent[0]);
@@ -36,8 +36,15 @@ export default function TimeBlock({
     reservationContents: reservationContent,
   });
 
-  const currentStatus: Exclude<ReservationStatus, "휴무일"> | null =
-    reservationContent.length > 0 && reservationContent[0].status !== "휴무일"
+  const currentStatus: Exclude<
+    ReservationStatus,
+    "휴무일" | "예약 취소 요청" | "예약 변경 요청" | "예약 취소"
+  > | null =
+    reservationContent.length > 0 &&
+    reservationContent[0].status !== "휴무일" &&
+    reservationContent[0].status !== "예약 취소 요청" &&
+    reservationContent[0].status !== "예약 변경 요청" &&
+    reservationContent[0].status !== "예약 취소"
       ? reservationContent[0].status
       : null;
 

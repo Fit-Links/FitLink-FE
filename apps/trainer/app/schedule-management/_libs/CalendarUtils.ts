@@ -17,9 +17,9 @@ export const parsedReservationContent = (
       return;
     }
 
-    return Array.isArray(content.reservationDate)
-      ? isEqual(date, content.reservationDate[0])
-      : isEqual(date, content.reservationDate);
+    return Array.isArray(content.reservationDates)
+      ? isEqual(date, content.reservationDates[0])
+      : isEqual(date, content.reservationDates);
   });
 };
 
@@ -31,7 +31,7 @@ export const isCheckDayOff = (
 
   return reservations.some((content) => {
     if (content.status === "휴무일") {
-      return isSameDay(date, new Date(content.reservationDate[0]));
+      return isSameDay(date, new Date(content.reservationDates[0]));
     }
   });
 };

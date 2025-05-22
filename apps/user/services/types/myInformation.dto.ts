@@ -87,3 +87,13 @@ export type MyTrainerAvailableTimeResponse = {
 };
 
 export type MyTrainerAvailableTimeApiResponse = ResponseBase<MyTrainerAvailableTimeResponse>;
+export type TrainerAvailableTimesRequestPath = {
+  trainerId: number;
+};
+type TrainerAvailableTimesResponse = {
+  currentSchedules: {
+    applyAt: string;
+    schedules: AvailablePtTime[];
+  };
+};
+export type TrainerAvailableTimesApiResponse = ResponseBase<TrainerAvailableTimesResponse>;

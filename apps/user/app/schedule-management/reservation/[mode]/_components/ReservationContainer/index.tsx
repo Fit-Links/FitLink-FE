@@ -21,7 +21,7 @@ function ReservationContainer({
   const [selectedDate, setSelectedDate] = useState<Date>(new Date(reservationDate || new Date()));
 
   return (
-    <section className="flex h-full flex-col overflow-hidden">
+    <section className="flex h-full w-full flex-col overflow-hidden">
       <TwoWeekCalendar selectedDate={selectedDate} onChangeSelectedDate={setSelectedDate} />
       <PtTimeSelector
         mode={mode}
