@@ -11,28 +11,24 @@ import useIntersectionObserver from "@trainer/hooks/useIntersectionObserver";
 
 import EmptyList from "./EmptyList";
 import NotificationItemContainer from "./NotificationItemContainer";
+import { NotificationStatus } from "../_types";
+import createFilteredNotificationCount from "../_utils/createFilteredNotificationCount";
+import handleNotificationFilter from "../_utils/handleNotificationFilter";
 
 type NotificationContainerProps = {
   onClick: (notification: NotificationInfo) => () => void;
 };
 
 function NotificationContainer({ onClick }: NotificationContainerProps) {
-  const [status, setStatus] = useState("all");
+  const [status, setStatus] = useState<NotificationStatus>("all");
   const intersectionRef = useRef(null);
 
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage } = useSuspenseInfiniteQuery({
-    ...notificationQueries.list(),
+    ...notificationQueries.list({}),
   });
 
   const handleIntersect = () => {
     if (hasNextPage && !isFetchingNextPage) fetchNextPage();
-  };
-  const handleFilter = (notification: NotificationInfo) => {
-    if (status === "all") return true;
-    else if (status === "pending") return !notification.isProcessed;
-    else if (status === "complete") return notification.isProcessed;
-
-    return true;
   };
 
   useIntersectionObserver({
@@ -40,23 +36,29 @@ function NotificationContainer({ onClick }: NotificationContainerProps) {
     handleIntersect: handleIntersect,
   });
 
+  const filteredNotificationCount = createFilteredNotificationCount(data, status);
+
   return (
     <div className="">
       <ToggleGroup
         type="single"
         value={status}
-        onValueChange={setStatus}
+        onValueChange={setStatus as (value: string) => void}
         className="w-full justify-start"
       >
         <ToggleGroupItem value="all">전체</ToggleGroupItem>
         <ToggleGroupItem value="pending">미처리</ToggleGroupItem>
         <ToggleGroupItem value="complete">처리</ToggleGroupItem>
       </ToggleGroup>
+      <div className="my-4 flex items-center justify-between">
+        <span className="text-body-3">{`${filteredNotificationCount}개의 알림`}</span>
+        <span className="text-body-3">최신순</span>
+      </div>
       {data.pages[0].data.totalElements ? (
         <ul>
           {data.pages.map((group, index) => (
             <Fragment key={`notification-group-${index}`}>
-              {group.data.content.filter(handleFilter).map((notification) => (
+              {group.data.content.filter(handleNotificationFilter(status)).map((notification) => (
                 <NotificationItemContainer
                   key={`notification-${notification.notificationId}`}
                   notification={notification}
