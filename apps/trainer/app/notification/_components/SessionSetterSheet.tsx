@@ -17,7 +17,7 @@ const DEFAULT_SESSION = 0;
 type SessionSetterSheetProps = {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
-  onSubmit: () => void;
+  onSubmit: (totalCount: number, remainingCount: number) => void;
 };
 
 function SessionSetterSheet({ isOpen, onOpenChange, onSubmit }: SessionSetterSheetProps) {
@@ -25,6 +25,10 @@ function SessionSetterSheet({ isOpen, onOpenChange, onSubmit }: SessionSetterShe
 
   const handleSessionAdderHintClick = (value: number) => () => {
     setSessionValue((prev) => prev + value);
+  };
+
+  const handleSubmit = () => {
+    onSubmit(sessionValue, sessionValue);
   };
 
   return (
@@ -49,7 +53,7 @@ function SessionSetterSheet({ isOpen, onOpenChange, onSubmit }: SessionSetterShe
         </div>
         <Stepper value={sessionValue} onChangeValue={setSessionValue} className="border-none" />
         <SheetFooter className="w-full">
-          <Button onClick={onSubmit} className="w-full">
+          <Button onClick={handleSubmit} className="w-full">
             승인
           </Button>
         </SheetFooter>
