@@ -1,6 +1,6 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/Avatar";
 import { Button } from "@ui/components/Button";
 
@@ -12,20 +12,24 @@ import { getFormattedPhoneNumber } from "../_utils/getFormattedPhoneNumber";
 import EditProfileBottomSheet from "./BottomSheet/EditProfileBottomSheet";
 
 export default function MyInformationContainer() {
-  const { data: myDetailInformation } = useSuspenseQuery(myInformationQueries.myInformation());
+  const { data: response } = useQuery(myInformationQueries.myInformation());
+
+  if (!response) return;
+
+  const myDetailInformation = response.data;
 
   return (
     <section className="bg-background-primary text-text-primary flex h-screen w-full flex-col items-center">
       <Header title="내 정보" />
 
       <Avatar className="mt-[1.563rem] h-[6.313rem] w-[6.313rem]">
-        <AvatarImage src={myDetailInformation.profileUrl} />
+        <AvatarImage src={myDetailInformation.profilePictureUrl} />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
 
       <EditProfileBottomSheet>
         <Button className="mt-[1.25rem]" variant={"brand"} size={"sm"} corners={"pill"}>
-          {myDetailInformation.profileUrl ? "프로필 사진 수정" : "프로필 사진 등록"}
+          {myDetailInformation.profilePictureUrl ? "프로필 사진 수정" : "프로필 사진 등록"}
         </Button>
       </EditProfileBottomSheet>
 
