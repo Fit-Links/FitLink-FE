@@ -14,7 +14,7 @@ import React, { Suspense, useState } from "react";
 
 import { notificationQueries } from "@trainer/queries/notification";
 
-import { processMemberConnectionInquiry } from "@trainer/services/userManagement";
+import { processMemberConnectionInquiry, sessionCountEdit } from "@trainer/services/userManagement";
 
 import ProfileCard from "@trainer/components/ProfileCard";
 import QueryErrorBoundary from "@trainer/components/QueryErrorBoundary";
@@ -31,18 +31,25 @@ type ConnectTrainerSheetProps = {
 
 type ConnectTrainerSheetContentProps = {
   notificationId: number;
-  handleDeclineClick: () => void;
-  handleAcceptClick: () => void;
+  onDeclineClick: () => void;
+  onAcceptClick: () => void;
 };
 function ConnectTrainerSheetContent({
   notificationId,
-  handleDeclineClick,
-  handleAcceptClick,
+  onDeclineClick,
+  onAcceptClick,
 }: ConnectTrainerSheetContentProps) {
   const { data } = useSuspenseQuery(notificationQueries.detail(notificationId));
   const {
     userDetail: { name, profilePictureUrl, birthDate, phoneNumber },
   } = data.data;
+
+  const handleAcceptClick = () => {
+    onAcceptClick();
+  };
+  const handleDeclineClick = () => {
+    onDeclineClick();
+  };
 
   return (
     <>
@@ -83,7 +90,13 @@ function ConnectTrainerSheetContent({
 function ConnectTrainerSheet({ notificationId, open, onChangeOpen }: ConnectTrainerSheetProps) {
   const processConnectionMutation = useMutation({
     mutationFn: (isApproved: boolean) =>
-      processMemberConnectionInquiry({ notificationId }, { isApproved }),
+      processMemberConnectionInquiry({
+        requestPath: { notificationId },
+        requestBody: { isApproved },
+      }),
+  });
+  const setSessionMutation = useMutation({
+    mutationFn: sessionCountEdit,
   });
 
   const [isDeclineSheetOpen, setIsDeclineSheetOpen] = useState(false);
@@ -91,17 +104,37 @@ function ConnectTrainerSheet({ notificationId, open, onChangeOpen }: ConnectTrai
   const [isAcceptActionSheetOpen, setIsAcceptActionSheetOpen] = useState(false);
 
   const handleDeclineClick = () => {
-    processConnectionMutation.mutate(false);
-    setIsDeclineSheetOpen(true);
+    processConnectionMutation.mutate(false, {
+      onSuccess: () => {
+        setIsDeclineSheetOpen(true);
+      },
+    });
   };
   const handleAcceptClick = () => {
-    // processConnectionMutation.mutate(true);
     setIsAcceptActionSheetOpen(true);
   };
-  const handleSubmit = () => {
-    // TODO: session 설정 API 연결
-    setIsAcceptActionSheetOpen(false);
-    setIsAcceptSheetOpen(true);
+  const handleSubmit = (totalCount: number, remainingCount: number) => {
+    processConnectionMutation.mutate(true, {
+      onSuccess: (response) => {
+        const { data } = response;
+        const { memberId, sessionInfoId } = data;
+        setSessionMutation.mutate(
+          {
+            requestPath: { memberId, sessionInfoId },
+            requestBody: {
+              totalCount,
+              remainingCount,
+            },
+          },
+          {
+            onSuccess: () => {
+              setIsAcceptActionSheetOpen(false);
+              setIsAcceptSheetOpen(true);
+            },
+          },
+        );
+      },
+    });
   };
 
   return (
@@ -112,8 +145,8 @@ function ConnectTrainerSheet({ notificationId, open, onChangeOpen }: ConnectTrai
             <Suspense fallback={<SheetFallback />}>
               <ConnectTrainerSheetContent
                 notificationId={notificationId}
-                handleAcceptClick={handleAcceptClick}
-                handleDeclineClick={handleDeclineClick}
+                onAcceptClick={handleAcceptClick}
+                onDeclineClick={handleDeclineClick}
               />
             </Suspense>
           </QueryErrorBoundary>
