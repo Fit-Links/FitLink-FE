@@ -30,11 +30,11 @@ function AllNotificationPage() {
   const readNotificationMutation = useMutation({
     mutationFn: readNotification,
     onMutate: async ({ id }) => {
-      queryClient.cancelQueries({ queryKey: notificationQueries.list().queryKey });
+      queryClient.cancelQueries({ queryKey: notificationQueries.list({}).queryKey });
 
-      const previousNotifications = queryClient.getQueryData(notificationQueries.list().queryKey);
+      const previousNotifications = queryClient.getQueryData(notificationQueries.list({}).queryKey);
 
-      queryClient.setQueryData(notificationQueries.list().queryKey, (old) => {
+      queryClient.setQueryData(notificationQueries.list({}).queryKey, (old) => {
         if (!old) return old;
         const newPages = old.pages.map((page) => {
           const newData = {
@@ -59,10 +59,13 @@ function AllNotificationPage() {
       return { previousNotifications };
     },
     onError: (error, a, context) => {
-      queryClient.setQueryData(notificationQueries.list().queryKey, context?.previousNotifications);
+      queryClient.setQueryData(
+        notificationQueries.list({}).queryKey,
+        context?.previousNotifications,
+      );
     },
     onSettled: () =>
-      queryClient.invalidateQueries({ queryKey: notificationQueries.list().queryKey }),
+      queryClient.invalidateQueries({ queryKey: notificationQueries.list({}).queryKey }),
   });
 
   const handleSelectResult = () => {
