@@ -8,6 +8,7 @@ import { myInformationQueries } from "@user/queries/myInformation";
 
 import TrainerUnlinkItem from "./TrainerUnlinkItem";
 import Header from "../../_components/Header";
+import { getFormattedPhoneNumber } from "../../_utils/format";
 import ProfileImage from "../../my-information/_components/ProfileImage";
 
 export default function MyTrainerInformationContainer() {
@@ -19,24 +20,19 @@ export default function MyTrainerInformationContainer() {
 
   const myTrainerInformation = response?.data;
 
-  // Trainer 정보 (id와 이름 존재)
-  // profileUrl과 phoneNumber가 존재하지 않으므로 백엔드에 수정 요청
-
   return (
     <>
       <Header title="트레이너" />
 
-      <ProfileImage profilePictureUrl={myTrainerInformation?.profilePictureUrl ?? ""} />
+      <ProfileImage profilePictureUrl={myTrainerInformation?.trainerProfileUrl ?? ""} />
 
       <ProfileItem className="w-full" variant={"name"}>
         {myTrainerInformation?.name}
       </ProfileItem>
 
-      {/* 
-      // 현재 트레이너의 핸드폰 번호가 넘어오지 않아 임시적으로 컴포넌트를 해제한 상태
       <ProfileItem className="w-full" variant={"phone"}>
-        {myTrainerInformation?.phoneNumber ?? ""}
-      </ProfileItem> */}
+        {getFormattedPhoneNumber(myTrainerInformation?.trainerPhone ?? "")}
+      </ProfileItem>
 
       <TrainerUnlinkItem />
     </>
