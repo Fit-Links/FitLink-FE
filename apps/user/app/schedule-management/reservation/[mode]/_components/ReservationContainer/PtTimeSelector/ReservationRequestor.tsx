@@ -1,13 +1,19 @@
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@ui/components/Button";
-import { useRouter } from "next/navigation";
+import { format } from "date-fns";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import RequestSuccessSheet, {
   RequestSucccessSheetTrigger,
 } from "@user/app/schedule-management/_components/BottomSheet/RequestSuccessSheet";
+import { myInformationQueries } from "@user/queries/myInformation";
 
 import RouteInstance from "@user/constants/routes";
 
 import { RequestReservationMode } from "@user/app/schedule-management/reservation/[mode]/types/requestReservation";
+
+import { useReservationChangeMutation } from "../../../_hooks/mutation/useReservationChangeMutation";
+import { useReservationRequestMutation } from "../../../_hooks/mutation/useReservationRequestMutation";
 
 type ReservationRequestorProps = {
   mode: RequestReservationMode;
@@ -38,13 +44,43 @@ const MODE_CONTENT_MAP: Record<
   },
 };
 
-/** TODO:  props로 selectedDate, selectedTime, */
-function ReservationRequestor({ mode, open, onChangeOpen, isActive }: ReservationRequestorProps) {
+function ReservationRequestor({
+  mode,
+  open,
+  onChangeOpen,
+  isActive,
+  selectedDate,
+  selectedTime,
+}: ReservationRequestorProps) {
   const router = useRouter();
+  const { reservationRequest } = useReservationRequestMutation();
+  const { reservationChange } = useReservationChangeMutation();
+  const searchParams = useSearchParams();
 
-  // TODO: selectedDate와 selectedTimes를 통해 예약 변경 요청 진행
+  const { data: myInformation } = useQuery(myInformationQueries.summary());
+
+  const formattedDateTimes = selectedTime.map(
+    (time: string) => `${format(selectedDate, "yyyy-MM-dd")}T${time}`,
+  );
+
   const handleClickRequestButton = () => {
-    router.push(RouteInstance.root());
+    if (!myInformation || !myInformation.data.trainerId) return;
+    if (mode === "new") {
+      reservationRequest({
+        trainerId: myInformation.data?.trainerId,
+        memberId: myInformation.data?.memberId,
+        name: myInformation.data?.name,
+        dates: formattedDateTimes,
+      });
+    } else {
+      reservationChange({
+        reservationId: Number(searchParams.get("reservationId")),
+        reservationDate: searchParams.get("reservationDate")?.replace(/:00$/, "") as string,
+        changeRequestDate: formattedDateTimes[0],
+      });
+    }
+
+    router.push(RouteInstance["schedule-management"]());
   };
 
   return (

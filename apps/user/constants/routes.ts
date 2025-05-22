@@ -79,6 +79,7 @@ class ROUTES {
       routeParams?: string,
       searchParams?: {
         reservationDate: string | null;
+        reservationId: string | null;
       },
     ) => {
       const filteredRoute = this["_reservation"](routeParams).filter(filterEmptyDynamicRoute);

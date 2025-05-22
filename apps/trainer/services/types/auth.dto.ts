@@ -23,3 +23,11 @@ export type GetSnsVerificationTokenApiResponse = ResponseBase<{
 }>;
 
 export type UserVerificationStatus = "REQUIRED_REGISTER" | "REQUIRED_SMS" | "NORMAL";
+
+export type SaveTokensBody = {
+  accessToken: string;
+  refreshToken: string;
+};
+export type SaveTokensApiResponse = {
+  success: boolean;
+};

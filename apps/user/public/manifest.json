@@ -1,0 +1,23 @@
+{
+  "theme_color": "#5a57ff",
+  "background_color": "#d1d6ff",
+  "icons": [
+    {
+      "purpose": "maskable",
+      "sizes": "512x512",
+      "src": "icon512_maskable.png",
+      "type": "image/png"
+    },
+    { "purpose": "any", "sizes": "512x512", "src": "icon512_rounded.png", "type": "image/png" }
+  ],
+  "orientation": "portrait",
+  "display": "standalone",
+  "dir": "auto",
+  "lang": "ko-KR",
+  "short_name": "FitLink(회원용)",
+  "name": "FitLink(회원용)",
+  "scope": "/",
+  "start_url": "/",
+  "application_scope": "/",
+  "description": "트레이너-회원간의 간편한 PT 예약 시스템"
+}

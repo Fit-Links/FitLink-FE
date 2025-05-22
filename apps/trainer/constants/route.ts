@@ -62,6 +62,8 @@ class ROUTES {
     "edit-verificated-phone",
   ];
 
+  private _notification = () => [...this._root(), "notification"];
+
   get root() {
     return () => {
       return this._root().join(ROUTE_DIVIDER) + "/";
@@ -180,6 +182,10 @@ class ROUTES {
     return () => {
       return this["_edit-verificated-phone"]().join(ROUTE_DIVIDER);
     };
+  }
+
+  get notification() {
+    return () => this._notification().join(ROUTE_DIVIDER);
   }
 }
 

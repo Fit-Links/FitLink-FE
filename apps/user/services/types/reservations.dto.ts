@@ -2,7 +2,6 @@ import {
   BaseMemberInfo,
   BaseReservationDetail,
   BaseReservationListItem,
-  DayOfWeek,
   ReservationPathParams,
   ReservationStatus,
   ResponseBase,
@@ -11,9 +10,7 @@ import {
 export type ReservationStatusRequestQuery = {
   date?: string;
 };
-type ReservationStatusResponse = {
-  reservations: BaseReservationListItem[];
-};
+type ReservationStatusResponse = BaseReservationListItem[];
 export type ReservationStatusApiResponse = ResponseBase<ReservationStatusResponse>;
 
 export type ReservationDetailStatusRequestPath = ReservationPathParams;
@@ -24,25 +21,23 @@ type ReservationDetailStatusResponse = BaseReservationDetail<
 export type ReservationDetailStatusApiResponse = ResponseBase<ReservationDetailStatusResponse>;
 
 export type DirectReservationRequestBody = {
-  reservations: {
-    trainerId: number;
-    memberId: number;
-    name: string;
-    date: string[];
-    priority: number;
-  }[];
+  trainerId: number;
+  memberId: number;
+  name: string;
+  dates: string[];
+  // priority: number;
 };
 type DirectReservationResponse = {
-  reservation: {
-    reservationId: number;
-    status: Extract<ReservationStatus, "예약 대기">;
-  };
+  reservationId: number;
+  status: Extract<ReservationStatus, "예약 대기">;
+  reservationDate: string;
 };
 export type DirectReservationApiResponse = ResponseBase<DirectReservationResponse>;
 
 export type CancelReservationRequestPath = ReservationPathParams;
 export type CancelReservationRequestBody = {
-  cancel_reason: string;
+  cancelReason: string;
+  cancelDate: string;
 };
 type CancelReservationResponse = {
   reservationId: number;
@@ -52,9 +47,7 @@ export type CancelReservationApiResponse = ResponseBase<CancelReservationRespons
 export type ReservationChangeRequestPath = ReservationPathParams;
 export type ReservationChangeRequestBody = {
   reservationDate: string;
-  reservationDay: DayOfWeek;
-  changeDate: string;
-  changeDay: DayOfWeek;
+  changeRequestDate: string;
 };
 type ReservationChangeResponse = {
   reservationId: number;

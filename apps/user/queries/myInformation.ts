@@ -5,8 +5,12 @@ import {
   getMyInformationDetail,
   getMyPtHistory,
   getMyTrainerAvailableTime,
+  getTrainerAvailableTimes,
 } from "@user/services/myInformation";
-import { MyPtHistoryStatus } from "@user/services/types/myInformation.dto";
+import {
+  MyPtHistoryStatus,
+  TrainerAvailableTimesRequestPath,
+} from "@user/services/types/myInformation.dto";
 
 const PT_HISTORY_PAGE_SIZE = 3;
 const START_PAGE = 0;
@@ -49,5 +53,10 @@ export const myInformationQueries = {
     queryOptions({
       queryKey: [...myInformationBaseKeys.all(), "trainerAvailableTime", trainerId],
       queryFn: () => getMyTrainerAvailableTime(trainerId),
+    }),
+  trainerAvailableTimes: ({ trainerId }: TrainerAvailableTimesRequestPath) =>
+    queryOptions({
+      queryKey: [...myInformationBaseKeys.all(), "trainerAvailableTimes"] as const,
+      queryFn: () => getTrainerAvailableTimes({ trainerId }),
     }),
 };

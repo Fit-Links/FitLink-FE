@@ -16,6 +16,7 @@ import {
 import { ChangeEvent, useState } from "react";
 
 import RequestSuccessSheet from "./RequestSuccessSheet";
+import { useReservationCancelMutation } from "../../_hooks/mutation/useReservationCancelMutation";
 
 type ReservationCancelSheetProps = {
   reservationContent: BaseReservationListItem;
@@ -39,19 +40,27 @@ function ReservationCancelSheet({
   open,
   onChangeOpen,
 }: ReservationCancelSheetProps) {
-  const { status } = reservationContent;
+  const { status, reservationDates, reservationId } = reservationContent;
+
+  if (status === "예약 변경 요청") return;
+
   const [inputValue, setInputValue] = useState("");
   const [isRequestSuccessOpen, setIsRequestSuccessOpen] = useState(false);
+
+  const { reservationCancel } = useReservationCancelMutation();
 
   const handleChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
 
-  //TODO: 예약 취소 데이터 페칭 로직 추가
   const handleClickCancelReservation = () => {
+    reservationCancel({
+      reservationId: reservationId,
+      cancelReason: inputValue,
+      cancelDate: reservationDates[0],
+    });
+
     setIsRequestSuccessOpen(true);
-    //TODO: 에러 제거 용도로 작성해놓은 상태
-    reservationContent;
   };
 
   return (

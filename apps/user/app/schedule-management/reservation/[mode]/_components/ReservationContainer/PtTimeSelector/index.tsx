@@ -1,6 +1,8 @@
 /* eslint-disable no-magic-numbers */
 "use client";
 
+import { DayOfWeek } from "@5unwan/core/api/types/common";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@ui/components/Button";
 import {
   Dialog,
@@ -12,8 +14,10 @@ import {
 } from "@ui/components/Dialog";
 import TimeCellToggleGroup from "@ui/components/TimeCellToggleGroup";
 import { TimeCell } from "@ui/utils/timeCellUtils";
-import { isSameDay } from "date-fns";
+import { format, isSameDay } from "date-fns";
 import { useLayoutEffect, useState } from "react";
+
+import { myInformationQueries } from "@user/queries/myInformation";
 
 import { RequestReservationMode } from "@user/app/schedule-management/reservation/[mode]/types/requestReservation";
 
@@ -25,42 +29,55 @@ type PtTimeSelectorProps = {
   selectedDate: Date;
 };
 
-const MOCK_TIME_CELL_INFO: TimeCell[] = [
-  { dayOfWeek: "MONDAY", time: "01:00", disabled: false },
-  { dayOfWeek: "MONDAY", time: "02:00", disabled: false },
-  { dayOfWeek: "MONDAY", time: "02:00", disabled: false },
-  { dayOfWeek: "MONDAY", time: "03:00", disabled: false },
-  { dayOfWeek: "MONDAY", time: "04:00", disabled: false },
-  { dayOfWeek: "MONDAY", time: "05:00", disabled: false },
-  { dayOfWeek: "MONDAY", time: "06:00", disabled: false },
-  { dayOfWeek: "MONDAY", time: "07:00", disabled: false },
-  { dayOfWeek: "MONDAY", time: "08:00", disabled: false },
-  { dayOfWeek: "MONDAY", time: "09:00", disabled: false },
-  { dayOfWeek: "MONDAY", time: "10:00", disabled: false },
-  { dayOfWeek: "MONDAY", time: "11:00", disabled: false },
-  { dayOfWeek: "MONDAY", time: "12:00", disabled: false },
-  { dayOfWeek: "MONDAY", time: "13:00", disabled: false },
-  { dayOfWeek: "MONDAY", time: "14:00", disabled: false },
-  { dayOfWeek: "MONDAY", time: "15:00", disabled: false },
-  { dayOfWeek: "MONDAY", time: "16:00", disabled: false },
-  { dayOfWeek: "MONDAY", time: "17:00", disabled: false },
-  { dayOfWeek: "MONDAY", time: "18:00", disabled: false },
-  { dayOfWeek: "MONDAY", time: "19:00", disabled: false },
-  { dayOfWeek: "MONDAY", time: "20:00", disabled: false },
-  { dayOfWeek: "MONDAY", time: "21:00", disabled: false },
-  { dayOfWeek: "MONDAY", time: "22:00", disabled: false },
-  { dayOfWeek: "MONDAY", time: "23:00", disabled: false },
-];
-
 function PtTimeSelector({ mode, selectedDate, reservationDateTime }: PtTimeSelectorProps) {
   const [selectedTimes, setSelectedTimes] = useState<string[]>(() =>
-    reservationDateTime ? [reservationDateTime] : [],
+    reservationDateTime ? [reservationDateTime.replace(/:00$/, "")] : [],
   );
+
   const [hasInitialized, setHasInitialized] = useState(false);
   const [isRequestSuccessSheetOpen, setIsRequestSuccessSheetOpen] = useState(false);
   const [isReservationChangeRemindPopupOpen, setIsReservationChangeRemindPopupOpen] =
     useState(false);
   const [isReservationMaxSelectedPopupOpen, setIsReservationMaxSelectedPopupOpen] = useState(false);
+
+  const { data: myInformation } = useQuery(myInformationQueries.summary());
+  const { data: trainerAvailableTimes } = useQuery({
+    ...myInformationQueries.trainerAvailableTimes({
+      trainerId: myInformation?.data?.trainerId as number,
+    }),
+    enabled: !!myInformation?.data?.trainerId,
+  });
+
+  const formattedDate = format(selectedDate, "EEEE").toUpperCase();
+
+  /** TODO: 트레이너 시간 정보 호출 후, 시간 정보 정제. 따로 utils로 분리하기 */
+  const generateTimeCells = (
+    dayOfWeek: DayOfWeek,
+    startHour?: number,
+    endHour?: number,
+  ): TimeCell[] => {
+    return Array.from({ length: 24 }, (_, hour) => ({
+      dayOfWeek,
+      time: `${hour.toString().padStart(2, "0")}:00`,
+      disabled:
+        startHour === undefined || endHour === undefined || hour < startHour || hour > endHour,
+    }));
+  };
+
+  const formattedTrainerAvailableTimes =
+    trainerAvailableTimes?.data?.currentSchedules?.schedules.flatMap(
+      ({ isHoliday, dayOfWeek, startTime, endTime }) => {
+        if (dayOfWeek !== formattedDate) return [];
+        if (isHoliday || !startTime || !endTime) {
+          return generateTimeCells(dayOfWeek);
+        }
+
+        const startHour = parseInt(startTime.split(":")[0], 10);
+        const endHour = parseInt(endTime.split(":")[0], 10);
+
+        return generateTimeCells(dayOfWeek, startHour, endHour);
+      },
+    );
 
   const handleExceedToggleLimit = () => {
     setIsReservationMaxSelectedPopupOpen(true);
@@ -105,15 +122,17 @@ function PtTimeSelector({ mode, selectedDate, reservationDateTime }: PtTimeSelec
   return (
     <section className="mt-1 flex h-full flex-col overflow-hidden">
       <section className="mb-1 h-full overflow-y-scroll">
-        <TimeCellToggleGroup
-          className="md:max-w-mobile my-10"
-          selected={selectedTimes}
-          onSelectedChange={setSelectedTimes}
-          onExceedToggleLimit={handleExceedToggleLimit}
-          variant="notification"
-          toggleLimit={mode === "new" ? 2 : 1}
-          timeCellInfo={MOCK_TIME_CELL_INFO}
-        />
+        {formattedTrainerAvailableTimes && (
+          <TimeCellToggleGroup
+            className="md:max-w-mobile my-10"
+            selected={selectedTimes}
+            onSelectedChange={setSelectedTimes}
+            onExceedToggleLimit={handleExceedToggleLimit}
+            variant="notification"
+            toggleLimit={mode === "new" ? 2 : 1}
+            timeCellInfo={formattedTrainerAvailableTimes}
+          />
+        )}
       </section>
 
       <ReservationRequestor

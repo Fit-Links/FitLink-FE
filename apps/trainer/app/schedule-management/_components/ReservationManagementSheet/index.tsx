@@ -18,7 +18,7 @@ type ReservationSheetRenderer = (
 ) => JSX.Element;
 
 export const SheetAdapter: Record<
-  Exclude<ReservationStatus, "휴무일">,
+  Exclude<ReservationStatus, "휴무일" | "예약 취소 요청" | "예약 변경 요청" | "예약 취소">,
   ReservationSheetRenderer
 > = {
   "예약 불가": (commonProps) => <ReservationNotAllowedCancelSheet {...commonProps} />,

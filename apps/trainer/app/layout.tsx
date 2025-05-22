@@ -3,6 +3,8 @@ import { Viewport } from "next";
 import "./global.css";
 import Providers from "@trainer/components/Providers";
 
+import PWAManifestLinks from "../components/PWAManifestLinks";
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -16,6 +18,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <head>
+        <PWAManifestLinks />
+      </head>
       <body className="bg-background-primary text-text-primary md:border-background-sub2 md:max-w-mobile relative box-content h-screen min-h-screen w-full md:mx-auto md:overflow-x-hidden md:border md:shadow-lg">
         <Providers>{children}</Providers>
       </body>

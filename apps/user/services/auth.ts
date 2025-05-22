@@ -1,3 +1,5 @@
+import axios from "axios";
+
 import http from "../app/apiCore";
 import {
   LogoutApiResponse,
@@ -5,6 +7,8 @@ import {
   SignupApiResponse,
   GetUserVerificationStatusApiResponse,
   GetSnsVerificationTokenApiResponse,
+  SaveTokensBody,
+  SaveTokensApiResponse,
 } from "./types/auth.dto";
 
 export const signup = (data: SignupRequestBody) =>
@@ -27,3 +31,6 @@ export const getSnsVerificationToken = () =>
   http.get<GetSnsVerificationTokenApiResponse>({
     url: "/v1/auth/email-verification-token",
   });
+
+export const saveTokens = (data: SaveTokensBody) =>
+  axios.post<SaveTokensApiResponse>("/api/auth/tokens", data);
