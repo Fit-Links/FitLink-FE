@@ -1,8 +1,5 @@
 "use client";
 
-import { Suspense } from "@suspensive/react";
-
-import Fallback from "./_components/Fallback";
 import Header from "../_components/Header";
 import MyDetailInformations from "./_components/MyDetailInformations";
 import MyInformationAvatar from "./_components/MyInformationAvatar";
@@ -15,9 +12,8 @@ export default function MyInformation() {
       {/* <ErrorBoundary fallback={<NetworkFallback />}> */}
       <MyInformationAvatar />
 
-      <Suspense fallback={<Fallback />}>
-        <MyDetailInformations />
-      </Suspense>
+      <MyDetailInformations />
+
       {/* </ErrorBoundary> */}
     </main>
   );
