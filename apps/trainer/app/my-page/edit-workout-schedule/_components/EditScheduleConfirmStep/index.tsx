@@ -1,6 +1,14 @@
-import { AvailablePtTime } from "@5unwan/core/api/types/common";
+"use client";
+
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@ui/components/Button";
 import React from "react";
+
+import { myInformationQueries } from "@trainer/queries/myInformation";
+
+import { addAvailablePtTime, deleteAvailablePtTime } from "@trainer/services/myInformation";
+import { AvailablePtTimeEntry } from "@trainer/services/types/myInformation.dto";
 
 import { formatAvailableScheduleConfirm } from "@trainer/utils/avaliableScheduleUtils";
 
@@ -10,10 +18,48 @@ import Header from "../../../_components/Header";
 type EditScheduleConfirmStepProps = {
   context: {
     scheduleApplyAt?: string;
-    availablePtTime?: AvailablePtTime[];
+    availablePtTime?: Omit<AvailablePtTimeEntry, "availableTimeId">[];
   };
 };
 export default function EditScheduleConfirmStep({ context }: EditScheduleConfirmStepProps) {
+  const queryClient = useQueryClient();
+  const { data: currentData } = useQuery(myInformationQueries.ptAvailableTime());
+
+  const currentApplyAt = currentData?.data.currentSchedules?.applyAt ?? null;
+  const previousChangeApplyAt = currentData?.data.scheduledChanges?.applyAt ?? null;
+
+  const deleteTargetApplyAt = previousChangeApplyAt ? previousChangeApplyAt : null;
+
+  const { mutateAsync: deleteAvailablePtTimeMutate } = useMutation({
+    mutationFn: deleteAvailablePtTime,
+  });
+
+  const { mutateAsync: addAvailablePtTimeMutate } = useMutation({
+    mutationFn: addAvailablePtTime,
+  });
+
+  const handleClickChangeSchedule = async () => {
+    try {
+      if (deleteTargetApplyAt) {
+        await deleteAvailablePtTimeMutate({
+          applyAt: currentApplyAt as string,
+        });
+      } else {
+        await addAvailablePtTimeMutate({
+          applyAt: context.scheduleApplyAt as string,
+          availableTimes: context.availablePtTime as Omit<
+            AvailablePtTimeEntry,
+            "availableTimeId"
+          >[],
+        });
+      }
+      await queryClient.invalidateQueries(myInformationQueries.ptAvailableTime());
+    } catch (error) {
+      // 에러 처리
+      console.error(error);
+    }
+  };
+
   return (
     <section className="bg-background-primary text-text-primary flex h-screen w-full flex-col justify-between">
       <div className="w-full text-center">
@@ -25,13 +71,18 @@ export default function EditScheduleConfirmStep({ context }: EditScheduleConfirm
         <div className="bg-background-sub2 mt-[3.25rem] min-h-[3rem] w-full rounded-lg py-[1.25rem]">
           <p className="text-subhead-1 text-text-primary">
             {context.availablePtTime?.map((time) => (
-              <p key={time.availableTimeId}>{formatAvailableScheduleConfirm(time)}</p>
+              <p key={time.dayOfWeek}>{formatAvailableScheduleConfirm(time)}</p>
             ))}
           </p>
         </div>
       </div>
       <ScheduleChangeResultSheet scheduleApplyAt={context.scheduleApplyAt}>
-        <Button className="mb-[2.125rem] w-full" size="lg" variant="brand">
+        <Button
+          className="mb-[2.125rem] w-full"
+          size="lg"
+          variant="brand"
+          onClick={handleClickChangeSchedule}
+        >
           변경
         </Button>
       </ScheduleChangeResultSheet>

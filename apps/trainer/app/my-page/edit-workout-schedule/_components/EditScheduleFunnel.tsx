@@ -1,8 +1,9 @@
 "use client";
 
-import { AvailablePtTime } from "@5unwan/core/api/types/common";
 import { useFunnel } from "@use-funnel/browser";
 import dynamic from "next/dynamic";
+
+import { AvailablePtTimeEntry } from "@trainer/services/types/myInformation.dto";
 
 const EditScheduleStep = dynamic(() => import("./EditScheduleStep"), {
   ssr: false,
@@ -33,7 +34,7 @@ export default function EditScheduleFunnel() {
     case "editSchedule":
       return (
         <EditScheduleStep
-          onNext={(availablePtTime: AvailablePtTime[]) =>
+          onNext={(availablePtTime: Omit<AvailablePtTimeEntry, "availableTimeId">[]) =>
             funnel.history.push("editScheduleApplyAt", { availablePtTime })
           }
         />
@@ -53,15 +54,15 @@ export default function EditScheduleFunnel() {
 
 type EditScheduleStep = {
   scheduleApplyAt?: string;
-  workoutSchedule?: AvailablePtTime[];
+  workoutSchedule?: Omit<AvailablePtTimeEntry, "availableTimeId">[];
 };
 
 type EditScheduleApplyAtStep = {
   scheduleApplyAt?: string;
-  availablePtTime?: AvailablePtTime[];
+  availablePtTime?: Omit<AvailablePtTimeEntry, "availableTimeId">[];
 };
 
 type EditScheduleConfirmStep = {
   scheduleApplyAt?: string;
-  availablePtTime?: AvailablePtTime[];
+  availablePtTime?: Omit<AvailablePtTimeEntry, "availableTimeId">[];
 };
