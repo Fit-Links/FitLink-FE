@@ -10,7 +10,7 @@ interface PTHistoryContextType {
 }
 
 export const PTHistoryContext = createContext<PTHistoryContextType>({
-  historyFilter: "ALL",
+  historyFilter: "SESSION_ALL",
   setHistoryFilter: () => {},
 });
 PTHistoryContext.displayName = "PTHistoryContext";

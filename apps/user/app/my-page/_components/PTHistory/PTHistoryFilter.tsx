@@ -7,10 +7,10 @@ import { PTHistoryContext } from "./PTHistoryContext";
 import { PTHistoryFilterTypes } from "./PTHistoryProvider";
 
 export const FILTER_OPTIONS: Record<PTHistoryFilterTypes, string> = {
-  ALL: "전체",
-  COMPLETED: "PT 완료",
-  NO_SHOW: "불참석",
-  NONE: "미처리",
+  SESSION_ALL: "전체",
+  SESSION_COMPLETED: "PT 완료",
+  SESSION_NO_SHOW: "불참석",
+  SESSION_NONE: "미처리",
 };
 
 export default function PTHistoryFilter() {
