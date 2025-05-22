@@ -1,17 +1,24 @@
 /* eslint-disable no-magic-numbers */
-export type DaysOfWeek = "MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN";
+export type DaysOfWeek =
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
 export type ObjectEntries<T> = {
   [K in keyof T]: [K, T[K]];
 }[keyof T][];
 
 export const DAYS_OF_WEEK = {
-  MON: "월",
-  TUE: "화",
-  WED: "수",
-  THU: "목",
-  FRI: "금",
-  SAT: "토",
-  SUN: "일",
+  MONDAY: "월",
+  TUESDAY: "화",
+  WEDNESDAY: "수",
+  THURSDAY: "목",
+  FRIDAY: "금",
+  SATURDAY: "토",
+  SUNDAY: "일",
 };
 
 type TimeBlockSchedule = {
@@ -32,13 +39,13 @@ type TimeSpanSchedule = {
 };
 export const makeWeekSchedule = (timeSchedule: TimeBlockSchedule | TimeSpanSchedule) => {
   const weekScheduleMap: Record<DaysOfWeek, string | null> = {
-    MON: null,
-    TUE: null,
-    WED: null,
-    THU: null,
-    FRI: null,
-    SAT: null,
-    SUN: null,
+    MONDAY: null,
+    TUESDAY: null,
+    WEDNESDAY: null,
+    THURSDAY: null,
+    FRIDAY: null,
+    SATURDAY: null,
+    SUNDAY: null,
   };
   if (timeSchedule.type === "span") {
     timeSchedule.schedule.forEach(({ dayOfWeek, startTime, endTime, isHoliday }) => {
