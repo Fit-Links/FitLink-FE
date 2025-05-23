@@ -2,7 +2,7 @@ import { queryOptions } from "@tanstack/react-query";
 
 import {
   getReservationDetailStatus,
-  getReservationDetailPendingStatus,
+  getReservationWaitingMembers,
   getReservationStatus,
 } from "@trainer/services/reservations";
 
@@ -26,9 +26,9 @@ export const reservationQueries = {
       queryKey: [...reservationBaseKeys.details(), reservationId] as const,
       queryFn: () => getReservationDetailStatus({ reservationId }),
     }),
-  pendingDetail: (reservationId: number) =>
+  pendingDetail: (reservationDate: string) =>
     queryOptions({
-      queryKey: [...reservationBaseKeys.details(), reservationId] as const,
-      queryFn: () => getReservationDetailPendingStatus({ reservationId: reservationId }),
+      queryKey: [...reservationBaseKeys.details(), reservationDate] as const,
+      queryFn: () => getReservationWaitingMembers({ reservationDate }),
     }),
 };

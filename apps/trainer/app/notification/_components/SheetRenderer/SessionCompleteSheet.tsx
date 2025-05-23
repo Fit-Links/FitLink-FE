@@ -1,3 +1,4 @@
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Badge } from "@ui/components/Badge";
 import { Button } from "@ui/components/Button";
 import Icon from "@ui/components/Icon";
@@ -9,11 +10,74 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@ui/components/Sheet";
-import { useState } from "react";
+import { Suspense, useState } from "react";
+
+import { notificationQueries } from "@trainer/queries/notification";
 
 import ProfileCard from "@trainer/components/ProfileCard";
+import QueryErrorBoundary from "@trainer/components/QueryErrorBoundary";
 
+import SheetErrorFallback from "./SheetErrorFallback";
+import SheetFallback from "./SheetFallback";
 import { formatSessionData } from "../../_utils/formatter";
+
+type SessionCompleteSheetContentProps = {
+  notificationId: number;
+  eventDate: string;
+  handleDeclineClick: () => void;
+  handleAcceptClick: () => void;
+};
+function SessionCompleteSheetContent({
+  notificationId,
+  eventDate,
+  handleDeclineClick,
+  handleAcceptClick,
+}: SessionCompleteSheetContentProps) {
+  const { data } = useSuspenseQuery(notificationQueries.detail(notificationId));
+  const {
+    userDetail: { name, profilePictureUrl, birthDate, phoneNumber },
+  } = data.data;
+
+  const {
+    sessionInfo: { remainingCount, totalCount },
+  } = DUMMY_MEMBER_DETAIL;
+
+  return (
+    <>
+      <SheetHeader className="items-center">
+        <SheetTitle className="flex justify-center">{eventDate}</SheetTitle>
+      </SheetHeader>
+      <ProfileCard
+        imgUrl={profilePictureUrl}
+        userBirth={new Date(birthDate)}
+        userName={name as string}
+        phoneNumber={phoneNumber}
+        className="bg-background-sub1 w-full hover:bg-none"
+      >
+        <Badge variant={"sub2"}>{formatSessionData(remainingCount, totalCount)}</Badge>
+      </ProfileCard>
+      <SheetFooter>
+        <div className="flex w-full justify-center gap-[0.625rem]">
+          <SheetClose asChild>
+            <Button
+              size={"xl"}
+              className="w-full"
+              variant={"secondary"}
+              onClick={handleDeclineClick}
+            >
+              불참석
+            </Button>
+          </SheetClose>
+          <SheetClose asChild>
+            <Button size={"xl"} className="w-full" variant={"negative"} onClick={handleAcceptClick}>
+              PT 완료
+            </Button>
+          </SheetClose>
+        </div>
+      </SheetFooter>
+    </>
+  );
+}
 
 type SessionCompleteSheetProps = {
   notificationId: number;
@@ -21,13 +85,13 @@ type SessionCompleteSheetProps = {
   onChangeOpen: (isOpen: boolean) => void;
   eventDate: string;
 };
-function SessionCompleteSheet({ open, onChangeOpen, eventDate }: SessionCompleteSheetProps) {
-  //TODO: 알림 상세 내역 조회 API 연결
+function SessionCompleteSheet({
+  open,
+  onChangeOpen,
+  eventDate,
+  notificationId,
+}: SessionCompleteSheetProps) {
   //TODO: 회원 상세 정보 조회 API 연결
-  const { name, phoneNumber, profilePictureUrl, birthDate } = DUMMY_NOTIFICATION_DETAIL;
-  const {
-    sessionInfo: { remainingCount, totalCount },
-  } = DUMMY_MEMBER_DETAIL;
 
   const [isDeclineSheetOpen, setIsDeclineSheetOpen] = useState(false);
   const [isAcceptSheetOpen, setIsAccepSheetOpen] = useState(false);
@@ -43,42 +107,16 @@ function SessionCompleteSheet({ open, onChangeOpen, eventDate }: SessionComplete
     <>
       <Sheet open={open} onOpenChange={onChangeOpen}>
         <SheetContent side={"bottom"} className="md:max-w-mobile left-1/2 w-full -translate-x-1/2">
-          <SheetHeader className="items-center">
-            <SheetTitle className="flex justify-center">{eventDate}</SheetTitle>
-          </SheetHeader>
-          <ProfileCard
-            imgUrl={profilePictureUrl}
-            userBirth={new Date(birthDate)}
-            userName={name as string}
-            phoneNumber={phoneNumber}
-            className="bg-background-sub1 w-full hover:bg-none"
-          >
-            <Badge variant={"sub2"}>{formatSessionData(remainingCount, totalCount)}</Badge>
-          </ProfileCard>
-          <SheetFooter>
-            <div className="flex w-full justify-center gap-[0.625rem]">
-              <SheetClose asChild>
-                <Button
-                  size={"xl"}
-                  className="w-full"
-                  variant={"secondary"}
-                  onClick={handleDeclineClick}
-                >
-                  불참석
-                </Button>
-              </SheetClose>
-              <SheetClose asChild>
-                <Button
-                  size={"xl"}
-                  className="w-full"
-                  variant={"negative"}
-                  onClick={handleAcceptClick}
-                >
-                  PT 완료
-                </Button>
-              </SheetClose>
-            </div>
-          </SheetFooter>
+          <QueryErrorBoundary fallback={SheetErrorFallback}>
+            <Suspense fallback={<SheetFallback />}>
+              <SessionCompleteSheetContent
+                notificationId={notificationId}
+                eventDate={eventDate}
+                handleAcceptClick={handleAcceptClick}
+                handleDeclineClick={handleDeclineClick}
+              />
+            </Suspense>
+          </QueryErrorBoundary>
         </SheetContent>
       </Sheet>
       <Sheet open={isDeclineSheetOpen} onOpenChange={setIsDeclineSheetOpen}>
@@ -128,9 +166,9 @@ const DUMMY_MEMBER_DETAIL = {
     remainingCount: 1,
   },
 };
-const DUMMY_NOTIFICATION_DETAIL = {
-  name: "홍길동",
-  birthDate: "1999-10-14",
-  phoneNumber: "01023212321",
-  profilePictureUrl: "http://123",
-};
+// const DUMMY_NOTIFICATION_DETAIL = {
+//   name: "홍길동",
+//   birthDate: "1999-10-14",
+//   phoneNumber: "01023212321",
+//   profilePictureUrl: "http://123",
+// };

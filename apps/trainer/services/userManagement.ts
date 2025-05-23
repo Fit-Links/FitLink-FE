@@ -2,6 +2,9 @@ import { TRAINER_BASE_URL } from "@trainer/constants/baseUrl";
 
 import http from "../app/apiCore";
 import {
+  ProcessMemberConnectionInquiryApiResponse,
+  ProcessMemberConnectionInquiryRequestBody,
+  ProcessMemberConnectionInquiryRequestPath,
   PtUserDetailApiResponse,
   PtUserDetailRequestPath,
   PtUserListApiResponse,
@@ -33,7 +36,7 @@ export const getTargetMemberPtHistory = (
 
 export const getPtUserList = ({ q, page, size }: PtUserListRequestQuery) =>
   http.get<PtUserListApiResponse>({
-    url: `${TRAINER_BASE_URL}/members`,
+    url: `v1/members`,
     params: {
       q,
       page,
@@ -49,10 +52,13 @@ export const unLinkMember = ({ memberId }: UnlinkMemberRequestPath) =>
     url: `${TRAINER_BASE_URL}/members/${memberId}/disconnect`,
   });
 
-export const sessionCountEdit = (
-  requestPath: SessionCountEditRequestPath,
-  requestBody: SessionCountEditRequestBody,
-) => {
+export const sessionCountEdit = ({
+  requestPath,
+  requestBody,
+}: {
+  requestPath: SessionCountEditRequestPath;
+  requestBody: SessionCountEditRequestBody;
+}) => {
   const { memberId, sessionInfoId } = requestPath;
   const { totalCount, remainingCount } = requestBody;
 
@@ -65,10 +71,13 @@ export const sessionCountEdit = (
   });
 };
 
-export const targetMemberEditPtHistory = (
-  requestPath: TargetMemberEditPtHistoryRequestPath,
-  requestBody: TargetMemberEditPtHistoryRequestBody,
-) => {
+export const targetMemberEditPtHistory = ({
+  requestPath,
+  requestBody,
+}: {
+  requestPath: TargetMemberEditPtHistoryRequestPath;
+  requestBody: TargetMemberEditPtHistoryRequestBody;
+}) => {
   const { memberId, sessionId } = requestPath;
   const { status } = requestBody;
 
@@ -77,5 +86,20 @@ export const targetMemberEditPtHistory = (
     data: {
       status,
     },
+  });
+};
+
+export const processMemberConnectionInquiry = ({
+  requestPath,
+  requestBody,
+}: {
+  requestPath: ProcessMemberConnectionInquiryRequestPath;
+  requestBody: ProcessMemberConnectionInquiryRequestBody;
+}) => {
+  const { notificationId } = requestPath;
+
+  return http.post<ProcessMemberConnectionInquiryApiResponse>({
+    url: `${TRAINER_BASE_URL}/connect-requests/${notificationId}/decision`,
+    data: requestBody,
   });
 };
