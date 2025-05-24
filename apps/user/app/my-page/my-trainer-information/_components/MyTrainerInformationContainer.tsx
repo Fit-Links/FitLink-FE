@@ -8,7 +8,7 @@ import { myInformationQueries } from "@user/queries/myInformation";
 
 import TrainerUnlinkItem from "./TrainerUnlinkItem";
 import Header from "../../_components/Header";
-import { getFormattedPhoneNumber } from "../../_utils/format";
+import { getFormattedPhoneNumber } from "../../_utils/getPhoneNumberFormat";
 import ProfileImage from "../../my-information/_components/ProfileImage";
 
 export default function MyTrainerInformationContainer() {

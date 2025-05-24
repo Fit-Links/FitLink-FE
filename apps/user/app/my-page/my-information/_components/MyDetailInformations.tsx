@@ -7,7 +7,7 @@ import { myInformationQueries } from "@user/queries/myInformation";
 
 import { MemorizedChangePhoneLink } from "./MemorizedChangePhoneLink";
 import { MemorizedProfileItem } from "./MemorizedProfileItem";
-import { getFormattedPhoneNumber } from "../../_utils/format";
+import { getFormattedPhoneNumber } from "../../_utils/getPhoneNumberFormat";
 
 export default function MyDetailInformations() {
   const { data: response, isLoading } = useQuery(myInformationQueries.detail());
