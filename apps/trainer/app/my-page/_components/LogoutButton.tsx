@@ -21,12 +21,12 @@ import RouteInstance from "@trainer/constants/route";
 export default function LogoutButton() {
   const router = useRouter();
 
-  const { mutate, isSuccess } = useMutation({
+  const { mutate: logoutMutate, isSuccess } = useMutation({
     mutationFn: logout,
   });
 
   const handleClickLogout = () => {
-    mutate(undefined, {
+    logoutMutate(undefined, {
       onSuccess: () => {
         if (isSuccess) {
           router.push(RouteInstance.root());
