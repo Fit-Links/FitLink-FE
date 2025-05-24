@@ -6,11 +6,17 @@ import {
 } from "@5unwan/core/api/types/common";
 
 export type GetNotificationRequestQuery = {
+  memberId?: number;
   type?: NotificationQueryType;
   q?: string;
+  page: number;
+  size: number;
 };
 export type GetNotificationApiResponse = ResponseBase<{
   content: NotificationInfo[];
+  totalPages: number;
+  totalElements: number;
+  hasNext: boolean;
 }>;
 export type GetNotificationDetailRequestPath = {
   notificationId: number;

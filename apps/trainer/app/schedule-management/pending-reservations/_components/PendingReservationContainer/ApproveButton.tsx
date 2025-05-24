@@ -12,10 +12,10 @@ import {
 } from "@ui/components/Sheet";
 import { FormEvent } from "react";
 
-import { ReservationDetailPendingStatus } from "@trainer/services/types/reservations.dto";
+import { ReservationWaitingMember } from "@trainer/services/types/reservations.dto";
 
 type ApproveButtonProps = {
-  selectedMemberInformation: ReservationDetailPendingStatus | null;
+  selectedMemberInformation: ReservationWaitingMember | null;
   selectedDate: string;
 };
 

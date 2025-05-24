@@ -1,116 +1,173 @@
-const RESERVATION_BASE_URL = "reservations";
-
 import http from "../app/apiCore";
 import {
-  ReservationDetailStatusApiResponse,
-  ReservationStatusApiResponse,
-  ReservationDetailPendingStatusApiResponse,
-  ReservationSetNotAvailableApiResponse,
-  DirectReservationApiResponse,
-  FixReservationApiResponse,
-  CancelReservationApiResponse,
-  ApproveReservationApiResponse,
-  CompletedPtApiResponse,
-  ConfirmReservationChangeApiResponse,
-  ReservationStatusRequestQuery,
-  ReservationDetailStatusRequestPath,
-  ReservationDetailPendingStatusRequestPath,
-  ReservationSetNotAvailableRequestBody,
-  DirectReservationRequestBody,
-  FixReservationRequestBody,
-  CancelReservationRequestBody,
+  CreateDirectReservationApiResponse,
+  CreateDirectReservationRequestBody,
+  GetReservationDetailStatusApiResponse,
+  GetReservationDetailStatusRequestPath,
+  GetReservationStatusApiResponse,
+  GetReservationStatusRequestQuery,
+  GetReservationWaitingMembersRequestPath,
+  GetReservationWaitingMembersApiResponse,
+  SetReservationDateAvailabilityApiResponse,
+  SetReservationDateAvailabilityRequestBody,
+  EditFixedReservationRequestPath,
+  EditFixedReservationRequestBody,
+  EditFixedReservationApiResponse,
+  ProcessPTApiResponse,
+  ProcessPTRequestPath,
+  ProcessPTRequestBody,
+  ProcessReservationChangeRequestPath,
+  ProcessReservationChangeRequestBody,
+  ProcessReservationChangeApiResponse,
+  ProcessCancelReservationRequestPath,
+  ProcessCancelReservationRequestBody,
+  ProcessCancelReservationApiResponse,
   CancelReservationRequestPath,
+  CancelReservationRequestBody,
+  CancelReservationApiResponse,
+  TerminateFixedReservationRequestPath,
+  TerminateFixedReservationApiResponse,
+  CreateFixedReservationRequestBody,
+  CreateFixedReservationApiResponse,
+} from "./types/reservations.dto";
+import {
+  ApproveReservationApiResponse,
   ApproveReservationRequestBody,
   ApproveReservationRequestPath,
-  CompletedPtRequestBody,
-  CompletedPtRequestPath,
-  ConfirmReservationChangeRequestBody,
-  ConfirmReservationChangeRequestPath,
 } from "./types/reservations.dto";
 
-export const getReservationStatus = ({ date }: ReservationStatusRequestQuery) =>
-  http.get<ReservationStatusApiResponse>({ url: `${RESERVATION_BASE_URL}`, params: { date } });
+const RESERVATION_BASE_URL = "reservations";
 
-export const getReservationDetailStatus = ({ reservationId }: ReservationDetailStatusRequestPath) =>
-  http.get<ReservationDetailStatusApiResponse>({
-    url: `${RESERVATION_BASE_URL}/${reservationId}`,
-  });
+export const getReservationStatus = ({ date }: GetReservationStatusRequestQuery) =>
+  http.get<GetReservationStatusApiResponse>({ url: `${RESERVATION_BASE_URL}`, params: { date } });
 
-export const getReservationDetailPendingStatus = ({
+export const getReservationDetailStatus = ({
   reservationId,
-}: ReservationDetailPendingStatusRequestPath) =>
-  http.get<ReservationDetailPendingStatusApiResponse>({
+}: GetReservationDetailStatusRequestPath) =>
+  http.get<GetReservationDetailStatusApiResponse>({
     url: `${RESERVATION_BASE_URL}/${reservationId}`,
   });
 
-export const createReservationSetNotAvailable = ({ date }: ReservationSetNotAvailableRequestBody) =>
-  http.post<ReservationSetNotAvailableApiResponse>({
+export const getReservationWaitingMembers = ({
+  reservationDate,
+}: GetReservationWaitingMembersRequestPath) =>
+  http.get<GetReservationWaitingMembersApiResponse>({
+    url: `${RESERVATION_BASE_URL}/waiting-members/${reservationDate}`,
+  });
+
+export const setReservationDateAvailability = (
+  requestBody: SetReservationDateAvailabilityRequestBody,
+) =>
+  http.post<SetReservationDateAvailabilityApiResponse>({
     url: `${RESERVATION_BASE_URL}/availability/disable`,
-    data: {
-      date,
-    },
+    data: requestBody,
   });
 
-export const createDirectReservation = ({ reservations }: DirectReservationRequestBody) =>
-  http.post<DirectReservationApiResponse>({
+export const createDirectReservation = (requestBody: CreateDirectReservationRequestBody) =>
+  http.post<CreateDirectReservationApiResponse>({
     url: `${RESERVATION_BASE_URL}`,
-    data: { reservations },
+    data: requestBody,
   });
 
-export const createFixReservation = ({ memberId, name, reservations }: FixReservationRequestBody) =>
-  http.post<FixReservationApiResponse>({
-    url: `${RESERVATION_BASE_URL}/fixed-reservation`,
-    data: { memberId, name, reservations },
+export const createFixedReservation = (requestBody: CreateFixedReservationRequestBody) =>
+  http.post<CreateFixedReservationApiResponse>({
+    url: `${RESERVATION_BASE_URL}/fixed-reservations`,
+    data: requestBody,
   });
 
-export const createCancelReservation = (
-  requestPath: CancelReservationRequestPath,
-  requestBody: CancelReservationRequestBody,
-) => {
+export const terminateFixedReservation = ({
+  reservationId,
+}: TerminateFixedReservationRequestPath) =>
+  http.post<TerminateFixedReservationApiResponse>({
+    url: `${RESERVATION_BASE_URL}/fixed-reservations/${reservationId}/release`,
+  });
+
+export const approveReservation = ({
+  requestPath,
+  requestBody,
+}: {
+  requestPath: ApproveReservationRequestPath;
+  requestBody: ApproveReservationRequestBody;
+}) => {
   const { reservationId } = requestPath;
-  const { cancel_reason } = requestBody;
-
-  return http.post<CancelReservationApiResponse>({
-    url: `${RESERVATION_BASE_URL}/${reservationId}/cancel`,
-    data: { cancel_reason },
-  });
-};
-
-export const createApproveReservation = (
-  requestPath: ApproveReservationRequestPath,
-  reqeustBody: ApproveReservationRequestBody,
-) => {
-  const { reservationId } = requestPath;
-  const { memberId, trainerId } = reqeustBody;
 
   return http.post<ApproveReservationApiResponse>({
     url: `${RESERVATION_BASE_URL}/${reservationId}/approve`,
-    data: { memberId, trainerId },
+    data: requestBody,
   });
 };
 
-export const createCompletedPt = (
-  requestPath: CompletedPtRequestPath,
-  requestBody: CompletedPtRequestBody,
-) => {
-  const { sessionId } = requestPath;
-  const { isJoin } = requestBody;
-
-  return http.post<CompletedPtApiResponse>({
-    url: `${RESERVATION_BASE_URL}/${sessionId}/complete`,
-    data: { isJoin },
-  });
-};
-
-export const createConfirmReservationChange = (
-  requestPath: ConfirmReservationChangeRequestPath,
-  requestBody: ConfirmReservationChangeRequestBody,
-) => {
+export const cancelReservation = ({
+  requestPath,
+  requestBody,
+}: {
+  requestPath: CancelReservationRequestPath;
+  requestBody: CancelReservationRequestBody;
+}) => {
   const { reservationId } = requestPath;
-  const { memberId, trainerId } = requestBody;
 
-  return http.post<ConfirmReservationChangeApiResponse>({
-    url: `${RESERVATION_BASE_URL}/${reservationId}/changes/apporove`,
-    data: { memberId, trainerId },
+  return http.post<CancelReservationApiResponse>({
+    url: `${RESERVATION_BASE_URL}/${reservationId}/cancel`,
+    data: requestBody,
+  });
+};
+
+export const processCancelReservation = ({
+  requestPath,
+  requestBody,
+}: {
+  requestPath: ProcessCancelReservationRequestPath;
+  requestBody: ProcessCancelReservationRequestBody;
+}) => {
+  const { reservationId } = requestPath;
+
+  return http.post<ProcessCancelReservationApiResponse>({
+    url: `${RESERVATION_BASE_URL}/${reservationId}/cancel-approve`,
+    data: requestBody,
+  });
+};
+
+export const processPT = ({
+  requestPath,
+  requestBody,
+}: {
+  requestPath: ProcessPTRequestPath;
+  requestBody: ProcessPTRequestBody;
+}) => {
+  const { reservationId } = requestPath;
+
+  return http.post<ProcessPTApiResponse>({
+    url: `${RESERVATION_BASE_URL}/${reservationId}/sessions/complete`,
+    data: requestBody,
+  });
+};
+
+export const editFixedReservation = ({
+  requestPath,
+  requestBody,
+}: {
+  requestPath: EditFixedReservationRequestPath;
+  requestBody: EditFixedReservationRequestBody;
+}) => {
+  const { reservationId } = requestPath;
+
+  return http.post<EditFixedReservationApiResponse>({
+    url: `${RESERVATION_BASE_URL}/${reservationId}/fixed-change-request`,
+    data: requestBody,
+  });
+};
+
+export const processReservationChange = ({
+  requestPath,
+  requestBody,
+}: {
+  requestPath: ProcessReservationChangeRequestPath;
+  requestBody: ProcessReservationChangeRequestBody;
+}) => {
+  const { reservationId } = requestPath;
+
+  return http.post<ProcessReservationChangeApiResponse>({
+    url: `${RESERVATION_BASE_URL}/${reservationId}/change-apporove`,
+    data: requestBody,
   });
 };

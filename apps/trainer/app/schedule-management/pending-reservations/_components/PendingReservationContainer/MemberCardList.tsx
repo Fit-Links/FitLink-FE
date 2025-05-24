@@ -8,8 +8,8 @@ import { ko } from "date-fns/locale";
 import MemberProfileCard from "@trainer/app/schedule-management/_components/MemberProfileCard";
 
 import {
-  ReservationDetailPendingStatus,
-  ReservationDetailPendingStatusApiResponse,
+  ReservationWaitingMember,
+  GetReservationWaitingMembersApiResponse,
 } from "@trainer/services/types/reservations.dto";
 import { PtUserDetailApiResponse } from "@trainer/services/types/userManagement.dto";
 
@@ -20,10 +20,8 @@ import { formatContinuousTimes } from "../../_utils/formatContinuousTimes";
 type MemberCardListProps = {
   selectedDate?: string;
   hasOtherReservations: boolean;
-  selectedMemberInformation: ReservationDetailPendingStatus | null;
-  onChangeSelectMemberInformation: (
-    memberInformation: ReservationDetailPendingStatus | null,
-  ) => void;
+  selectedMemberInformation: ReservationWaitingMember | null;
+  onChangeSelectMemberInformation: (memberInformation: ReservationWaitingMember | null) => void;
 };
 
 function MemberCardList({
@@ -120,7 +118,7 @@ function MemberCardList({
 
 export default MemberCardList;
 
-const MOCK_PENDING_MEMBERS: ReservationDetailPendingStatusApiResponse["data"] = {
+const MOCK_PENDING_MEMBERS: GetReservationWaitingMembersApiResponse["data"] = {
   waitingMembers: [
     {
       memberId: 5,

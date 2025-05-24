@@ -20,8 +20,8 @@ export const userManagementBaseKeys = {
 };
 
 export const userManagementQueries = {
-  list: (q: string) =>
-    infiniteQueryOptions({
+  list: (q?: string) => {
+    return infiniteQueryOptions({
       queryKey: [...userManagementBaseKeys.lists(), q] as const,
       queryFn: ({ pageParam }) => getPtUserList({ q, page: pageParam, size: PT_HISTORY_PAGE_SIZE }),
       getNextPageParam: (lastPage, _allPages, lastPageParam) => {
@@ -31,11 +31,12 @@ export const userManagementQueries = {
 
         return lastPageParam + TO_NEXT_PAGE;
       },
-
+      enabled: !!q,
       initialPageParam: START_PAGE,
       refetchOnWindowFocus: false,
       refetchOnMount: false,
-    }),
+    });
+  },
   detail: (memberId: number) =>
     queryOptions({
       queryKey: [...userManagementBaseKeys.info(memberId)] as const,
