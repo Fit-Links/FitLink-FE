@@ -20,11 +20,9 @@ function EditScheduleBottomSheet({ open, onOpenChange }: EditScheduleBottomSheet
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      {/* <SheetTrigger></SheetTirgger> */}
       <SheetContent side="bottom" className="md:max-w-mobile left-1/2 w-full -translate-x-1/2">
         <SheetHeader>
           <SheetTitle></SheetTitle>
-          {/* <SheetDescription></SheetDescription> */}
           <SheetItem
             icon={"Pencil"}
             label="PT 수업시간 변경"

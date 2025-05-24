@@ -20,13 +20,17 @@ type PTSchedulesProps = {
     applyAt: string;
     schedules: SpanScheduleUnit[];
   }[];
-  callback: () => void;
+  onClickEllipsis: () => void;
 };
 
-function PTSchedule({ currentSchedules, scheduledChanges, callback }: PTSchedulesProps) {
+function PTSchedule({ currentSchedules, scheduledChanges, onClickEllipsis }: PTSchedulesProps) {
   return (
     <div className="flex flex-col items-center gap-[0.5rem]">
-      <PTScheduleItem current={true} schedules={currentSchedules} callback={callback} />
+      <PTScheduleItem
+        current={true}
+        schedules={currentSchedules}
+        onClickEllipsis={onClickEllipsis}
+      />
       {scheduledChanges.map(({ applyAt, schedules }, index) => (
         <PTScheduleItem key={`scheduled-${index}`} applyAt={applyAt} schedules={schedules} />
       ))}
@@ -40,9 +44,9 @@ type PTScheduleItemProps = {
   current?: boolean;
   applyAt?: string;
   schedules: SpanScheduleUnit[];
-  callback?: () => void;
+  onClickEllipsis?: () => void;
 };
-function PTScheduleItem({ current, applyAt, schedules, callback }: PTScheduleItemProps) {
+function PTScheduleItem({ current, applyAt, schedules, onClickEllipsis }: PTScheduleItemProps) {
   const isCurrent = current && !applyAt;
 
   const weekSchedule = Object.entries(
@@ -50,8 +54,8 @@ function PTScheduleItem({ current, applyAt, schedules, callback }: PTScheduleIte
   ) as ObjectEntries<Record<DaysOfWeek, string>>;
   const mondaySchedule = weekSchedule[Days.Monday];
 
-  const handleEditClick = () => {
-    callback?.();
+  const handleClickEllipsis = () => {
+    onClickEllipsis?.();
   };
 
   return (
@@ -72,7 +76,7 @@ function PTScheduleItem({ current, applyAt, schedules, callback }: PTScheduleIte
           </Text.Body3>
         )}
         <Ellipsis
-          onClick={handleEditClick}
+          onClick={handleClickEllipsis}
           className="text-background-sub4 absolute right-0 top-0 cursor-pointer"
         />
       </div>

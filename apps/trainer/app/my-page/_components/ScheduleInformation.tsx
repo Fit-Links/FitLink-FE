@@ -27,7 +27,7 @@ export default function ScheduleInformation({ className, ptSchedule }: ScheduleI
       <PTSchedule
         currentSchedules={ptSchedule.currentSchedules}
         scheduledChanges={ptSchedule.scheduledChanges}
-        callback={handleClickSheetOpen}
+        onClickEllipsis={handleClickSheetOpen}
       />
     </section>
   );
