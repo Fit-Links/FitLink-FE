@@ -22,12 +22,12 @@ import { getFormattedPTCount } from "@user/utils/count";
 import EditPreferredScheduleBottomSheet from "./BottomSheet/EditPreferredScheduleBottomSheet";
 import PTHistoryContent from "./PTHistory/PTHistoryContent";
 import PTHistoryFilter from "./PTHistory/PTHistoryFilter";
-import PTHistoryProvider from "./PTHistory/PTHistoryProvider";
 import ScheduleContainer from "./PTInformation/ScheduleContainer";
 import ScheduleInformation from "./PTInformation/ScheduleInformation";
 import ProfileHeader from "../_components/ProfileHeader";
 import ConnectedTrainerItem from "../_components/PTInformation/ConnectedTrainerItem";
 import { getISOToKoreanTime, getUniqueTimeReservations } from "../_utils/preferredTime";
+import PTHistoryContainer from "./PTHistory/PTHistoryCotainer";
 
 const TEMP_DEFAULT_SESSION_COUNT = 0;
 
@@ -109,10 +109,10 @@ export default function MyPageContainer() {
         </ScheduleInformation>
       )}
 
-      <PTHistoryProvider>
+      <PTHistoryContainer>
         <PTHistoryFilter />
         <PTHistoryContent />
-      </PTHistoryProvider>
+      </PTHistoryContainer>
     </div>
   );
 }

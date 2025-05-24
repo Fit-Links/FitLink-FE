@@ -3,7 +3,6 @@
 import { PtInfo, PtStatus } from "@5unwan/core/api/types/common";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import PTHistoryItem from "@ui/components/PTHistoryItem";
-import { useContext } from "react";
 
 import { myInformationQueries } from "@user/queries/myInformation";
 
@@ -12,10 +11,10 @@ import {
   MyPtHistoryStatus,
 } from "@user/services/types/myInformation.dto";
 
-import { PTHistoryContext } from "./PTHistoryContext";
+import usePTHistoryFilter from "./_store/PTHistoryFilterStore";
 
 export default function PTHistoryContent() {
-  const { historyFilter } = useContext(PTHistoryContext);
+  const { historyFilter } = usePTHistoryFilter();
 
   const queryClient = useQueryClient();
 
@@ -39,7 +38,7 @@ export default function PTHistoryContent() {
     <section className="mt-[1.25rem] flex flex-col gap-[0.625rem] overflow-y-auto pb-2">
       {ptHistory &&
         ptHistory.pages[0].data.content.map((item: PtInfo) => {
-          // if (item.status !== historyFilter && historyFilter !== "SESSION_ALL") return;
+          if (item.status !== historyFilter && historyFilter !== "SESSION_ALL") return;
 
           return (
             <>

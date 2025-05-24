@@ -1,10 +1,9 @@
 "use client";
 
-import { Button } from "@ui/components/Button";
-import { useContext } from "react";
+import { ToggleGroup, ToggleGroupItem } from "@ui/components/ToggleGroup";
 
-import { PTHistoryContext } from "./PTHistoryContext";
-import { PTHistoryFilterTypes } from "./PTHistoryProvider";
+import usePTHistoryFilter from "./_store/PTHistoryFilterStore";
+import { PTHistoryFilterTypes } from "./PTHistoryCotainer";
 
 export const FILTER_OPTIONS: Record<PTHistoryFilterTypes, string> = {
   SESSION_ALL: "전체",
@@ -14,24 +13,22 @@ export const FILTER_OPTIONS: Record<PTHistoryFilterTypes, string> = {
 };
 
 export default function PTHistoryFilter() {
-  const { historyFilter, setHistoryFilter } = useContext(PTHistoryContext);
-
-  const handleClickChangeHistoryFilter = (filter: PTHistoryFilterTypes) => {
-    setHistoryFilter(filter);
-  };
+  const { historyFilter, setHistoryFilter } = usePTHistoryFilter();
 
   return (
-    <div className="mt-[0.625rem] flex items-center gap-2">
-      {Object.entries(FILTER_OPTIONS).map(([key, value]) => (
-        <Button
-          key={`PT-history-filter-${key}`}
-          size="sm"
-          variant={historyFilter === key ? "negative" : "secondary"}
-          onClick={() => handleClickChangeHistoryFilter(key as PTHistoryFilterTypes)}
-        >
-          {value}
-        </Button>
-      ))}
+    <div className="mt-[0.625rem] flex">
+      <ToggleGroup
+        type="single"
+        value={historyFilter}
+        defaultValue={historyFilter}
+        onValueChange={setHistoryFilter}
+      >
+        {Object.entries(FILTER_OPTIONS).map(([key, value]) => (
+          <ToggleGroupItem key={key} value={key}>
+            {value}
+          </ToggleGroupItem>
+        ))}
+      </ToggleGroup>
     </div>
   );
 }
