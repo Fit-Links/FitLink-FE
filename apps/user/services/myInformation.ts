@@ -10,7 +10,6 @@ import {
   MyInformationApiResponse,
   MyInformationDetailApiResponse,
   MyPtHistoryApiResponse,
-  MyPtHistoryRequestPath,
   MyPtHistoryRequestQuery,
   MyTrainerAvailableTimeApiResponse,
   TrainerAvailableTimesApiResponse,
@@ -48,22 +47,18 @@ export const editPreferredTime = (requestBody: EditPreferredTimeRequestBody) =>
     data: requestBody,
   });
 
-export const getMyPtHistory = (
-  requestQuery: MyPtHistoryRequestQuery,
-  requestPath: MyPtHistoryRequestPath,
-) => {
-  const { memberId } = requestPath;
+export const getMyPtHistory = (requestQuery: MyPtHistoryRequestQuery) => {
   const { status, size, page } = requestQuery;
 
   return http.get<MyPtHistoryApiResponse>({
-    url: `/v1/${USER_BASE_URL}/${memberId}/sessions`,
+    url: `/v1/${USER_BASE_URL}/me/sessions`,
     params: { status, size, page },
   });
 };
 
 export const getMyTrainerAvailableTime = (trainerId: number) =>
   http.get<MyTrainerAvailableTimeApiResponse>({
-    url: `/v1/${USER_BASE_URL}/trainers/${trainerId}/available-times`,
+    url: `/v1/trainers/${trainerId}/available-times`,
   });
 
 export const getTrainerAvailableTimes = ({ trainerId }: TrainerAvailableTimesRequestPath) =>

@@ -95,31 +95,31 @@ const MOCK_MEMBER_DETAIL_INFORMATION = {
   },
   workoutSchedules: [
     {
-      dayOfWeek: "MON",
+      dayOfWeek: "MONDAY",
       preferenceTimes: ["10:00", "11:00", "12:00"],
     },
     {
-      dayOfWeek: "TUE",
+      dayOfWeek: "TUESDAY",
       preferenceTimes: ["10:00", "11:00", "12:00", "14:00", "15:00"],
     },
     {
-      dayOfWeek: "WED",
+      dayOfWeek: "WEDNESDAY",
       preferenceTimes: ["10:00", "11:00", "12:00"],
     },
     {
-      dayOfWeek: "THU",
+      dayOfWeek: "THURSDAY",
       preferenceTimes: ["10:00", "11:00", "12:00", "14:00", "15:00"],
     },
     {
-      dayOfWeek: "FRI",
+      dayOfWeek: "FRIDAY",
       preferenceTimes: ["10:00", "11:00", "12:00"],
     },
     {
-      dayOfWeek: "SAT",
+      dayOfWeek: "SATURDAY",
       preferenceTimes: ["10:00", "11:00", "12:00", "18:00"],
     },
     {
-      dayOfWeek: "SUN",
+      dayOfWeek: "SUNDAY",
       preferenceTimes: ["10:00", "11:00", "12:00", "18:00"],
     },
   ],
@@ -127,31 +127,31 @@ const MOCK_MEMBER_DETAIL_INFORMATION = {
 
 const MOCK_WORKOUT_SCHEDULE: { dayOfWeek: DaysOfWeek; preferenceTimes: string[] }[] = [
   {
-    dayOfWeek: "MON",
+    dayOfWeek: "MONDAY",
     preferenceTimes: ["10:00", "11:00", "12:00"],
   },
   {
-    dayOfWeek: "TUE",
+    dayOfWeek: "TUESDAY",
     preferenceTimes: ["10:00", "11:00", "12:00", "14:00", "15:00"],
   },
   {
-    dayOfWeek: "WED",
+    dayOfWeek: "WEDNESDAY",
     preferenceTimes: ["10:00", "11:00", "12:00"],
   },
   {
-    dayOfWeek: "THU",
+    dayOfWeek: "THURSDAY",
     preferenceTimes: ["10:00", "11:00", "12:00", "14:00", "15:00"],
   },
   {
-    dayOfWeek: "FRI",
+    dayOfWeek: "FRIDAY",
     preferenceTimes: ["10:00", "11:00", "12:00"],
   },
   {
-    dayOfWeek: "SAT",
+    dayOfWeek: "SATURDAY",
     preferenceTimes: ["10:00", "11:00", "12:00", "18:00"],
   },
   {
-    dayOfWeek: "SUN",
+    dayOfWeek: "SUNDAY",
     preferenceTimes: ["10:00", "11:00", "12:00", "18:00"],
   },
 ];

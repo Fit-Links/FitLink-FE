@@ -1,6 +1,6 @@
 import {
   AvailablePtTime,
-  FixieReservation,
+  FixedReservation,
   NoResponseData,
   PreferredWorkout,
   PtInfo,
@@ -24,9 +24,11 @@ type MyInformationResponse = {
   name: string;
   trainerId: number | null;
   trainerName: string | null;
+  trainerPhone: string;
+  trainerProfileUrl: string | null;
   connectingStatus: TrainerConnectStatus | null;
   profilePictureUrl: string | null;
-  fixedReservations: FixieReservation[];
+  fixedReservations: FixedReservation[];
   sessionInfo: SessionInfo | null;
   workoutSchedules: PreferredWorkout[];
 };

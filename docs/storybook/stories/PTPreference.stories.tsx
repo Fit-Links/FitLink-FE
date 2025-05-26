@@ -1,6 +1,6 @@
-import { Meta, StoryObj } from "@storybook/react";
-import PTPreference from "@5unwan/ui/components/PTPreference";
 import { Accordion } from "@5unwan/ui/components/Accordion/index";
+import PTPreference from "@5unwan/ui/components/PTPreference";
+import { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof PTPreference> = {
   component: (args) => (
@@ -19,31 +19,31 @@ const meta: Meta<typeof PTPreference> = {
   args: {
     workoutSchedule: [
       {
-        dayOfWeek: "MON",
+        dayOfWeek: "MONDAY",
         preferenceTimes: ["10:00", "11:00", "12:00"],
       },
       {
-        dayOfWeek: "TUE",
+        dayOfWeek: "TUESDAY",
         preferenceTimes: ["10:00", "11:00", "12:00", "14:00", "15:00"],
       },
       {
-        dayOfWeek: "WED",
+        dayOfWeek: "WEDNESDAY",
         preferenceTimes: ["10:00", "11:00", "12:00"],
       },
       {
-        dayOfWeek: "THU",
+        dayOfWeek: "THURSDAY",
         preferenceTimes: ["10:00", "11:00", "12:00", "14:00", "15:00"],
       },
       {
-        dayOfWeek: "FRI",
+        dayOfWeek: "FRIDAY",
         preferenceTimes: ["10:00", "11:00", "12:00"],
       },
       {
-        dayOfWeek: "SAT",
+        dayOfWeek: "SATURDAY",
         preferenceTimes: ["10:00", "11:00", "12:00", "18:00"],
       },
       {
-        dayOfWeek: "SUN",
+        dayOfWeek: "SUNDAY",
         preferenceTimes: ["10:00", "11:00", "12:00", "18:00"],
       },
     ],
