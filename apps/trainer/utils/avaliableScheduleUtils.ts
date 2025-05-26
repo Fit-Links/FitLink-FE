@@ -1,8 +1,8 @@
 import { AvailablePtTime } from "@5unwan/core/api/types/common";
 
-/* eslint-disable no-magic-numbers */
+import { DAYS } from "@trainer/constants/Day";
 
-const WEEK_DAYS = ["월", "화", "수", "목", "금", "토", "일"] as const;
+/* eslint-disable no-magic-numbers */
 
 export const formatAvailableScheduleToMeridiem = (time: string | null) => {
   if (!time) {
@@ -30,23 +30,26 @@ export const formatAvailableScheduleToMeridiem = (time: string | null) => {
   }
 };
 
-export const formatAvailableScheduleConfirm = (availableSchedule: AvailablePtTime) => {
-  const { availableTimeId, isHoliday, startTime, endTime } = availableSchedule;
+export const formatAvailableScheduleConfirm = (
+  availableSchedule: Omit<AvailablePtTime, "availableTimeId">,
+) => {
+  const { dayOfWeek, isHoliday, startTime, endTime } = availableSchedule;
 
   if (isHoliday) return;
 
   const formattedStartTime = formatAvailableScheduleToMeridiem(startTime);
   const formattedEndTime = formatAvailableScheduleToMeridiem(endTime);
 
-  return `${WEEK_DAYS[availableTimeId]} ${formattedStartTime} - ${formattedEndTime}`;
+  return `${DAYS[dayOfWeek]} ${formattedStartTime} - ${formattedEndTime}`;
 };
 
+const DAY_GAP = 1;
 export const formatDateToKorean = (date: Date): string => {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();
 
-  return `${year}년 ${month}월 ${day}일`;
+  return `${year}년 ${month}월 ${day - DAY_GAP}일`;
 };
 
 export const formatDateStringToKorean = (dateString: string | number | undefined): string => {

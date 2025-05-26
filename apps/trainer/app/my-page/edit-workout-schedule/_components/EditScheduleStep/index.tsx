@@ -1,6 +1,6 @@
 "use client";
 
-import { AvailablePtTime, DayOfWeek } from "@5unwan/core/api/types/common";
+import { DayOfWeek } from "@5unwan/core/api/types/common";
 import { Button } from "@ui/components/Button";
 import DayOfWeekPicker from "@ui/components/DayOfWeekPicker";
 import { Switch } from "@ui/components/Switch";
@@ -8,6 +8,8 @@ import { cn } from "@ui/lib/utils";
 import React, { useState } from "react";
 
 import Header from "@trainer/app/my-page/_components/Header";
+
+import { AvailablePtTimeEntry } from "@trainer/services/types/myInformation.dto";
 
 import { formatAvailableScheduleToMeridiem } from "@trainer/utils/avaliableScheduleUtils";
 
@@ -17,13 +19,14 @@ import EditScheduleItem from "./EditScheduleItem";
 import MerdiemTimePicker from "./MerdiemTimePicker";
 
 type EditScheduleStepProps = {
-  onNext: (workoutSchedule: AvailablePtTime[]) => void;
+  onNext: (workoutSchedule: Omit<AvailablePtTimeEntry, "availableTimeId">[]) => void;
 };
 
+const DAYS_OF_WEEK = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"];
 const WORKOUT_SCHEDULE_STRUCTURE = (day: number) => {
   return {
-    availableTimeId: day,
-    dayOfWeek: Days[day].toUpperCase() as DayOfWeek,
+    // availableTimeId: day,
+    dayOfWeek: DAYS_OF_WEEK[day] as DayOfWeek,
     isHoliday: false,
     startTime: "00:00",
     endTime: "23:00",
@@ -32,14 +35,14 @@ const WORKOUT_SCHEDULE_STRUCTURE = (day: number) => {
 
 export default function EditScheduleStep({ onNext }: EditScheduleStepProps) {
   const [openPicker, setOpenPicker] = useState<"startTime" | "endTime" | null>(null);
-  const [workoutSchedule, setWorkoutSchedule] = useState<AvailablePtTime[]>(
-    Array.from({ length: 7 }, (_, day) => WORKOUT_SCHEDULE_STRUCTURE(day)),
-  );
+  const [workoutSchedule, setWorkoutSchedule] = useState<
+    Omit<AvailablePtTimeEntry, "availableTimeId">[]
+  >(Array.from({ length: 7 }, (_, day) => WORKOUT_SCHEDULE_STRUCTURE(day)));
 
   const [currentDay, setCurrentDay] = useState<Days>(Days.Sunday);
 
   const [completedDays, setCompletedDays] = useState<boolean[]>([
-    false,
+    true,
     false,
     false,
     false,
@@ -51,6 +54,12 @@ export default function EditScheduleStep({ onNext }: EditScheduleStepProps) {
   const handleClickChangeDay = (day: number) => {
     setCurrentDay(day);
     setOpenPicker(null);
+    setCompletedDays((prev) => {
+      const newCompletedDays = [...prev];
+      newCompletedDays[day] = true;
+
+      return newCompletedDays;
+    });
   };
 
   const handleClickOpenPicker = (picker: "startTime" | "endTime") => {
@@ -153,6 +162,7 @@ export default function EditScheduleStep({ onNext }: EditScheduleStepProps) {
         className="mb-[2.125rem] w-full"
         size="lg"
         variant="brand"
+        disabled={completedDays.includes(false)}
         onClick={() => onNext(workoutSchedule)}
       >
         다음

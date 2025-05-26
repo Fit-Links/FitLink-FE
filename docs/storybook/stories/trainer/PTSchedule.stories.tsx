@@ -49,7 +49,7 @@ const meta: Meta<typeof PTSchedule> = {
         endTime: "19:00",
       },
     ],
-    scheduleChanges: [
+    scheduledChanges: [
       {
         applyAt: "2025-12-12",
         schedules: [
