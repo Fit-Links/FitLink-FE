@@ -9,6 +9,7 @@ import DateController from "../lib/DateController";
 const PTHistoryStatusMap = {
   COMPLETED: () => "PT 완료",
   NO_SHOW: () => "불참석",
+  WAITING: () => "예약 대기",
   NONE: (isClickable?: boolean) => (isClickable ? "PT가 완료되었나요?" : "미처리"),
 } as const;
 
@@ -21,6 +22,7 @@ type PTHistoryItemProps = {
 function PTHistoryItem({ reservationDate, status, onClick, className }: PTHistoryItemProps) {
   try {
     const validatedController = DateController(reservationDate).validate();
+
     const isClickable = onClick && status === "NONE";
     if (validatedController === undefined) throw new Error("유효하지 않은 날짜 형식입니다");
 

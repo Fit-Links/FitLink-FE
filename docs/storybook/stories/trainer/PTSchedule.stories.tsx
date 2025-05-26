@@ -7,43 +7,43 @@ const meta: Meta<typeof PTSchedule> = {
   args: {
     currentSchedules: [
       {
-        dayOfWeek: "MON",
+        dayOfWeek: "MONDAY",
         isHoliday: true,
         startTime: "09:00",
         endTime: "19:00",
       },
       {
-        dayOfWeek: "TUE",
+        dayOfWeek: "TUESDAY",
         isHoliday: false,
         startTime: "09:00",
         endTime: "19:00",
       },
       {
-        dayOfWeek: "WED",
+        dayOfWeek: "WEDNESDAY",
         isHoliday: false,
         startTime: "09:00",
         endTime: "19:00",
       },
       {
-        dayOfWeek: "THU",
+        dayOfWeek: "THURSDAY",
         isHoliday: false,
         startTime: "09:00",
         endTime: "19:00",
       },
       {
-        dayOfWeek: "FRI",
+        dayOfWeek: "FRIDAY",
         isHoliday: false,
         startTime: "09:00",
         endTime: "19:00",
       },
       {
-        dayOfWeek: "SAT",
+        dayOfWeek: "SATURDAY",
         isHoliday: false,
         startTime: "09:00",
         endTime: "19:00",
       },
       {
-        dayOfWeek: "SUN",
+        dayOfWeek: "SUNDAY",
         isHoliday: false,
         startTime: "09:00",
         endTime: "19:00",

@@ -1,6 +1,6 @@
 "use client";
 
-import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@ui/components/Sheet";
+import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@ui/components/Sheet";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -27,7 +27,9 @@ export default function EditPreferredScheduleBottomSheet({
         <SheetTrigger>{children}</SheetTrigger>
         <SheetContent side="bottom" className="md:max-w-mobile left-1/2 w-full -translate-x-1/2 ">
           <SheetClose asChild>
-            <SheetItem icon="Pencil" label="PT 희망시간 수정" onClick={handleClickOpenAlbum} />
+            <SheetTitle>
+              <SheetItem icon="Pencil" label="PT 희망시간 수정" onClick={handleClickOpenAlbum} />
+            </SheetTitle>
           </SheetClose>
         </SheetContent>
       </Sheet>

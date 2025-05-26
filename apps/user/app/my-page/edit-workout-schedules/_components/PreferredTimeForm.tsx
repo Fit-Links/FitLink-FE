@@ -1,0 +1,78 @@
+"use client";
+import { AvailablePtTime, PreferredWorkout } from "@5unwan/core/api/types/common";
+import { Button } from "@ui/components/Button";
+import DayOfWeekPicker from "@ui/components/DayOfWeekPicker";
+import { Days } from "@ui/components/DayOfWeekPicker/Days";
+import TimeCellToggleGroup from "@ui/components/TimeCellToggleGroup";
+import { DAYS_OF_WEEK_MAP, TimeCell } from "@ui/utils/timeCellUtils";
+import React from "react";
+
+const START_HOUR = 0;
+const PADDED_LENGTH = 2;
+const EMPTY_DAY_FORM = 0;
+
+const HOURS = Array.from(
+  { length: 24 },
+  (_, i) => `${(i + START_HOUR).toString().padStart(PADDED_LENGTH, "0")}:00`,
+);
+
+const generateTimeCells: (dayOfWeek: Days) => TimeCell[] = (dayOfWeek) => {
+  return HOURS.map((hour) => ({
+    dayOfWeek: DAYS_OF_WEEK_MAP[dayOfWeek],
+    time: hour,
+    disabled: false,
+  }));
+};
+
+type PreferredTimeFormProps = {
+  onSubmit: (workoutSchedule: Omit<PreferredWorkout, "workoutScheduleId">[]) => void;
+  availableTimes: AvailablePtTime[];
+};
+export default function PreferredTimeForm({ onSubmit }: PreferredTimeFormProps) {
+  const [currentDay, setCurrentDay] = React.useState<Days>(Days.Monday);
+  const [workoutForm, setWorkoutForm] = React.useState([
+    ...Array.from({ length: 7 }, (_v, index) => ({
+      dayOfWeek: DAYS_OF_WEEK_MAP[index],
+      preferenceTimes: [] as string[],
+    })),
+  ]);
+
+  const filledDays = workoutForm
+    ? workoutForm.map((dayForm) => dayForm.preferenceTimes.length > EMPTY_DAY_FORM)
+    : Array.from({ length: 7 }, () => false);
+  const isFilled = workoutForm
+    ? workoutForm.some((dayForm) => dayForm.preferenceTimes.length > EMPTY_DAY_FORM)
+    : false;
+
+  const handleClick: React.MouseEventHandler<HTMLButtonElement> = () => {
+    onSubmit(workoutForm);
+  };
+
+  const handleSelectedChange = (value: string[]) => {
+    const newWorkoutForm = [...workoutForm];
+    newWorkoutForm[currentDay].preferenceTimes = value;
+
+    setWorkoutForm(newWorkoutForm);
+  };
+
+  return (
+    <div className="flex flex-1 flex-col justify-between">
+      <div className="flex h-full flex-col gap-8">
+        <DayOfWeekPicker
+          completed={filledDays}
+          currentDay={currentDay}
+          onCurrentDayChange={setCurrentDay}
+          className="w-full"
+        />
+        <TimeCellToggleGroup
+          selected={workoutForm[currentDay].preferenceTimes}
+          onSelectedChange={handleSelectedChange}
+          timeCellInfo={generateTimeCells(currentDay)}
+        />
+      </div>
+      <Button onClick={handleClick} className="w-full" size="xl" disabled={!isFilled}>
+        완료
+      </Button>
+    </div>
+  );
+}

@@ -33,11 +33,11 @@ export const myInformationQueries = {
       queryKey: [...myInformationBaseKeys.all(), "detail"],
       queryFn: getMyInformationDetail,
     }),
-  ptHistory: (memberId: number, status?: MyPtHistoryStatus) =>
+  ptHistory: (status?: MyPtHistoryStatus) =>
     infiniteQueryOptions({
-      queryKey: [...myInformationBaseKeys.ptHistories(), memberId, status],
+      queryKey: [...myInformationBaseKeys.ptHistories(), "history", status],
       queryFn: ({ pageParam }) =>
-        getMyPtHistory({ status, page: pageParam, size: PT_HISTORY_PAGE_SIZE }, { memberId }),
+        getMyPtHistory({ status, page: pageParam, size: PT_HISTORY_PAGE_SIZE }),
       getNextPageParam: (lastPage, _allPages, lastPageParam) => {
         if (lastPage.data?.content.length === EMPTY_PAGE) {
           return undefined;

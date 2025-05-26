@@ -16,7 +16,7 @@ export type DayOfWeek =
 export type PtStatus = "COMPLETED" | "NO_SHOW" | "NONE" | "PENDING";
 export type PtInfo = {
   sessionId: number;
-  reservationDate: string;
+  date: string;
   status: PtStatus;
 };
 export type SessionInfo = {
@@ -30,7 +30,7 @@ export type PreferredWorkout = {
   preferenceTimes: string[];
 };
 
-export type FixieReservation = {
+export type FixedReservation = {
   reservationId: number;
   reservationDateTime: string;
 };
