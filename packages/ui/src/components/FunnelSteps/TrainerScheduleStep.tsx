@@ -126,7 +126,7 @@ function TrainerScheduleStep({ onNext }: TrainerScheduleStepProps) {
   };
 
   return (
-    <div className="flex h-full flex-col border">
+    <div className="flex h-full flex-col">
       <Header>
         <Header.Title content="PT 수업 시간" />
       </Header>
@@ -147,108 +147,114 @@ function TrainerScheduleStep({ onNext }: TrainerScheduleStepProps) {
             />
           </div>
 
-          <div className="flex items-start justify-between">
-            <label>시작 시간</label>
-            <Dialog onOpenChange={createTimeDialogHandler("startTime")}>
-              <DialogTrigger>
-                <Button size="md" className="w-[6.8125rem]">
-                  {trainerSchedule[currentDay].startTime || DEFAULT_TIME}
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>시작 시간</DialogTitle>
-                  <DialogDescription>시작 시간을 설정해주세요</DialogDescription>
-                </DialogHeader>
+          {!trainerSchedule[currentDay].isHoliday && (
+            <div className="flex items-start justify-between">
+              <label>시작 시간</label>
+              <Dialog onOpenChange={createTimeDialogHandler("startTime")}>
+                {!trainerSchedule[currentDay].isHoliday && (
+                  <DialogTrigger>
+                    <Button size="md" className="w-[6.8125rem]">
+                      {trainerSchedule[currentDay].startTime || DEFAULT_TIME}
+                    </Button>
+                  </DialogTrigger>
+                )}
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>시작 시간</DialogTitle>
+                    <DialogDescription>시작 시간을 설정해주세요</DialogDescription>
+                  </DialogHeader>
 
-                <div className="flex justify-between">
-                  <div className="h-[180px] w-[70px]">
-                    <TimePicker
-                      initIdx={0}
-                      length={2}
-                      width={40}
-                      loop={false}
-                      viewPerspective="right"
-                      setValue={setTimePeriods}
-                      ref={timePeriodRef}
-                    />
+                  <div className="flex justify-between">
+                    <div className="h-[180px] w-[70px]">
+                      <TimePicker
+                        initIdx={0}
+                        length={2}
+                        width={40}
+                        loop={false}
+                        viewPerspective="right"
+                        setValue={setTimePeriods}
+                        ref={timePeriodRef}
+                      />
+                    </div>
+                    <div className="h-[180px] w-[70px]">
+                      <TimePicker
+                        startNumber={1}
+                        initIdx={0}
+                        length={12}
+                        width={23}
+                        loop={false}
+                        ref={hoursRef}
+                      />
+                    </div>
+                    <div className="h-[180px] w-[70px]">
+                      <TimePicker
+                        initIdx={0}
+                        length={2}
+                        width={23}
+                        loop={false}
+                        viewPerspective="left"
+                        setValue={setHalfHours}
+                        ref={minutesRef}
+                      />
+                    </div>
                   </div>
-                  <div className="h-[180px] w-[70px]">
-                    <TimePicker
-                      startNumber={1}
-                      initIdx={0}
-                      length={12}
-                      width={23}
-                      loop={false}
-                      ref={hoursRef}
-                    />
-                  </div>
-                  <div className="h-[180px] w-[70px]">
-                    <TimePicker
-                      initIdx={0}
-                      length={2}
-                      width={23}
-                      loop={false}
-                      viewPerspective="left"
-                      setValue={setHalfHours}
-                      ref={minutesRef}
-                    />
-                  </div>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
+                </DialogContent>
+              </Dialog>
+            </div>
+          )}
 
-          <div className="flex items-start justify-between">
-            <label>종료 시간</label>
-            <Dialog onOpenChange={createTimeDialogHandler("endTime")}>
-              <DialogTrigger>
-                <Button size="md" className="w-[6.8125rem]">
-                  {trainerSchedule[currentDay].endTime || DEFAULT_TIME}
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>종료 시간</DialogTitle>
-                  <DialogDescription>종료 시간을 설정해주세요</DialogDescription>
-                </DialogHeader>
-                <div className="flex justify-between">
-                  <div className="h-[180px] w-[70px]">
-                    <TimePicker
-                      initIdx={0}
-                      length={2}
-                      width={40}
-                      loop={false}
-                      viewPerspective="right"
-                      setValue={setTimePeriods}
-                      ref={timePeriodRef}
-                    />
+          {!trainerSchedule[currentDay].isHoliday && (
+            <div className="flex items-start justify-between">
+              <label>종료 시간</label>
+              <Dialog onOpenChange={createTimeDialogHandler("endTime")}>
+                <DialogTrigger>
+                  <Button size="md" className="w-[6.8125rem]">
+                    {trainerSchedule[currentDay].endTime || DEFAULT_TIME}
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>종료 시간</DialogTitle>
+                    <DialogDescription>종료 시간을 설정해주세요</DialogDescription>
+                  </DialogHeader>
+                  <div className="flex justify-between">
+                    <div className="h-[180px] w-[70px]">
+                      <TimePicker
+                        initIdx={0}
+                        length={2}
+                        width={40}
+                        loop={false}
+                        viewPerspective="right"
+                        setValue={setTimePeriods}
+                        ref={timePeriodRef}
+                      />
+                    </div>
+                    <div className="h-[180px] w-[70px]">
+                      <TimePicker
+                        startNumber={1}
+                        initIdx={0}
+                        length={12}
+                        width={23}
+                        loop={false}
+                        ref={hoursRef}
+                      />
+                    </div>
+                    <div className="h-[180px] w-[70px]">
+                      <TimePicker
+                        initIdx={0}
+                        length={2}
+                        width={23}
+                        loop={false}
+                        viewPerspective="left"
+                        setValue={setHalfHours}
+                        ref={minutesRef}
+                      />
+                    </div>
                   </div>
-                  <div className="h-[180px] w-[70px]">
-                    <TimePicker
-                      startNumber={1}
-                      initIdx={0}
-                      length={12}
-                      width={23}
-                      loop={false}
-                      ref={hoursRef}
-                    />
-                  </div>
-                  <div className="h-[180px] w-[70px]">
-                    <TimePicker
-                      initIdx={0}
-                      length={2}
-                      width={23}
-                      loop={false}
-                      viewPerspective="left"
-                      setValue={setHalfHours}
-                      ref={minutesRef}
-                    />
-                  </div>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
+                </DialogContent>
+              </Dialog>
+            </div>
+          )}
         </div>
 
         <Button onClick={handleSubmit} className="w-full" size="xl" disabled={!isFilled}>
