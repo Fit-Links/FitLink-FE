@@ -40,14 +40,12 @@ export type ModifiedReservationListItem = Omit<
 type ReservationStatusResponse = ModifiedReservationListItem[];
 export type ReservationStatusApiResponse = ResponseBase<ReservationStatusResponse>;
 
-export type ReservationDetailStatusRequestPath = ReservationPathParams;
+export type GetReservationDetailStatusRequestPath = ReservationPathParams;
 type ReservationDetailStatusResponse = BaseReservationDetail<
   Extract<ReservationStatus, "예약 확정" | "수업 완료">,
   DetailedMemberInfo
-> & {
-  reservationId: number;
-};
-export type ReservationDetailStatusApiResponse = ResponseBase<ReservationDetailStatusResponse>;
+>;
+export type GetReservationDetailStatusApiResponse = ResponseBase<ReservationDetailStatusResponse>;
 
 export type ReservationDetailPendingStatusRequestPath = { reservationDate: string };
 export type ReservationDetailPendingStatus = DetailedMemberInfo &
@@ -68,20 +66,20 @@ type ReservationSetNotAvailableResponse = {
 };
 export type ReservationSetNotAvailableApiResponse =
   ResponseBase<ReservationSetNotAvailableResponse>;
-/** TODO: priority가 직접 예약 API에서 주석처리 되어있음 */
+
 export type DirectReservationRequestBody = {
   trainerId: number;
   memberId: number;
   name: string;
   dates: string[];
 };
-type DirectReservationResponse = {
+type CreateDirectReservationResponse = {
   reservation: {
     reservationId: number;
     status: Extract<ReservationStatus, "예약 확정">;
   };
 };
-export type DirectReservationApiResponse = ResponseBase<DirectReservationResponse>;
+export type CreateDirectReservationApiResponse = ResponseBase<CreateDirectReservationResponse>;
 
 export type FixReservationRequestBody = {
   memberId: number;
@@ -94,7 +92,7 @@ type FixReservationResponse = {
     status: Extract<ReservationStatus, "고정 예약">;
   }[];
 };
-export type FixReservationApiResponse = ResponseBase<FixReservationResponse>;
+export type CreateFixedReservationApiResponse = ResponseBase<FixReservationResponse>;
 
 export type CancelReservationRequestPath = ReservationPathParams;
 /** TODO: 예약 취소 API에 cancelDate 필드 추가됨 */
@@ -102,23 +100,32 @@ export type CancelReservationRequestBody = {
   cancelReason: string;
   cancelDate: string;
 };
-type CancelReservationResponse = {
-  reservationId: number;
+export type CancelReservationApiResponse = ResponseBase<ReservationResponseBase>;
+
+export type ProcessCancelReservationRequestPath = ReservationPathParams;
+export type ProcessCancelReservationRequestBody = {
+  memberId: number;
+  isApprove: boolean;
 };
-export type CancelReservationApiResponse = ResponseBase<CancelReservationResponse>;
+export type ProcessCancelReservationApiResponse = ResponseBase<ReservationResponseBase>;
+
+export type TerminateFixedReservationRequestPath = ReservationPathParams;
+export type TerminateFixedReservationApiResponse = ResponseBase<
+  (ReservationResponseBase & { reservationDate: string })[]
+>;
 
 export type ApproveReservationRequestPath = ReservationPathParams;
 export type ApproveReservationRequestBody = {
   memberId: number;
   reservationDate: string;
 };
-type ApproveReservationResponse = {
+export type ApproveReservationApiResponse = ResponseBase<ReservationResponseBase>;
+
+export type ProcessPTRequestPath = {
   reservationId: number;
   status: Extract<ReservationStatus, "예약 대기">;
 };
-export type ApproveReservationApiResponse = ResponseBase<ApproveReservationResponse>;
 
-/** TODO: 진행한 PT처리 sessionId 대신 reservationId 사용 */
 export type CompletedPtRequestPath = {
   reservationId: number;
 };
@@ -128,15 +135,35 @@ export type CompletedPtRequestBody = {
 };
 type CompletedPtResponse = {
   sessionId: number;
+  status: string;
 };
 export type CompletedPtApiResponse = ResponseBase<CompletedPtResponse>;
 
-export type ConfirmReservationChangeRequestPath = ReservationPathParams;
-export type ConfirmReservationChangeRequestBody = {
-  trainerId: number;
-  memberId: number;
+export type ProcessPTResponse = {
+  sessionId: number;
+  status: string;
 };
-type ConfirmReservationChangeResponse = {
+export type ProcessPTApiResponse = ResponseBase<ProcessPTResponse>;
+
+export type ProcessReservationChangeRequestPath = ReservationPathParams;
+export type ProcessReservationChangeRequestBody = {
+  memberId: number;
+  approveDate: string;
+  isApprove: boolean;
+};
+
+export type ProcessReservationChangeApiResponse = ResponseBase<ReservationResponseBase>;
+
+export type EditFixedReservationRequestPath = {
   reservationId: number;
 };
-export type ConfirmReservationChangeApiResponse = ResponseBase<ConfirmReservationChangeResponse>;
+export type EditFixedReservationRequestBody = {
+  reservationDate: string;
+  changeDate: string;
+};
+export type EditFixedReservationApiResponse = ResponseBase<ReservationResponseBase>;
+
+export type ReservationResponseBase = {
+  reservationId: number;
+  status: ReservationStatus;
+};

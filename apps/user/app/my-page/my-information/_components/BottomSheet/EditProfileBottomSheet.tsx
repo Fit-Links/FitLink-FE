@@ -1,6 +1,6 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Sheet,
   SheetClose,
@@ -11,6 +11,14 @@ import {
 } from "@ui/components/Sheet";
 import { useRef } from "react";
 
+import { myInformationQueries } from "@user/queries/myInformation";
+
+import {
+  createPresignedUrl,
+  registerUserProfileImage,
+  uploadImage,
+} from "@user/services/attachment";
+
 import SheetItem from "@user/components/SheetItem";
 
 interface EditProfileBottomSheetProps {
@@ -18,11 +26,25 @@ interface EditProfileBottomSheetProps {
 }
 
 export default function EditProfileBottomSheet({ children }: EditProfileBottomSheetProps) {
+  const queryClient = useQueryClient();
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleClickOpenAlbum = () => {
     inputRef.current?.click();
   };
+
+  const createPresignedUrlMutation = useMutation({
+    mutationFn: createPresignedUrl,
+  });
+
+  const uploadImageMutation = useMutation({
+    mutationFn: uploadImage,
+  });
+
+  const registerUserProfileImageMutation = useMutation({
+    mutationFn: registerUserProfileImage,
+  });
 
   const { mutate } = useMutation({
     // 이미지 없는 경우 여쭤보기
@@ -34,13 +56,52 @@ export default function EditProfileBottomSheet({ children }: EditProfileBottomSh
     mutate();
   };
 
-  const handleChangeProfileImage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+  const handleChangeProfileImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      const imageFile = event.target.files?.[0];
 
-    if (!file) return;
+      if (!imageFile) return;
 
-    // const uri = URL.createObjectURL(file as Blob);
-    // onChangeMyInformation("profilePictureUrl", uri);
+      const {
+        data: { presignedUrl, attachmentId },
+        status: createPresignedUrlStatus,
+        success: createPresignedUrlSuccess,
+        msg: createPresignedUrlMsg,
+      } = await createPresignedUrlMutation.mutateAsync({
+        fileName: imageFile.name,
+        contentLength: imageFile.size.toString(),
+        contentType: imageFile.type,
+      });
+
+      if (!createPresignedUrlSuccess)
+        throw new Error(
+          `Error occured during createPresignedUrl\nStatus:${createPresignedUrlStatus}\nMessage:${createPresignedUrlMsg}`,
+        );
+
+      await uploadImageMutation.mutateAsync({
+        presignedUrl,
+        imageFile,
+      });
+
+      const {
+        status: registerUserProfileImageStatus,
+        success: registerUserProfileImageSuccess,
+        msg: registerUserProfileImageMsg,
+      } = await registerUserProfileImageMutation.mutateAsync({
+        attachmentId,
+      });
+      queryClient.invalidateQueries({ queryKey: myInformationQueries.summary().queryKey });
+      queryClient.invalidateQueries({ queryKey: myInformationQueries.detail().queryKey });
+
+      if (!registerUserProfileImageSuccess)
+        throw new Error(
+          `Error occured during createPresignedUrl\nStatus:${registerUserProfileImageStatus}\nMessage:${registerUserProfileImageMsg}`,
+        );
+
+      return attachmentId;
+    } catch (error) {
+      // 오류 처리
+    }
   };
 
   return (
@@ -54,7 +115,7 @@ export default function EditProfileBottomSheet({ children }: EditProfileBottomSh
       />
       <Sheet>
         <SheetTrigger asChild>{children}</SheetTrigger>
-        <SheetContent side={"bottom"}>
+        <SheetContent side="bottom" className="md:max-w-mobile left-1/2 w-full -translate-x-1/2 ">
           <SheetTitle></SheetTitle>
           <SheetDescription className="flex flex-col gap-[0.625rem]">
             <SheetClose asChild>

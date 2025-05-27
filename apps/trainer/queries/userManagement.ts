@@ -33,7 +33,7 @@ export const userManagementQueries = {
 
         return lastPageParam + TO_NEXT_PAGE;
       },
-
+      enabled: !!q,
       initialPageParam: START_PAGE,
       refetchOnWindowFocus: false,
       refetchOnMount: false,

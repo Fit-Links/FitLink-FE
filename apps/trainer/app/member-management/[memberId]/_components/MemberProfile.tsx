@@ -18,22 +18,14 @@ import RouteInstance from "@trainer/constants/route";
 function MemberProfile() {
   const router = useRouter();
 
-  const { memberId, name, birthDate, phoneNumber, profilePictureUrl, sessionInfo }: PtUser =
+  const { memberId, name, birthDate, phoneNumber, profilePictureUrl }: PtUser =
     MOCK_MEMBER_DETAIL_INFORMATION;
 
   const handleClickRouteFixReservationEditPage = () => {
     router.push(
       RouteInstance["select-pt-times"]("", {
-        memberInformation: encodeURIComponent(
-          JSON.stringify({
-            memberId,
-            name,
-            birthDate,
-            phoneNumber,
-            profilePictureUrl,
-            sessionInfo,
-          }),
-        ),
+        memberId: memberId.toString(),
+        name: name,
       }),
     );
   };
@@ -95,31 +87,31 @@ const MOCK_MEMBER_DETAIL_INFORMATION = {
   },
   workoutSchedules: [
     {
-      dayOfWeek: "MON",
+      dayOfWeek: "MONDAY",
       preferenceTimes: ["10:00", "11:00", "12:00"],
     },
     {
-      dayOfWeek: "TUE",
+      dayOfWeek: "TUESDAY",
       preferenceTimes: ["10:00", "11:00", "12:00", "14:00", "15:00"],
     },
     {
-      dayOfWeek: "WED",
+      dayOfWeek: "WEDNESDAY",
       preferenceTimes: ["10:00", "11:00", "12:00"],
     },
     {
-      dayOfWeek: "THU",
+      dayOfWeek: "THURSDAY",
       preferenceTimes: ["10:00", "11:00", "12:00", "14:00", "15:00"],
     },
     {
-      dayOfWeek: "FRI",
+      dayOfWeek: "FRIDAY",
       preferenceTimes: ["10:00", "11:00", "12:00"],
     },
     {
-      dayOfWeek: "SAT",
+      dayOfWeek: "SATURDAY",
       preferenceTimes: ["10:00", "11:00", "12:00", "18:00"],
     },
     {
-      dayOfWeek: "SUN",
+      dayOfWeek: "SUNDAY",
       preferenceTimes: ["10:00", "11:00", "12:00", "18:00"],
     },
   ],
@@ -127,31 +119,31 @@ const MOCK_MEMBER_DETAIL_INFORMATION = {
 
 const MOCK_WORKOUT_SCHEDULE: { dayOfWeek: DaysOfWeek; preferenceTimes: string[] }[] = [
   {
-    dayOfWeek: "MON",
+    dayOfWeek: "MONDAY",
     preferenceTimes: ["10:00", "11:00", "12:00"],
   },
   {
-    dayOfWeek: "TUE",
+    dayOfWeek: "TUESDAY",
     preferenceTimes: ["10:00", "11:00", "12:00", "14:00", "15:00"],
   },
   {
-    dayOfWeek: "WED",
+    dayOfWeek: "WEDNESDAY",
     preferenceTimes: ["10:00", "11:00", "12:00"],
   },
   {
-    dayOfWeek: "THU",
+    dayOfWeek: "THURSDAY",
     preferenceTimes: ["10:00", "11:00", "12:00", "14:00", "15:00"],
   },
   {
-    dayOfWeek: "FRI",
+    dayOfWeek: "FRIDAY",
     preferenceTimes: ["10:00", "11:00", "12:00"],
   },
   {
-    dayOfWeek: "SAT",
+    dayOfWeek: "SATURDAY",
     preferenceTimes: ["10:00", "11:00", "12:00", "18:00"],
   },
   {
-    dayOfWeek: "SUN",
+    dayOfWeek: "SUNDAY",
     preferenceTimes: ["10:00", "11:00", "12:00", "18:00"],
   },
 ];

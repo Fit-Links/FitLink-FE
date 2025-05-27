@@ -36,13 +36,13 @@ export default function ConnectedTrainerItem({
       <ProfileItemContent>
         <div
           className={cn(
-            "flex items-center gap-0",
+            "flex cursor-pointer items-center gap-0",
             connected ? "text-text-sub2" : "text-text-primary",
           )}
           onClick={handleClickRouting}
         >
           {connected ? trainerName : "연동하기"}
-          <Icon name="ChevronRight" className="cursor-pointer" size="lg" />
+          <Icon name="ChevronRight" size="lg" />
         </div>
       </ProfileItemContent>
     </ProfileItem>

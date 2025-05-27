@@ -1,41 +1,55 @@
 "use client";
 
+import { PreferredWorkout } from "@5unwan/core/api/types/common";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import WorkoutForm from "@ui/components/WorkoutForm";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+
+import { myInformationQueries } from "@user/queries/myInformation";
+
+import { editPreferredTime } from "@user/services/myInformation";
+
+import RouteInstance from "@user/constants/routes";
 
 import SuccessEditPreferenceTimeBottomSheet from "./BottomSheet/SuccessEditPreferenceTimeBottomSheet";
 import Header from "../../_components/Header";
 
-// type EditPreferenceTimeContainerProps = Readonly<{
-//   // trainerId?: number;
-// }>;
-
 export default function EditPreferenceTimeContainer() {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-  // const { data } = useSuspenseQuery({
-  //   ...myInformationQueries.trainerAvailableTime(trainerId),
-  // });
+  const { data: myInformation } = useQuery(myInformationQueries.summary());
 
-  // 해당 데이터를 사용해서 트레이너 수업 가능 시간에 맞는 TimePicker 데이터 생성 후, UI 생성
-  // 현재 작업 진행에 영향을 미칠 수 있으므로 컴포넌트 작업은 API 연동 후 컴포넌트 작업 진행
+  const prevScheudle = myInformation?.data.workoutSchedules;
 
-  // const { mutate, isSuccess } = useMutation({
-  //   mutationFn: editPreferredTime,
-  // });
+  const { mutate } = useMutation({
+    mutationFn: editPreferredTime,
+  });
 
-  const handleClickOnSubmit = () => {
+  const handleClickOnSubmit = (editedData: Omit<PreferredWorkout, "workoutScheduleId">[]) => {
+    const requestBody = editedData
+      .map((data) => ({
+        ...data,
+        workoutScheduleId: prevScheudle?.find((schedule) => schedule.dayOfWeek === data.dayOfWeek)
+          ?.workoutScheduleId,
+      }))
+      .filter((data): data is PreferredWorkout => data.workoutScheduleId !== undefined)
+      .map((data) => ({
+        ...data,
+        workoutScheduleId: String(data.workoutScheduleId),
+      })) as (PreferredWorkout & { workoutScheduleId: string })[];
+
     setIsSheetOpen(true);
-    // TODO: 서버에 전송
-    // 성공 시 Sheet 메시지 띄우기
-    //
-    // mutate(editedData, {
-    //   onSuccess: () => {
-    //     if (isSuccess) {
-    //       router.push(RouteInstance["my-page"]());
-    //     }
-    //   },
-    // });
+
+    mutate(requestBody, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: myInformationQueries.summary().queryKey });
+        router.push(RouteInstance["my-page"]());
+      },
+    });
   };
 
   return (
@@ -47,7 +61,7 @@ export default function EditPreferenceTimeContainer() {
         <p className="text-body-1 text-text-sub2">PT 선택 시간은 시작 시간입니다.</p>
       </section>
 
-      <WorkoutForm onSubmit={handleClickOnSubmit} />
+      <WorkoutForm onSubmit={(editedData) => handleClickOnSubmit(editedData)} />
       <SuccessEditPreferenceTimeBottomSheet open={isSheetOpen} onOpenChange={setIsSheetOpen} />
     </div>
   );

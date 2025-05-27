@@ -38,6 +38,7 @@ function ReservationOutcomeSheet({
   memberInformation,
 }: ReservationOutcomeSheetProps) {
   const { memberInfo, reservationId } = memberInformation;
+
   const { name, memberId } = memberInfo;
 
   const selectedFormatDate = DateController(selectedDate).toDateTimeWithDayFormat();
@@ -50,8 +51,8 @@ function ReservationOutcomeSheet({
     if (!reservationDetail) return;
 
     reservationCompletion({
+      reservationId,
       memberId: memberId as number,
-      reservationId: reservationDetail?.data.reservationId,
       isJoin: status === "COMPLETED",
     });
   };

@@ -1,7 +1,7 @@
 import { DayOfWeek, NoResponseData, ResponseBase } from "@5unwan/core/api/types/common";
 
 export type TimeOffInformation = { dayOfWeek: DayOfWeek; dayOfTime: string };
-type DayoffResponseInformation = { dayOffId: number; dayOffDate: string };
+export type DayoffResponseInformation = { dayOffId: number; dayOffDate: string };
 
 export type AvailablePtTimeEntry = {
   availableTimeId: number;
@@ -28,7 +28,8 @@ type TrainerCodeResponse = { trainerCode: string };
 export type TrainerCodeApiResponse = ResponseBase<TrainerCodeResponse>;
 
 type AvailablePtTimeResponse = {
-  currentSchedules: {
+  currentSchedules: { applyAt: string; schedules: AvailablePtTimeEntry[] };
+  scheduledChanges: {
     applyAt: string;
     schedules: AvailablePtTimeEntry[];
   };
@@ -36,6 +37,7 @@ type AvailablePtTimeResponse = {
 export type AvailablePtTimeApiResponse = ResponseBase<AvailablePtTimeResponse>;
 
 export type DeleteAvailablePtTimeRequestPath = { availableTimeId: number };
+export type DeleteAvailablePtTimeParams = { applyAt: string };
 export type DeleteAvailableTimeApiResponse = NoResponseData;
 
 export type AddAvailablePtTimeRequestBody = {
@@ -51,6 +53,10 @@ export type AddAvailablePtTimeApiResponse = ResponseBase<AddAvailablePtTimeRespo
 export type AddTimeOffRequestBody = string[];
 type AddTimeOffResponse = DayoffResponseInformation;
 export type AddTimeOffApiResponse = ResponseBase<AddTimeOffResponse>;
+
+export type GetDayOffResponse = DayoffResponseInformation[];
+
+export type GetDayOffApiResponse = ResponseBase<GetDayOffResponse>;
 
 export type DeleteTimeOffRequestPath = { dayOffId: number };
 export type DeleteTimeOffRequestBody = TimeOffInformation;

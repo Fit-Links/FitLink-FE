@@ -34,14 +34,14 @@ function PtHistoryList({ ptHistories }: PtHistoryListProps) {
   return (
     <>
       <section className="mt-5 flex h-full w-full flex-col gap-[0.625rem] overflow-y-auto [&::-webkit-scrollbar]:hidden">
-        {ptHistories.map(({ reservationDate, sessionId, status }) => (
+        {ptHistories.map(({ date, sessionId, status }) => (
           <PTHistoryItem
             key={sessionId}
             // onClick={() => handleClickPtHistoryEdit(status)}
-            reservationDate={reservationDate}
+            reservationDate={date}
             status={status as Exclude<PtStatus, "PENDING">}
             className="flex-none"
-            onClick={() => handleClickPtHistoryEdit(status, reservationDate)}
+            onClick={() => handleClickPtHistoryEdit(status, date)}
           />
         ))}
       </section>

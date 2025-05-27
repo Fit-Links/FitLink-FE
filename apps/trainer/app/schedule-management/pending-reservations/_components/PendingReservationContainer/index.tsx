@@ -25,8 +25,6 @@ function PendingReservationContainer({
     reservationQueries.pendingDetail(formattedAdjustedDate),
   );
 
-  console.log("예약 대기 리스트: ", reservationPendingList);
-
   return (
     <section className="flex h-full w-full flex-col overflow-hidden pt-[1.688rem]">
       <section className="bg-background-sub1 flex h-[5.625rem] w-full flex-col items-center justify-center gap-[0.625rem] rounded-[0.625rem] px-[1.938rem] py-[1.125rem]">

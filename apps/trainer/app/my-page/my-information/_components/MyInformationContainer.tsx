@@ -1,66 +1,52 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/Avatar";
-import { ChevronRight } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { Button } from "@ui/components/Button";
 
-import { MyInformationApiResponse } from "@trainer/services/types/myInformation.dto";
+import { myInformationQueries } from "@trainer/queries/myInformation";
 
-import RouteInstance from "@trainer/constants/route";
-
-import EditProfileButton from "./EditProfileButton";
 import { MemorizedProfileItem } from "./MemorizedProfileItem";
 import Header from "../../_components/Header";
+import { getFormattedPhoneNumber } from "../_utils/getFormattedPhoneNumber";
+import EditProfileBottomSheet from "./BottomSheet/EditProfileBottomSheet";
 
 export default function MyInformationContainer() {
-  const router = useRouter();
+  const { data: response } = useQuery(myInformationQueries.myInformation());
 
-  const [mockData, setMockData] = useState<MyInformationApiResponse["data"]>({
-    name: "홍길동",
-    birthDate: "1998-12-11",
-    phoneNumber: "01092832123",
-    profileUrl: "https://github.com/shadcn.png",
-  });
+  if (!response) return;
 
-  const handleClickNavigate = useCallback((path: string) => {
-    router.push(path);
-  }, []);
-
-  const handleChangeMyInformation = (
-    key: keyof MyInformationApiResponse["data"],
-    value: string,
-  ) => {
-    setMockData({
-      ...mockData,
-      [key]: value,
-    });
-  };
+  const myDetailInformation = response.data;
 
   return (
     <section className="bg-background-primary text-text-primary flex h-screen w-full flex-col items-center">
       <Header title="내 정보" />
 
       <Avatar className="mt-[1.563rem] h-[6.313rem] w-[6.313rem]">
-        <AvatarImage src={mockData.profileUrl} />
+        <AvatarImage src={myDetailInformation.profilePictureUrl} />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
 
-      <EditProfileButton
-        profileUrl={mockData.profileUrl}
-        onChangeMyInformation={handleChangeMyInformation}
+      <EditProfileBottomSheet>
+        <Button className="mt-[1.25rem]" variant={"brand"} size={"sm"} corners={"pill"}>
+          {myDetailInformation.profilePictureUrl ? "프로필 사진 수정" : "프로필 사진 등록"}
+        </Button>
+      </EditProfileBottomSheet>
+
+      <MemorizedProfileItem
+        className="mt-[1.25rem]"
+        variant="name"
+        value={myDetailInformation.name}
       />
+      <MemorizedProfileItem variant="birthday" value={myDetailInformation.birthDate} />
 
-      <MemorizedProfileItem className="mt-[1.25rem]" variant="name" value={mockData.name} />
-      <MemorizedProfileItem variant="birthday" value={mockData.birthDate} />
-
-      <MemorizedProfileItem variant="phone" value={mockData.phoneNumber}>
-        <section
-          className="text-text-sub3 flex items-center"
-          onClick={() => handleClickNavigate(RouteInstance["edit-verificated-phone"]())}
-        >
-          변경 <ChevronRight />
-        </section>
+      <MemorizedProfileItem
+        variant="phone"
+        value={getFormattedPhoneNumber(myDetailInformation.phoneNumber)}
+      >
+        {/* <section className="text-text-sub3 flex items-center" onClick={handleChangePhoneNumber}>
+          변경 <Icon name="ChevronRight" size="lg" />
+        </section> */}
       </MemorizedProfileItem>
     </section>
   );

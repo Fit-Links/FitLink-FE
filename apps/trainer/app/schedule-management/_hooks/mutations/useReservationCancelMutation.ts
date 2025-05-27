@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { reservationBaseKeys } from "@trainer/queries/reservation";
 
-import { createCancelReservation } from "@trainer/services/reservations";
+import { cancelReservation } from "@trainer/services/reservations";
 
 type ReservationCancelMutationParams = {
   reservationId: number;
@@ -15,7 +15,10 @@ export const useReservationCancelMutation = () => {
 
   const { mutate, ...rest } = useMutation({
     mutationFn: ({ reservationId, cancelReason, cancelDate }: ReservationCancelMutationParams) =>
-      createCancelReservation({ reservationId }, { cancelReason, cancelDate }),
+      cancelReservation({
+        requestPath: { reservationId },
+        requestBody: { cancelReason, cancelDate },
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: reservationBaseKeys.lists() });
     },

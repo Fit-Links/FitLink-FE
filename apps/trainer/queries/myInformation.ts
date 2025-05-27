@@ -2,7 +2,7 @@ import { queryOptions } from "@tanstack/react-query";
 
 import {
   getAvailablePtTime,
-  getDayoff,
+  getDayOff,
   getMyInformation,
   getTrainerCode,
 } from "@trainer/services/myInformation";
@@ -27,9 +27,9 @@ export const myInformationQueries = {
       queryKey: [...myInformationBaseKeys.all, "ptAvailableTime"] as const,
       queryFn: getAvailablePtTime,
     }),
-  dayoff: () =>
+  dayOff: () =>
     queryOptions({
-      queryKey: [...myInformationBaseKeys.all, "dayoff"] as const,
-      queryFn: () => getDayoff(),
+      queryKey: [...myInformationBaseKeys.all, "dayOff"] as const,
+      queryFn: getDayOff,
     }),
 };

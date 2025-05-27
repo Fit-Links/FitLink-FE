@@ -8,6 +8,8 @@ type EditScheduleApplyAtStepProps = {
   onNext: (scheduleApplyAt: string) => void;
 };
 
+const DAY_GAP = 1;
+
 export default function EditScheduleApplyAtStep({ onNext }: EditScheduleApplyAtStepProps) {
   const [selectedDate, setSelectedDate] = React.useState<Date>(new Date());
 
@@ -18,7 +20,9 @@ export default function EditScheduleApplyAtStep({ onNext }: EditScheduleApplyAtS
   };
 
   const handleClickNext = () => {
-    onNext(selectedDate.toISOString());
+    const nextDay = new Date(selectedDate);
+    nextDay.setDate(nextDay.getDate() + DAY_GAP);
+    onNext(nextDay.toISOString());
   };
 
   return (

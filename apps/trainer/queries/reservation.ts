@@ -2,8 +2,8 @@ import { queryOptions } from "@tanstack/react-query";
 
 import {
   getReservationDetailStatus,
-  getReservationDetailPendingStatus,
   getReservationStatus,
+  getReservationDetailPendingStatus,
 } from "@trainer/services/reservations";
 
 export const reservationBaseKeys = {

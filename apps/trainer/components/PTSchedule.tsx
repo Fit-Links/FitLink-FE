@@ -12,24 +12,26 @@ import {
 import { Ellipsis } from "lucide-react";
 import React from "react";
 
-type SpanScheduleUnit = {
-  dayOfWeek: DaysOfWeek;
-  isHoliday: boolean;
-  startTime: string;
-  endTime: string;
-};
-type PTScheduleProps = {
+import { SpanScheduleUnit } from "@trainer/app/my-page/_components/MyAvailableTimeContainer";
+
+type PTSchedulesProps = {
   currentSchedules: SpanScheduleUnit[];
-  scheduleChanges: {
+  scheduledChanges: {
     applyAt: string;
     schedules: SpanScheduleUnit[];
   }[];
+  onClickEllipsis: () => void;
 };
-function PTSchedule({ currentSchedules, scheduleChanges }: PTScheduleProps) {
+
+function PTSchedule({ currentSchedules, scheduledChanges, onClickEllipsis }: PTSchedulesProps) {
   return (
     <div className="flex flex-col items-center gap-[0.5rem]">
-      <PTScheduleItem current={true} schedules={currentSchedules} />
-      {scheduleChanges.map(({ applyAt, schedules }, index) => (
+      <PTScheduleItem
+        current={true}
+        schedules={currentSchedules}
+        onClickEllipsis={onClickEllipsis}
+      />
+      {scheduledChanges.map(({ applyAt, schedules }, index) => (
         <PTScheduleItem key={`scheduled-${index}`} applyAt={applyAt} schedules={schedules} />
       ))}
     </div>
@@ -42,18 +44,18 @@ type PTScheduleItemProps = {
   current?: boolean;
   applyAt?: string;
   schedules: SpanScheduleUnit[];
+  onClickEllipsis?: () => void;
 };
-function PTScheduleItem({ current, applyAt, schedules }: PTScheduleItemProps) {
+function PTScheduleItem({ current, applyAt, schedules, onClickEllipsis }: PTScheduleItemProps) {
   const isCurrent = current && !applyAt;
+
   const weekSchedule = Object.entries(
     makeWeekSchedule({ type: "span", schedule: schedules }),
   ) as ObjectEntries<Record<DaysOfWeek, string>>;
   const mondaySchedule = weekSchedule[Days.Monday];
 
-  const handleEditClick = () => {
-    alert("clicked");
-
-    //TODO: ellipsis 클릭 핸들러 로직 추가
+  const handleClickEllipsis = () => {
+    onClickEllipsis?.();
   };
 
   return (
@@ -74,18 +76,20 @@ function PTScheduleItem({ current, applyAt, schedules }: PTScheduleItemProps) {
           </Text.Body3>
         )}
         <Ellipsis
-          onClick={handleEditClick}
+          onClick={handleClickEllipsis}
           className="text-background-sub4 absolute right-0 top-0 cursor-pointer"
         />
       </div>
       <Dropdown>
         <DropdownTrigger className="flex">
-          <Text.Body1>{`${DAYS_OF_WEEK[mondaySchedule[0]]} ${mondaySchedule[1] === "-" ? "휴무일" : mondaySchedule[1]}`}</Text.Body1>
+          <Text.Body1>{`${DAYS_OF_WEEK[mondaySchedule[0]]} ${mondaySchedule[1] === "-" || mondaySchedule[1] === null ? "휴무일" : mondaySchedule[1]}`}</Text.Body1>
         </DropdownTrigger>
         <DropdownContent>
           {/* eslint-disable-next-line no-magic-numbers */}
           {weekSchedule.slice(1).map(([dayOfWeek, schedule]: [DaysOfWeek, string | null]) => (
-            <DropdownItem key={dayOfWeek}>{`${DAYS_OF_WEEK[dayOfWeek]} ${schedule}`}</DropdownItem>
+            <DropdownItem
+              key={dayOfWeek}
+            >{`${DAYS_OF_WEEK[dayOfWeek]} ${schedule === "-" || schedule === null ? "휴무일" : schedule}`}</DropdownItem>
           ))}
         </DropdownContent>
       </Dropdown>

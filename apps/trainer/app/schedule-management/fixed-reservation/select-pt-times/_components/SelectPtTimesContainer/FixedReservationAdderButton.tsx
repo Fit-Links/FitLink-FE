@@ -52,7 +52,7 @@ function FixedReservationAdderButton({
   const nextWeekMondayFormatted = format(nextWeekMonday, "yyyy-MM-dd");
 
   const { data: reservations } = useQuery(reservationQueries.list(nextWeekMondayFormatted));
-  const { data: dayoff } = useQuery(myInformationQueries.dayoff());
+  const { data: dayoff } = useQuery(myInformationQueries.dayOff());
 
   const { fixReservation } = useFixReservationMutation();
 
