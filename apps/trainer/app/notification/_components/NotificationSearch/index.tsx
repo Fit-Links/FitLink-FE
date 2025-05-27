@@ -18,9 +18,9 @@ import useDebounce from "@trainer/hooks/useDebounce";
 import useIntersectionObserver from "@trainer/hooks/useIntersectionObserver";
 
 import MemberNotificationResult from "./MemberNotificationResult";
+import EmptySearchResult from "../../../../components/EmptySearchResult";
 import { formatSessionData } from "../../_utils/formatter";
 import ProfileCardListFallback from "../ProfileCardListFallback";
-import EmptySearchResult from "./EmptySearchResult";
 
 type NotificationSearchContentProps = {
   search?: string;
