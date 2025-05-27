@@ -1,4 +1,5 @@
 /* eslint-disable no-magic-numbers */
+import { InfiniteData, useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import { Badge } from "@ui/components/Badge";
 import { Button } from "@ui/components/Button";
 import {
@@ -13,25 +14,135 @@ import Icon from "@ui/components/Icon";
 import { Sheet, SheetClose, SheetContent } from "@ui/components/Sheet";
 import { cn } from "@ui/lib/utils";
 import { useRouter } from "next/navigation";
-import { MouseEvent, useState } from "react";
+import { Fragment, MouseEvent, useRef, useState } from "react";
 
 import { WithBottomSheetStepper } from "@trainer/hoc/WithBottomSheetStepper";
+import { userManagementQueries } from "@trainer/queries/userManagement";
 
 import { PtUser, PtUserListApiResponse } from "@trainer/services/types/userManagement.dto";
+import { unLinkMember } from "@trainer/services/userManagement";
 
+import EmptySearchResult from "@trainer/components/EmptySearchResult";
 import ProfileCard, { MenuIcon } from "@trainer/components/ProfileCard";
+
+import useIntersectionObserver from "@trainer/hooks/useIntersectionObserver";
 
 import RouteInstance from "@trainer/constants/route";
 
 import PtRemainingCountEditSheet from "./PtRemainingCountEditSheet";
 import PtTotalCountEditSheet from "./PtTotalCountEditSheet";
+import MemberProfileListFallback from "../MemberProfileListFallback";
 
+type MemberProfileListContentProps = {
+  searchValue: string;
+  selectedMember: PtUser | null;
+  handleClickPtCountControllSheetOpen: (
+    event: MouseEvent<SVGSVGElement>,
+    selectedMemberInformation: PtUser | null,
+  ) => void;
+  handleClickSelectMember: (selectedMemberInformation: PtUser | null) => void;
+};
+function MemberProfileListContent({
+  searchValue,
+  selectedMember,
+  handleClickPtCountControllSheetOpen,
+  handleClickSelectMember,
+}: MemberProfileListContentProps) {
+  const intersectionRef = useRef(null);
+
+  const { isLoading, status, data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery(userManagementQueries.list(searchValue));
+
+  const handleIntersect = () => {
+    if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+  };
+
+  useIntersectionObserver({
+    target: intersectionRef,
+    handleIntersect,
+  });
+
+  if (isLoading) {
+    return <MemberProfileListFallback />;
+  }
+  if (status === "pending") {
+    return <></>;
+  }
+  if (status === "error") {
+    return "error";
+  }
+
+  const createMemberCount = (data: InfiniteData<PtUserListApiResponse, unknown>) =>
+    data.pages.reduce((acc, cur) => acc + cur.data.content.length, 0);
+
+  const memberCount = createMemberCount(data);
+
+  return (
+    <>
+      <div className="text-body-3 flex justify-between">
+        <p>{`회원 ${memberCount}명`}</p>
+        <p>최신등록순</p>
+      </div>
+      <ul className="my-[0.625rem] flex h-full w-full flex-col gap-[0.625rem] overflow-y-auto [&::-webkit-scrollbar]:hidden">
+        {data.pages[0].data.totalElements ? (
+          data.pages.map((group, index) => (
+            <Fragment key={`memberList-${index}`}>
+              {group.data.content.map((memberInformation) => {
+                const {
+                  memberId,
+                  name,
+                  birthDate,
+                  phoneNumber,
+                  profilePictureUrl,
+                  sessionInfo: { totalCount, remainingCount },
+                } = memberInformation;
+
+                return (
+                  <ProfileCard
+                    key={`${memberId}-${name}`}
+                    imgUrl={profilePictureUrl}
+                    userBirth={new Date(birthDate)}
+                    userName={name}
+                    phoneNumber={phoneNumber}
+                    ellipsIcon
+                    className={cn("w-full", {
+                      "border-brand-primary-500 border": selectedMember?.memberId === memberId,
+                    })}
+                    onClick={() => handleClickSelectMember(memberInformation)}
+                  >
+                    <Badge variant={"brand"}>
+                      {String(remainingCount).padStart(2, "0")}/
+                      {String(totalCount).padStart(2, "0")}
+                    </Badge>
+                    <MenuIcon
+                      onClick={(event) =>
+                        handleClickPtCountControllSheetOpen(event, memberInformation)
+                      }
+                    />
+                  </ProfileCard>
+                );
+              })}
+            </Fragment>
+          ))
+        ) : (
+          <EmptySearchResult />
+        )}
+        <div ref={intersectionRef} />
+      </ul>
+    </>
+  );
+}
 type MemberProfileListProps = {
-  memberInformations: PtUserListApiResponse["data"]["content"];
+  searchValue: string;
 };
 
-function MemberProfileList({ memberInformations }: MemberProfileListProps) {
+function MemberProfileList({ searchValue }: MemberProfileListProps) {
   const router = useRouter();
+
+  const unlinkMutation = useMutation({
+    mutationFn: unLinkMember,
+  });
+
   const [ptManagementSheetSheetOpen, setPtManagementSheetSheetOpen] = useState(false);
   const [selectedMemberInformation, setSelectedMemberInformation] = useState<PtUser | null>(null);
   const [ptTotalCountEditSheetOpen, setPtTotalCountEditSheetOpen] = useState(false);
@@ -51,15 +162,14 @@ function MemberProfileList({ memberInformations }: MemberProfileListProps) {
 
   const handleClickSelectMember = (selectedMemberInformation: PtUser | null) => {
     const selectedMemberId = selectedMemberInformation?.memberId;
-    const selectedMember = memberInformations.find(({ memberId }) => memberId === selectedMemberId);
 
     setSelectedMemberInformation((prev) => {
-      if (!selectedMember) return null;
+      if (!selectedMemberInformation) return null;
       if (prev) {
-        return prev.memberId === selectedMember.memberId ? null : selectedMember;
+        return prev.memberId === selectedMemberId ? null : selectedMemberInformation;
       }
 
-      return selectedMember;
+      return selectedMemberInformation;
     });
 
     router.push(RouteInstance["member-management"](String(selectedMemberId)));
@@ -77,40 +187,22 @@ function MemberProfileList({ memberInformations }: MemberProfileListProps) {
     setUnLinkMemberPopupOpen(true);
   };
 
+  const handleClickUnlinkConfirm = () => {
+    if (!selectedMemberInformation) return;
+    unlinkMutation.mutate({ memberId: selectedMemberInformation.memberId });
+  };
+
   const PtTotalCountEditSheetWithStepper = WithBottomSheetStepper(PtTotalCountEditSheet);
   const PtRemainingCountEditSheetWithStepper = WithBottomSheetStepper(PtRemainingCountEditSheet);
 
   return (
     <>
-      <div className="text-body-3 flex justify-between">
-        <p>{`회원 ${memberInformations.length}명`}</p>
-        <p>최신등록순</p>
-      </div>
-      <section className="my-[0.625rem] flex h-full w-full flex-col gap-[0.625rem] overflow-y-auto [&::-webkit-scrollbar]:hidden">
-        {memberInformations.map((memberInformation) => {
-          const { memberId, name, birthDate, phoneNumber, profilePictureUrl } = memberInformation;
-
-          return (
-            <ProfileCard
-              key={`${memberId}-${name}`}
-              imgUrl={profilePictureUrl}
-              userBirth={new Date(birthDate)}
-              userName={name}
-              phoneNumber={phoneNumber}
-              ellipsIcon
-              className={cn("w-full", {
-                "border-brand-primary-500 border": selectedMemberInformation?.memberId === memberId,
-              })}
-              onClick={() => handleClickSelectMember(memberInformation)}
-            >
-              <Badge variant={"brand"}>00/20</Badge>
-              <MenuIcon
-                onClick={(event) => handleClickPtCountControllSheetOpen(event, memberInformation)}
-              />
-            </ProfileCard>
-          );
-        })}
-      </section>
+      <MemberProfileListContent
+        searchValue={searchValue}
+        selectedMember={selectedMemberInformation}
+        handleClickPtCountControllSheetOpen={handleClickPtCountControllSheetOpen}
+        handleClickSelectMember={handleClickSelectMember}
+      />
       <Sheet open={ptManagementSheetSheetOpen} onOpenChange={setPtManagementSheetSheetOpen}>
         <SheetContent side={"bottom"} className="md:max-w-mobile left-1/2 w-full -translate-x-1/2">
           <div className="flex h-full w-full flex-col gap-[0.625rem]">
@@ -144,21 +236,25 @@ function MemberProfileList({ memberInformations }: MemberProfileListProps) {
           </div>
         </SheetContent>
       </Sheet>
-      <PtTotalCountEditSheetWithStepper
-        open={ptTotalCountEditSheetOpen}
-        onChangeOpen={setPtTotalCountEditSheetOpen}
-        title="등록 PT 횟수 변경"
-        incrementOptions={[5, 10, 20]}
-        selectedMemberInformation={selectedMemberInformation}
-        initialStep={selectedMemberInformation?.sessionInfo.totalCount}
-      />
-      <PtRemainingCountEditSheetWithStepper
-        open={ptRemainingCountEditSheetOpen}
-        onChangeOpen={setPtRemainingCountEditSheetOpen}
-        title="잔여 PT 횟수 변경"
-        selectedMemberInformation={selectedMemberInformation}
-        initialStep={selectedMemberInformation?.sessionInfo.remainingCount}
-      />
+      {selectedMemberInformation && (
+        <PtTotalCountEditSheetWithStepper
+          open={ptTotalCountEditSheetOpen}
+          onChangeOpen={setPtTotalCountEditSheetOpen}
+          title="등록 PT 횟수 변경"
+          incrementOptions={[5, 10, 20]}
+          selectedMemberInformation={selectedMemberInformation}
+          initialStep={selectedMemberInformation?.sessionInfo.totalCount}
+        />
+      )}
+      {selectedMemberInformation && (
+        <PtRemainingCountEditSheetWithStepper
+          open={ptRemainingCountEditSheetOpen}
+          onChangeOpen={setPtRemainingCountEditSheetOpen}
+          title="잔여 PT 횟수 변경"
+          selectedMemberInformation={selectedMemberInformation}
+          initialStep={selectedMemberInformation?.sessionInfo.remainingCount}
+        />
+      )}
       <Dialog open={unLinkMemberPopupOpen} onOpenChange={setUnLinkMemberPopupOpen}>
         <DialogContent>
           <DialogHeader>
@@ -177,8 +273,11 @@ function MemberProfileList({ memberInformations }: MemberProfileListProps) {
                 </Button>
               </DialogClose>
               <DialogClose asChild>
-                {/** TODO: 연동 해제 API */}
-                <Button variant={"destructive"} className="flex-1 transition-colors">
+                <Button
+                  variant={"destructive"}
+                  onClick={handleClickUnlinkConfirm}
+                  className="flex-1 transition-colors"
+                >
                   확인
                 </Button>
               </DialogClose>

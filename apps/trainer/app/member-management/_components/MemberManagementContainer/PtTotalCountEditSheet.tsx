@@ -1,3 +1,4 @@
+import { useMutation } from "@tanstack/react-query";
 import { Button } from "@ui/components/Button";
 import Icon from "@ui/components/Icon";
 import {
@@ -12,11 +13,12 @@ import {
 } from "@ui/components/Sheet";
 
 import { PtUser } from "@trainer/services/types/userManagement.dto";
+import { sessionCountEdit } from "@trainer/services/userManagement";
 
 type PtTotalCountEditSheetProps = {
   value: number;
   onChangeClose: (isOpen: boolean) => void;
-  selectedMemberInformation: PtUser | null;
+  selectedMemberInformation: PtUser;
 };
 
 function PtTotalCountEditSheet({
@@ -24,8 +26,26 @@ function PtTotalCountEditSheet({
   onChangeClose,
   selectedMemberInformation,
 }: PtTotalCountEditSheetProps) {
+  const {
+    memberId,
+    sessionInfo: { totalCount, sessionInfoId },
+  } = selectedMemberInformation;
+
+  const editSessionMutation = useMutation({
+    mutationFn: (totalCount: number) =>
+      sessionCountEdit({
+        requestPath: {
+          memberId,
+          sessionInfoId: sessionInfoId,
+        },
+        requestBody: {
+          totalCount,
+        },
+      }),
+  });
+
   const handleClick = () => {
-    /** TODO: PT 전체 횟수 변경 API */
+    editSessionMutation.mutate(value);
   };
 
   const handleClickCheckButton = () => {
@@ -33,7 +53,7 @@ function PtTotalCountEditSheet({
   };
 
   const checkDisabledButton = () => {
-    return value === selectedMemberInformation?.sessionInfo.totalCount;
+    return value === totalCount;
   };
 
   return (

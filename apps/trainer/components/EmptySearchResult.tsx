@@ -1,5 +1,3 @@
-import React from "react";
-
 function EmptySearchResult() {
   return (
     <div className="flex h-full flex-1 flex-col items-center justify-center">
