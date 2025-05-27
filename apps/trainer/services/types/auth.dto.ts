@@ -31,3 +31,10 @@ export type SaveTokensBody = {
 export type SaveTokensApiResponse = {
   success: boolean;
 };
+
+export type ReissueTokenRequestBody = {
+  refreshToken: string;
+};
+export type ReissueTokenApiResponse = ResponseBase<{
+  accessToken: string;
+}>;
