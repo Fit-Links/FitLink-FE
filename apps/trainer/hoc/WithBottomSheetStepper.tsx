@@ -26,13 +26,13 @@ type WithBottomSheetStepperProps = {
   initialStep?: number;
   open?: boolean;
   onChangeOpen?: (isOpen: boolean) => void;
-  selectedMemberInformation: PtUser | null;
+  selectedMemberInformation: PtUser;
 };
 
 type ApproveOrModifyCTAButtonProps = {
   value: number;
   onChangeClose: (isOpen: boolean) => void;
-  selectedMemberInformation: PtUser | null;
+  selectedMemberInformation: PtUser;
 };
 
 export const WithBottomSheetStepper = (

@@ -1,3 +1,4 @@
+import { useMutation } from "@tanstack/react-query";
 import { Button } from "@ui/components/Button";
 import Icon from "@ui/components/Icon";
 import {
@@ -12,11 +13,12 @@ import {
 } from "@ui/components/Sheet";
 
 import { PtUser } from "@trainer/services/types/userManagement.dto";
+import { sessionCountEdit } from "@trainer/services/userManagement";
 
 type PtRemainingCountEditSheetProps = {
   value: number;
   onChangeClose: (isOpen: boolean) => void;
-  selectedMemberInformation: PtUser | null;
+  selectedMemberInformation: PtUser;
 };
 
 function PtRemainingCountEditSheet({
@@ -24,8 +26,26 @@ function PtRemainingCountEditSheet({
   onChangeClose,
   selectedMemberInformation,
 }: PtRemainingCountEditSheetProps) {
+  const {
+    memberId,
+    sessionInfo: { remainingCount, sessionInfoId },
+  } = selectedMemberInformation;
+
+  const editSessionMutation = useMutation({
+    mutationFn: (remainingCount: number) =>
+      sessionCountEdit({
+        requestPath: {
+          memberId,
+          sessionInfoId: sessionInfoId,
+        },
+        requestBody: {
+          remainingCount,
+        },
+      }),
+  });
+
   const handleClick = () => {
-    /** TODO: PT 남은 횟수 변경 API */
+    editSessionMutation.mutate(value);
   };
 
   const handleClickCheckButton = () => {
@@ -33,7 +53,7 @@ function PtRemainingCountEditSheet({
   };
 
   const checkDisabledButton = () => {
-    return value === selectedMemberInformation?.sessionInfo.remainingCount;
+    return value === remainingCount;
   };
 
   return (
