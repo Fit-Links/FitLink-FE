@@ -45,12 +45,13 @@ export type AvailablePtTime = {
 export type ReservationStatus =
   | "예약 확정"
   | "예약 대기"
-  | "예약 불가"
-  | "수업 완료"
+  | "예약 불가 설정"
+  | "예약 종료"
   | "휴무일"
   | "예약 취소"
   | "예약 변경 요청"
-  | "예약 취소 요청";
+  | "예약 취소 요청"
+  | "고정 예약";
 
 export type BaseMemberInfo = {
   memberId: number;
