@@ -1,7 +1,9 @@
 import { ReservationStatus } from "@5unwan/core/api/types/common";
+import { isPast, parseISO } from "date-fns";
 
 import { ModifiedReservationListItem } from "@trainer/services/types/reservations.dto";
 
+import ReservationControlSheet from "./ReservationControlSheet";
 import ReservationNotAllowedCancelSheet from "./ReservationNotAllowedCancelSheet";
 import ReservationOutcomeSheet from "./ReservationOutcomeSheet";
 import ReservationPendingSheet from "./ReservationPendingSheet";
@@ -17,26 +19,62 @@ type ReservationSheetRenderer = (
   reservationContent: ModifiedReservationListItem[],
 ) => JSX.Element;
 
+const isReservationPast = (reservation: ModifiedReservationListItem): boolean => {
+  const reservationDateStr = reservation.reservationDates[0];
+
+  const reservationDate = parseISO(reservationDateStr);
+
+  return isPast(reservationDate);
+};
+
 export const SheetAdapter: Record<
   Exclude<ReservationStatus, "휴무일" | "예약 취소 요청" | "예약 변경 요청" | "예약 취소">,
   ReservationSheetRenderer
 > = {
-  "예약 불가": (commonProps) => <ReservationNotAllowedCancelSheet {...commonProps} />,
-  "예약 확정": (commonProps, reservationContent) => (
-    <ReservationOutcomeSheet
+  "예약 불가 설정": (commonProps, reservationContent) => (
+    <ReservationNotAllowedCancelSheet
       {...commonProps}
-      memberInformation={reservationContent[0]}
-      reservationStatus="예약 확정"
+      reservationId={reservationContent[0].reservationId}
     />
   ),
-  "수업 완료": (commonProps, reservationContent) => (
+  "예약 확정": (commonProps, reservationContent) => {
+    return isReservationPast(reservationContent[0]) ? (
+      <ReservationOutcomeSheet
+        {...commonProps}
+        memberInformation={reservationContent[0]}
+        reservationStatus="예약 확정"
+      />
+    ) : (
+      <ReservationControlSheet
+        {...commonProps}
+        memberInformation={reservationContent[0]}
+        reservationStatus="예약 확정"
+      />
+    );
+  },
+  "예약 종료": (commonProps, reservationContent) => (
     <ReservationOutcomeSheet
       {...commonProps}
       memberInformation={reservationContent[0]}
-      reservationStatus="수업 완료"
+      reservationStatus="예약 종료"
     />
   ),
   "예약 대기": (commonProps, reservationContent) => (
     <ReservationPendingSheet {...commonProps} memberInformations={reservationContent} />
   ),
+  "고정 예약": (commonProps, reservationContent) => {
+    return isReservationPast(reservationContent[0]) ? (
+      <ReservationOutcomeSheet
+        {...commonProps}
+        memberInformation={reservationContent[0]}
+        reservationStatus="고정 예약"
+      />
+    ) : (
+      <ReservationControlSheet
+        {...commonProps}
+        memberInformation={reservationContent[0]}
+        reservationStatus="고정 예약"
+      />
+    );
+  },
 };

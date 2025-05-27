@@ -30,8 +30,8 @@ function ReservationPendingSheet({
   const handleClickRoutePendingReservationPage = () => {
     router.push(
       RouteInstance["pending-reservations"]("", {
-        members: encodeURIComponent(JSON.stringify(memberInformations)),
-        selectedDate: selectedFormatDate,
+        selectedDate: String(selectedDate),
+        formattedSelectedDate: selectedFormatDate,
       }),
     );
   };

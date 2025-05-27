@@ -1,5 +1,8 @@
 "use client";
 
+import { ReservationStatus } from "@5unwan/core/api/types/common";
+import { useQuery } from "@tanstack/react-query";
+import { Badge } from "@ui/components/Badge";
 import { Button } from "@ui/components/Button";
 import Icon from "@ui/components/Icon";
 import { Input } from "@ui/components/Input";
@@ -13,34 +16,50 @@ import {
   SheetTitle,
 } from "@ui/components/Sheet";
 import DateController from "@ui/lib/DateController";
+import { format } from "date-fns";
 import { ChangeEvent, useState } from "react";
+
+import { userManagementQueries } from "@trainer/queries/userManagement";
 
 import { ModifiedReservationListItem } from "@trainer/services/types/reservations.dto";
 
 import ProfileCard from "@trainer/components/ProfileCard";
+
+import { useReservationCancelMutation } from "../../_hooks/mutations/useReservationCancelMutation";
 
 type ReservationControlSheetProps = {
   open: boolean;
   onChangeOpen: (isOpen: boolean) => void;
   selectedDate: Date;
   memberInformation: ModifiedReservationListItem;
+  reservationStatus?: Extract<ReservationStatus, "예약 확정" | "고정 예약">;
 };
 
+/** TODO: 현재 시점과 비교하여 확정된 예약이 미래 예약이라면 해당 바텀시트를 나타냄(예약 취소/닫기) */
 function ReservationControlSheet({
   open,
   onChangeOpen,
   selectedDate,
   memberInformation,
+  reservationStatus,
 }: ReservationControlSheetProps) {
-  const { memberInfo } = memberInformation;
+  const { memberInfo, reservationId } = memberInformation;
+
   /** TODO: memberId로 특정 회원의 상세 정보를 불러와 이미지,번호,생일,총 PT횟수, 잔여 PT 횟수 불러오기 */
-  const { name } = memberInfo;
+  const { memberId } = memberInfo;
   const selectedFormatDate = DateController(selectedDate).toDateTimeWithDayFormat();
 
   const [inputValue, setInputValue] = useState("");
   const [isReservationCancelSheetOpen, setIsReservationCancelSheetOpen] = useState(false);
   const [isReservationCancelSuccessSheetOpen, setIsReservationCancelSuccessSheetOpen] =
     useState(false);
+
+  const { data: userInformationDetail } = useQuery({
+    ...userManagementQueries.detail(memberId as number),
+    enabled: !!memberId,
+  });
+
+  const { reservationCancel } = useReservationCancelMutation();
 
   const handleClickReservationCancelSheetOpen = () => {
     setIsReservationCancelSheetOpen(true);
@@ -50,7 +69,13 @@ function ReservationControlSheet({
     setInputValue(event.target.value);
   };
 
+  /** TODO:  예약 취소 버튼 클릭 시 예약 취소 API 호출 */
   const handleClickReservationCancelSuccessSheetOpen = () => {
+    reservationCancel({
+      reservationId: reservationId,
+      cancelReason: inputValue,
+      cancelDate: format(selectedDate, "yyyy-MM-dd'T'HH:mm"),
+    });
     setIsReservationCancelSuccessSheetOpen(true);
   };
 
@@ -60,14 +85,19 @@ function ReservationControlSheet({
         <SheetContent side={"bottom"} className="md:max-w-mobile left-1/2 w-full -translate-x-1/2">
           <SheetHeader className="items-center">
             <SheetTitle className="flex justify-center">{selectedFormatDate}</SheetTitle>
+            {reservationStatus && <Badge className="h-8 w-20">{reservationStatus}</Badge>}
           </SheetHeader>
-          <ProfileCard
-            imgUrl={""}
-            userBirth={new Date()}
-            userName={name as string}
-            phoneNumber={""}
-            className="bg-background-sub1 w-full hover:bg-none"
-          />
+          {userInformationDetail && (
+            /** TODO: 현재 회원 상세 정보가 기존과 다르게 내려오고 있음. 특시 회원의 전화번호, 생일 데이터가 없음 */
+            <ProfileCard
+              imgUrl={userInformationDetail.data.profilePictureUrl}
+              userBirth={new Date(userInformationDetail.data.birthDate)}
+              userName={userInformationDetail.data.name}
+              phoneNumber={userInformationDetail.data.phoneNumber}
+              className="bg-background-sub1 w-full hover:bg-none"
+            />
+          )}
+
           <SheetFooter>
             <div className="flex w-full justify-center gap-[0.625rem]">
               <SheetClose asChild>

@@ -17,12 +17,15 @@ import {
   SheetTitle,
 } from "@ui/components/Sheet";
 import DateController from "@ui/lib/DateController";
+import { format } from "date-fns";
 import { useState } from "react";
 
+import { useReservationNotAllowMutation } from "../../_hooks/mutations/useReservationNotAllowMutation";
 type ReservationNotAllowedCancelSheetProps = {
   open: boolean;
   onChangeOpen: (isOpen: boolean) => void;
   selectedDate: Date;
+  reservationId: number;
 };
 
 /** TODO: 예약 불가 해제 API 붙이기 */
@@ -30,13 +33,24 @@ function ReservationNotAllowedCancelSheet({
   open,
   onChangeOpen,
   selectedDate,
+  reservationId,
 }: ReservationNotAllowedCancelSheetProps) {
   const selectedFormatDate = DateController(selectedDate).toDateTimeWithDayFormat();
 
   const [isRemindPopupOpen, setIsRemindPopupOpen] = useState(false);
 
+  const { reservationNotAllow } = useReservationNotAllowMutation();
+
   const handleClickOpenPopup = () => {
     setIsRemindPopupOpen(true);
+  };
+
+  /** 예약 불가 설정을 취소하면  예약 내역에서 사라짐 */
+  const handleClickDeleteNotAllowedReservation = () => {
+    reservationNotAllow({
+      date: format(selectedDate, "yyyy-MM-dd'T'HH:mm"),
+      reservationId,
+    });
   };
 
   return (
@@ -78,7 +92,9 @@ function ReservationNotAllowedCancelSheet({
               </Button>
             </DialogClose>
             <DialogClose asChild>
-              <Button className="w-full">삭제</Button>
+              <Button onClick={handleClickDeleteNotAllowedReservation} className="w-full">
+                삭제
+              </Button>
             </DialogClose>
           </DialogFooter>
         </DialogContent>
