@@ -20,12 +20,14 @@ export const userManagementBaseKeys = {
 };
 
 export const userManagementQueries = {
-  list: (q: string) =>
+  /** TODO: 조회 조건 추가 시 조건 추가(q를 비워도 되는건지 여쭤보기) */
+  list: (q?: string) =>
     infiniteQueryOptions({
-      queryKey: [...userManagementBaseKeys.lists(), q] as const,
-      queryFn: ({ pageParam }) => getPtUserList({ q, page: pageParam, size: PT_HISTORY_PAGE_SIZE }),
+      queryKey: [...userManagementBaseKeys.lists(), q ?? ""] as const,
+      queryFn: ({ pageParam }) =>
+        getPtUserList({ q: q ?? "", page: pageParam, size: PT_HISTORY_PAGE_SIZE }),
       getNextPageParam: (lastPage, _allPages, lastPageParam) => {
-        if (lastPage.data.content.length === EMPTY_PAGE) {
+        if (lastPage.data?.content.length === EMPTY_PAGE) {
           return undefined;
         }
 

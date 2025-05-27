@@ -26,9 +26,10 @@ export const reservationQueries = {
       queryKey: [...reservationBaseKeys.details(), reservationId] as const,
       queryFn: () => getReservationDetailStatus({ reservationId }),
     }),
-  pendingDetail: (reservationId: number) =>
+  /** TODO: 예약 대기 상세 조회 API 변경됨 */
+  pendingDetail: (reservationDate: string) =>
     queryOptions({
-      queryKey: [...reservationBaseKeys.details(), reservationId] as const,
-      queryFn: () => getReservationDetailPendingStatus({ reservationId: reservationId }),
+      queryKey: [...reservationBaseKeys.details(), "pending", reservationDate] as const,
+      queryFn: () => getReservationDetailPendingStatus({ reservationDate }),
     }),
 };
