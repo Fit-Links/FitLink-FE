@@ -9,7 +9,7 @@ function Header() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const selectedDate = searchParams.get("selectedDate");
+  const selectedDate = searchParams.get("selectedFormatDate");
 
   return (
     <>

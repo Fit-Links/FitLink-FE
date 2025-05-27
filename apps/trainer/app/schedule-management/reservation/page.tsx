@@ -1,17 +1,29 @@
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Suspense } from "react";
+
+import { userManagementQueries } from "@trainer/queries/userManagement";
+
+import { getQueryClient } from "@trainer/components/Providers/getQueryClient";
 
 import MemberListContainer from "../_components/MemberListContainer";
 import Header from "./_components/Header";
 import ReservationAdderButton from "./_components/ReservationAdderButton";
 
-function Reservation() {
+async function Reservation() {
+  const queryClient = getQueryClient();
+
+  await queryClient.prefetchInfiniteQuery(userManagementQueries.list());
+  const dehydratedState = dehydrate(queryClient);
+
   return (
     <main className="flex h-full flex-col">
-      {/** TODO: prerender 오류 방지를 위한 임시 fallback으로 추후 수정 */}
-      <Suspense fallback={<div>preRender 오류 방지를 위한 임시 fallback</div>}>
-        <Header />
-      </Suspense>
-      <MemberListContainer renderFooterReservationButton={ReservationAdderButton} />
+      <HydrationBoundary state={dehydratedState}>
+        {/** TODO: prerender 오류 방지를 위한 임시 fallback으로 추후 수정 */}
+        <Suspense fallback={<div>preRender 오류 방지를 위한 임시 fallback</div>}>
+          <Header />
+        </Suspense>
+        <MemberListContainer renderFooterReservationButton={ReservationAdderButton} />
+      </HydrationBoundary>
     </main>
   );
 }
