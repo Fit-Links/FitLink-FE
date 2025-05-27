@@ -11,9 +11,12 @@ import {
   SheetTrigger,
 } from "@ui/components/Sheet";
 import DateController from "@ui/lib/DateController";
+import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 
 import RouteInstance from "@trainer/constants/route";
+
+import { useDayoffAddMutation } from "../../_hooks/mutations/useDayoffAddMutation";
 
 type DayoffAdderButtonProps = {
   selectedDate?: Date;
@@ -22,12 +25,15 @@ type DayoffAdderButtonProps = {
 function DayoffAdderButton({ selectedDate }: DayoffAdderButtonProps) {
   const router = useRouter();
 
+  const { addDayoff } = useDayoffAddMutation();
+
   const formatDate = selectedDate && DateController(selectedDate).toServiceFormat().untilDate;
 
   /** TODO: 버튼 클릭 시 휴무일 추가 API 붙히기 */
   const handleClickDayoffAdder = () => {
-    // TODO: 휴무일 추가 API에 주입할 포맷 날짜 데이터
-    // const validateDate = format(selectedDate, "yyyy-MM-dd");
+    const validateDate = format(selectedDate as Date, "yyyy-MM-dd");
+
+    addDayoff([validateDate]);
     router.push(RouteInstance["schedule-management"]());
   };
 
