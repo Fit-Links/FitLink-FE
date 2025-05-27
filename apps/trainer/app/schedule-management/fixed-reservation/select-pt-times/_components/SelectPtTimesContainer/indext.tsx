@@ -7,13 +7,10 @@ import TimeCellToggleGroup from "@ui/components/TimeCellToggleGroup";
 import { TimeCell } from "@ui/utils/timeCellUtils";
 import { useRef, useState } from "react";
 
-import { PtUser } from "@trainer/services/types/userManagement.dto";
-
 import FixedReservationAdderButton from "./FixedReservationAdderButton";
-import { getFixedReservationDatesAndTimes } from "../../_libs/getFixedReservationDatesAndTimes";
 
 type SelectPtTimesContainerProps = {
-  userInformation: PtUser;
+  userInformation: { memberId: number; name: string };
 };
 
 function SelectPtTimesContainer({ userInformation }: SelectPtTimesContainerProps) {
@@ -47,13 +44,7 @@ function SelectPtTimesContainer({ userInformation }: SelectPtTimesContainerProps
             toggleLimit={1}
           />
         </section>
-        <footer
-          onClick={() =>
-            console.log(
-              getFixedReservationDatesAndTimes(selectedFixedSchedulesRef.current, new Date()),
-            )
-          }
-        >
+        <footer>
           <FixedReservationAdderButton
             userInformation={userInformation}
             selectedFixedSchedules={selectedFixedSchedulesRef.current}

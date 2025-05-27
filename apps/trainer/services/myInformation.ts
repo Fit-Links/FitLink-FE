@@ -50,13 +50,13 @@ export const addAvailablePtTime = ({ applyAt, availableTimes }: AddAvailablePtTi
     data: { applyAt, availableTimes },
   });
 
-export const addTimeOff = ({ dayOfWeek, dayOfTime }: AddTimeOffRequestBody) =>
+/** TODO: 휴무일 추가 API에 me url 추가됨
+ * Request, Response 타입 변경됨
+ */
+export const addTimeOff = (days: AddTimeOffRequestBody) =>
   http.post<AddTimeOffApiResponse>({
     url: `/v1/${TRAINER_BASE_URL}/me/day-off`,
-    data: {
-      dayOfWeek,
-      dayOfTime,
-    },
+    data: days,
   });
 
 export const deleteTimeOff = (

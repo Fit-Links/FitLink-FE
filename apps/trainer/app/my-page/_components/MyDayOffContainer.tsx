@@ -10,7 +10,7 @@ import { myInformationQueries } from "@trainer/queries/myInformation";
 
 import { deleteTimeOff } from "@trainer/services/myInformation";
 import {
-  DayOffInformation,
+  DayoffResponseInformation,
   DeleteTimeOffRequestBody,
 } from "@trainer/services/types/myInformation.dto";
 
@@ -68,14 +68,16 @@ export default function MyDayOffContainer() {
 
   if (dayOffList.length === NoDayOff) return;
 
-  const holidayList: RequestDayOffInformation[] = dayOffList.map((dayOff: DayOffInformation) => {
-    const dayOfWeek = getDayOfWeek(dayOff.dayOffDate);
+  const holidayList: RequestDayOffInformation[] = dayOffList.map(
+    (dayOff: DayoffResponseInformation) => {
+      const dayOfWeek = getDayOfWeek(dayOff.dayOffDate);
 
-    return {
-      ...dayOff,
-      dayOfWeek,
-    };
-  });
+      return {
+        ...dayOff,
+        dayOfWeek,
+      };
+    },
+  );
 
   return (
     <section className="mt-[1.563rem] w-full">

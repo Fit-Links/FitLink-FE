@@ -1,10 +1,7 @@
 import { DayOfWeek, NoResponseData, ResponseBase } from "@5unwan/core/api/types/common";
 
 export type TimeOffInformation = { dayOfWeek: DayOfWeek; dayOfTime: string };
-export type DayOffInformation = {
-  dayOffId: number;
-  dayOffDate: string;
-};
+export type DayoffResponseInformation = { dayOffId: number; dayOffDate: string };
 
 export type AvailablePtTimeEntry = {
   availableTimeId: number;
@@ -13,11 +10,13 @@ export type AvailablePtTimeEntry = {
   startTime: string;
   endTime: string;
 };
+/** TODO: 트레이너ID 필드 추가 및 프로필 url 필드 이름 변경 */
 type MyInformationResponse = {
   name: string;
   birthDate: string;
   phoneNumber: string;
   profilePictureUrl: string;
+  trainerId: number;
 };
 export type MyInformationApiResponse = ResponseBase<MyInformationResponse>;
 
@@ -51,14 +50,18 @@ type AddAvailablePtTimeResponse = {
 };
 export type AddAvailablePtTimeApiResponse = ResponseBase<AddAvailablePtTimeResponse>;
 
-export type AddTimeOffRequestBody = TimeOffInformation;
-type AddTimeOffResponse = TimeOffInformation;
+export type AddTimeOffRequestBody = string[];
+type AddTimeOffResponse = DayoffResponseInformation;
 export type AddTimeOffApiResponse = ResponseBase<AddTimeOffResponse>;
 
-export type GetDayOffResponse = DayOffInformation[];
+export type GetDayOffResponse = DayoffResponseInformation[];
 
 export type GetDayOffApiResponse = ResponseBase<GetDayOffResponse>;
 
 export type DeleteTimeOffRequestPath = { dayOffId: number };
 export type DeleteTimeOffRequestBody = TimeOffInformation;
 export type DeleteTimeOffApiResponse = NoResponseData;
+
+export type DayoffRequestBody = string[];
+export type DayoffResponse = DayoffResponseInformation[];
+export type GetDayoffApiResponse = ResponseBase<DayoffResponse>;

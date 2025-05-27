@@ -23,7 +23,7 @@ export type CalendarResponse = {
 };
 export type CalendarApiResponse = ResponseBase<CalendarResponse>;
 
-export type GetReservationStatusRequestQuery = {
+export type ReservationStatusPathParams = {
   date?: string;
 };
 
@@ -37,49 +37,41 @@ export type ModifiedReservationListItem = Omit<
   memberInfo: NullableMemberInfo;
 };
 
-type GetReservationStatusResponse = {
-  reservations: ModifiedReservationListItem[];
-};
-
-export type GetReservationStatusApiResponse = ResponseBase<GetReservationStatusResponse>;
+type ReservationStatusResponse = ModifiedReservationListItem[];
+export type ReservationStatusApiResponse = ResponseBase<ReservationStatusResponse>;
 
 export type GetReservationDetailStatusRequestPath = ReservationPathParams;
 type ReservationDetailStatusResponse = BaseReservationDetail<
   Extract<ReservationStatus, "예약 확정" | "수업 완료">,
   DetailedMemberInfo
-> & {
-  priority: number;
-};
+>;
 export type GetReservationDetailStatusApiResponse = ResponseBase<ReservationDetailStatusResponse>;
 
-export type GetReservationWaitingMembersRequestPath = {
-  reservationDate: string;
-};
-export type ReservationWaitingMember = DetailedMemberInfo &
+export type ReservationDetailPendingStatusRequestPath = { reservationDate: string };
+export type ReservationDetailPendingStatus = DetailedMemberInfo &
   Pick<BaseReservationListItem, "reservationId" | "dayOfWeek"> & {
     reservationDates: string[];
   };
-type GetReservationWaitingMembersResponse = {
-  waitingMembers: ReservationWaitingMember[];
-};
-export type GetReservationWaitingMembersApiResponse =
-  ResponseBase<GetReservationWaitingMembersResponse>;
+type ReservationDetailPendingStatusResponse = Array<ReservationDetailPendingStatus>;
+export type ReservationDetailPendingStatusApiResponse =
+  ResponseBase<ReservationDetailPendingStatusResponse>;
 
-export type SetReservationDateAvailabilityRequestBody = {
+/** TODO: 예약불가 설정 API에 기존에 있던 예약 불가 설정을 취소하고 싶다면 reservationId 입력해주는 것으로 수정됨 */
+export type ReservationSetNotAvailableRequestBody = {
   date: string;
   reservationId?: number;
 };
-type SetReservationDateAvailabilityResponse = {
+type ReservationSetNotAvailableResponse = {
   reservationId: number;
 };
-export type SetReservationDateAvailabilityApiResponse =
-  ResponseBase<SetReservationDateAvailabilityResponse>;
+export type ReservationSetNotAvailableApiResponse =
+  ResponseBase<ReservationSetNotAvailableResponse>;
 
-export type CreateDirectReservationRequestBody = {
+export type DirectReservationRequestBody = {
   trainerId: number;
   memberId: number;
   name: string;
-  date: string[];
+  dates: string[];
 };
 type CreateDirectReservationResponse = {
   reservation: {
@@ -89,17 +81,21 @@ type CreateDirectReservationResponse = {
 };
 export type CreateDirectReservationApiResponse = ResponseBase<CreateDirectReservationResponse>;
 
-export type CreateFixedReservationRequestBody = {
+export type FixReservationRequestBody = {
   memberId: number;
   name: string;
   dates: string[];
 };
-type CreateFixedReservationResponse = {
-  reservations: ReservationResponseBase[];
+type FixReservationResponse = {
+  reservations: {
+    reservationId: number;
+    status: Extract<ReservationStatus, "고정 예약">;
+  }[];
 };
-export type CreateFixedReservationApiResponse = ResponseBase<CreateFixedReservationResponse>;
+export type CreateFixedReservationApiResponse = ResponseBase<FixReservationResponse>;
 
 export type CancelReservationRequestPath = ReservationPathParams;
+/** TODO: 예약 취소 API에 cancelDate 필드 추가됨 */
 export type CancelReservationRequestBody = {
   cancelReason: string;
   cancelDate: string;
@@ -127,11 +123,22 @@ export type ApproveReservationApiResponse = ResponseBase<ReservationResponseBase
 
 export type ProcessPTRequestPath = {
   reservationId: number;
+  status: Extract<ReservationStatus, "예약 대기">;
 };
-export type ProcessPTRequestBody = {
+
+export type CompletedPtRequestPath = {
+  reservationId: number;
+};
+export type CompletedPtRequestBody = {
   memberId: number;
   isJoin: boolean;
 };
+type CompletedPtResponse = {
+  sessionId: number;
+  status: string;
+};
+export type CompletedPtApiResponse = ResponseBase<CompletedPtResponse>;
+
 export type ProcessPTResponse = {
   sessionId: number;
   status: string;

@@ -15,9 +15,11 @@ function SelectTimeRouteButton({ selectedMemberInformation }: SelectTimeRouteBut
   const router = useRouter();
 
   const handleClickRoute = () => {
+    if (!selectedMemberInformation) return;
     router.push(
       RouteInstance["select-pt-times"]("", {
-        memberInformation: encodeURIComponent(JSON.stringify(selectedMemberInformation as PtUser)),
+        memberId: String(selectedMemberInformation?.memberId),
+        name: selectedMemberInformation?.name,
       }),
     );
   };
