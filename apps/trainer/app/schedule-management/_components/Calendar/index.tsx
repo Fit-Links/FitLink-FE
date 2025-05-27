@@ -1,4 +1,7 @@
 "use client";
+import { useSuspenseQueries } from "@tanstack/react-query";
+import { format, startOfWeek } from "date-fns";
+import { ko } from "date-fns/locale";
 import { useRef, useState } from "react";
 import SwiperConfig from "swiper";
 import { Virtual } from "swiper/modules";
@@ -6,22 +9,15 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
 
-import { ReservationStatusApiResponse } from "@trainer/services/types/reservations.dto";
+import { myInformationQueries } from "@trainer/queries/myInformation";
 
 import useSyncScroll from "@trainer/hooks/useSyncScroll";
 
 import { getOffsetDate, getWeekDates } from "@trainer/utils/CalendarUtils";
 
-import DayColumn from "./DayColumn";
 import DayOfWeek from "./DayOfWeek";
-import TimeBlock from "./TimeBlock";
 import TimeColumn from "./TimeColumn";
 import WeekRow from "./WeekRow";
-import {
-  isCheckDayOff,
-  mergeDateAndTime,
-  parsedReservationContent,
-} from "../../_libs/CalendarUtils";
 
 const WEEK_LENGTH = 7;
 const MONTH_START_INDEX = 1;
@@ -31,7 +27,11 @@ const initialWeeks = Array.from({ length: 105 }, (_, i) =>
   getWeekDates(getOffsetDate(currentDate, (i - TOTAL_WEEKS) * WEEK_LENGTH)),
 );
 
-export default function Calendar() {
+function Calendar() {
+  const koreanSunday = startOfWeek(new Date(), { weekStartsOn: 0, locale: ko });
+  const simpleDate = format(koreanSunday, "yyyy-MM-dd");
+
+  const [reservationQueryDate, setReservationQueryDate] = useState(simpleDate);
   const [currentWeek, setCurrentWeek] = useState(getWeekDates(currentDate));
 
   const timeColumnRef = useRef<HTMLDivElement>(null);
@@ -39,11 +39,18 @@ export default function Calendar() {
 
   const currentMonth = currentWeek[0].getMonth() + MONTH_START_INDEX;
 
+  const [{ data: dayoff }, { data: ptAvailableTime }] = useSuspenseQueries({
+    queries: [myInformationQueries.dayoff(), myInformationQueries.ptAvailableTime()],
+  });
+
   const handleChangeSlide = (swiperConfig: SwiperConfig) => {
     const { activeIndex } = swiperConfig;
     const newWeek = initialWeeks[activeIndex];
 
     setCurrentWeek(newWeek);
+
+    const newStartDate = format(newWeek[0], "yyyy-MM-dd");
+    setReservationQueryDate(newStartDate);
   };
 
   useSyncScroll(timeColumnRef, scheduleRef);
@@ -73,25 +80,13 @@ export default function Calendar() {
           >
             {initialWeeks.map((week, index) => (
               <SwiperSlide key={`${week}-${index}`} virtualIndex={index}>
-                <WeekRow key={`${week}`}>
-                  {week.map((date) => (
-                    <DayColumn
-                      key={`${date}`}
-                      isDayOff={isCheckDayOff(MOCK_RESERVATION_DATA, date)}
-                    >
-                      {mergeDateAndTime(date).map((mergeDate, index) => (
-                        <TimeBlock
-                          key={`${mergeDate}-${index}`}
-                          date={mergeDate}
-                          reservationContent={parsedReservationContent(
-                            MOCK_RESERVATION_DATA,
-                            mergeDate,
-                          )}
-                        />
-                      ))}
-                    </DayColumn>
-                  ))}
-                </WeekRow>
+                <WeekRow
+                  key={`${week}`}
+                  week={week}
+                  ptAvailableTime={ptAvailableTime}
+                  dayoff={dayoff}
+                  reservationQueryDate={reservationQueryDate}
+                />
               </SwiperSlide>
             ))}
           </Swiper>
@@ -101,103 +96,4 @@ export default function Calendar() {
   );
 }
 
-const MOCK_RESERVATION_DATA: ReservationStatusApiResponse["data"] = {
-  reservations: [
-    {
-      reservationId: 1,
-      sessionInfoId: 6,
-      isDayOff: false,
-      dayOfWeek: "WEDNESDAY",
-      reservationDates: ["2025-04-30T18:00"],
-      status: "예약 확정",
-      memberInfo: {
-        memberId: 5,
-        name: "홍길동",
-      },
-    },
-    {
-      reservationId: 2,
-      sessionInfoId: 11,
-      isDayOff: false,
-      dayOfWeek: "TUESDAY",
-      reservationDates: ["2025-04-01T11:00"],
-      status: "수업 완료",
-      memberInfo: {
-        memberId: 12,
-        name: "김철수",
-      },
-    },
-    {
-      reservationId: 5,
-      sessionInfoId: 3,
-      isDayOff: false,
-      dayOfWeek: "MONDAY",
-      reservationDates: ["2025-04-28T15:00"],
-      status: "예약 대기",
-      memberInfo: {
-        memberId: 13,
-        name: "김진수",
-      },
-    },
-    {
-      reservationId: 6,
-      sessionInfoId: 4,
-      isDayOff: false,
-      dayOfWeek: "MONDAY",
-      reservationDates: ["2025-04-28T15:00"],
-      status: "예약 대기",
-      memberInfo: {
-        memberId: 14,
-        name: "이한동",
-      },
-    },
-    {
-      reservationId: 7,
-      sessionInfoId: 5,
-      isDayOff: false,
-      dayOfWeek: "MONDAY",
-      reservationDates: ["2025-04-28T15:00"],
-      status: "예약 대기",
-      memberInfo: {
-        memberId: 15,
-        name: "하재홍",
-      },
-    },
-    {
-      reservationId: 11,
-      sessionInfoId: null,
-      isDayOff: true,
-      dayOfWeek: "THURSDAY",
-      reservationDates: ["2025-04-03"],
-      status: "휴무일",
-      memberInfo: {
-        memberId: null,
-        name: null,
-      },
-    },
-    {
-      reservationId: 11,
-      sessionInfoId: null,
-      isDayOff: true,
-      dayOfWeek: "FRIDAY",
-      reservationDates: ["2025-04-04"],
-      status: "휴무일",
-      memberInfo: {
-        memberId: null,
-        name: null,
-      },
-    },
-    {
-      reservationId: 20,
-      sessionInfoId: null,
-      isDayOff: false,
-      dayOfWeek: "WEDNESDAY",
-      reservationDates: ["2025-04-02T11:00"],
-      status: "예약 불가",
-      memberInfo: {
-        memberId: null,
-        name: null,
-      },
-    },
-  ],
-};
+export default Calendar;
