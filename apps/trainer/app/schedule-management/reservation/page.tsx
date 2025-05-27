@@ -1,16 +1,14 @@
-import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { Suspense } from "react";
 
 import { userManagementQueries } from "@trainer/queries/userManagement";
-
-import { getQueryClient } from "@trainer/components/Providers/getQueryClient";
 
 import MemberListContainer from "../_components/MemberListContainer";
 import Header from "./_components/Header";
 import ReservationAdderButton from "./_components/ReservationAdderButton";
 
 async function Reservation() {
-  const queryClient = getQueryClient();
+  const queryClient = new QueryClient();
 
   await queryClient.prefetchInfiniteQuery(userManagementQueries.list());
   const dehydratedState = dehydrate(queryClient);

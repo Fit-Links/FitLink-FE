@@ -1,12 +1,10 @@
 /* eslint-disable no-magic-numbers */
 /** TODO: 예약 대기 내역 구현이 완료되지 않아 에러 방지를 위한 주석 처리 */
-import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { format, subHours } from "date-fns";
 
 import { myInformationQueries } from "@trainer/queries/myInformation";
 import { reservationQueries } from "@trainer/queries/reservation";
-
-import { getQueryClient } from "@trainer/components/Providers/getQueryClient";
 
 import Header from "./_components/Header";
 import PendingReservationContainer from "./_components/PendingReservationContainer";
@@ -19,7 +17,7 @@ type PendingReservationsProps = {
  * 해당 페이지로 선택된 예약 블록의 reservationId를 받아서 조회하기
  */
 async function PendingReservations({ searchParams }: PendingReservationsProps) {
-  const queryClient = getQueryClient();
+  const queryClient = new QueryClient();
 
   const selectedDate = new Date(searchParams.selectedDate);
 
