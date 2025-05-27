@@ -1,8 +1,11 @@
 "use client";
 
+import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import React, { ReactNode, useState } from "react";
 
-import { PtUser, PtUserListApiResponse } from "@trainer/services/types/userManagement.dto";
+import { userManagementQueries } from "@trainer/queries/userManagement";
+
+import { PtUser } from "@trainer/services/types/userManagement.dto";
 
 import MemberCardList from "./MemberCardList";
 import SearchBar from "./SearchBar";
@@ -20,9 +23,11 @@ function MemberListContainer({ renderFooterReservationButton }: MemberListContai
   const [inputValue, setInputValue] = useState<string>("");
   const [selectedMemberInformation, setSelectedMemberInformation] = useState<PtUser | null>(null);
 
+  const { data: userList } = useSuspenseInfiniteQuery(userManagementQueries.list());
+
   const handleClickSelectMember = (selectedMemberInformation: PtUser | null) => {
     const selectedMemberId = selectedMemberInformation?.memberId;
-    const selectedMember = MOCK_MEMBERINFOS.content.find(
+    const selectedMember = userList.pages[0].data.content.find(
       ({ memberId }) => memberId === selectedMemberId,
     );
 
@@ -36,7 +41,7 @@ function MemberListContainer({ renderFooterReservationButton }: MemberListContai
     });
   };
 
-  const filteredMembers = useFilteredMembers(MOCK_MEMBERINFOS.content, inputValue);
+  const filteredMembers = useFilteredMembers(userList.pages[0].data.content, inputValue);
 
   return (
     <>
@@ -62,142 +67,3 @@ function MemberListContainer({ renderFooterReservationButton }: MemberListContai
 }
 
 export default MemberListContainer;
-
-const MOCK_MEMBERINFOS: PtUserListApiResponse["data"] = {
-  content: [
-    {
-      memberId: 1,
-      name: "홍길동",
-      birthDate: "2002-01-12",
-      phoneNumber: "01028321232",
-      profilePictureUrl: "",
-      sessionInfo: {
-        sessionInfoId: 1,
-        totalCount: 1,
-        remainingCount: 2,
-      },
-    },
-    {
-      memberId: 2,
-      name: "하정우",
-      birthDate: "2002-01-12",
-      phoneNumber: "01028321232",
-      profilePictureUrl: "",
-      sessionInfo: {
-        sessionInfoId: 1,
-        totalCount: 1,
-        remainingCount: 2,
-      },
-    },
-    {
-      memberId: 1,
-      name: "이병헌",
-      birthDate: "2002-01-12",
-      phoneNumber: "01028321232",
-      profilePictureUrl: "",
-      sessionInfo: {
-        sessionInfoId: 1,
-        totalCount: 1,
-        remainingCount: 2,
-      },
-    },
-    {
-      memberId: 1,
-      name: "신세경",
-      birthDate: "2002-01-12",
-      phoneNumber: "01028321232",
-      profilePictureUrl: "",
-      sessionInfo: {
-        sessionInfoId: 1,
-        totalCount: 1,
-        remainingCount: 2,
-      },
-    },
-    {
-      memberId: 1,
-      name: "지창욱",
-      birthDate: "2002-01-12",
-      phoneNumber: "01028321232",
-      profilePictureUrl: "",
-      sessionInfo: {
-        sessionInfoId: 1,
-        totalCount: 1,
-        remainingCount: 2,
-      },
-    },
-    {
-      memberId: 1,
-      name: "차은우",
-      birthDate: "2002-01-12",
-      phoneNumber: "01028321232",
-      profilePictureUrl: "",
-      sessionInfo: {
-        sessionInfoId: 1,
-        totalCount: 1,
-        remainingCount: 2,
-      },
-    },
-    {
-      memberId: 1,
-      name: "유아인",
-      birthDate: "2002-01-12",
-      phoneNumber: "01028321232",
-      profilePictureUrl: "",
-      sessionInfo: {
-        sessionInfoId: 1,
-        totalCount: 1,
-        remainingCount: 2,
-      },
-    },
-    {
-      memberId: 1,
-      name: "권지용",
-      birthDate: "2002-01-12",
-      phoneNumber: "01028321232",
-      profilePictureUrl: "",
-      sessionInfo: {
-        sessionInfoId: 1,
-        totalCount: 1,
-        remainingCount: 2,
-      },
-    },
-    {
-      memberId: 1,
-      name: "최익",
-      birthDate: "2002-01-12",
-      phoneNumber: "01028321232",
-      profilePictureUrl: "",
-      sessionInfo: {
-        sessionInfoId: 1,
-        totalCount: 1,
-        remainingCount: 2,
-      },
-    },
-    {
-      memberId: 1,
-      name: "최승현",
-      birthDate: "2002-01-12",
-      phoneNumber: "01028321232",
-      profilePictureUrl: "",
-      sessionInfo: {
-        sessionInfoId: 1,
-        totalCount: 1,
-        remainingCount: 2,
-      },
-    },
-    {
-      memberId: 2,
-      name: "박효신",
-      birthDate: "2002-01-12",
-      phoneNumber: "01028321232",
-      profilePictureUrl: "",
-      sessionInfo: {
-        sessionInfoId: 1,
-        totalCount: 1,
-        remainingCount: 2,
-      },
-    },
-  ],
-  totalElements: "3",
-  totalPages: "5",
-};
