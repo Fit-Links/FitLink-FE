@@ -23,7 +23,7 @@ export type CalendarResponse = {
 };
 export type CalendarApiResponse = ResponseBase<CalendarResponse>;
 
-export type ReservationStatusRequestQuery = {
+export type ReservationStatusPathParams = {
   date?: string;
 };
 
@@ -37,10 +37,7 @@ export type ModifiedReservationListItem = Omit<
   memberInfo: NullableMemberInfo;
 };
 
-type ReservationStatusResponse = {
-  reservations: ModifiedReservationListItem[];
-};
-
+type ReservationStatusResponse = ModifiedReservationListItem[];
 export type ReservationStatusApiResponse = ResponseBase<ReservationStatusResponse>;
 
 export type ReservationDetailStatusRequestPath = ReservationPathParams;
@@ -48,38 +45,35 @@ type ReservationDetailStatusResponse = BaseReservationDetail<
   Extract<ReservationStatus, "예약 확정" | "수업 완료">,
   DetailedMemberInfo
 > & {
-  priority: number;
+  reservationId: number;
 };
 export type ReservationDetailStatusApiResponse = ResponseBase<ReservationDetailStatusResponse>;
 
-export type ReservationDetailPendingStatusRequestPath = ReservationPathParams;
+export type ReservationDetailPendingStatusRequestPath = { reservationDate: string };
 export type ReservationDetailPendingStatus = DetailedMemberInfo &
   Pick<BaseReservationListItem, "reservationId" | "dayOfWeek"> & {
     reservationDates: string[];
   };
-type ReservationDetailPendingStatusResponse = {
-  waitingMembers: Array<ReservationDetailPendingStatus>;
-};
+type ReservationDetailPendingStatusResponse = Array<ReservationDetailPendingStatus>;
 export type ReservationDetailPendingStatusApiResponse =
   ResponseBase<ReservationDetailPendingStatusResponse>;
 
+/** TODO: 예약불가 설정 API에 기존에 있던 예약 불가 설정을 취소하고 싶다면 reservationId 입력해주는 것으로 수정됨 */
 export type ReservationSetNotAvailableRequestBody = {
   date: string;
+  reservationId?: number;
 };
 type ReservationSetNotAvailableResponse = {
   reservationId: number;
 };
 export type ReservationSetNotAvailableApiResponse =
   ResponseBase<ReservationSetNotAvailableResponse>;
-
+/** TODO: priority가 직접 예약 API에서 주석처리 되어있음 */
 export type DirectReservationRequestBody = {
-  reservations: {
-    trainerId: number;
-    memberId: number;
-    name: string;
-    date: string[];
-    priority: number;
-  }[];
+  trainerId: number;
+  memberId: number;
+  name: string;
+  dates: string[];
 };
 type DirectReservationResponse = {
   reservation: {
@@ -90,21 +84,23 @@ type DirectReservationResponse = {
 export type DirectReservationApiResponse = ResponseBase<DirectReservationResponse>;
 
 export type FixReservationRequestBody = {
-  trainerId: number;
   memberId: number;
   name: string;
-  reservations: { date: string }[];
+  dates: string[];
 };
 type FixReservationResponse = {
   reservations: {
     reservationId: number;
+    status: Extract<ReservationStatus, "고정 예약">;
   }[];
 };
 export type FixReservationApiResponse = ResponseBase<FixReservationResponse>;
 
 export type CancelReservationRequestPath = ReservationPathParams;
+/** TODO: 예약 취소 API에 cancelDate 필드 추가됨 */
 export type CancelReservationRequestBody = {
-  cancel_reason: string;
+  cancelReason: string;
+  cancelDate: string;
 };
 type CancelReservationResponse = {
   reservationId: number;
@@ -113,18 +109,21 @@ export type CancelReservationApiResponse = ResponseBase<CancelReservationRespons
 
 export type ApproveReservationRequestPath = ReservationPathParams;
 export type ApproveReservationRequestBody = {
-  trainerId: number;
   memberId: number;
+  reservationDate: string;
 };
 type ApproveReservationResponse = {
   reservationId: number;
+  status: Extract<ReservationStatus, "예약 대기">;
 };
 export type ApproveReservationApiResponse = ResponseBase<ApproveReservationResponse>;
 
+/** TODO: 진행한 PT처리 sessionId 대신 reservationId 사용 */
 export type CompletedPtRequestPath = {
-  sessionId: number;
+  reservationId: number;
 };
 export type CompletedPtRequestBody = {
+  memberId: number;
   isJoin: boolean;
 };
 type CompletedPtResponse = {
