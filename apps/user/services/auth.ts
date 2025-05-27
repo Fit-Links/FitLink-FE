@@ -9,6 +9,8 @@ import {
   GetSnsVerificationTokenApiResponse,
   SaveTokensBody,
   SaveTokensApiResponse,
+  ReissueTokenApiResponse,
+  ReissueTokenRequestBody,
 } from "./types/auth.dto";
 
 export const signup = (data: SignupRequestBody) =>
@@ -34,3 +36,9 @@ export const getSnsVerificationToken = () =>
 
 export const saveTokens = (data: SaveTokensBody) =>
   axios.post<SaveTokensApiResponse>("/api/auth/tokens", data);
+
+export const reissueToken = (data: ReissueTokenRequestBody) =>
+  http.post<ReissueTokenApiResponse>({
+    url: "/v1/auth/access-token",
+    data,
+  });
