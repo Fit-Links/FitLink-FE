@@ -18,22 +18,14 @@ import RouteInstance from "@trainer/constants/route";
 function MemberProfile() {
   const router = useRouter();
 
-  const { memberId, name, birthDate, phoneNumber, profilePictureUrl, sessionInfo }: PtUser =
+  const { memberId, name, birthDate, phoneNumber, profilePictureUrl }: PtUser =
     MOCK_MEMBER_DETAIL_INFORMATION;
 
   const handleClickRouteFixReservationEditPage = () => {
     router.push(
       RouteInstance["select-pt-times"]("", {
-        memberInformation: encodeURIComponent(
-          JSON.stringify({
-            memberId,
-            name,
-            birthDate,
-            phoneNumber,
-            profilePictureUrl,
-            sessionInfo,
-          }),
-        ),
+        memberId: memberId.toString(),
+        name: name,
       }),
     );
   };

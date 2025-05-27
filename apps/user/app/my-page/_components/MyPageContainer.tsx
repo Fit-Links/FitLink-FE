@@ -26,7 +26,7 @@ import ScheduleContainer from "./PTInformation/ScheduleContainer";
 import ScheduleInformation from "./PTInformation/ScheduleInformation";
 import ProfileHeader from "../_components/ProfileHeader";
 import ConnectedTrainerItem from "../_components/PTInformation/ConnectedTrainerItem";
-import { getISOToKoreanTime, getUniqueTimeReservations } from "../_utils/preferredTime";
+import { getISOToKoreanTime, getUniqueTimeReservations } from "../_utils/preferredTime";
 import PTHistoryContainer from "./PTHistory/PTHistoryCotainer";
 
 const TEMP_DEFAULT_SESSION_COUNT = 0;

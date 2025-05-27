@@ -4,7 +4,7 @@ import Icon from "@ui/components/Icon";
 import { cn } from "@ui/lib/utils";
 import { ComponentProps, ReactNode } from "react";
 
-import { formatToMeridiem } from "@trainer/utils/ProfileCardUtils";
+import { formatToMeridiem, formatPhoneNumber } from "@trainer/utils/ProfileCardUtils";
 
 type ProfileCardProps = ComponentProps<"section"> & {
   className?: string;
@@ -52,10 +52,10 @@ function UserInfo({
         </div>
         <div className="flex-1">
           <div className="flex items-center justify-start gap-[0.438rem]">
-            <span className="text-headline">{userName}</span>
-            <span className="text-body-3 text-text-sub3">{userAge}세</span>
+            <span className="text-headline w-max">{userName}</span>
+            <span className="text-body-3 text-text-sub3 w-max">{userAge}세</span>
           </div>
-          <span className="text-body-3">{phoneNumber}</span>
+          <span className="text-body-3">{formatPhoneNumber(phoneNumber)}</span>
         </div>
       </div>
       {parsedPTReservationOtherTime && (

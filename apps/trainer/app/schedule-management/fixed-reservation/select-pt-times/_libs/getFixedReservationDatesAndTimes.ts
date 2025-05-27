@@ -1,10 +1,13 @@
+/* eslint-disable no-magic-numbers */
 import { addDays, format, setHours, setMinutes, startOfWeek } from "date-fns";
 
 export const getFixedReservationDatesAndTimes = (
   schedule: Record<string, string[]>,
-  today: Date = new Date(),
+  today: Date,
+  weekOffset: number,
 ): string[] => {
-  const weekStart = startOfWeek(today, { weekStartsOn: 1 });
+  const weekStartDay = startOfWeek(today, { weekStartsOn: 1 });
+  const weekStart = addDays(weekStartDay, 7 * weekOffset);
   const result: string[] = [];
 
   Object.entries(schedule).forEach(([dayIndex, times]) => {

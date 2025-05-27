@@ -10,19 +10,37 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@ui/components/Sheet";
+import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
 
-import { ReservationWaitingMember } from "@trainer/services/types/reservations.dto";
+import { ReservationDetailPendingStatus } from "@trainer/services/types/reservations.dto";
+
+import RouteInstance from "@trainer/constants/route";
+
+import { useReservationApproveMutation } from "../../_hooks/mutations/useReservationApproveMutation";
 
 type ApproveButtonProps = {
-  selectedMemberInformation: ReservationWaitingMember | null;
+  selectedMemberInformation: ReservationDetailPendingStatus | null;
   selectedDate: string;
 };
 
 function ApproveButton({ selectedMemberInformation, selectedDate }: ApproveButtonProps) {
-  /** TODO: 선택된 회원 정보로 예약 승인 API 요청 */
+  const router = useRouter();
+
+  const { reservationApprove } = useReservationApproveMutation();
+
   const handleSubmitApproveReservation = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (selectedMemberInformation) {
+      reservationApprove({
+        reservationId: selectedMemberInformation.reservationId,
+        memberId: selectedMemberInformation.memberId,
+        reservationDate: selectedDate,
+      });
+    }
+
+    router.push(RouteInstance["schedule-management"]());
   };
 
   return (

@@ -111,7 +111,8 @@ class ROUTES {
     return (
       routeParams?: string,
       searchParams?: {
-        memberInformation: string | null;
+        memberId: string | null;
+        name: string | null;
       },
     ) => {
       const filteredRoute = this["_select-pt-times"](routeParams).filter(filterEmptyDynamicRoute);
@@ -127,8 +128,8 @@ class ROUTES {
     return (
       routeParams?: string,
       searchParams?: {
-        members: string | null;
         selectedDate: string | null;
+        formattedSelectedDate: string | null;
       },
     ) => {
       const filteredRoute =
@@ -146,6 +147,7 @@ class ROUTES {
       routeParams?: string,
       searchParams?: {
         selectedDate: string | null;
+        selectedFormatDate: string | null;
       },
     ) => {
       const filteredRoute = this["_reservation"](routeParams).filter(filterEmptyDynamicRoute);

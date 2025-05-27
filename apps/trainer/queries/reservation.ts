@@ -2,8 +2,8 @@ import { queryOptions } from "@tanstack/react-query";
 
 import {
   getReservationDetailStatus,
-  getReservationWaitingMembers,
   getReservationStatus,
+  getReservationDetailPendingStatus,
 } from "@trainer/services/reservations";
 
 export const reservationBaseKeys = {
@@ -26,9 +26,10 @@ export const reservationQueries = {
       queryKey: [...reservationBaseKeys.details(), reservationId] as const,
       queryFn: () => getReservationDetailStatus({ reservationId }),
     }),
+  /** TODO: 예약 대기 상세 조회 API 변경됨 */
   pendingDetail: (reservationDate: string) =>
     queryOptions({
-      queryKey: [...reservationBaseKeys.details(), reservationDate] as const,
-      queryFn: () => getReservationWaitingMembers({ reservationDate }),
+      queryKey: [...reservationBaseKeys.details(), "pending", reservationDate] as const,
+      queryFn: () => getReservationDetailPendingStatus({ reservationDate }),
     }),
 };
