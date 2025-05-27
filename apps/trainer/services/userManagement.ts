@@ -26,14 +26,14 @@ export const getTargetMemberPtHistory = (
   const { memberId } = requestPath;
 
   return http.get<TargetMemberPtHistoryApiResponse>({
-    url: `${TRAINER_BASE_URL}/members/${memberId}/sessions`,
+    url: `/v1/${TRAINER_BASE_URL}/members/${memberId}/sessions`,
     params: requestQuery,
   });
 };
 
 export const getPtUserList = ({ q, page, size }: PtUserListRequestQuery) =>
   http.get<PtUserListApiResponse>({
-    url: `${TRAINER_BASE_URL}/members`,
+    url: `/v1/members`,
     params: {
       q,
       page,
@@ -42,11 +42,11 @@ export const getPtUserList = ({ q, page, size }: PtUserListRequestQuery) =>
   });
 
 export const getPtUserDetail = ({ memberId }: PtUserDetailRequestPath) =>
-  http.get<PtUserDetailApiResponse>({ url: `${TRAINER_BASE_URL}/members/${memberId}` });
+  http.get<PtUserDetailApiResponse>({ url: `/v1/members/${memberId}` });
 
 export const unLinkMember = ({ memberId }: UnlinkMemberRequestPath) =>
   http.post<UnlinkMemberApiResponse>({
-    url: `${TRAINER_BASE_URL}/members/${memberId}/disconnect`,
+    url: `/v1/${TRAINER_BASE_URL}/members/${memberId}/disconnect`,
   });
 
 export const sessionCountEdit = (
@@ -57,7 +57,7 @@ export const sessionCountEdit = (
   const { totalCount, remainingCount } = requestBody;
 
   return http.patch<SessionCountEditApiResponse>({
-    url: `${TRAINER_BASE_URL}/${memberId}/session-info/${sessionInfoId}`,
+    url: `/v1/${TRAINER_BASE_URL}/${memberId}/session-info/${sessionInfoId}`,
     data: {
       totalCount,
       remainingCount,
@@ -73,7 +73,7 @@ export const targetMemberEditPtHistory = (
   const { status } = requestBody;
 
   return http.patch<TargetUserEditPtHistoryApiResponse>({
-    url: `${TRAINER_BASE_URL}/members/${memberId}/using-sessions/${sessionId}`,
+    url: `/v1/${TRAINER_BASE_URL}/members/${memberId}/using-sessions/${sessionId}`,
     data: {
       status,
     },

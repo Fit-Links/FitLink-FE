@@ -12,7 +12,6 @@ import {
   ApproveReservationApiResponse,
   CompletedPtApiResponse,
   ConfirmReservationChangeApiResponse,
-  ReservationStatusRequestQuery,
   ReservationDetailStatusRequestPath,
   ReservationDetailPendingStatusRequestPath,
   ReservationSetNotAvailableRequestBody,
@@ -26,41 +25,51 @@ import {
   CompletedPtRequestPath,
   ConfirmReservationChangeRequestBody,
   ConfirmReservationChangeRequestPath,
+  ReservationStatusPathParams,
 } from "./types/reservations.dto";
 
-export const getReservationStatus = ({ date }: ReservationStatusRequestQuery) =>
-  http.get<ReservationStatusApiResponse>({ url: `${RESERVATION_BASE_URL}`, params: { date } });
+export const getReservationStatus = ({ date }: ReservationStatusPathParams) =>
+  http.get<ReservationStatusApiResponse>({ url: `/v1/${RESERVATION_BASE_URL}`, params: { date } });
 
 export const getReservationDetailStatus = ({ reservationId }: ReservationDetailStatusRequestPath) =>
   http.get<ReservationDetailStatusApiResponse>({
-    url: `${RESERVATION_BASE_URL}/${reservationId}`,
+    url: `/v1/${RESERVATION_BASE_URL}/${reservationId}`,
   });
 
 export const getReservationDetailPendingStatus = ({
-  reservationId,
+  reservationDate,
 }: ReservationDetailPendingStatusRequestPath) =>
   http.get<ReservationDetailPendingStatusApiResponse>({
-    url: `${RESERVATION_BASE_URL}/${reservationId}`,
+    url: `/v1/${RESERVATION_BASE_URL}/waiting-members/${reservationDate}`,
   });
 
-export const createReservationSetNotAvailable = ({ date }: ReservationSetNotAvailableRequestBody) =>
+export const createReservationSetNotAvailable = ({
+  date,
+  reservationId,
+}: ReservationSetNotAvailableRequestBody) =>
   http.post<ReservationSetNotAvailableApiResponse>({
-    url: `${RESERVATION_BASE_URL}/availability/disable`,
+    url: `/v1/${RESERVATION_BASE_URL}/availability/disable`,
     data: {
       date,
+      reservationId,
     },
   });
 
-export const createDirectReservation = ({ reservations }: DirectReservationRequestBody) =>
+export const createDirectReservation = ({
+  trainerId,
+  memberId,
+  name,
+  dates,
+}: DirectReservationRequestBody) =>
   http.post<DirectReservationApiResponse>({
-    url: `${RESERVATION_BASE_URL}`,
-    data: { reservations },
+    url: `/v1/${RESERVATION_BASE_URL}`,
+    data: { trainerId, memberId, name, dates },
   });
 
-export const createFixReservation = ({ memberId, name, reservations }: FixReservationRequestBody) =>
+export const createFixReservation = ({ memberId, name, dates }: FixReservationRequestBody) =>
   http.post<FixReservationApiResponse>({
-    url: `${RESERVATION_BASE_URL}/fixed-reservation`,
-    data: { memberId, name, reservations },
+    url: `/v1/${RESERVATION_BASE_URL}/fixed-reservations`,
+    data: { memberId, name, dates },
   });
 
 export const createCancelReservation = (
@@ -68,11 +77,11 @@ export const createCancelReservation = (
   requestBody: CancelReservationRequestBody,
 ) => {
   const { reservationId } = requestPath;
-  const { cancel_reason } = requestBody;
+  const { cancelDate, cancelReason } = requestBody;
 
   return http.post<CancelReservationApiResponse>({
-    url: `${RESERVATION_BASE_URL}/${reservationId}/cancel`,
-    data: { cancel_reason },
+    url: `/v1/${RESERVATION_BASE_URL}/${reservationId}/cancel`,
+    data: { cancelDate, cancelReason },
   });
 };
 
@@ -81,11 +90,11 @@ export const createApproveReservation = (
   reqeustBody: ApproveReservationRequestBody,
 ) => {
   const { reservationId } = requestPath;
-  const { memberId, trainerId } = reqeustBody;
+  const { memberId, reservationDate } = reqeustBody;
 
   return http.post<ApproveReservationApiResponse>({
-    url: `${RESERVATION_BASE_URL}/${reservationId}/approve`,
-    data: { memberId, trainerId },
+    url: `/v1/${RESERVATION_BASE_URL}/${reservationId}/approve`,
+    data: { memberId, reservationDate },
   });
 };
 
@@ -93,12 +102,12 @@ export const createCompletedPt = (
   requestPath: CompletedPtRequestPath,
   requestBody: CompletedPtRequestBody,
 ) => {
-  const { sessionId } = requestPath;
-  const { isJoin } = requestBody;
+  const { reservationId } = requestPath;
+  const { memberId, isJoin } = requestBody;
 
   return http.post<CompletedPtApiResponse>({
-    url: `${RESERVATION_BASE_URL}/${sessionId}/complete`,
-    data: { isJoin },
+    url: `/v1/${RESERVATION_BASE_URL}/${reservationId}/sessions/complete`,
+    data: { memberId, isJoin },
   });
 };
 
@@ -110,7 +119,7 @@ export const createConfirmReservationChange = (
   const { memberId, trainerId } = requestBody;
 
   return http.post<ConfirmReservationChangeApiResponse>({
-    url: `${RESERVATION_BASE_URL}/${reservationId}/changes/apporove`,
+    url: `/v1/${RESERVATION_BASE_URL}/${reservationId}/changes/apporove`,
     data: { memberId, trainerId },
   });
 };
