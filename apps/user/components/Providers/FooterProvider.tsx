@@ -10,7 +10,7 @@ import BottomNavigation from "../BottomNavigation";
 
 const PATHS = {
   WITH_FOOTER: new Set([
-    RouteInstance.root(),
+    // RouteInstance.root(),
     RouteInstance["schedule-management"](),
     RouteInstance.notification(),
     RouteInstance["my-page"](),
