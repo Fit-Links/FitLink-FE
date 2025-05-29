@@ -1,6 +1,8 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+import { getUserVerificationStatus } from "@trainer/services/auth";
+
 import RouteInstance from "@trainer/constants/route";
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@trainer/constants/token";
 
@@ -14,7 +16,19 @@ export async function requireAuth(nextPath = "/") {
   }
 
   if (accessToken && isTokenValid(accessToken)) {
-    return;
+    try {
+      const { success, data } = await getUserVerificationStatus();
+      if (success) {
+        const { status: userStatus } = data;
+
+        if (userStatus === "NORMAL") return;
+        throw new Error("회원가입이 완료되지 않았습니다");
+      }
+
+      return;
+    } catch (error) {
+      redirect(RouteInstance.login());
+    }
   }
 
   if (refreshToken) {
@@ -26,6 +40,7 @@ export async function requireAuth(nextPath = "/") {
 
 const SECONDS_TO_MILISECONDS = 1000;
 
+// expiration date만 확인
 function isTokenValid(token: string): boolean {
   if (!token) return false;
 
