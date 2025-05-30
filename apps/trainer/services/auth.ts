@@ -2,6 +2,8 @@ import axios from "axios";
 
 import http from "@trainer/app/apiCore";
 
+import { BASE_ROUTE_HANDLER_URL } from "@trainer/constants/url";
+
 import {
   LogoutApiResponse,
   SignupRequestBody,
@@ -12,6 +14,7 @@ import {
   SaveTokensApiResponse,
   ReissueTokenApiResponse,
   ReissueTokenRequestBody,
+  SaveReissuedTokensApiResponse,
 } from "./types/auth.dto";
 
 export const signup = (data: SignupRequestBody) =>
@@ -39,7 +42,20 @@ export const saveTokens = (data: SaveTokensBody) =>
   axios.post<SaveTokensApiResponse>("/api/auth/tokens", data);
 
 export const reissueToken = (data: ReissueTokenRequestBody) =>
-  http.post<ReissueTokenApiResponse>({
-    url: "/v1/auth/access-token",
-    data,
-  });
+  http.post<ReissueTokenApiResponse>(
+    {
+      url: "/v1/auth/access-token",
+      data,
+    },
+    "public",
+  );
+
+export const saveReissuedTokens = async () => {
+  return axios.post<SaveReissuedTokensApiResponse>(
+    `${BASE_ROUTE_HANDLER_URL}/api/auth/reissue-token`,
+    {},
+    {
+      withCredentials: true,
+    },
+  );
+};

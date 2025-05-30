@@ -8,7 +8,7 @@ import { myInformationQueries } from "@trainer/queries/myInformation";
 import RouteInstance from "@trainer/constants/route";
 
 import MyPageHeader from "./MyPageHeader";
-import ProfileItemForRouting from "../_components/ProfileItemForRouting";
+import ProfileItemForRouting from "./ProfileItemForRouting";
 
 export default function MyPageContainer() {
   const { data: response } = useQuery(myInformationQueries.myInformation());

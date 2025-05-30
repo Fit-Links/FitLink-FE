@@ -38,3 +38,8 @@ export type ReissueTokenRequestBody = {
 export type ReissueTokenApiResponse = ResponseBase<{
   accessToken: string;
 }>;
+
+export type SaveReissuedTokensApiResponse = {
+  success: boolean;
+  accessToken: string;
+};
