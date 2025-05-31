@@ -12,9 +12,9 @@ type DayColumnProps = {
 };
 
 export default function DayColumn({ children, isDayOff, ptAvailableTime, date }: DayColumnProps) {
-  const ptTimeInformation = ptAvailableTime.data.currentSchedules.schedules.find(
-    ({ dayOfWeek }) => dayOfWeek === format(date, "EEEE").toUpperCase(),
-  );
+  const ptTimeInformation = (
+    ptAvailableTime.data.currentSchedules || ptAvailableTime.data.scheduledChanges
+  ).schedules.find(({ dayOfWeek }) => dayOfWeek === format(date, "EEEE").toUpperCase());
 
   return (
     <div

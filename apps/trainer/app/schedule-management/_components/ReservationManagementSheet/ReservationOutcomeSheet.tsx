@@ -47,15 +47,16 @@ function ReservationOutcomeSheet({
 
   const { reservationCompletion } = useReservationCompletionMutation();
 
-  const handleClickChangeStatus = (status: Extract<PtStatus, "NO_SHOW" | "COMPLETED">) => () => {
-    if (!reservationDetail) return;
+  const handleClickChangeStatus =
+    (status: Extract<PtStatus, "SESSION_NOT_ATTEND" | "SESSION_COMPLETED">) => () => {
+      if (!reservationDetail) return;
 
-    reservationCompletion({
-      reservationId,
-      memberId: memberId as number,
-      isJoin: status === "COMPLETED",
-    });
-  };
+      reservationCompletion({
+        reservationId,
+        memberId: memberId as number,
+        isJoin: status === "SESSION_COMPLETED",
+      });
+    };
 
   return (
     <Sheet open={open} onOpenChange={onChangeOpen}>
@@ -79,14 +80,14 @@ function ReservationOutcomeSheet({
               <Button
                 className="h-[3.375rem] w-full"
                 variant={"secondary"}
-                onClick={handleClickChangeStatus("NO_SHOW")}
+                onClick={handleClickChangeStatus("SESSION_NOT_ATTEND")}
               >
                 불참석
               </Button>
               <Button
                 className="h-[3.375rem] w-full"
                 variant={"negative"}
-                onClick={handleClickChangeStatus("COMPLETED")}
+                onClick={handleClickChangeStatus("SESSION_COMPLETED")}
               >
                 PT 완료
               </Button>
