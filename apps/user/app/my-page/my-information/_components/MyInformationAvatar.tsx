@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Button } from "@ui/components/Button";
 import React from "react";
 
@@ -10,7 +10,7 @@ import EditProfileBottomSheet from "./BottomSheet/EditProfileBottomSheet";
 import ProfileImage from "./ProfileImage";
 
 export default function MyInformationAvatar() {
-  const { data: response } = useQuery(myInformationQueries.detail());
+  const { data: response } = useSuspenseQuery(myInformationQueries.detail());
 
   const myDetailInformation = response?.data;
 

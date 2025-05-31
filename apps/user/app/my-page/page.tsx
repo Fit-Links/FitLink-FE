@@ -1,9 +1,24 @@
-import MyPageContainer from "./_components/MyPageContainer";
+import { Suspense } from "react";
 
-export default async function page() {
+import QueryErrorFallback from "@user/components/QueryErrorFallback";
+
+import MyPageContainer from "./_components/MyPageContainer";
+import PTHistoryContainer from "./_components/PTHistory/PTHistoryCotainer";
+import MyPageSkeleton from "./_components/Skeleton";
+import MyPageHistorySkeleton from "./_components/Skeleton/MyPageHistorySkeleton";
+
+export default function page() {
   return (
-    <main className="flex h-full w-full flex-col overflow-hidden">
-      <MyPageContainer />
+    <main className="flex h-full w-full flex-col ">
+      <QueryErrorFallback>
+        <Suspense fallback={<MyPageSkeleton />}>
+          <MyPageContainer />
+        </Suspense>
+
+        <Suspense fallback={<MyPageHistorySkeleton />}>
+          <PTHistoryContainer />
+        </Suspense>
+      </QueryErrorFallback>
     </main>
   );
 }

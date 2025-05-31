@@ -1,20 +1,22 @@
 "use client";
 
+import { PtStatus } from "@5unwan/core/api/types/common";
 import { ToggleGroup, ToggleGroupItem } from "@ui/components/ToggleGroup";
 
-import usePTHistoryFilter from "./_store/PTHistoryFilterStore";
-import { PTHistoryFilterTypes } from "./PTHistoryCotainer";
-
-export const FILTER_OPTIONS: Record<PTHistoryFilterTypes, string> = {
-  SESSION_ALL: "전체",
+export const FILTER_OPTIONS: Record<Exclude<PtStatus, "SESSION_CANCELLED">, string> = {
+  NONE: "전체",
   SESSION_COMPLETED: "PT 완료",
-  SESSION_NO_SHOW: "불참석",
-  SESSION_NONE: "미처리",
+  SESSION_NOT_ATTEND: "불참석",
+  SESSION_WAITING: "미처리",
+  // SESSION_CANCELLED: "취소",
 };
 
-export default function PTHistoryFilter() {
-  const { historyFilter, setHistoryFilter } = usePTHistoryFilter();
+interface PTHistoryFilterProps {
+  historyFilter?: PtStatus;
+  setHistoryFilter?: (filter: PtStatus) => void;
+}
 
+export default function PTHistoryFilter({ historyFilter, setHistoryFilter }: PTHistoryFilterProps) {
   return (
     <div className="mt-[0.625rem] flex">
       <ToggleGroup

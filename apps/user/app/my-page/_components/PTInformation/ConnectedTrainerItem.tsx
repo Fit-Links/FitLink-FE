@@ -21,28 +21,37 @@ export default function ConnectedTrainerItem({
 }: TrainerInformationProps) {
   const router = useRouter();
 
-  const connected = connectingStatus === "CONNECTED";
-
   const handleClickRouting = () => {
-    if (connected) {
+    if (connectingStatus === "CONNECTED") {
       router.push(RouteInstance["my-trainer-information"]());
-    } else {
+    } else if (connectingStatus === "UNCONNECTED" || !connectingStatus) {
       router.push(RouteInstance["connect-trainer"]());
+    } else if (connectingStatus === "REQUESTED") {
+      return;
     }
   };
+
+  console.log(connectingStatus);
 
   return (
     <ProfileItem variant="trainer">
       <ProfileItemContent>
         <div
           className={cn(
-            "flex cursor-pointer items-center gap-0",
-            connected ? "text-text-sub2" : "text-text-primary",
+            "flex  items-center gap-0",
+            connectingStatus === "CONNECTED" ? "text-text-sub2" : "text-text-primary",
+            connectingStatus !== "REQUESTED" && "cursor-pointer",
           )}
           onClick={handleClickRouting}
         >
-          {connected ? trainerName : "연동하기"}
-          <Icon name="ChevronRight" size="lg" />
+          {connectingStatus === "UNCONNECTED" || !connectingStatus ? (
+            "연동하기"
+          ) : connectingStatus === "CONNECTED" ? (
+            trainerName
+          ) : (
+            <span className="text-brand-primary-500 font-bold">연동 요청 상태</span>
+          )}
+          {connectingStatus !== "REQUESTED" && <Icon name="ChevronRight" size="lg" />}
         </div>
       </ProfileItemContent>
     </ProfileItem>
