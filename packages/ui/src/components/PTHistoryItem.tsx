@@ -7,9 +7,10 @@ import { Text } from "./Text";
 import DateController from "../lib/DateController";
 
 const PTHistoryStatusMap = {
-  COMPLETED: () => "PT 완료",
-  NO_SHOW: () => "불참석",
-  WAITING: () => "예약 대기",
+  SESSION_COMPLETED: () => "PT 완료",
+  SESSION_NOT_ATTEND: () => "불참석",
+  SESSION_WAITING: () => "예약 대기",
+  SESSION_CANCELLED: () => "PT 취소",
   NONE: (isClickable?: boolean) => (isClickable ? "PT가 완료되었나요?" : "미처리"),
 } as const;
 

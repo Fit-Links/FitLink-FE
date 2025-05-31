@@ -97,3 +97,53 @@ const groupContinuousTimes = (timeList: string[]): string[] => {
 
   return result;
 };
+
+// ISO 날짜 문자열에서 요일과 시간을 추출하는 유틸 함수
+export const convertFixedReservationsToWeekSchedule = (
+  fixedReservations: Array<{ reservationDateTime: string; reservationId: number }>,
+): {
+  dayOfWeek: DaysOfWeek;
+  preferenceTimes: string[];
+}[] => {
+  const dayMap: Record<DaysOfWeek, string[]> = {
+    MONDAY: [],
+    TUESDAY: [],
+    WEDNESDAY: [],
+    THURSDAY: [],
+    FRIDAY: [],
+    SATURDAY: [],
+    SUNDAY: [],
+  };
+
+  fixedReservations.forEach((reservation) => {
+    const date = new Date(reservation.reservationDateTime);
+
+    const daysMapping: DaysOfWeek[] = [
+      "SUNDAY",
+      "MONDAY",
+      "TUESDAY",
+      "WEDNESDAY",
+      "THURSDAY",
+      "FRIDAY",
+      "SATURDAY",
+    ];
+    const dayOfWeek = daysMapping[date.getDay()];
+
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const timeString = `${hours}:${minutes}`;
+
+    dayMap[dayOfWeek].push(timeString);
+  });
+
+  // WorkoutSchedule 형태로 변환
+  return (
+    Object.entries(dayMap)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      .filter(([_, times]) => times.length > 0) // 빈 요일은 제외
+      .map(([dayOfWeek, times]) => ({
+        dayOfWeek: dayOfWeek as DaysOfWeek,
+        preferenceTimes: times,
+      }))
+  );
+};
