@@ -1,6 +1,6 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@ui/components/Button";
 import {
   InputOTP as InputOTPComponent,
@@ -11,6 +11,8 @@ import {
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { myInformationQueries } from "@user/queries/myInformation";
+
 import { connectTrainer } from "@user/services/myInformation";
 
 type otp_status = "default" | "focused" | "filled" | "error";
@@ -19,11 +21,13 @@ const OTP_LENGTH = 6;
 
 export default function InputOTP() {
   const router = useRouter();
+  const queryClient = useQueryClient();
+
   const [trainerCode, setTrainerCode] = useState("");
   const [status, setStatus] = useState<otp_status>("default");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { mutate, isSuccess } = useMutation({
+  const { mutate } = useMutation({
     mutationKey: ["connectTrainer"],
     mutationFn: (trainerCode: string) => connectTrainer({ trainerCode }),
   });
@@ -46,12 +50,13 @@ export default function InputOTP() {
 
     mutate(trainerCode, {
       onSuccess: () => {
-        if (isSuccess) {
-          router.back();
-        } else {
-          setStatus("error");
-          setErrorMessage("입력한 코드를 확인해 주세요.");
-        }
+        queryClient.invalidateQueries({ queryKey: myInformationQueries.summary() });
+        router.back();
+      },
+
+      onError: () => {
+        setStatus("error");
+        setErrorMessage("입력한 코드를 확인해 주세요.");
       },
     });
   };
