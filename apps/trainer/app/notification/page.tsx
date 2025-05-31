@@ -110,7 +110,7 @@ function AllNotificationPage() {
         <Header.Left>
           <NotificationSideBar />
         </Header.Left>
-        <Header.Title content={"PT 수업"} />
+        <Header.Title content="전체 알림" />
         <Header.Right>
           <NotificationSearch
             isOpen={isNotificationSearchOpen}

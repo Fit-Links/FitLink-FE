@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { Badge } from "@ui/components/Badge";
 import { Button } from "@ui/components/Button";
 import Icon from "@ui/components/Icon";
@@ -11,9 +11,13 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@ui/components/Sheet";
+import DateController from "@ui/lib/DateController";
 import { Suspense, useState } from "react";
 
 import { notificationQueries } from "@trainer/queries/notification";
+import { userManagementQueries } from "@trainer/queries/userManagement";
+
+import { processReservationChange } from "@trainer/services/reservations";
 
 import ProfileCard from "@trainer/components/ProfileCard";
 import QueryErrorBoundary from "@trainer/components/QueryErrorBoundary";
@@ -32,8 +36,8 @@ type ReservationChangeSheetProps = {
 type ReservationChangeSheetContentProps = {
   notificationId: number;
   eventDateDescription: string;
-  handleDeclineClick: () => void;
-  handleAcceptClick: () => void;
+  handleDeclineClick: (reservationId: number, userId: number) => () => void;
+  handleAcceptClick: (reservationId: number, userId: number) => () => void;
 };
 function ReservationChangeSheetContent({
   notificationId,
@@ -41,14 +45,16 @@ function ReservationChangeSheetContent({
   handleDeclineClick,
   handleAcceptClick,
 }: ReservationChangeSheetContentProps) {
-  const { data } = useSuspenseQuery(notificationQueries.detail(notificationId));
+  const { data: notificationDetail } = useSuspenseQuery(notificationQueries.detail(notificationId));
   const {
-    userDetail: { name, profilePictureUrl, birthDate, phoneNumber },
-  } = data.data;
+    refId,
+    userDetail: { userId, name, profilePictureUrl, birthDate, phoneNumber },
+  } = notificationDetail.data;
 
+  const { data: memberDetail } = useSuspenseQuery(userManagementQueries.detail(userId));
   const {
     sessionInfo: { remainingCount, totalCount },
-  } = DUMMY_MEMBER_DETAIL;
+  } = memberDetail.data;
 
   return (
     <>
@@ -72,13 +78,18 @@ function ReservationChangeSheetContent({
               size={"xl"}
               className="w-full"
               variant={"secondary"}
-              onClick={handleDeclineClick}
+              onClick={handleDeclineClick(refId, userId)}
             >
               거절
             </Button>
           </SheetClose>
           <SheetClose asChild>
-            <Button size={"xl"} className="w-full" variant={"negative"} onClick={handleAcceptClick}>
+            <Button
+              size={"xl"}
+              className="w-full"
+              variant={"negative"}
+              onClick={handleAcceptClick(refId, userId)}
+            >
               승인
             </Button>
           </SheetClose>
@@ -93,15 +104,35 @@ function ReservationChangeSheet({
   onChangeOpen,
   eventDateDescription,
 }: ReservationChangeSheetProps) {
-  //TODO: 회원 상세 정보 조회 API 연결
+  const reservationChangeMutation = useMutation({
+    mutationFn: processReservationChange,
+  });
 
   const [isDeclineSheetOpen, setIsDeclineSheetOpen] = useState(false);
   const [isAcceptSheetOpen, setIsAccepSheetOpen] = useState(false);
 
-  const handleDeclineClick = () => {
+  const handleDeclineClick = (reservationId: number, userId: number) => () => {
+    reservationChangeMutation.mutate({
+      requestPath: { reservationId },
+      requestBody: {
+        memberId: userId,
+        isApprove: false,
+        approveDate: DateController(new Date()).toAbsolute(),
+      },
+    });
     setIsDeclineSheetOpen(true);
   };
-  const handleAcceptClick = () => {
+  const handleAcceptClick = (reservationId: number, userId: number) => () => {
+    reservationChangeMutation.mutate({
+      requestPath: {
+        reservationId,
+      },
+      requestBody: {
+        memberId: userId,
+        isApprove: true,
+        approveDate: DateController(new Date()).toAbsolute(),
+      },
+    });
     setIsAccepSheetOpen(true);
   };
 
@@ -162,13 +193,13 @@ function ReservationChangeSheet({
 
 export default ReservationChangeSheet;
 
-const DUMMY_MEMBER_DETAIL = {
-  sessionInfo: {
-    sessionInfoId: 1,
-    totalCount: 2,
-    remainingCount: 1,
-  },
-};
+// const DUMMY_MEMBER_DETAIL = {
+//   sessionInfo: {
+//     sessionInfoId: 1,
+//     totalCount: 2,
+//     remainingCount: 1,
+//   },
+// };
 // const DUMMY_NOTIFICATION_DETAIL = {
 //   name: "홍길동",
 //   birthDate: "1999-10-14",

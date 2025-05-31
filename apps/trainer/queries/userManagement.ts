@@ -41,6 +41,7 @@ export const userManagementQueries = {
     queryOptions({
       queryKey: [...userManagementBaseKeys.info(memberId)] as const,
       queryFn: () => getPtUserDetail({ memberId }),
+      enabled: !!memberId,
     }),
   ptHistory: (memberId: number, status?: PtStatus) =>
     infiniteQueryOptions({
