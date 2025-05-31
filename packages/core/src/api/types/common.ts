@@ -105,7 +105,7 @@ export type NotificationDetailInfo = {
   content: string;
   sendDate: string;
   isProcessed: boolean;
-  userDetail: Omit<DetailedMemberInfo, "memberId">;
+  userDetail: Omit<DetailedMemberInfo, "memberId"> & { userId: number };
 };
 
 export type NotificationType =
