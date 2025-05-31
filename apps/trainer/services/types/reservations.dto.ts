@@ -159,7 +159,7 @@ export type EditFixedReservationRequestPath = {
 };
 export type EditFixedReservationRequestBody = {
   reservationDate: string;
-  changeDate: string;
+  changeRequestDate: string;
 };
 export type EditFixedReservationApiResponse = ResponseBase<ReservationResponseBase>;
 

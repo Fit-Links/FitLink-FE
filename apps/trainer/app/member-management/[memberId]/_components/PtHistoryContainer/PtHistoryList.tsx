@@ -17,7 +17,7 @@ import React, { useRef, useState } from "react";
 import { TargetMemberPtHistoryApiResponse } from "@trainer/services/types/userManagement.dto";
 
 type PtHistoryListProps = {
-  ptHistories: TargetMemberPtHistoryApiResponse["data"]["content"];
+  ptHistories?: TargetMemberPtHistoryApiResponse["data"]["content"];
 };
 
 function PtHistoryList({ ptHistories }: PtHistoryListProps) {
@@ -34,16 +34,16 @@ function PtHistoryList({ ptHistories }: PtHistoryListProps) {
   return (
     <>
       <section className="mt-5 flex h-full w-full flex-col gap-[0.625rem] overflow-y-auto [&::-webkit-scrollbar]:hidden">
-        {ptHistories.map(({ date, sessionId, status }) => (
-          <PTHistoryItem
-            key={sessionId}
-            // onClick={() => handleClickPtHistoryEdit(status)}
-            reservationDate={date}
-            status={status as Exclude<PtStatus, "PENDING">}
-            className="flex-none"
-            onClick={() => handleClickPtHistoryEdit(status, date)}
-          />
-        ))}
+        {ptHistories &&
+          ptHistories.map(({ date, sessionId, status }) => (
+            <PTHistoryItem
+              key={sessionId}
+              reservationDate={date}
+              status={status as Exclude<PtStatus, "NONE">}
+              className="flex-none"
+              onClick={() => handleClickPtHistoryEdit(status, date)}
+            />
+          ))}
       </section>
       <Sheet open={ptHistoryEditSheetOpen} onOpenChange={setPtHistoryEditSheetOpen}>
         <SheetHeader>

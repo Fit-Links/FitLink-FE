@@ -23,9 +23,8 @@ export const userManagementQueries = {
   /** TODO: 조회 조건 추가 시 조건 추가(q를 비워도 되는건지 여쭤보기) */
   list: (q?: string) =>
     infiniteQueryOptions({
-      queryKey: [...userManagementBaseKeys.lists(), q ?? ""] as const,
-      queryFn: ({ pageParam }) =>
-        getPtUserList({ q: q ?? "", page: pageParam, size: PT_HISTORY_PAGE_SIZE }),
+      queryKey: [...userManagementBaseKeys.lists(), q] as const,
+      queryFn: ({ pageParam }) => getPtUserList({ q, page: pageParam, size: PT_HISTORY_PAGE_SIZE }),
       getNextPageParam: (lastPage, _allPages, lastPageParam) => {
         if (lastPage.data?.content.length === EMPTY_PAGE) {
           return undefined;
@@ -33,7 +32,7 @@ export const userManagementQueries = {
 
         return lastPageParam + TO_NEXT_PAGE;
       },
-      enabled: !!q,
+      // enabled: !!q,
       initialPageParam: START_PAGE,
       refetchOnWindowFocus: false,
       refetchOnMount: false,
@@ -43,14 +42,11 @@ export const userManagementQueries = {
       queryKey: [...userManagementBaseKeys.info(memberId)] as const,
       queryFn: () => getPtUserDetail({ memberId }),
     }),
-  ptHistory: (memberId: number, status: PtStatus) =>
+  ptHistory: (memberId: number, status?: PtStatus) =>
     infiniteQueryOptions({
       queryKey: [...userManagementBaseKeys.info(memberId), status] as const,
       queryFn: ({ pageParam }) =>
-        getTargetMemberPtHistory(
-          { status, page: pageParam, size: PT_HISTORY_PAGE_SIZE },
-          { memberId },
-        ),
+        getTargetMemberPtHistory({ status, page: pageParam, size: 10 }, { memberId }),
       getNextPageParam: (lastPage, _allPages, lastPageParam) => {
         if (lastPage.data.content.length === EMPTY_PAGE) {
           return undefined;

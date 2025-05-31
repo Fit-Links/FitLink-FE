@@ -1,30 +1,40 @@
 "use client";
 
 import { PtStatus } from "@5unwan/core/api/types/common";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
-import { TargetMemberPtHistoryApiResponse } from "@trainer/services/types/userManagement.dto";
+import { userManagementQueries } from "@trainer/queries/userManagement";
 
 import PtHistoryFilterButton from "./PtHistoryFilterButton";
 import PtHistoryList from "./PtHistoryList";
 
 type PtHistoryContainerProps = {
-  ptHistories: TargetMemberPtHistoryApiResponse["data"]["content"];
+  memberId: number;
 };
 
-const PT_STATUS_OPTIONS = ["전체", "PT완료", "불참석", "미처리"];
-const STATUS_MAP: Record<string, Exclude<PtStatus, "PENDING">> = {
-  PT완료: "COMPLETED",
-  불참석: "NO_SHOW",
-  미처리: "NONE",
+const PT_STATUS_OPTIONS = ["PT완료", "불참석", "예약대기", "PT취소"];
+const STATUS_MAP: Record<string, Exclude<PtStatus, "SESSION_PENDING">> = {
+  PT완료: "SESSION_COMPLETED",
+  불참석: "SESSION_NOT_ATTEND",
+  예약대기: "SESSION_WAITING",
+  PT취소: "SESSION_CANCELLED",
 };
 
-function PtHistoryContainer({ ptHistories }: PtHistoryContainerProps) {
-  const [selectedPtStatus, setSelectedPtStatus] = useState(PT_STATUS_OPTIONS[0]);
-
-  const filteredPtHistories = ptHistories.filter(({ status }) =>
-    selectedPtStatus === "전체" ? true : status === STATUS_MAP[selectedPtStatus],
+function PtHistoryContainer({ memberId }: PtHistoryContainerProps) {
+  const [selectedPtStatus, setSelectedPtStatus] = useState<(typeof PT_STATUS_OPTIONS)[number]>(
+    PT_STATUS_OPTIONS[0],
   );
+
+  const { data: ptHistory } = useInfiniteQuery(
+    userManagementQueries.ptHistory(memberId, STATUS_MAP[selectedPtStatus]),
+  );
+
+  const filteredPtHistories = ptHistory?.pages
+    .flatMap(({ data }) => data.content)
+    .filter(({ status }) =>
+      selectedPtStatus === "전체" ? true : status === STATUS_MAP[selectedPtStatus],
+    );
 
   return (
     <section className="mt-[1.563rem] max-h-[20rem] w-full">

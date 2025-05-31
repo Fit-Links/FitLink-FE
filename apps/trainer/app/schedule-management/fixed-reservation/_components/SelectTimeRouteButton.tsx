@@ -20,6 +20,7 @@ function SelectTimeRouteButton({ selectedMemberInformation }: SelectTimeRouteBut
       RouteInstance["select-pt-times"]("", {
         memberId: String(selectedMemberInformation?.memberId),
         name: selectedMemberInformation?.name,
+        edit: "true",
       }),
     );
   };

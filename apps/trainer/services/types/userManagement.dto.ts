@@ -1,4 +1,5 @@
 import {
+  FixedReservation,
   NoResponseData,
   PreferredWorkout,
   PtInfo,
@@ -34,6 +35,7 @@ type PtUserDetailResponse = Omit<PtUser, "totalCount" | "remainingCount"> & {
   profilePictureUrl: string;
   sessionInfo: SessionInfo;
   workoutSchedules: PreferredWorkout[];
+  fixedReservations: FixedReservation[];
 };
 export type PtUserDetailApiResponse = ResponseBase<PtUserDetailResponse>;
 
@@ -48,7 +50,7 @@ type SessionCountEditResponse = {
 };
 export type SessionCountEditApiResponse = ResponseBase<SessionCountEditResponse>;
 
-export type TargetMemberPtHistoryRequestQuery = { status: PtStatus; page: number; size: number };
+export type TargetMemberPtHistoryRequestQuery = { status?: PtStatus; page: number; size: number };
 export type TargetMemberPtHistoryRequestPath = { memberId: number };
 type TargetMemberPtHistoryResponse = {
   content: PtInfo[];

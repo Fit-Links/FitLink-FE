@@ -13,7 +13,12 @@ export type DayOfWeek =
   | "FRIDAY"
   | "SATURDAY"
   | "SUNDAY";
-export type PtStatus = "COMPLETED" | "NO_SHOW" | "NONE" | "PENDING";
+export type PtStatus =
+  | "SESSION_COMPLETED"
+  | "SESSION_NOT_ATTEND"
+  | "NONE"
+  | "SESSION_WAITING"
+  | "SESSION_CANCELLED";
 export type PtInfo = {
   sessionId: number;
   date: string;
