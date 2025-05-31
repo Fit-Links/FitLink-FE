@@ -1,5 +1,5 @@
 /* eslint-disable no-magic-numbers */
-import { useQuery } from "@tanstack/react-query";
+import { useQueries, useQuery } from "@tanstack/react-query";
 import { Button } from "@ui/components/Button";
 import Icon from "@ui/components/Icon";
 import {
@@ -17,13 +17,13 @@ import { useRouter } from "next/navigation";
 import { myInformationQueries } from "@trainer/queries/myInformation";
 import { reservationQueries } from "@trainer/queries/reservation";
 
-import { GetDayoffApiResponse } from "@trainer/services/types/myInformation.dto";
 import { ReservationStatusApiResponse } from "@trainer/services/types/reservations.dto";
 
 import RouteInstance from "@trainer/constants/route";
 
 import { useFixReservationMutation } from "../../_hooks/mutations/useFixReservationMutation";
 import { getFixedReservationDatesAndTimes } from "../../_libs/getFixedReservationDatesAndTimes";
+import { createNonConflictingFixedReservation } from "../../_utils/fixReservationUtils";
 
 type FixedReservationAdderButtonProps = {
   selectedFixedSchedules: Record<string, string[]>;
@@ -42,74 +42,37 @@ function FixedReservationAdderButton({
   const fixedReservationDatesAndTimes = getFixedReservationDatesAndTimes(
     selectedFixedSchedules,
     currentDate,
-    1,
+    0,
   );
 
   const currentWeekMonday = startOfWeek(new Date(), { weekStartsOn: 1 });
 
-  // 다음 주 월요일 (다음 주 시작일)
-  const nextWeekMonday = addDays(currentWeekMonday, 7);
-  const nextWeekMondayFormatted = format(nextWeekMonday, "yyyy-MM-dd");
+  const dates = [0, 14].map((days) => {
+    const date = addDays(currentWeekMonday, days);
 
-  const { data: reservations } = useQuery(reservationQueries.list(nextWeekMondayFormatted));
+    return format(date, "yyyy-MM-dd");
+  });
+
+  const reservations = useQueries({
+    queries: dates.map((date) => reservationQueries.list(date)),
+    combine: (data) =>
+      data.map(({ data }) => data?.data).flat() as ReservationStatusApiResponse["data"],
+  });
+
   const { data: dayoff } = useQuery(myInformationQueries.dayOff());
 
   const { fixReservation } = useFixReservationMutation();
 
-  const checkForReservationConflicts = (
-    dates: string[],
-    reservations: ReservationStatusApiResponse["data"],
-    dayoff: GetDayoffApiResponse["data"],
-  ) => {
-    const isConflicts = reservations.filter(({ status, reservationDates }) => {
-      if (status === "예약 확정" || status === "고정 예약" || status === "예약 불가 설정") {
-        return dates.some((date) => {
-          const newDateString = `${date}:00`;
+  const handleClickFixReservation = () => {
+    if (!dayoff) return;
 
-          return reservationDates.includes(newDateString);
-        });
-      }
-
-      return false;
-    });
-
-    if (isConflicts.length === 0) {
-      return dayoff.filter(({ dayOffDate }) => {
-        return dates.some((date) => {
-          const newDateString = date.split("T")[0];
-
-          return dayOffDate === newDateString;
-        });
-      });
-    }
-
-    return isConflicts;
-  };
-
-  const createNonConflictingFixedReservation = (depth: number): string[] | undefined => {
-    if (!reservations || !dayoff) return;
-
-    const fixedReservationDatesAndTimes = getFixedReservationDatesAndTimes(
+    const fixedReservationDatesAndTimes = createNonConflictingFixedReservation(
       selectedFixedSchedules,
       currentDate,
-      depth,
-    );
-
-    const reservationConflicts = checkForReservationConflicts(
-      fixedReservationDatesAndTimes,
-      reservations.data,
+      reservations,
       dayoff.data,
+      1,
     );
-
-    if (reservationConflicts.length > 0) {
-      return createNonConflictingFixedReservation(depth + 1);
-    }
-
-    return fixedReservationDatesAndTimes;
-  };
-
-  const handleClickFixReservation = () => {
-    const fixedReservationDatesAndTimes = createNonConflictingFixedReservation(1);
 
     if (!fixedReservationDatesAndTimes) return;
 
