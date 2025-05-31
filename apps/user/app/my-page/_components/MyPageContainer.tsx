@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Badge } from "@ui/components/Badge";
 import Icon from "@ui/components/Icon";
 import { ProfileItem } from "@ui/components/ProfileItem";
@@ -15,40 +15,26 @@ import React from "react";
 
 import { myInformationQueries } from "@user/queries/myInformation";
 
-import { MyInformationApiResponse } from "@user/services/types/myInformation.dto";
-
 import { getFormattedPTCount } from "@user/utils/count";
 
 import EditPreferredScheduleBottomSheet from "./BottomSheet/EditPreferredScheduleBottomSheet";
-import PTHistoryContent from "./PTHistory/PTHistoryContent";
-import PTHistoryFilter from "./PTHistory/PTHistoryFilter";
 import ScheduleContainer from "./PTInformation/ScheduleContainer";
 import ScheduleInformation from "./PTInformation/ScheduleInformation";
 import ProfileHeader from "../_components/ProfileHeader";
 import ConnectedTrainerItem from "../_components/PTInformation/ConnectedTrainerItem";
 import { getISOToKoreanTime, getUniqueTimeReservations } from "../_utils/preferredTime";
-import PTHistoryContainer from "./PTHistory/PTHistoryCotainer";
 
 const TEMP_DEFAULT_SESSION_COUNT = 0;
 
 const NO_FIXED_RESERVATION_COUNT = 0;
 
 export default function MyPageContainer() {
-  const { data: response, isLoading } = useQuery<MyInformationApiResponse>(
-    myInformationQueries.summary(),
-  );
+  const { data: response } = useSuspenseQuery(myInformationQueries.summary());
 
-  if (isLoading) {
-    return <div className="flex h-full w-full items-center justify-center">Loading</div>;
-  }
-
-  if (!response) {
-    return <div>데이터가 없습니다.</div>;
-  }
-
-  const myInformation: MyInformationApiResponse["data"] = response?.data;
+  const myInformation = response?.data;
 
   const preferredSchedule = myInformation?.workoutSchedules;
+
   const fixedSchedule = myInformation?.fixedReservations;
 
   const uniqueFixedSchedule = getUniqueTimeReservations(fixedSchedule);
@@ -58,6 +44,8 @@ export default function MyPageContainer() {
   ) as ObjectEntries<Record<DaysOfWeek, string>>;
 
   const formattedFixedSchedule = getISOToKoreanTime(uniqueFixedSchedule);
+
+  console.log(myInformation);
 
   return (
     <div>
@@ -108,11 +96,6 @@ export default function MyPageContainer() {
           </ScheduleContainer>
         </ScheduleInformation>
       )}
-
-      <PTHistoryContainer>
-        <PTHistoryFilter />
-        <PTHistoryContent />
-      </PTHistoryContainer>
     </div>
   );
 }
