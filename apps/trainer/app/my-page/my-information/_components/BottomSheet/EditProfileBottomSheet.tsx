@@ -88,6 +88,7 @@ export default function EditProfileBottomSheet({ children }: EditProfileBottomSh
       return attachmentId;
     } catch (error) {
       // 오류 처리
+      console.log(error);
     }
   };
 
@@ -106,7 +107,7 @@ export default function EditProfileBottomSheet({ children }: EditProfileBottomSh
       />
       <Sheet>
         <SheetTrigger asChild>{children}</SheetTrigger>
-        <SheetContent side={"bottom"} className="md:max-w-mobile left-1/2 w-full -translate-x-1/2">
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
           <SheetTitle></SheetTitle>
           <SheetDescription className="flex flex-col gap-[0.625rem]">
             <SheetClose asChild>

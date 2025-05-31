@@ -25,7 +25,7 @@ export default function EditPreferredScheduleBottomSheet({
     <div className="md:max-w-mobile absolute right-0 top-0">
       <Sheet>
         <SheetTrigger>{children}</SheetTrigger>
-        <SheetContent side="bottom" className="md:max-w-mobile left-1/2 w-full -translate-x-1/2 ">
+        <SheetContent side="bottom" className="md:w-mobile md:inset-x-[calc((100%-480px)/2)] ">
           <SheetClose asChild>
             <SheetTitle>
               <SheetItem icon="Pencil" label="PT 희망시간 수정" onClick={handleClickOpenAlbum} />

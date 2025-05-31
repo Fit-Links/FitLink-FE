@@ -60,7 +60,7 @@ function ReservationOutcomeSheet({
 
   return (
     <Sheet open={open} onOpenChange={onChangeOpen}>
-      <SheetContent side={"bottom"} className="md:max-w-mobile left-1/2 w-full -translate-x-1/2">
+      <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
         <SheetHeader className="items-center">
           <SheetTitle className="flex justify-center">{selectedFormatDate}</SheetTitle>
           {reservationStatus !== "예약 확정" && (

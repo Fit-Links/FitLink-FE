@@ -204,7 +204,7 @@ function MemberProfileList({ searchValue }: MemberProfileListProps) {
         handleClickSelectMember={handleClickSelectMember}
       />
       <Sheet open={ptManagementSheetSheetOpen} onOpenChange={setPtManagementSheetSheetOpen}>
-        <SheetContent side={"bottom"} className="md:max-w-mobile left-1/2 w-full -translate-x-1/2">
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
           <div className="flex h-full w-full flex-col gap-[0.625rem]">
             <SheetClose asChild>
               <div

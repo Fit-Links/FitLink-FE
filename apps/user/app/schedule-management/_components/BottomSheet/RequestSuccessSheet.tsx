@@ -40,7 +40,7 @@ function RequestSuccessSheet({
   return (
     <Sheet open={open} onOpenChange={onChangeOpen}>
       {children}
-      <SheetContent side="bottom" className="md:max-w-mobile left-1/2 w-full -translate-x-1/2">
+      <SheetContent side="bottom" className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
         <SheetHeader className="flex flex-col items-center">
           <Button className="mb-7 h-[3.125rem] w-[3.125rem] rounded-full">
             <Icon name="Check" size="lg" />
