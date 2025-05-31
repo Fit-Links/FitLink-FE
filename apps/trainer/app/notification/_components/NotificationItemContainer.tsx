@@ -34,7 +34,7 @@ function NotificationItemContainer({ notification, onClick }: NotificationItemCo
 
   if (isError) return <NotificationItemError />;
 
-  const { name, profilePictureUrl } = data.data.userDetail;
+  const { profilePictureUrl } = data.data.userDetail;
 
   return (
     <NotificationItem
@@ -42,7 +42,6 @@ function NotificationItemContainer({ notification, onClick }: NotificationItemCo
       variant={type}
       createdAt={sendDate}
       avatarSrc={profilePictureUrl}
-      memberName={name}
       isCompleted={isProcessed}
       key={`notification-${notificationId}`}
       className="w-full"

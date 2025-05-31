@@ -10,7 +10,7 @@ type Props = Omit<HTMLAttributes<HTMLLIElement>, "onClick"> & NotificationProps;
 
 type NotificationProps = {
   isCompleted: boolean;
-  memberName?: string;
+  // memberName?: string;
   avatarSrc?: string;
   message: string;
   eventDate?: Date | string;
@@ -23,7 +23,7 @@ type NotificationProps = {
 const NotificationItem = forwardRef<HTMLLIElement, Props>((props, ref) => {
   const {
     isCompleted,
-    memberName,
+    // memberName,
     avatarSrc,
     createdAt,
     message,
@@ -44,7 +44,7 @@ const NotificationItem = forwardRef<HTMLLIElement, Props>((props, ref) => {
   const eventDateController = eventDate ? DateController(eventDate).validate() : undefined;
   const createdDateController = DateController(createdAt).validate();
   const eventDetailController = eventDetail ? DateController(eventDetail).validate() : undefined;
-  const messageCompound = memberName ? `${memberName} ${message}` : message;
+  // const messageCompound = memberName ? `${memberName} ${message}` : message;
 
   return (
     <li
@@ -63,7 +63,7 @@ const NotificationItem = forwardRef<HTMLLIElement, Props>((props, ref) => {
       <NotificationContent
         isCompleted={isCompleted}
         createdAt={createdDateController?.toRelative()}
-        message={messageCompound}
+        message={message}
         eventDate={eventDateController?.toServiceFormat().untilMinutes}
         variant={variant}
         eventDetail={
