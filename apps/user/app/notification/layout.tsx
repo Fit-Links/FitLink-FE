@@ -1,10 +1,13 @@
 import Header from "@ui/components/Header";
-import React from "react";
+
+import { requireAuth } from "@user/utils/auth";
 
 type NotificationLayoutProps = Readonly<{
   children: React.ReactNode;
 }>;
-function NotificationLayout({ children }: NotificationLayoutProps) {
+async function NotificationLayout({ children }: NotificationLayoutProps) {
+  await requireAuth();
+
   return (
     <>
       <Header>
