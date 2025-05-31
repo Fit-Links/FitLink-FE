@@ -1,8 +1,9 @@
 "use client";
 
 import { PtInfo, PtStatus } from "@5unwan/core/api/types/common";
-import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import PTHistoryItem from "@ui/components/PTHistoryItem";
+import { useRef } from "react";
 
 import { myInformationQueries } from "@user/queries/myInformation";
 
@@ -11,12 +12,13 @@ import {
   MyPtHistoryStatus,
 } from "@user/services/types/myInformation.dto";
 
-import usePTHistoryFilter from "./_store/PTHistoryFilterStore";
+import useIntersectionObserver from "@user/hooks/useIntersectionObserver";
 
-export default function PTHistoryContent() {
-  const { historyFilter } = usePTHistoryFilter();
+import MyPageItemSkeleton from "../Skeleton/MyPageItemSkeleton";
 
+export default function PTHistoryContent({ historyFilter }: { historyFilter: PtStatus }) {
   const queryClient = useQueryClient();
+  const intersectionRef = useRef<HTMLDivElement>(null);
 
   const summaryData = queryClient.getQueryData<MyInformationApiResponse>(
     myInformationQueries.summary().queryKey,
@@ -24,32 +26,57 @@ export default function PTHistoryContent() {
 
   const memberId = summaryData?.data?.memberId;
 
-  if (!memberId) return;
-
-  const { data: ptHistory, isLoading } = useInfiniteQuery(
+  const {
+    data: ptHistory,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useSuspenseInfiniteQuery(
     myInformationQueries.ptHistory(
-      historyFilter !== "SESSION_ALL" ? (historyFilter as MyPtHistoryStatus) : undefined,
+      historyFilter !== "NONE" ? (historyFilter as MyPtHistoryStatus) : undefined,
     ),
   );
 
-  if (isLoading) return <div></div>;
+  const handleIntersect = () => {
+    if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+  };
+
+  useIntersectionObserver({
+    target: intersectionRef,
+    handleIntersect: handleIntersect,
+  });
+
+  if (!memberId || !ptHistory) {
+    return null;
+  }
 
   return (
-    <section className="mt-[1.25rem] flex flex-col gap-[0.625rem] overflow-y-auto pb-2">
+    <section className="mt-[1.25rem] flex h-full flex-1 flex-col gap-[0.625rem] overflow-y-auto pb-2">
       {ptHistory &&
-        ptHistory.pages[0].data.content.map((item: PtInfo) => {
-          if (item.status !== historyFilter && historyFilter !== "SESSION_ALL") return;
+        ptHistory.pages.map((page) =>
+          page.data.content.map((item: PtInfo) => {
+            if (item.status !== (historyFilter as PtStatus) && historyFilter !== "NONE")
+              return null;
 
-          return (
-            <>
+            return (
               <PTHistoryItem
                 key={`PT-history-item-${item.sessionId}`}
                 reservationDate={new Date(item.date)}
-                status={item.status.split("_")[1] as Exclude<PtStatus, "PENDING">}
+                status={item.status as Exclude<PtStatus, "SESSION_CANCELLED">}
               />
-            </>
-          );
-        })}
+            );
+          }),
+        )}
+
+      <div ref={intersectionRef} className="h-4 w-full">
+        {isFetchingNextPage && (
+          <div className="mt-[1.25rem] flex flex-col gap-[0.625rem] overflow-y-auto pb-2">
+            <MyPageItemSkeleton className="h-[3.375rem]" />
+            <MyPageItemSkeleton className="h-[3.375rem]" />
+            <MyPageItemSkeleton className="h-[3.375rem]" />
+          </div>
+        )}
+      </div>
     </section>
   );
 }

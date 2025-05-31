@@ -1,22 +1,20 @@
 "use client";
 
+import { PtStatus } from "@5unwan/core/api/types/common";
+import { useState } from "react";
+
+import PTHistoryContent from "./PTHistoryContent";
+import PTHistoryFilter from "./PTHistoryFilter";
 import { PTHistoryLabel } from "./PTHistoryLabel";
 
-export type PTHistoryFilterTypes =
-  | "SESSION_ALL"
-  | "SESSION_COMPLETED"
-  | "SESSION_NO_SHOW"
-  | "SESSION_NONE";
+export default function PTHistoryContainer() {
+  const [historyFilter, setHistoryFilter] = useState<PtStatus>("NONE");
 
-interface PTHistoryContainerProps {
-  children: React.ReactNode;
-}
-
-export default function PTHistoryContainer({ children }: PTHistoryContainerProps) {
   return (
-    <>
+    <section className="mt-[1.625rem] flex flex-col">
       <PTHistoryLabel />
-      {children}
-    </>
+      <PTHistoryFilter historyFilter={historyFilter} setHistoryFilter={setHistoryFilter} />
+      <PTHistoryContent historyFilter={historyFilter} />
+    </section>
   );
 }
