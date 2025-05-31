@@ -56,7 +56,7 @@ function ReservationNotAllowedCancelSheet({
   return (
     <>
       <Sheet open={open} onOpenChange={onChangeOpen}>
-        <SheetContent side={"bottom"} className="md:max-w-mobile left-1/2 w-full -translate-x-1/2">
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
           <SheetHeader className="itmes-center">
             <SheetTitle className="flex justify-center">예약 불가 시간</SheetTitle>
           </SheetHeader>
