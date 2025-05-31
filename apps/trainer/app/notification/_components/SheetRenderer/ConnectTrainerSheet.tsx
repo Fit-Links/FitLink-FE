@@ -196,10 +196,3 @@ function ConnectTrainerSheet({ notificationId, open, onChangeOpen }: ConnectTrai
 }
 
 export default ConnectTrainerSheet;
-
-// const DUMMY_MEMBER_DATA = {
-//   name: "홍길동",
-//   birthDate: "1999-10-14",
-//   phoneNumber: "01023212321",
-//   profilePictureUrl: "http://123",
-// };
