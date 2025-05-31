@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import React from "react";
 
 import { myInformationQueries } from "@user/queries/myInformation";
@@ -10,11 +10,7 @@ import { MemorizedProfileItem } from "./MemorizedProfileItem";
 import { getFormattedPhoneNumber } from "../../_utils/getPhoneNumberFormat";
 
 export default function MyDetailInformations() {
-  const { data: response, isLoading } = useQuery(myInformationQueries.detail());
-
-  if (isLoading) {
-    return <div>Loading</div>;
-  }
+  const { data: response } = useSuspenseQuery(myInformationQueries.detail());
 
   const myDetailInformation = response?.data;
 
