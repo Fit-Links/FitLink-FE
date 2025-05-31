@@ -137,27 +137,3 @@ function ConnectNotificationPage() {
 }
 
 export default ConnectNotificationPage;
-
-// const DUMMY_NOTIFICATION = [
-//   {
-//     notificationId: 1,
-//     type: "연동 승인",
-//     content: "홍길동 회원이 연동 승인을 요청했습니다",
-//     sendDate: "2025-04-06T17:25:15.882954",
-//     isProcessed: false,
-//   },
-//   {
-//     notificationId: 2,
-//     type: "연동 승인",
-//     content: "홍길동 회원이 연동 승인을 요청했습니다",
-//     sendDate: "2025-04-06T17:25:15.882954",
-//     isProcessed: false,
-//   },
-//   {
-//     notificationId: 3,
-//     type: "연동 승인",
-//     content: "홍길동 회원이 연동 승인을 요청했습니다",
-//     sendDate: "2025-04-06T17:25:15.882954",
-//     isProcessed: false,
-//   },
-// ];

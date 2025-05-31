@@ -146,36 +146,3 @@ function ReservationEditNotificationPage() {
 }
 
 export default ReservationEditNotificationPage;
-
-// const DUMMY_NOTIFICATION = [
-//   {
-//     notificationId: 2,
-//     type: "예약 변경",
-//     content:
-//       "길동 회원님의 PT 예약 변경이 요청되었습니다.\n날짜: 04.21 (월) 오후 5시 -> 04.22 (화) 오후 5시",
-//     sendDate: "2025-04-08T17:25:15.881664",
-//     isProcessed: false,
-//   },
-//   {
-//     notificationId: 3,
-//     type: "예약 취소",
-//     content: "홍길동 회원이 PT 예약 취소를 요청했습니다\n날짜: 1.1 (월) 오후 12시",
-//     sendDate: "2025-04-07T17:25:15.882358",
-//     isProcessed: false,
-//   },
-//   {
-//     notificationId: 4,
-//     type: "예약 변경",
-//     content:
-//       "길동 회원님의 PT 예약 변경이 요청되었습니다.\n날짜: 04.21 (월) 오후 5시 -> 04.22 (화) 오후 5시",
-//     sendDate: "2025-04-08T17:25:15.881664",
-//     isProcessed: false,
-//   },
-//   {
-//     notificationId: 5,
-//     type: "예약 취소",
-//     content: "홍길동 회원이 PT 예약 취소를 요청했습니다\n날짜: 1.1 (월) 오후 12시",
-//     sendDate: "2025-04-07T17:25:15.882358",
-//     isProcessed: false,
-//   },
-// ];

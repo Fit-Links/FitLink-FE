@@ -188,17 +188,3 @@ function ReservationCancelSheet({
 }
 
 export default ReservationCancelSheet;
-
-// const DUMMY_MEMBER_DETAIL = {
-//   sessionInfo: {
-//     sessionInfoId: 1,
-//     totalCount: 2,
-//     remainingCount: 1,
-//   },
-// };
-// const DUMMY_NOTIFICATION_DETAIL = {
-//   name: "홍길동",
-//   birthDate: "1999-10-14",
-//   phoneNumber: "01023212321",
-//   profilePictureUrl: "http://123",
-// };

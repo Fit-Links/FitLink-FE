@@ -35,7 +35,7 @@ function SheetFallback() {
             variant={"negative"}
           >
             승인
-          </Button>{" "}
+          </Button>
         </div>
       </SheetFooter>
     </>
