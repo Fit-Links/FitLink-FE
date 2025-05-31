@@ -145,30 +145,3 @@ function NotificationSearch({ isOpen, setIsOpen }: NotificationSearchProps) {
 }
 
 export default NotificationSearch;
-
-// const DUMMY_MEMBER = [
-//   {
-//     memberId: 1,
-//     name: "홍길동",
-//     birthDate: "2002-01-12",
-//     phoneNumber: "01028321232",
-//     profilePictureUrl: "https://picsum.photos/200",
-//     sessionInfo: {
-//       sessionInfoId: 1,
-//       totalCount: 2,
-//       remainingCount: 1,
-//     },
-//   },
-//   {
-//     memberId: 2,
-//     name: "홍길동",
-//     birthDate: "2002-01-12",
-//     phoneNumber: "01028321232",
-//     profilePictureUrl: "https://picsum.photos/200",
-//     sessionInfo: {
-//       sessionInfoId: 1,
-//       totalCount: 2,
-//       remainingCount: 1,
-//     },
-//   },
-// ];

@@ -127,28 +127,3 @@ function DisconnectNotificationPage() {
 }
 
 export default DisconnectNotificationPage;
-
-// const DUMMY_NOTIFICATION = [
-//   {
-//     notificationId: 3,
-//     type: "연동 해제",
-//     content: "홍길동 회원이 연동을 해제했습니다",
-//     sendDate: "2025-04-05T17:25:15.883592",
-//     isProcessed: false,
-//   },
-
-//   {
-//     notificationId: 1,
-//     type: "연동 해제",
-//     content: "홍길동 회원이 연동을 해제했습니다",
-//     sendDate: "2025-04-05T17:25:15.883592",
-//     isProcessed: false,
-//   },
-//   {
-//     notificationId: 5,
-//     type: "연동 해제",
-//     content: "홍길동 회원이 연동을 해제했습니다",
-//     sendDate: "2025-04-05T17:25:15.883592",
-//     isProcessed: false,
-//   },
-// ];

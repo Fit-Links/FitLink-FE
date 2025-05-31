@@ -128,34 +128,3 @@ function ReservationNotificationPage() {
 }
 
 export default ReservationNotificationPage;
-
-// const DUMMY_NOTIFICATION = [
-//   {
-//     notificationId: 1,
-//     type: "예약 요청",
-//     content: "홍길동 회원님이 PT 예약을 요청하였습니다.\n날짜: 04.20 (일) 오후 6시",
-//     sendDate: "2025-04-09T17:25:15.879023",
-//     isProcessed: false,
-//   },
-//   {
-//     notificationId: 2,
-//     type: "예약 요청",
-//     content: "홍길동 회원님이 PT 예약을 요청하였습니다.\n날짜: 04.20 (일) 오후 6시",
-//     sendDate: "2025-04-09T17:25:15.879023",
-//     isProcessed: false,
-//   },
-//   {
-//     notificationId: 3,
-//     type: "예약 요청",
-//     content: "홍길동 회원님이 PT 예약을 요청하였습니다.\n날짜: 04.20 (일) 오후 6시",
-//     sendDate: "2025-04-09T17:25:15.879023",
-//     isProcessed: false,
-//   },
-//   {
-//     notificationId: 4,
-//     type: "예약 요청",
-//     content: "홍길동 회원님이 PT 예약을 요청하였습니다.\n날짜: 04.20 (일) 오후 6시",
-//     sendDate: "2025-04-09T17:25:15.879023",
-//     isProcessed: false,
-//   },
-// ];
