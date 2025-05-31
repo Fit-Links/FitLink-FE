@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { Badge } from "@ui/components/Badge";
 import { Button } from "@ui/components/Button";
 import Icon from "@ui/components/Icon";
@@ -14,6 +14,9 @@ import {
 import { Suspense, useState } from "react";
 
 import { notificationQueries } from "@trainer/queries/notification";
+import { userManagementQueries } from "@trainer/queries/userManagement";
+
+import { processCancelReservation } from "@trainer/services/reservations";
 
 import ProfileCard from "@trainer/components/ProfileCard";
 import QueryErrorBoundary from "@trainer/components/QueryErrorBoundary";
@@ -32,8 +35,8 @@ type ReservationCancelSheetProps = {
 type ReservationCancelSheetContentProps = {
   notificationId: number;
   eventDateDescription: string;
-  handleDeclineClick: () => void;
-  handleAcceptClick: () => void;
+  handleDeclineClick: (reservationId: number, userId: number) => () => void;
+  handleAcceptClick: (reservationId: number, userId: number) => () => void;
 };
 function ReservationCancelSheetContent({
   notificationId,
@@ -41,14 +44,16 @@ function ReservationCancelSheetContent({
   handleDeclineClick,
   handleAcceptClick,
 }: ReservationCancelSheetContentProps) {
-  const { data } = useSuspenseQuery(notificationQueries.detail(notificationId));
+  const { data: notificationDetail } = useSuspenseQuery(notificationQueries.detail(notificationId));
   const {
-    userDetail: { name, profilePictureUrl, birthDate, phoneNumber },
-  } = data.data;
+    refId,
+    userDetail: { userId, name, profilePictureUrl, birthDate, phoneNumber },
+  } = notificationDetail.data;
 
+  const { data: memberDetail } = useSuspenseQuery(userManagementQueries.detail(userId));
   const {
     sessionInfo: { remainingCount, totalCount },
-  } = DUMMY_MEMBER_DETAIL;
+  } = memberDetail.data;
 
   return (
     <>
@@ -72,13 +77,18 @@ function ReservationCancelSheetContent({
               size={"xl"}
               className="w-full"
               variant={"secondary"}
-              onClick={handleDeclineClick}
+              onClick={handleDeclineClick(refId, userId)}
             >
               거절
             </Button>
           </SheetClose>
           <SheetClose asChild>
-            <Button size={"xl"} className="w-full" variant={"negative"} onClick={handleAcceptClick}>
+            <Button
+              size={"xl"}
+              className="w-full"
+              variant={"negative"}
+              onClick={handleAcceptClick(refId, userId)}
+            >
               승인
             </Button>
           </SheetClose>
@@ -94,15 +104,31 @@ function ReservationCancelSheet({
   onChangeOpen,
   eventDateDescription,
 }: ReservationCancelSheetProps) {
-  //TODO: 회원 상세 정보 조회 API 연결
+  const reservationCancelMutation = useMutation({
+    mutationFn: processCancelReservation,
+  });
 
   const [isDeclineSheetOpen, setIsDeclineSheetOpen] = useState(false);
   const [isAcceptSheetOpen, setIsAccepSheetOpen] = useState(false);
 
-  const handleDeclineClick = () => {
+  const handleDeclineClick = (reservationId: number, userId: number) => () => {
+    reservationCancelMutation.mutate({
+      requestPath: { reservationId },
+      requestBody: {
+        memberId: userId,
+        isApprove: false,
+      },
+    });
     setIsDeclineSheetOpen(true);
   };
-  const handleAcceptClick = () => {
+  const handleAcceptClick = (reservationId: number, userId: number) => () => {
+    reservationCancelMutation.mutate({
+      requestPath: { reservationId },
+      requestBody: {
+        memberId: userId,
+        isApprove: true,
+      },
+    });
     setIsAccepSheetOpen(true);
   };
 
@@ -163,13 +189,13 @@ function ReservationCancelSheet({
 
 export default ReservationCancelSheet;
 
-const DUMMY_MEMBER_DETAIL = {
-  sessionInfo: {
-    sessionInfoId: 1,
-    totalCount: 2,
-    remainingCount: 1,
-  },
-};
+// const DUMMY_MEMBER_DETAIL = {
+//   sessionInfo: {
+//     sessionInfoId: 1,
+//     totalCount: 2,
+//     remainingCount: 1,
+//   },
+// };
 // const DUMMY_NOTIFICATION_DETAIL = {
 //   name: "홍길동",
 //   birthDate: "1999-10-14",

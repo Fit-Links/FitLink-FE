@@ -31,6 +31,7 @@ function HeaderSection({ position, children, className }: HeaderSectionProps) {
   return (
     <div
       className={cn(
+        "cursor-pointer",
         {
           "col-start-1 col-end-2 justify-self-start": position === "left",
           "col-start-3 col-end-4 justify-self-end": position === "right",

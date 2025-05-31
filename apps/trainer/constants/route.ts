@@ -62,7 +62,7 @@ class ROUTES {
     "edit-verificated-phone",
   ];
 
-  private _notification = () => [...this._root(), "notification"];
+  private _notification = (routeParams?: string) => [...this._root(), "notification", routeParams];
 
   get root() {
     return () => {
@@ -188,7 +188,11 @@ class ROUTES {
   }
 
   get notification() {
-    return () => this._notification().join(ROUTE_DIVIDER);
+    return (routeParams?: string) => {
+      const filteredRoute = this["_notification"](routeParams).filter(filterEmptyDynamicRoute);
+
+      return filteredRoute.join(ROUTE_DIVIDER);
+    };
   }
 }
 
