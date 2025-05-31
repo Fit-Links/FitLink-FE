@@ -233,7 +233,7 @@ export const editFixedReservation = ({
   const { reservationId } = requestPath;
 
   return http.post<EditFixedReservationApiResponse>({
-    url: `${RESERVATION_BASE_URL}/${reservationId}/fixed-change-request`,
+    url: `/v1/${RESERVATION_BASE_URL}/${reservationId}/fixed-change-request`,
     data: requestBody,
   });
 };

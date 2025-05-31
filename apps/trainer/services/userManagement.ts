@@ -29,7 +29,7 @@ export const getTargetMemberPtHistory = (
   const { memberId } = requestPath;
 
   return http.get<TargetMemberPtHistoryApiResponse>({
-    url: `/v1/${TRAINER_BASE_URL}/members/${memberId}/sessions`,
+    url: `/v1/members/${memberId}/sessions`,
     params: requestQuery,
   });
 };
