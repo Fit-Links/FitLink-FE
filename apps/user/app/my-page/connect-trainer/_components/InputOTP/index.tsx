@@ -15,6 +15,8 @@ import { myInformationQueries } from "@user/queries/myInformation";
 
 import { connectTrainer } from "@user/services/myInformation";
 
+import RouteInstance from "@user/constants/routes";
+
 type otp_status = "default" | "focused" | "filled" | "error";
 
 const OTP_LENGTH = 6;
@@ -50,8 +52,8 @@ export default function InputOTP() {
 
     mutate(trainerCode, {
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: myInformationQueries.summary() });
-        router.back();
+        queryClient.invalidateQueries(myInformationQueries.summary());
+        router.push(RouteInstance["my-page"]());
       },
 
       onError: () => {
