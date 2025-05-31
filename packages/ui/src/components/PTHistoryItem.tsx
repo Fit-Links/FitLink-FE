@@ -1,3 +1,4 @@
+import { PtStatus } from "@5unwan/core/api/types/common";
 import React from "react";
 
 import { cn } from "@ui/lib/utils";
@@ -10,13 +11,12 @@ const PTHistoryStatusMap = {
   SESSION_COMPLETED: () => "PT 완료",
   SESSION_NOT_ATTEND: () => "불참석",
   SESSION_WAITING: () => "예약 대기",
-  SESSION_CANCELLED: () => "PT 취소",
   NONE: (isClickable?: boolean) => (isClickable ? "PT가 완료되었나요?" : "미처리"),
 } as const;
 
 type PTHistoryItemProps = {
   reservationDate: string | Date;
-  status: keyof typeof PTHistoryStatusMap;
+  status: Exclude<PtStatus, "SESSION_CANCELLED">;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
   className?: string;
 };
