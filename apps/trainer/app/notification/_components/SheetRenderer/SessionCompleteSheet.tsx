@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { Badge } from "@ui/components/Badge";
 import { Button } from "@ui/components/Button";
 import Icon from "@ui/components/Icon";
@@ -13,6 +13,9 @@ import {
 import { Suspense, useState } from "react";
 
 import { notificationQueries } from "@trainer/queries/notification";
+import { userManagementQueries } from "@trainer/queries/userManagement";
+
+import { createCompletedPt } from "@trainer/services/reservations";
 
 import ProfileCard from "@trainer/components/ProfileCard";
 import QueryErrorBoundary from "@trainer/components/QueryErrorBoundary";
@@ -24,8 +27,8 @@ import { formatSessionData } from "../../_utils/formatter";
 type SessionCompleteSheetContentProps = {
   notificationId: number;
   eventDate: string;
-  handleDeclineClick: () => void;
-  handleAcceptClick: () => void;
+  handleDeclineClick: (reservationId: number, userId: number) => () => void;
+  handleAcceptClick: (reservationId: number, userId: number) => () => void;
 };
 function SessionCompleteSheetContent({
   notificationId,
@@ -33,14 +36,16 @@ function SessionCompleteSheetContent({
   handleDeclineClick,
   handleAcceptClick,
 }: SessionCompleteSheetContentProps) {
-  const { data } = useSuspenseQuery(notificationQueries.detail(notificationId));
+  const { data: notificationDetail } = useSuspenseQuery(notificationQueries.detail(notificationId));
   const {
-    userDetail: { name, profilePictureUrl, birthDate, phoneNumber },
-  } = data.data;
+    refId,
+    userDetail: { userId, name, profilePictureUrl, birthDate, phoneNumber },
+  } = notificationDetail.data;
 
+  const { data: memberDetail } = useSuspenseQuery(userManagementQueries.detail(userId));
   const {
     sessionInfo: { remainingCount, totalCount },
-  } = DUMMY_MEMBER_DETAIL;
+  } = memberDetail.data;
 
   return (
     <>
@@ -63,13 +68,18 @@ function SessionCompleteSheetContent({
               size={"xl"}
               className="w-full"
               variant={"secondary"}
-              onClick={handleDeclineClick}
+              onClick={handleDeclineClick(refId, userId)}
             >
               불참석
             </Button>
           </SheetClose>
           <SheetClose asChild>
-            <Button size={"xl"} className="w-full" variant={"negative"} onClick={handleAcceptClick}>
+            <Button
+              size={"xl"}
+              className="w-full"
+              variant={"negative"}
+              onClick={handleAcceptClick(refId, userId)}
+            >
               PT 완료
             </Button>
           </SheetClose>
@@ -78,6 +88,12 @@ function SessionCompleteSheetContent({
     </>
   );
 }
+
+type ReservationCompletionMutationParams = {
+  memberId: number;
+  reservationId: number;
+  isJoin: boolean;
+};
 
 type SessionCompleteSheetProps = {
   notificationId: number;
@@ -91,15 +107,20 @@ function SessionCompleteSheet({
   eventDate,
   notificationId,
 }: SessionCompleteSheetProps) {
-  //TODO: 회원 상세 정보 조회 API 연결
+  const sessionMutation = useMutation({
+    mutationFn: ({ memberId, reservationId, isJoin }: ReservationCompletionMutationParams) =>
+      createCompletedPt({ reservationId }, { memberId, isJoin }),
+  });
 
   const [isDeclineSheetOpen, setIsDeclineSheetOpen] = useState(false);
   const [isAcceptSheetOpen, setIsAccepSheetOpen] = useState(false);
 
-  const handleDeclineClick = () => {
+  const handleDeclineClick = (reservationId: number, userId: number) => () => {
+    sessionMutation.mutate({ memberId: userId, reservationId, isJoin: false });
     setIsDeclineSheetOpen(true);
   };
-  const handleAcceptClick = () => {
+  const handleAcceptClick = (reservationId: number, userId: number) => () => {
+    sessionMutation.mutate({ memberId: userId, reservationId, isJoin: true });
     setIsAccepSheetOpen(true);
   };
 
@@ -159,13 +180,13 @@ function SessionCompleteSheet({
 
 export default SessionCompleteSheet;
 
-const DUMMY_MEMBER_DETAIL = {
-  sessionInfo: {
-    sessionInfoId: 1,
-    totalCount: 2,
-    remainingCount: 1,
-  },
-};
+// const DUMMY_MEMBER_DETAIL = {
+//   sessionInfo: {
+//     sessionInfoId: 1,
+//     totalCount: 2,
+//     remainingCount: 1,
+//   },
+// };
 // const DUMMY_NOTIFICATION_DETAIL = {
 //   name: "홍길동",
 //   birthDate: "1999-10-14",
