@@ -39,7 +39,7 @@ function PtHistoryList({ ptHistories }: PtHistoryListProps) {
             <PTHistoryItem
               key={sessionId}
               reservationDate={date}
-              status={status as Exclude<PtStatus, "NONE">}
+              status={status as Exclude<PtStatus, "SESSION_CANCELLED">}
               className="flex-none"
               onClick={() => handleClickPtHistoryEdit(status, date)}
             />
