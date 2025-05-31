@@ -45,8 +45,6 @@ export default function MyPageContainer() {
 
   const formattedFixedSchedule = getISOToKoreanTime(uniqueFixedSchedule);
 
-  console.log(myInformation);
-
   return (
     <div>
       <ProfileHeader
