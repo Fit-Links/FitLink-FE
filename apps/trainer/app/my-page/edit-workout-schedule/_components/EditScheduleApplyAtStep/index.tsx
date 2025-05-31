@@ -8,7 +8,9 @@ type EditScheduleApplyAtStepProps = {
   onNext: (scheduleApplyAt: string) => void;
 };
 
-const DAY_GAP = 1;
+const MONTH_OFFSET = 1;
+const PAD_LENGTH = 2;
+const PAD_CHAR = "0";
 
 export default function EditScheduleApplyAtStep({ onNext }: EditScheduleApplyAtStepProps) {
   const [selectedDate, setSelectedDate] = React.useState<Date>(new Date());
@@ -20,9 +22,13 @@ export default function EditScheduleApplyAtStep({ onNext }: EditScheduleApplyAtS
   };
 
   const handleClickNext = () => {
-    const nextDay = new Date(selectedDate);
-    nextDay.setDate(nextDay.getDate() + DAY_GAP);
-    onNext(nextDay.toISOString());
+    const year = selectedDate.getFullYear();
+    const month = String(selectedDate.getMonth() + MONTH_OFFSET).padStart(PAD_LENGTH, PAD_CHAR);
+    const day = String(selectedDate.getDate()).padStart(PAD_LENGTH, PAD_CHAR);
+
+    const dateString = `${year}-${month}-${day}`;
+
+    onNext(dateString);
   };
 
   return (
