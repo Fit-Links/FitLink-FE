@@ -52,7 +52,7 @@ function ApproveButton({ selectedMemberInformation, selectedDate }: ApproveButto
           </Button>
         </form>
       </SheetTrigger>
-      <SheetContent side={"bottom"} className="md:max-w-mobile left-1/2 w-full -translate-x-1/2">
+      <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
         <SheetHeader className="flex items-center">
           <div className="bg-brand-primary-500 mb-7 flex h-[3.125rem] w-[3.125rem] items-center justify-center rounded-full">
             <Icon name="Check" size="lg" />

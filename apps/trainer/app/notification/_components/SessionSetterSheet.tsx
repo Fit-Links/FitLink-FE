@@ -33,7 +33,10 @@ function SessionSetterSheet({ isOpen, onOpenChange, onSubmit }: SessionSetterShe
 
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="flex h-fit w-full flex-col items-center">
+      <SheetContent
+        side="bottom"
+        className="md:w-mobile flex h-fit flex-col items-center md:inset-x-[calc((100%-480px)/2)]"
+      >
         <SheetHeader className="items-center">
           <SheetTitle>PT 횟수 입력</SheetTitle>
           <SheetDescription>회원님의 PT 횟수를 입력하여 연동을 승인해주세요</SheetDescription>

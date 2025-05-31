@@ -47,10 +47,7 @@ function PtHistoryList({ ptHistories }: PtHistoryListProps) {
       </section>
       <Sheet open={ptHistoryEditSheetOpen} onOpenChange={setPtHistoryEditSheetOpen}>
         <SheetHeader>
-          <SheetContent
-            side={"bottom"}
-            className="md:max-w-mobile left-1/2 w-full -translate-x-1/2"
-          >
+          <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
             <SheetTitle className="text-center">PT 수업이 완료되었나요?</SheetTitle>
             <div className="bg-background-sub1 rounded-[0.625rem] px-[7.438rem] py-[2.313rem] text-center">
               {reservationFormatDateRef.current}

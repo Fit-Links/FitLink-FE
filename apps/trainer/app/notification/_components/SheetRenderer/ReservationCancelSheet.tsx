@@ -135,7 +135,7 @@ function ReservationCancelSheet({
   return (
     <>
       <Sheet open={open} onOpenChange={onChangeOpen}>
-        <SheetContent side={"bottom"} className="md:max-w-mobile left-1/2 w-full -translate-x-1/2">
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
           <QueryErrorBoundary fallback={SheetErrorFallback}>
             <Suspense fallback={<SheetFallback />}>
               <ReservationCancelSheetContent
@@ -149,7 +149,7 @@ function ReservationCancelSheet({
         </SheetContent>
       </Sheet>
       <Sheet open={isDeclineSheetOpen} onOpenChange={setIsDeclineSheetOpen}>
-        <SheetContent side={"bottom"} className="md:max-w-mobile left-1/2 w-full -translate-x-1/2">
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
           <SheetHeader className="items-center">
             <Button className="mb-7 h-[3.125rem] w-[3.125rem] rounded-full">
               <Icon name="Check" size="lg" />
@@ -167,7 +167,7 @@ function ReservationCancelSheet({
         </SheetContent>
       </Sheet>
       <Sheet open={isAcceptSheetOpen} onOpenChange={setIsAccepSheetOpen}>
-        <SheetContent side={"bottom"} className="md:max-w-mobile left-1/2 w-full -translate-x-1/2">
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
           <SheetHeader className="items-center">
             <Button className="mb-7 h-[3.125rem] w-[3.125rem] rounded-full">
               <Icon name="Check" size="lg" />
