@@ -101,6 +101,7 @@ export default function EditProfileBottomSheet({ children }: EditProfileBottomSh
       return attachmentId;
     } catch (error) {
       // 오류 처리
+      console.log(error);
     }
   };
 

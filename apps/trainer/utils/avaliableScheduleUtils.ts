@@ -43,13 +43,12 @@ export const formatAvailableScheduleConfirm = (
   return `${DAYS[dayOfWeek]} ${formattedStartTime} - ${formattedEndTime}`;
 };
 
-const DAY_GAP = 1;
 export const formatDateToKorean = (date: Date): string => {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();
 
-  return `${year}년 ${month}월 ${day - DAY_GAP}일`;
+  return `${year}년 ${month}월 ${day}일`;
 };
 
 export const formatDateStringToKorean = (dateString: string | number | undefined): string => {

@@ -25,10 +25,14 @@ export default function EditScheduleConfirmStep({ context }: EditScheduleConfirm
   const queryClient = useQueryClient();
   const { data: currentData } = useQuery(myInformationQueries.ptAvailableTime());
 
-  const currentApplyAt = currentData?.data.currentSchedules?.applyAt ?? null;
-  const previousChangeApplyAt = currentData?.data.scheduledChanges?.applyAt ?? null;
+  const currentApplyAt = currentData?.data.currentSchedules?.applyAt;
 
-  const deleteTargetApplyAt = previousChangeApplyAt ? previousChangeApplyAt : null;
+  const changeApplyAt = context.scheduleApplyAt;
+
+  const previousChangeApplyAt = currentData?.data.scheduledChanges?.applyAt;
+
+  const deleteTargetApplyAt =
+    currentApplyAt === changeApplyAt ? currentApplyAt : previousChangeApplyAt;
 
   const { mutateAsync: deleteAvailablePtTimeMutate } = useMutation({
     mutationFn: deleteAvailablePtTime,
@@ -42,21 +46,18 @@ export default function EditScheduleConfirmStep({ context }: EditScheduleConfirm
     try {
       if (deleteTargetApplyAt) {
         await deleteAvailablePtTimeMutate({
-          applyAt: currentApplyAt as string,
-        });
-      } else {
-        await addAvailablePtTimeMutate({
-          applyAt: context.scheduleApplyAt as string,
-          availableTimes: context.availablePtTime as Omit<
-            AvailablePtTimeEntry,
-            "availableTimeId"
-          >[],
+          applyAt: deleteTargetApplyAt as string,
         });
       }
+      await addAvailablePtTimeMutate({
+        applyAt: changeApplyAt as string,
+        availableTimes: context.availablePtTime as Omit<AvailablePtTimeEntry, "availableTimeId">[],
+      });
+
       await queryClient.invalidateQueries(myInformationQueries.ptAvailableTime());
     } catch (error) {
       // 에러 처리
-      console.error(error);
+      console.log(error);
     }
   };
 
