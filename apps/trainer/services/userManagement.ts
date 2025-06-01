@@ -63,7 +63,7 @@ export const sessionCountEdit = ({
   const { totalCount, remainingCount } = requestBody;
 
   return http.patch<SessionCountEditApiResponse>({
-    url: `/v1/${TRAINER_BASE_URL}/${memberId}/session-info/${sessionInfoId}`,
+    url: `/v1/members/${memberId}/session-info/${sessionInfoId}`,
     data: {
       totalCount,
       remainingCount,
@@ -99,7 +99,7 @@ export const processMemberConnectionInquiry = ({
   const { notificationId } = requestPath;
 
   return http.post<ProcessMemberConnectionInquiryApiResponse>({
-    url: `${TRAINER_BASE_URL}/connect-requests/${notificationId}/decision`,
+    url: `/v1/${TRAINER_BASE_URL}/connect-requests/${notificationId}/decision`,
     data: requestBody,
   });
 };

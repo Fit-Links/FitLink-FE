@@ -10,8 +10,8 @@ type CommonSheetProps = {
 };
 
 const SheetRenderer = {
-  "연동 승인": (commonProps: CommonSheetProps) => <ConnectTrainerSheet {...commonProps} />,
-  "연동 해제": () => null,
+  "트레이너 연동": (commonProps: CommonSheetProps) => <ConnectTrainerSheet {...commonProps} />,
+  "트레이너 연동 해제": () => null,
   "예약 요청": () => null,
   "예약 변경": (commonProps: CommonSheetProps, eventDateDescription: string) => (
     <ReservationChangeSheet {...commonProps} eventDateDescription={eventDateDescription} />

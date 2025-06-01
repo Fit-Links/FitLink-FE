@@ -21,6 +21,8 @@ export const getNotificationDetail = ({ notificationId }: GetNotificationDetailR
   http.get<GetNotificationDetailApiResponse>({
     url: `/v1/notifications/${notificationId}`,
   });
+
+// TODO: 알림 읽음 API 오류 (백엔드 오류)
 export const readNotification = (data: ReadNotificationRequestBody) =>
   http.patch<ReadNotificationApiResponse>({
     url: `/v1/notifications`,

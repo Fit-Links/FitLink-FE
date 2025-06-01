@@ -39,7 +39,7 @@ function NotificationContainer({ onClick }: NotificationContainerProps) {
   const filteredNotificationCount = createFilteredNotificationCount(data, status);
 
   return (
-    <div className="">
+    <div className="flex-1">
       <ToggleGroup
         type="single"
         value={status}
