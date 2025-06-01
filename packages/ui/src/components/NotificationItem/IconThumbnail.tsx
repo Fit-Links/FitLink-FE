@@ -27,8 +27,8 @@ const NumberIcon = (value: number) => {
 };
 
 const NotificationIconMap = {
-  "연동 승인": HeartHandshake,
-  "연동 해제": UserRoundX,
+  "트레이너 연동": HeartHandshake,
+  "트레이너 연동 해제": UserRoundX,
   "예약 요청": Calendar,
   "예약 변경": History,
   "예약 취소": CalendarX2,

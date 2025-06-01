@@ -76,7 +76,7 @@ function AllNotificationPage() {
     const { notificationId, type, content, sendDate, isProcessed } = notification;
 
     switch (type) {
-      case "연동 해제":
+      case "트레이너 연동 해제":
         if (isProcessed) return;
         readNotificationMutation.mutate({ id: notificationId });
         break;
@@ -84,7 +84,7 @@ function AllNotificationPage() {
         router.push(RouteInstance["pending-reservations"]());
         break;
       case "세션":
-      case "연동 승인":
+      case "트레이너 연동":
       case "예약 변경":
       case "예약 취소":
         if (notificationId !== selectedNotification?.notificationId) {
