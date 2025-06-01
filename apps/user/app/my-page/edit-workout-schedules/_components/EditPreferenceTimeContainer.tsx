@@ -3,20 +3,16 @@
 import { PreferredWorkout } from "@5unwan/core/api/types/common";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import WorkoutForm from "@ui/components/WorkoutForm";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 import { myInformationQueries } from "@user/queries/myInformation";
 
 import { editPreferredTime } from "@user/services/myInformation";
 
-import RouteInstance from "@user/constants/routes";
-
 import SuccessEditPreferenceTimeBottomSheet from "./BottomSheet/SuccessEditPreferenceTimeBottomSheet";
 import Header from "../../_components/Header";
 
 export default function EditPreferenceTimeContainer() {
-  const router = useRouter();
   const queryClient = useQueryClient();
 
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -47,13 +43,12 @@ export default function EditPreferenceTimeContainer() {
     mutate(requestBody, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: myInformationQueries.summary().queryKey });
-        router.push(RouteInstance["my-page"]());
       },
     });
   };
 
   return (
-    <div>
+    <div className="flex h-full flex-col pb-[1.5625rem]">
       <Header title="PT 희망 시간" />
 
       <section className="mt-[0.625rem] text-center">
