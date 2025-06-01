@@ -123,7 +123,7 @@ export const terminateFixedReservation = ({
   reservationId,
 }: TerminateFixedReservationRequestPath) =>
   http.post<TerminateFixedReservationApiResponse>({
-    url: `${RESERVATION_BASE_URL}/fixed-reservations/${reservationId}/release`,
+    url: `/v1/${RESERVATION_BASE_URL}/fixed-reservations/${reservationId}/release`,
   });
 
 // export const approveReservation = ({
@@ -188,7 +188,7 @@ export const cancelReservation = ({
   const { reservationId } = requestPath;
 
   return http.post<CancelReservationApiResponse>({
-    url: `${RESERVATION_BASE_URL}/${reservationId}/cancel`,
+    url: `/v1/${RESERVATION_BASE_URL}/${reservationId}/cancel`,
     data: requestBody,
   });
 };
@@ -203,7 +203,7 @@ export const processCancelReservation = ({
   const { reservationId } = requestPath;
 
   return http.post<ProcessCancelReservationApiResponse>({
-    url: `${RESERVATION_BASE_URL}/${reservationId}/cancel-approve`,
+    url: `/v1/${RESERVATION_BASE_URL}/${reservationId}/cancel-approve`,
     data: requestBody,
   });
 };
@@ -248,7 +248,7 @@ export const processReservationChange = ({
   const { reservationId } = requestPath;
 
   return http.post<ProcessReservationChangeApiResponse>({
-    url: `${RESERVATION_BASE_URL}/${reservationId}/change-apporove`,
+    url: `/v1/${RESERVATION_BASE_URL}/${reservationId}/change-apporove`,
     data: requestBody,
   });
 };
