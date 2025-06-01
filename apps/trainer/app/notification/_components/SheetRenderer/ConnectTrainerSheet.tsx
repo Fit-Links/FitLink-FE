@@ -1,4 +1,4 @@
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { Button } from "@ui/components/Button";
 import Icon from "@ui/components/Icon";
 import {
@@ -12,7 +12,7 @@ import {
 } from "@ui/components/Sheet";
 import React, { Suspense, useState } from "react";
 
-import { notificationQueries } from "@trainer/queries/notification";
+import { notificationBaseKeys, notificationQueries } from "@trainer/queries/notification";
 
 import { processMemberConnectionInquiry, sessionCountEdit } from "@trainer/services/userManagement";
 
@@ -88,6 +88,8 @@ function ConnectTrainerSheetContent({
 }
 
 function ConnectTrainerSheet({ notificationId, open, onChangeOpen }: ConnectTrainerSheetProps) {
+  const queryClient = useQueryClient();
+
   const processConnectionMutation = useMutation({
     mutationFn: (isApproved: boolean) =>
       processMemberConnectionInquiry({
@@ -130,6 +132,7 @@ function ConnectTrainerSheet({ notificationId, open, onChangeOpen }: ConnectTrai
             onSuccess: () => {
               setIsAcceptActionSheetOpen(false);
               setIsAcceptSheetOpen(true);
+              queryClient.invalidateQueries({ queryKey: notificationBaseKeys.lists() });
             },
           },
         );
