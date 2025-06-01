@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { DaysOfWeek } from "@ui/utils/makeWeekSchedule";
 
 import { myInformationQueries } from "@trainer/queries/myInformation";
@@ -26,7 +26,7 @@ export type PTScheduleProps = {
 };
 
 export default function MyAvailableTimeContainer() {
-  const { data: response } = useQuery(myInformationQueries.ptAvailableTime());
+  const { data: response } = useSuspenseQuery(myInformationQueries.ptAvailableTime());
 
   if (!response) return;
 
