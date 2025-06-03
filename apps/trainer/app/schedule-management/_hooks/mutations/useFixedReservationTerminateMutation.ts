@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { reservationBaseKeys } from "@trainer/queries/reservation";
@@ -10,7 +11,9 @@ export const useFixedReservationTerminateMutation = () => {
   const { mutate, ...rest } = useMutation({
     mutationFn: (reservationId: number) => terminateFixedReservation({ reservationId }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: reservationBaseKeys.lists() });
+      setTimeout(() => {
+        queryClient.invalidateQueries({ queryKey: reservationBaseKeys.lists() });
+      }, 500);
     },
   });
 

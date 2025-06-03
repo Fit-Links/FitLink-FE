@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 "use client";
 
 import { Button } from "@ui/components/Button";
@@ -67,7 +68,10 @@ export default function TimeOptionList({
   useEffect(() => {
     if (isSuccess) {
       setIsReservationNotAllowSheetOpen(true);
-      onChangeOpen(false);
+
+      setTimeout(() => {
+        onChangeOpen(false);
+      }, 500);
     }
   }, [isSuccess]);
 

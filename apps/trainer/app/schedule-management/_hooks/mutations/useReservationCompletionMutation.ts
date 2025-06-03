@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { reservationBaseKeys } from "@trainer/queries/reservation";
@@ -17,7 +18,9 @@ export const useReservationCompletionMutation = () => {
     mutationFn: ({ memberId, reservationId, isJoin }: ReservationCompletionMutationParams) =>
       createCompletedPt({ reservationId }, { memberId, isJoin }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: reservationBaseKeys.lists() });
+      setTimeout(() => {
+        queryClient.invalidateQueries({ queryKey: reservationBaseKeys.lists() });
+      }, 500);
     },
   });
 
