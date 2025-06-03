@@ -17,6 +17,7 @@ import Icon from "@ui/components/Icon";
 import { Input } from "@ui/components/Input";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -145,9 +146,11 @@ function ReservationControlSheet({
               >
                 예약 취소
               </Button>
-              <Button className="h-[3.375rem] w-full" variant={"negative"}>
-                닫기
-              </Button>
+              <SheetClose asChild>
+                <Button className="h-[3.375rem] w-full" variant={"negative"}>
+                  닫기
+                </Button>
+              </SheetClose>
             </div>
           </SheetFooter>
         </SheetContent>
