@@ -2,7 +2,7 @@
 
 import React, { forwardRef, useCallback } from "react";
 
-import DayOfWeekPickerContext from "./context";
+import DayOfWeekPickerContext from "./Context";
 import { Days } from "./Days";
 import useControllableState from "../../hooks/useControllableState";
 import useDayOfWeekPickerContext from "../../hooks/useDayOfWeekPickerContext";
@@ -21,11 +21,19 @@ type WrapperProps = {
   onCurrentDayChange: (value: Days) => void;
   defaultDay?: Days;
   completed?: boolean[];
+  disabledDays?: Days[];
 };
 
 const DayOfWeekPicker = forwardRef<HTMLDivElement, DayOfWeekPickerProps>(
   (
-    { currentDay, onCurrentDayChange, completed, defaultDay = Days.Monday, ...commonProps },
+    {
+      currentDay,
+      onCurrentDayChange,
+      completed,
+      defaultDay = Days.Monday,
+      disabledDays,
+      ...commonProps
+    },
     ref,
   ) => {
     const [value, setValue] = useControllableState({
@@ -40,6 +48,7 @@ const DayOfWeekPicker = forwardRef<HTMLDivElement, DayOfWeekPickerProps>(
           value: value || defaultDay,
           completed: completed || Array.from(Array(DAYS_IN_WEEK), () => false),
           onItemClick: useCallback(setValue, [setValue]),
+          disabledDays: disabledDays || [],
         }}
       >
         <DayOfWeekPickerImpl ref={ref} {...commonProps} />
@@ -79,9 +88,13 @@ type ItemProps = {
 
 const DayOfWeekPickerItem = forwardRef<HTMLDivElement, DayOfWeekPickerItemProps>(
   ({ day, children }, ref) => {
-    const { value, onItemClick, completed } = useDayOfWeekPickerContext();
+    const { value, onItemClick, completed, disabledDays } = useDayOfWeekPickerContext();
     const isCurrent = value === day;
+    const isDisabled = disabledDays?.includes(day);
+
     const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      if (isDisabled) return;
+
       e.preventDefault();
       onItemClick(day);
     };
@@ -90,9 +103,15 @@ const DayOfWeekPickerItem = forwardRef<HTMLDivElement, DayOfWeekPickerItemProps>
     return (
       <div
         className={cn(
-          "hover:bg-brand-primary-600 flex h-[30px] w-[30px] items-center justify-center rounded-full border-none transition-colors duration-150",
+          "flex h-[30px] w-[30px] items-center justify-center rounded-full border-none transition-colors duration-150",
+          {
+            "hover:bg-brand-primary-600": !isDisabled,
+          },
           {
             "bg-background-sub3": isCompleted,
+          },
+          {
+            "cursor-not-allowed bg-gray-200 opacity-50": isDisabled,
           },
           {
             "bg-brand-primary-500": isCurrent,
