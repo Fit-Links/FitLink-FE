@@ -79,7 +79,7 @@ export default function TimeBlock({
     );
 
   const handleClickBlock = () => {
-    if (!reservationContent.length) {
+    if (!reservationContent.length || reservationContent[0].status === "예약 취소") {
       setIsScheduleBottomSheetOpen(true);
     }
 
