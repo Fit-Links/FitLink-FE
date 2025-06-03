@@ -23,7 +23,7 @@ export const useReservationCancelMutation = () => {
     onSuccess: () => {
       setTimeout(() => {
         queryClient.invalidateQueries({ queryKey: reservationBaseKeys.lists() });
-      }, 400);
+      }, 500);
     },
   });
 

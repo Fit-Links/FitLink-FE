@@ -13,7 +13,7 @@ export const useFixedReservationTerminateMutation = () => {
     onSuccess: () => {
       setTimeout(() => {
         queryClient.invalidateQueries({ queryKey: reservationBaseKeys.lists() });
-      }, 400);
+      }, 500);
     },
   });
 
