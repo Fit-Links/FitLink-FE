@@ -3,7 +3,7 @@
 import { ReservationStatus } from "@5unwan/core/api/types/common";
 import { cn } from "@ui/lib/utils";
 import { format } from "date-fns";
-import { ComponentProps, useState } from "react";
+import { ComponentProps, useEffect, useState } from "react";
 
 import ScheduleBottomSheet from "@trainer/app/schedule-management/_components/ScheduleBottomSheet";
 
@@ -82,9 +82,14 @@ export default function TimeBlock({
     if (!reservationContent.length || reservationContent[0].status === "예약 취소") {
       setIsScheduleBottomSheetOpen(true);
     }
-
     setIsReservationManagementSheetOpen(true);
   };
+
+  useEffect(() => {
+    if (!isScheduleBottomSheetOpen) {
+      setIsReservationManagementSheetOpen(false);
+    }
+  }, [isScheduleBottomSheetOpen]);
 
   return (
     <>
@@ -106,11 +111,13 @@ export default function TimeBlock({
             )}
           </div>
 
-          <ScheduleBottomSheet
-            open={isScheduleBottomSheetOpen}
-            onChangeOpen={setIsScheduleBottomSheetOpen}
-            selectedDate={date}
-          />
+          {isScheduleBottomSheetOpen && (
+            <ScheduleBottomSheet
+              open={isScheduleBottomSheetOpen}
+              onChangeOpen={setIsScheduleBottomSheetOpen}
+              selectedDate={date}
+            />
+          )}
 
           {RenderSheet}
         </>
