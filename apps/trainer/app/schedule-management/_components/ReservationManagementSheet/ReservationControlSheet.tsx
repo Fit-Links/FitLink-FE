@@ -17,7 +17,6 @@ import Icon from "@ui/components/Icon";
 import { Input } from "@ui/components/Input";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -26,7 +25,7 @@ import {
 } from "@ui/components/Sheet";
 import DateController from "@ui/lib/DateController";
 import { format } from "date-fns";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 import { userManagementQueries } from "@trainer/queries/userManagement";
 
@@ -55,7 +54,6 @@ function ReservationControlSheet({
 }: ReservationControlSheetProps) {
   const { memberInfo, reservationId } = memberInformation;
 
-  /** TODO: memberId로 특정 회원의 상세 정보를 불러와 이미지,번호,생일,총 PT횟수, 잔여 PT 횟수 불러오기 */
   const { memberId } = memberInfo;
   const selectedFormatDate = DateController(selectedDate).toDateTimeWithDayFormat();
 
@@ -65,14 +63,17 @@ function ReservationControlSheet({
   const [isReservationCancelSheetOpen, setIsReservationCancelSheetOpen] = useState(false);
   const [isReservationCancelSuccessSheetOpen, setIsReservationCancelSuccessSheetOpen] =
     useState(false);
+  const [isTerminateFixedReservationSheetOpen, setIsTerminateFixedReservationSheetOpen] =
+    useState(false);
 
   const { data: userInformationDetail } = useQuery({
     ...userManagementQueries.detail(memberId as number),
     enabled: !!memberId,
   });
 
-  const { reservationCancel } = useReservationCancelMutation();
-  const { terminateFixedReservation } = useFixedReservationTerminateMutation();
+  const { reservationCancel, isSuccess: reservationCancelSuccess } = useReservationCancelMutation();
+  const { terminateFixedReservation, isSuccess: terminateFixedReservationSuccess } =
+    useFixedReservationTerminateMutation();
 
   const handleClickReservationCancelSheetOpen = () => {
     setIsReservationCancelSheetOpen(true);
@@ -82,14 +83,12 @@ function ReservationControlSheet({
     setInputValue(event.target.value);
   };
 
-  /** TODO:  예약 취소 버튼 클릭 시 예약 취소 API 호출 */
   const handleClickReservationCancelSuccessSheetOpen = () => {
     reservationCancel({
       reservationId: reservationId,
       cancelReason: inputValue,
       cancelDate: format(selectedDate, "yyyy-MM-dd'T'HH:mm"),
     });
-    setIsReservationCancelSuccessSheetOpen(true);
   };
 
   const handleClickTerminateFixedReservationDialogOpen = () => {
@@ -99,6 +98,15 @@ function ReservationControlSheet({
   const handleClickTerminateFixedReservation = () => {
     terminateFixedReservation(reservationId);
   };
+
+  useEffect(() => {
+    if (reservationCancelSuccess) {
+      setIsReservationCancelSuccessSheetOpen(true);
+    }
+    if (terminateFixedReservationSuccess) {
+      setIsTerminateFixedReservationSheetOpen(true);
+    }
+  }, [reservationCancelSuccess, terminateFixedReservationSuccess]);
 
   return (
     <>
@@ -120,7 +128,6 @@ function ReservationControlSheet({
             </div>
           </SheetHeader>
           {userInformationDetail && (
-            /** TODO: 현재 회원 상세 정보가 기존과 다르게 내려오고 있음. 특시 회원의 전화번호, 생일 데이터가 없음 */
             <ProfileCard
               imgUrl={userInformationDetail.data.profilePictureUrl}
               userBirth={new Date(userInformationDetail.data.birthDate)}
@@ -129,28 +136,23 @@ function ReservationControlSheet({
               className="bg-background-sub1 w-full hover:bg-none"
             />
           )}
-
           <SheetFooter>
             <div className="flex w-full justify-center gap-[0.625rem]">
-              <SheetClose asChild>
-                <Button
-                  className="h-[3.375rem] w-full"
-                  variant={"secondary"}
-                  onClick={handleClickReservationCancelSheetOpen}
-                >
-                  예약 취소
-                </Button>
-              </SheetClose>
-              <SheetClose asChild>
-                <Button className="h-[3.375rem] w-full" variant={"negative"}>
-                  닫기
-                </Button>
-              </SheetClose>
+              <Button
+                className="h-[3.375rem] w-full"
+                variant={"secondary"}
+                onClick={handleClickReservationCancelSheetOpen}
+              >
+                예약 취소
+              </Button>
+              <Button className="h-[3.375rem] w-full" variant={"negative"}>
+                닫기
+              </Button>
             </div>
           </SheetFooter>
         </SheetContent>
       </Sheet>
-      {/** TODO: reservationId를 사용하여 예약 취소 API 붙히기 */}
+
       <Sheet open={isReservationCancelSheetOpen} onOpenChange={setIsReservationCancelSheetOpen}>
         <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
           <SheetHeader>
@@ -167,15 +169,13 @@ function ReservationControlSheet({
             <p className="text-body-1 text-text-sub3 mt-5 whitespace-pre-line text-center">{`홍길동 회원에게\n사유와 함께 예약 취소 알림이 전송돼요`}</p>
           </SheetHeader>
           <SheetFooter>
-            <SheetClose asChild>
-              <Button
-                disabled={!inputValue.length}
-                className="disabled:bg-background-sub1 h-[3.375rem] w-full"
-                onClick={handleClickReservationCancelSuccessSheetOpen}
-              >
-                예약 취소
-              </Button>
-            </SheetClose>
+            <Button
+              disabled={!inputValue.length}
+              className="disabled:bg-background-sub1 h-[3.375rem] w-full"
+              onClick={handleClickReservationCancelSuccessSheetOpen}
+            >
+              예약 취소
+            </Button>
           </SheetFooter>
         </SheetContent>
       </Sheet>
@@ -192,12 +192,11 @@ function ReservationControlSheet({
             <SheetTitle className="text-center">PT 예약이 취소되었습니다</SheetTitle>
           </SheetHeader>
           <SheetFooter>
-            <SheetClose asChild>
-              <Button className="h-[3.375rem] w-full">확인</Button>
-            </SheetClose>
+            <Button className="h-[3.375rem] w-full">확인</Button>
           </SheetFooter>
         </SheetContent>
       </Sheet>
+
       <Dialog
         open={isTerminateFixedReservationDialogOpen}
         onOpenChange={setIsTerminateFixedReservationDialogOpen}
@@ -223,6 +222,22 @@ function ReservationControlSheet({
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      <Sheet
+        open={isTerminateFixedReservationSheetOpen}
+        onOpenChange={setIsTerminateFixedReservationSheetOpen}
+      >
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+          <SheetHeader className="items-center">
+            <Button className="mb-7 h-[3.125rem] w-[3.125rem] rounded-full">
+              <Icon name="Check" size="lg" />
+            </Button>
+            <SheetTitle className="text-center">고정 예약이 해제되었습니다</SheetTitle>
+          </SheetHeader>
+          <SheetFooter>
+            <Button className="h-[3.375rem] w-full">확인</Button>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
     </>
   );
 }
