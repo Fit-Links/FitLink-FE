@@ -1,65 +1,35 @@
 "use client";
 
 import { DayOfWeek } from "@5unwan/core/api/types/common";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import Icon from "@ui/components/Icon";
-import React from "react";
+import React, { useState } from "react";
 
 import { myInformationQueries } from "@trainer/queries/myInformation";
 
-import { deleteTimeOff } from "@trainer/services/myInformation";
-import {
-  DayoffResponseInformation,
-  DeleteTimeOffRequestBody,
-} from "@trainer/services/types/myInformation.dto";
+import { DayoffResponseInformation } from "@trainer/services/types/myInformation.dto";
 
 import { DAYS } from "@trainer/constants/Day";
 
+import DeleteMyDayOffDialog from "./DeleteMyDayOffDialog";
+
 const NoDayOff = 0;
 
-type RequestDayOffInformation = {
+export type RequestDayOffInformation = {
   dayOffId: number;
   dayOffDate: string;
   dayOfWeek: DayOfWeek;
 };
 
 export default function MyDayOffContainer() {
-  const queryClient = useQueryClient();
   const { data: response } = useQuery(myInformationQueries.dayOff());
 
-  const { mutate, isSuccess, isError } = useMutation({
-    mutationFn: (params: {
-      requestPath: { dayOffId: number };
-      requestBody: DeleteTimeOffRequestBody;
-    }) => deleteTimeOff(params.requestPath, params.requestBody),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: myInformationQueries.dayOff().queryKey });
-    },
-  });
+  const [open, setOpen] = useState(false);
+  const [deleteDayOffData, setDeleteDayOffData] = useState<RequestDayOffInformation | null>(null);
 
   const handleDeleteDayOff = (holiday: RequestDayOffInformation) => {
-    mutate(
-      {
-        requestPath: { dayOffId: holiday.dayOffId },
-        requestBody: {
-          dayOfWeek: holiday.dayOfWeek,
-          dayOfTime: holiday.dayOffDate,
-        },
-      },
-      {
-        onSuccess: () => {
-          if (isSuccess) {
-            console.log("성공적으로 삭제되었습니다.");
-          }
-        },
-        onError: (error) => {
-          if (isError) {
-            console.error("삭제 중 오류가 발생했습니다:", error);
-          }
-        },
-      },
-    );
+    setDeleteDayOffData(holiday);
+    setOpen(true);
   };
 
   if (!response) return;
@@ -100,6 +70,11 @@ export default function MyDayOffContainer() {
           </div>
         ))}
       </section>
+      <DeleteMyDayOffDialog
+        deleteDayOffData={deleteDayOffData}
+        open={open}
+        onOpenChange={setOpen}
+      />
     </section>
   );
 }

@@ -1,9 +1,12 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import Icon from "@ui/components/Icon";
 import { ProfileItem } from "@ui/components/ProfileItem";
 import React, { useState } from "react";
+
+import { myInformationQueries } from "@user/queries/myInformation";
 
 import { disconnectTrainer } from "@user/services/myInformation";
 
@@ -11,18 +14,19 @@ import UnlinkAlarmSheet from "./BottomSheet/UnlinkAlarmSheet";
 import UnlinkDialog from "./Dialog";
 
 export default function TrainerUnlinkItem() {
+  const queryClient = useQueryClient();
+
   const [isOpenBottomSheet, setIsOpenBottomSheet] = useState(false);
 
-  const { mutate, isSuccess } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: () => disconnectTrainer(),
   });
 
   const handleClickUnlinkTrainer = () => {
     mutate(undefined, {
       onSuccess: () => {
-        if (isSuccess) {
-          setIsOpenBottomSheet(true);
-        }
+        setIsOpenBottomSheet(true);
+        queryClient.invalidateQueries(myInformationQueries.summary());
       },
     });
   };
