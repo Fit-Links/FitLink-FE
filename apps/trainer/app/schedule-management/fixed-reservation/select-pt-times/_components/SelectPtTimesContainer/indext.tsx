@@ -1,11 +1,14 @@
 /* eslint-disable no-magic-numbers */
 "use client";
 
+import { useSuspenseQuery } from "@tanstack/react-query";
 import DayOfWeekPicker from "@ui/components/DayOfWeekPicker";
 import { Days } from "@ui/components/DayOfWeekPicker/Days";
 import TimeCellToggleGroup from "@ui/components/TimeCellToggleGroup";
 import { TimeCell } from "@ui/utils/timeCellUtils";
 import { useRef, useState } from "react";
+
+import { myInformationQueries } from "@trainer/queries/myInformation";
 
 import FixedReservationAdderButton from "./FixedReservationAdderButton";
 
@@ -13,11 +16,27 @@ type SelectPtTimesContainerProps = {
   userInformation: { memberId: number; name: string };
 };
 
+const dayOfWeekToDaysMap: Record<string, Days> = {
+  MONDAY: Days.Monday,
+  TUESDAY: Days.Tuesday,
+  WEDNESDAY: Days.Wednesday,
+  THURSDAY: Days.Thursday,
+  FRIDAY: Days.Friday,
+  SATURDAY: Days.Saturday,
+  SUNDAY: Days.Sunday,
+};
+
 function SelectPtTimesContainer({ userInformation }: SelectPtTimesContainerProps) {
   const dayRef = useRef<Days>(0);
   const selectedFixedSchedulesRef = useRef<Record<string, string[]>>({});
 
   const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
+
+  const { data: ptAvailableTime } = useSuspenseQuery(myInformationQueries.ptAvailableTime());
+
+  const holidayDays = ptAvailableTime.data.currentSchedules.schedules
+    .filter((schedule) => schedule.isHoliday)
+    .map((schedule) => schedule.dayOfWeek);
 
   selectedFixedSchedulesRef.current[dayRef.current] = selectedTimes;
 
@@ -34,7 +53,10 @@ function SelectPtTimesContainer({ userInformation }: SelectPtTimesContainerProps
   return (
     <>
       <section className="flex h-full w-full flex-col pt-[1.688rem]">
-        <DayOfWeekPicker onCurrentDayChange={handleChangeSelectDate} />{" "}
+        <DayOfWeekPicker
+          onCurrentDayChange={handleChangeSelectDate}
+          disabledDays={holidayDays.map((day) => dayOfWeekToDaysMap[day])}
+        />
         <section className="h-full">
           <TimeCellToggleGroup
             className="md:max-w-mobile mt-10"
