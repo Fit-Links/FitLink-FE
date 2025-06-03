@@ -60,6 +60,7 @@ export default function WeekRow({
                 filterLatestReservationsByDate(reservationInformation.data),
                 mergeDate,
               )}
+              ptAvailableTime={ptAvailableTime}
             />
           ))}
         </DayColumn>
