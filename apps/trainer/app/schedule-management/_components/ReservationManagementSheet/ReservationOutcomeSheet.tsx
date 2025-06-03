@@ -15,6 +15,7 @@ import {
 import DateController from "@ui/lib/DateController";
 
 import { reservationQueries } from "@trainer/queries/reservation";
+import { userManagementQueries } from "@trainer/queries/userManagement";
 
 import { ModifiedReservationListItem } from "@trainer/services/types/reservations.dto";
 
@@ -44,6 +45,10 @@ function ReservationOutcomeSheet({
   const selectedFormatDate = DateController(selectedDate).toDateTimeWithDayFormat();
 
   const { data: reservationDetail } = useQuery(reservationQueries.detail(reservationId));
+  const { data: userInformationDetail } = useQuery({
+    ...userManagementQueries.detail(memberId as number),
+    enabled: !!memberId,
+  });
 
   const { reservationCompletion } = useReservationCompletionMutation();
 
@@ -67,30 +72,36 @@ function ReservationOutcomeSheet({
             <Badge className="h-8 w-20">{reservationStatus}</Badge>
           )}
         </SheetHeader>
-        <ProfileCard
-          imgUrl={""}
-          userBirth={new Date()}
-          userName={name as string}
-          phoneNumber={""}
-          className="bg-background-sub1 w-full hover:bg-none"
-        />
+        {userInformationDetail && (
+          <ProfileCard
+            imgUrl={userInformationDetail.data.profilePictureUrl}
+            userBirth={new Date(userInformationDetail.data.birthDate)}
+            userName={name as string}
+            phoneNumber={userInformationDetail.data.phoneNumber}
+            className="bg-background-sub1 w-full hover:bg-none"
+          />
+        )}
         <SheetFooter>
           {reservationStatus === "예약 확정" ? (
             <div className="flex w-full justify-center gap-[0.625rem]">
-              <Button
-                className="h-[3.375rem] w-full"
-                variant={"secondary"}
-                onClick={handleClickChangeStatus("SESSION_NOT_ATTEND")}
-              >
-                불참석
-              </Button>
-              <Button
-                className="h-[3.375rem] w-full"
-                variant={"negative"}
-                onClick={handleClickChangeStatus("SESSION_COMPLETED")}
-              >
-                PT 완료
-              </Button>
+              <SheetClose asChild>
+                <Button
+                  className="h-[3.375rem] w-full"
+                  variant={"secondary"}
+                  onClick={handleClickChangeStatus("SESSION_NOT_ATTEND")}
+                >
+                  불참석
+                </Button>
+              </SheetClose>
+              <SheetClose asChild>
+                <Button
+                  className="h-[3.375rem] w-full"
+                  variant={"negative"}
+                  onClick={handleClickChangeStatus("SESSION_COMPLETED")}
+                >
+                  PT 완료
+                </Button>
+              </SheetClose>
             </div>
           ) : (
             <SheetClose asChild>
