@@ -34,9 +34,6 @@ export default function TimeBlock({
     ptAvailableTime.data.currentSchedules || ptAvailableTime.data.scheduledChanges
   ).schedules?.find(({ dayOfWeek }) => dayOfWeek === format(date, "EEEE").toUpperCase());
 
-  console.log("ptTimeInformation", ptTimeInformation);
-  console.log("date", date.getHours());
-
   const isAvailableTime =
     Number(ptTimeInformation?.startTime.split(":")[0]) <= date.getHours() &&
     Number(ptTimeInformation?.endTime.split(":")[0]) >= date.getHours();
