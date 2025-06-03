@@ -50,7 +50,9 @@ function ReservationAdderButton({ selectedMemberInformation }: ReservationAdderB
       name: (selectedMemberInformation as PtUser).name,
       dates: [formattedDate],
     });
+  };
 
+  const handleClickConfirm = () => {
     router.push(RouteInstance["schedule-management"]());
   };
 
@@ -76,7 +78,9 @@ function ReservationAdderButton({ selectedMemberInformation }: ReservationAdderB
         </SheetHeader>
         <SheetFooter>
           <SheetClose asChild>
-            <Button className="h-[3.375rem] w-full rounded-[0.625rem]">확인</Button>
+            <Button onClick={handleClickConfirm} className="h-[3.375rem] w-full rounded-[0.625rem]">
+              확인
+            </Button>
           </SheetClose>
         </SheetFooter>
       </SheetContent>

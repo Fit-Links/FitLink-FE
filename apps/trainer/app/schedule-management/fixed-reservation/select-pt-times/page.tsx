@@ -12,7 +12,6 @@ function SelectPtTimes({ searchParams }: SelectPtTimesProps) {
   const userInformation = {
     memberId: Number(searchParams.memberId),
     name: searchParams.name,
-    isEdit: searchParams.edit === "true",
   };
 
   return (
