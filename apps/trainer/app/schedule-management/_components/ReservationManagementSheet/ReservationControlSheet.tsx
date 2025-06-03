@@ -4,6 +4,15 @@ import { ReservationStatus } from "@5unwan/core/api/types/common";
 import { useQuery } from "@tanstack/react-query";
 import { Badge } from "@ui/components/Badge";
 import { Button } from "@ui/components/Button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@ui/components/Dialog";
 import Icon from "@ui/components/Icon";
 import { Input } from "@ui/components/Input";
 import {
@@ -25,6 +34,7 @@ import { ModifiedReservationListItem } from "@trainer/services/types/reservation
 
 import ProfileCard from "@trainer/components/ProfileCard";
 
+import { useFixedReservationTerminateMutation } from "../../_hooks/mutations/useFixedReservationTerminateMutation";
 import { useReservationCancelMutation } from "../../_hooks/mutations/useReservationCancelMutation";
 
 type ReservationControlSheetProps = {
@@ -50,6 +60,8 @@ function ReservationControlSheet({
   const selectedFormatDate = DateController(selectedDate).toDateTimeWithDayFormat();
 
   const [inputValue, setInputValue] = useState("");
+  const [isTerminateFixedReservationDialogOpen, setIsTerminateFixedReservationDialogOpen] =
+    useState(false);
   const [isReservationCancelSheetOpen, setIsReservationCancelSheetOpen] = useState(false);
   const [isReservationCancelSuccessSheetOpen, setIsReservationCancelSuccessSheetOpen] =
     useState(false);
@@ -60,6 +72,7 @@ function ReservationControlSheet({
   });
 
   const { reservationCancel } = useReservationCancelMutation();
+  const { terminateFixedReservation } = useFixedReservationTerminateMutation();
 
   const handleClickReservationCancelSheetOpen = () => {
     setIsReservationCancelSheetOpen(true);
@@ -79,13 +92,32 @@ function ReservationControlSheet({
     setIsReservationCancelSuccessSheetOpen(true);
   };
 
+  const handleClickTerminateFixedReservationDialogOpen = () => {
+    setIsTerminateFixedReservationDialogOpen(true);
+  };
+
+  const handleClickTerminateFixedReservation = () => {
+    terminateFixedReservation(reservationId);
+  };
+
   return (
     <>
       <Sheet open={open} onOpenChange={onChangeOpen}>
         <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
           <SheetHeader className="items-center">
             <SheetTitle className="flex justify-center">{selectedFormatDate}</SheetTitle>
-            {reservationStatus && <Badge className="h-8 w-20">{reservationStatus}</Badge>}
+            <div className="flex items-center justify-center gap-2">
+              {reservationStatus && <Badge className="h-8 w-24">{reservationStatus}</Badge>}
+              {reservationStatus === "고정 예약" && (
+                <Badge
+                  onClick={handleClickTerminateFixedReservationDialogOpen}
+                  className="h-8 w-24 hover:cursor-pointer"
+                  variant={"destructive"}
+                >
+                  {"고정 예약 해제"}
+                </Badge>
+              )}
+            </div>
           </SheetHeader>
           {userInformationDetail && (
             /** TODO: 현재 회원 상세 정보가 기존과 다르게 내려오고 있음. 특시 회원의 전화번호, 생일 데이터가 없음 */
@@ -166,6 +198,31 @@ function ReservationControlSheet({
           </SheetFooter>
         </SheetContent>
       </Sheet>
+      <Dialog
+        open={isTerminateFixedReservationDialogOpen}
+        onOpenChange={setIsTerminateFixedReservationDialogOpen}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>고정 예약 해제</DialogTitle>
+          </DialogHeader>
+          <DialogDescription className="whitespace-pre-line text-center">
+            {
+              "현재 선택된 회원의 타임 블록과\n같은 요일/시간에 해당하는 모든 고정 예약이 해제됩니다."
+            }
+          </DialogDescription>
+          <DialogFooter>
+            <DialogClose className="flex w-full justify-center gap-2">
+              <Button className="w-full" variant={"secondary"}>
+                취소
+              </Button>
+              <Button onClick={handleClickTerminateFixedReservation} className="w-full">
+                고정 예약 해제
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

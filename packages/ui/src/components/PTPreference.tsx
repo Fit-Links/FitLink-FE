@@ -54,7 +54,7 @@ function PTPreference({
               <Text.Body1
                 key={dayOfWeek}
                 className="block"
-              >{`${DAYS_OF_WEEK[dayOfWeek]} ${schedule}`}</Text.Body1>
+              >{`${DAYS_OF_WEEK[dayOfWeek]}: ${schedule}`}</Text.Body1>
             ))}
           {fixWeekSchedule &&
             fixWeekSchedule.map(({ dayOfWeek, preferenceTimes }) => {
@@ -65,7 +65,7 @@ function PTPreference({
                 <Text.Body1
                   key={dayOfWeek}
                   className="block"
-                >{`${DAYS_OF_WEEK[dayOfWeek]} ${preferenceTimesString}`}</Text.Body1>
+                >{`${DAYS_OF_WEEK[dayOfWeek]}: ${preferenceTimesString}`}</Text.Body1>
               );
             })}
         </div>
