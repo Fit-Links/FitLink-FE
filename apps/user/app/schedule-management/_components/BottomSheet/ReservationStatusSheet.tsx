@@ -21,7 +21,7 @@ import {
 import DateController from "@ui/lib/DateController";
 import { cn } from "@ui/lib/utils";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import RouteInstance from "@user/constants/routes";
 
@@ -52,7 +52,7 @@ function ReservationStatusSheet({
   const [isReservationRemindCancelPopupOpen, setIsReservationRemindCancelPopupOpen] =
     useState(false);
 
-  const { reservationCancel } = useReservationCancelMutation();
+  const { reservationCancel, isSuccess } = useReservationCancelMutation();
 
   const handleClickCancelButton = () => {
     if (status === "예약 대기") {
@@ -79,9 +79,13 @@ function ReservationStatusSheet({
       cancelReason: "예약 대기 취소 요청",
       cancelDate: reservationDates[0],
     });
-
-    setIsReservationCancelSuccessSheetOpen(true);
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setIsReservationCancelSuccessSheetOpen(true);
+    }
+  }, [isSuccess]);
 
   return (
     <>
@@ -106,7 +110,7 @@ function ReservationStatusSheet({
             </div>
           </SheetHeader>
           <SheetFooter>
-            {status === "예약 변경 요청" ? (
+            {status === "예약 변경 요청" || status === "고정 예약" ? (
               <SheetClose asChild>
                 <Button className="bg-background-sub1  hover:bg-background-sub3 flex h-[3.375rem] w-full items-center justify-center ">
                   확인

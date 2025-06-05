@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 import { baseReservationKeys } from "@user/queries/reservation";
 
@@ -18,6 +19,9 @@ export const useReservationCancelMutation = () => {
       cancelReservation({ reservationId }, { cancelReason, cancelDate }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: baseReservationKeys.lists() });
+    },
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 
