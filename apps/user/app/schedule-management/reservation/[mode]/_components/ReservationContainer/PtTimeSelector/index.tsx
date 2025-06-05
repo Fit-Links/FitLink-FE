@@ -15,9 +15,12 @@ import {
 import TimeCellToggleGroup from "@ui/components/TimeCellToggleGroup";
 import { TimeCell } from "@ui/utils/timeCellUtils";
 import { format, isSameDay } from "date-fns";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { toast } from "react-toastify";
 
+import { filterLatestReservationsByDate } from "@user/app/schedule-management/_utils/reservationMerger";
 import { myInformationQueries } from "@user/queries/myInformation";
+import { reservationQueries } from "@user/queries/reservation";
 
 import { RequestReservationMode } from "@user/app/schedule-management/reservation/[mode]/types/requestReservation";
 
@@ -27,9 +30,15 @@ type PtTimeSelectorProps = {
   mode: RequestReservationMode;
   reservationDateTime?: string;
   selectedDate: Date;
+  firstDayOfMonthKorea: string;
 };
 
-function PtTimeSelector({ mode, selectedDate, reservationDateTime }: PtTimeSelectorProps) {
+function PtTimeSelector({
+  mode,
+  selectedDate,
+  reservationDateTime,
+  firstDayOfMonthKorea,
+}: PtTimeSelectorProps) {
   const [selectedTimes, setSelectedTimes] = useState<string[]>(() =>
     reservationDateTime ? [reservationDateTime.replace(/:00$/, "")] : [],
   );
@@ -39,6 +48,15 @@ function PtTimeSelector({ mode, selectedDate, reservationDateTime }: PtTimeSelec
   const [isReservationChangeRemindPopupOpen, setIsReservationChangeRemindPopupOpen] =
     useState(false);
   const [isReservationMaxSelectedPopupOpen, setIsReservationMaxSelectedPopupOpen] = useState(false);
+
+  const { data: reservations } = useQuery(reservationQueries.list(firstDayOfMonthKorea));
+  const filteredReservations = filterLatestReservationsByDate(reservations?.data ?? []);
+
+  const isReservationAvailable = filteredReservations.some(
+    (reservation) =>
+      reservation.reservationDates[0].split("T")[0] ===
+      format(selectedDate, "yyyy-MM-dd'T'HH:mm:ss").split("T")[0],
+  );
 
   const { data: myInformation } = useQuery(myInformationQueries.summary());
   const { data: trainerAvailableTimes } = useQuery({
@@ -119,6 +137,13 @@ function PtTimeSelector({ mode, selectedDate, reservationDateTime }: PtTimeSelec
     setSelectedTimes([]);
   }, [selectedDate]);
 
+  useEffect(() => {
+    if (isReservationAvailable && mode === "new")
+      toast.info(
+        "이미 [예약 확정] 또는 [예약 대기], [예약 취소 요청]이 걸려있는 날짜는 추가로 예약할 수 없습니다.",
+      );
+  }, [selectedDate]);
+
   return (
     <section className="mt-1 flex h-full flex-col overflow-hidden">
       <section className="mb-1 h-full overflow-y-scroll">
@@ -130,7 +155,11 @@ function PtTimeSelector({ mode, selectedDate, reservationDateTime }: PtTimeSelec
             onExceedToggleLimit={handleExceedToggleLimit}
             variant="notification"
             toggleLimit={mode === "new" ? 2 : 1}
-            timeCellInfo={formattedTrainerAvailableTimes}
+            timeCellInfo={
+              isReservationAvailable && mode === "new"
+                ? generateTimeCells("MONDAY", 23, 0)
+                : formattedTrainerAvailableTimes
+            }
           />
         )}
       </section>
