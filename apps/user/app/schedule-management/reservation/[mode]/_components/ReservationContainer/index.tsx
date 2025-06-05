@@ -11,12 +11,14 @@ type ReservationContainerProps = {
   mode: RequestReservationMode;
   reservationDate?: string;
   reservationDateTime?: string;
+  firstDayOfMonthKorea: string;
 };
 
 function ReservationContainer({
   mode,
   reservationDate,
   reservationDateTime,
+  firstDayOfMonthKorea,
 }: ReservationContainerProps) {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date(reservationDate || new Date()));
 
@@ -27,6 +29,7 @@ function ReservationContainer({
         mode={mode}
         selectedDate={selectedDate}
         reservationDateTime={reservationDateTime}
+        firstDayOfMonthKorea={firstDayOfMonthKorea}
       />
     </section>
   );
