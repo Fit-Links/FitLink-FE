@@ -1,8 +1,9 @@
 import Link from "next/link";
 
-import { BASE_URL } from "@user/constants/url";
+import { BASE_ROUTE_HANDLER_URL, BASE_URL } from "@user/constants/url";
 
-const generateLoginURI = (type: string) => `${BASE_URL}/oauth2/authorization/${type}`;
+const generateLoginURI = (type: string) =>
+  `${BASE_URL}/oauth2/authorization/${type}?state=${encodeURIComponent(BASE_ROUTE_HANDLER_URL || "")}`;
 
 type OAuthTypes = "kakao" | "naver" | "google";
 
