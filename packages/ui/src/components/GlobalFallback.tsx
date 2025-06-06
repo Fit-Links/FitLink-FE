@@ -8,21 +8,21 @@ const DEFAULT_ERROR_MESSAGE = "오류가 발생했습니다.";
 const DEFAULT_RETRY_BUTTON_TEXT = "재시도 하기";
 
 type GlobalFallbackProps = {
-  reset: () => void;
+  onClick: () => void;
   error: Error;
   onUnauthorizedRouting: () => void;
 };
 
 export default function GlobalFallback({
-  reset,
   error,
+  onClick,
   onUnauthorizedRouting,
 }: GlobalFallbackProps) {
   const handleClickReset = () => {
     if (error.message === UNAUTHORIZED_ERROR_CODE) {
       onUnauthorizedRouting();
     } else {
-      reset();
+      onClick();
     }
   };
 
