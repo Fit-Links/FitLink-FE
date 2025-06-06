@@ -4,6 +4,7 @@ import { PreferredWorkout } from "@5unwan/core/api/types/common";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import WorkoutForm from "@ui/components/WorkoutForm";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 import { myInformationQueries } from "@user/queries/myInformation";
 
@@ -17,12 +18,22 @@ export default function EditPreferenceTimeContainer() {
 
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-  const { data: myInformation } = useQuery(myInformationQueries.summary());
+  const { data: myInformation, isSuccess } = useQuery(myInformationQueries.summary());
 
   const prevScheudle = myInformation?.data.workoutSchedules;
 
   const { mutate } = useMutation({
     mutationFn: editPreferredTime,
+    onSuccess: () => {
+      if (isSuccess) {
+        queryClient.invalidateQueries({ queryKey: myInformationQueries.summary().queryKey });
+        setIsSheetOpen(true);
+      }
+    },
+    onError: (error) => {
+      toast.error("요청에 실패했습니다. 다시 시도해주세요!");
+      throw error;
+    },
   });
 
   const handleClickOnSubmit = (editedData: Omit<PreferredWorkout, "workoutScheduleId">[]) => {
@@ -38,13 +49,7 @@ export default function EditPreferenceTimeContainer() {
         workoutScheduleId: String(data.workoutScheduleId),
       })) as (PreferredWorkout & { workoutScheduleId: string })[];
 
-    setIsSheetOpen(true);
-
-    mutate(requestBody, {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: myInformationQueries.summary().queryKey });
-      },
-    });
+    mutate(requestBody);
   };
 
   return (
