@@ -44,7 +44,13 @@ function NotificationItemContainer({ notification, onClick }: NotificationItemCo
       createdAt={sendDate}
       image={
         profilePictureUrl && (
-          <Image width={50} height={50} src={profilePictureUrl} alt={`${name} 프로필`} />
+          <Image
+            width={50}
+            height={50}
+            src={profilePictureUrl}
+            alt={`${name} 프로필`}
+            className="h-full w-full"
+          />
         )
       }
       isCompleted={isProcessed}
