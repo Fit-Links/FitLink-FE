@@ -107,7 +107,7 @@ function AllNotificationPage() {
   const handleNotificationClick = (notification: NotificationInfo) => () => {
     const { notificationId, type, content, sendDate, isProcessed } = notification;
 
-    const dateString = content.split("\n")[1].split("날짜: ")[1];
+    const dateString = content.split("\n")[1]?.split("날짜: ")[1];
 
     switch (type) {
       case "트레이너 연동 해제":
