@@ -12,6 +12,7 @@ import {
   SheetTrigger,
 } from "@ui/components/Sheet";
 import Stepper from "@ui/components/Stepper";
+import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import { cn } from "@ui/lib/utils";
 import { ComponentType, ReactNode, useState } from "react";
 
@@ -81,8 +82,20 @@ export const WithBottomSheetStepper = (
           )}
         >
           <SheetHeader className={cn("items-center", !description && "mb-0")}>
-            {title && <SheetTitle className={cn(!description && "mb-0")}>{title}</SheetTitle>}
-            {description && <SheetDescription>{description}</SheetDescription>}
+            {title ? (
+              <SheetTitle className={cn(!description && "mb-0")}>{title}</SheetTitle>
+            ) : (
+              <VisuallyHidden>
+                <SheetTitle>PT 횟수 설정</SheetTitle>
+              </VisuallyHidden>
+            )}
+            {description ? (
+              <SheetDescription>{description}</SheetDescription>
+            ) : (
+              <VisuallyHidden>
+                <SheetDescription>이 시트는 회원의 PT 횟수를 설정합니다</SheetDescription>
+              </VisuallyHidden>
+            )}
           </SheetHeader>
           <div className={cn("mb-[1.25rem] flex gap-2.5", !description && "my-[1.26rem]")}>
             {incrementOptions &&

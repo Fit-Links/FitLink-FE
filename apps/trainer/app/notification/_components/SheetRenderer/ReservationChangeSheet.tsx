@@ -182,6 +182,7 @@ function ReservationChangeSheet({
               <Icon name="Check" size="lg" />
             </Button>
             <SheetTitle className="text-center">회원의 예약 변경을 승인했습니다</SheetTitle>
+            <SheetDescription>회원에게 예약 변경 승인 알림이 전송돼요</SheetDescription>
           </SheetHeader>
           <SheetFooter>
             <SheetClose asChild>

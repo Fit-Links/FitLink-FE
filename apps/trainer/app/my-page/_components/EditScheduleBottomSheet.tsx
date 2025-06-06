@@ -1,4 +1,11 @@
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@ui/components/Sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@ui/components/Sheet";
+import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -22,7 +29,12 @@ function EditScheduleBottomSheet({ open, onOpenChange }: EditScheduleBottomSheet
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="bottom" className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
         <SheetHeader>
-          <SheetTitle></SheetTitle>
+          <SheetTitle>PT 수업 시간 설정</SheetTitle>
+          <VisuallyHidden>
+            <SheetDescription>
+              이 모달은 PT 수업 시간 설정과 관련된 기능을 제공합니다.
+            </SheetDescription>
+          </VisuallyHidden>
           <SheetItem
             icon={"Pencil"}
             label="PT 수업시간 변경"

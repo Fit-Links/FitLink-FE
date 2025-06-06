@@ -7,10 +7,12 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
 } from "@ui/components/Sheet";
+import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -117,6 +119,11 @@ export default function TimeOptionList({
             <SheetTitle className="whitespace-pre-line text-center">
               {`예약 불가 시간이\n등록 완료되었습니다`}
             </SheetTitle>
+            <VisuallyHidden>
+              <SheetDescription>
+                이 시트는 예약 불가 시간 등록이 완료되었을 알려줍니다.
+              </SheetDescription>
+            </VisuallyHidden>
           </SheetHeader>
           <SheetFooter>
             <SheetClose asChild>

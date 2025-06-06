@@ -13,10 +13,12 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
 } from "@ui/components/Sheet";
+import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import DateController from "@ui/lib/DateController";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
@@ -119,6 +121,11 @@ function ReservationNotAllowedCancelSheet({
               <Icon name="Check" size="lg" />
             </Button>
             <SheetTitle className="text-center">예약 불가 설정이 해제되었습니다</SheetTitle>
+            <VisuallyHidden>
+              <SheetDescription>
+                이 시트는 예약 불가 설정 해제 처리가 완료되었음을 알려줍니다.
+              </SheetDescription>
+            </VisuallyHidden>
           </SheetHeader>
           <SheetFooter>
             <Button className="h-[3.375rem] w-full">확인</Button>

@@ -24,6 +24,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@ui/components/Sheet";
+import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import DateController from "@ui/lib/DateController";
 import { format } from "date-fns";
 import { ChangeEvent, useEffect, useState } from "react";
@@ -115,6 +116,11 @@ function ReservationControlSheet({
         <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
           <SheetHeader className="items-center">
             <SheetTitle className="flex justify-center">{selectedFormatDate}</SheetTitle>
+            <VisuallyHidden>
+              <SheetDescription>
+                이 시트에서 예약과 관련된 기능을 확인 및 사용할 수 있습니다.
+              </SheetDescription>
+            </VisuallyHidden>
             <div className="flex items-center justify-center gap-2">
               {reservationStatus && <Badge className="h-8 w-24">{reservationStatus}</Badge>}
               {reservationStatus === "고정 예약" && (
@@ -193,6 +199,11 @@ function ReservationControlSheet({
               <Icon name="Check" size="lg" />
             </Button>
             <SheetTitle className="text-center">PT 예약이 취소되었습니다</SheetTitle>
+            <VisuallyHidden>
+              <SheetDescription>
+                이 시트는 PT 예약 취소 처리가 완료되었음을 알려줍니다.
+              </SheetDescription>
+            </VisuallyHidden>
           </SheetHeader>
           <SheetFooter>
             <Button className="h-[3.375rem] w-full">확인</Button>
@@ -207,6 +218,11 @@ function ReservationControlSheet({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>고정 예약 해제</DialogTitle>
+            <VisuallyHidden>
+              <DialogDescription>
+                이 시트에서 설정되어 있는 고정 예약을 해제할 수 있습니다.
+              </DialogDescription>
+            </VisuallyHidden>
           </DialogHeader>
           <DialogDescription className="whitespace-pre-line text-center">
             {
@@ -235,6 +251,11 @@ function ReservationControlSheet({
               <Icon name="Check" size="lg" />
             </Button>
             <SheetTitle className="text-center">고정 예약이 해제되었습니다</SheetTitle>
+            <VisuallyHidden>
+              <SheetDescription>
+                이 시트는 고정 예약 해제 처리가 완료되었음을 알려줍니다.
+              </SheetDescription>
+            </VisuallyHidden>
           </SheetHeader>
           <SheetFooter>
             <Button className="h-[3.375rem] w-full">확인</Button>
