@@ -1,6 +1,7 @@
 "use client";
 
 import Profile from "@ui/components/ProfileHeader";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -28,7 +29,14 @@ export default function ProfileHeader({ userName, profilePictureUrl }: HeaderPro
             handleClickRouting(RouteInstance["my-information"]());
           }}
         >
-          <Profile.Avatar name={userName} imageSrc={profilePictureUrl ?? ""} />
+          <Profile.Avatar>
+            <Image
+              width={50}
+              height={50}
+              src={profilePictureUrl || ""}
+              alt={`${userName} 프로필`}
+            />
+          </Profile.Avatar>
           <Profile.Name name={userName} />
         </Profile.Section>
       </Profile>

@@ -1,7 +1,8 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/Avatar";
+import { Avatar, AvatarFallback } from "@ui/components/Avatar";
 import { Badge } from "@ui/components/Badge";
 import Icon from "@ui/components/Icon";
 import { cn } from "@ui/lib/utils";
+import Image from "next/image";
 import { ComponentProps, ReactNode } from "react";
 
 import { formatToMeridiem, formatPhoneNumber } from "@trainer/utils/ProfileCardUtils";
@@ -46,8 +47,11 @@ function UserInfo({
       <div className="flex h-[3.125rem] w-[11.25rem] items-center">
         <div className="flex h-full w-[5rem] items-center justify-center">
           <Avatar>
-            <AvatarImage src={imgUrl} />
-            <AvatarFallback />
+            {imgUrl ? (
+              <Image width={50} height={50} src={imgUrl} alt={`${userName} 프로필`} />
+            ) : (
+              <AvatarFallback />
+            )}
           </Avatar>
         </div>
         <div className="flex-1">

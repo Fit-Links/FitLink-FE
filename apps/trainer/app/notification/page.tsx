@@ -7,7 +7,7 @@ import Header from "@ui/components/Header";
 import { useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
 
-import { notificationQueries } from "@trainer/queries/notification";
+import { notificationBaseKeys, notificationQueries } from "@trainer/queries/notification";
 
 import { readNotification } from "@trainer/services/notification";
 
@@ -97,8 +97,7 @@ function AllNotificationPage() {
         context?.previousNotifications,
       );
     },
-    onSettled: () =>
-      queryClient.invalidateQueries({ queryKey: notificationQueries.list({}).queryKey }),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: notificationBaseKeys.lists() }),
   });
 
   const handleSelectResult = () => {
@@ -108,7 +107,7 @@ function AllNotificationPage() {
   const handleNotificationClick = (notification: NotificationInfo) => () => {
     const { notificationId, type, content, sendDate, isProcessed } = notification;
 
-    const dateString = content.split("\n")[1].split("날짜: ")[1];
+    const dateString = content.split("\n")[1]?.split("날짜: ")[1];
 
     switch (type) {
       case "트레이너 연동 해제":

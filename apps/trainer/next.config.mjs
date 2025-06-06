@@ -28,6 +28,14 @@ const nextConfig = {
 
     return config;
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'fitlink-profiles.s3.ap-northeast-2.amazonaws.com',
+      }
+    ]
+  }
 };
 
 export default pwaConfig(nextConfig);

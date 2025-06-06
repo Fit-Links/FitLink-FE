@@ -10,7 +10,7 @@ import { SignupRequestBody, UserVerificationStatus } from "@trainer/services/typ
 
 import RouteInstance from "@trainer/constants/route";
 
-import { useFCMToken } from "../_hooks/useFCMToken";
+import { useRegisterFcmToken } from "../_hooks/useRegisterFcmToken";
 import { useSignupForm } from "../_hooks/useSignupForm";
 
 const DEFAULT_VERIFICATION_STATUS = "DEFAULT" as const;
@@ -72,14 +72,15 @@ const generateErrorMessage = (userStatus: UserSignupStatus) => {
 };
 
 function ResultStep({ form }: ResultStepProps) {
-  const initailizeFCM = useFCMToken();
+  const { requestFcmPermission, isPending: isRegisterFcmTokenPending } = useRegisterFcmToken();
+
   const { onSubmit, networkStatus, error } = useSignupForm({
     onSuccess: async ({ data }) => {
       const {
         data: { success },
       } = await saveTokens(data);
 
-      if (success) initailizeFCM();
+      if (success) requestFcmPermission();
 
       // TODO: success false 시 정책 구현
       // TODO: status 별 정책 구현
@@ -89,9 +90,10 @@ function ResultStep({ form }: ResultStepProps) {
   // const status = generateStatus(networkStatus, data);
   const userStatus = getUserStatusFromMessage(error?.message);
 
-  const handleClick = (status: Status, userStatus: UserSignupStatus) => () => {
+  const handleClick = (status: Status, userStatus: UserSignupStatus) => async () => {
     if (status === "success") {
-      router.replace(RouteInstance.root());
+      const granted = await requestFcmPermission();
+      if (granted) router.replace(RouteInstance.root());
     } else if (status === "error") {
       if (userStatus === "NORMAL" || userStatus === "REQUIRED_SMS")
         router.replace(RouteInstance.login());
@@ -121,7 +123,8 @@ function ResultStep({ form }: ResultStepProps) {
           status={networkStatus}
           userStatus={userStatus}
           onClick={handleClick(networkStatus, userStatus)}
-        ></SignupButton>
+          disabled={isRegisterFcmTokenPending}
+        />
       </div>
     </div>
   );
@@ -140,12 +143,13 @@ type SignupButtonProps = {
   status: Status;
   userStatus: UserSignupStatus;
   onClick: () => void;
+  disabled?: boolean;
 };
-function SignupButton({ status, userStatus, onClick }: SignupButtonProps) {
+function SignupButton({ status, userStatus, onClick, disabled = false }: SignupButtonProps) {
   if (status === "pending" || status === "idle") return <></>;
 
   return (
-    <Button size="xl" className="w-full" onClick={onClick}>
+    <Button size="xl" className="w-full" onClick={onClick} disabled={disabled}>
       {generateButtonContent(status, userStatus)}
     </Button>
   );

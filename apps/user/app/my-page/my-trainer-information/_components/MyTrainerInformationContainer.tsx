@@ -17,7 +17,10 @@ export default function MyTrainerInformationContainer() {
 
   return (
     <>
-      <ProfileImage profilePictureUrl={myTrainerInformation?.trainerProfileUrl ?? ""} />
+      <ProfileImage
+        name={myTrainerInformation.trainerName ?? ""}
+        profilePictureUrl={myTrainerInformation?.trainerProfileUrl ?? ""}
+      />
 
       <ProfileItem className="mt-[1.5625rem] w-full" variant={"name"}>
         {myTrainerInformation?.trainerName}

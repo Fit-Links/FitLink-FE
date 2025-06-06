@@ -1,36 +1,26 @@
-// Import the functions you need from the SDKs you need
+importScripts('https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/10.13.2/firebase-messaging-compat.js');
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-
-importScripts('https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js');
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCVTHNnJB-6IKd1leTuGx5y-Wh9HVXjJlk",
-  authDomain: "fitlink-f8698.firebaseapp.com",
-  projectId: "fitlink-f8698",
-  storageBucket: "fitlink-f8698.firebasestorage.app",
-  messagingSenderId: "344209319378",
-  appId: "1:344209319378:web:c2d06d291dde43b655140b",
-  measurementId: "G-TN218GZV1J"
-};
-
-firebase.initializeApp(firebaseConfig);
+firebase.initializeApp({
+  apiKey: "AIzaSyD_VI6GiPxFmTxPYMa9N-u9zuGBgWSOltc",
+  authDomain: "fit-link-ffc73.firebaseapp.com",
+  projectId: "fit-link-ffc73",
+  storageBucket: "fit-link-ffc73.firebasestorage.app",
+  messagingSenderId: "85685256147",
+  appId: "1:85685256147:web:321577a3626a52b28fb926",
+  measurementId: "G-082D1TQN3S"
+});
 
 const messaging = firebase.messaging();
 
-messaging.onBackgroundMessage(messaging, (payload) => {
-  const notificationTitle = 'Background Message Title';
+messaging.onBackgroundMessage((payload) => {
+  const {notification} = payload;
+
+  const notificationTitle = notification.title || 'Fitlink';
   const notificationOptions = {
-    body: 'Background Message body.',
-    icon: '/firebase-logo.png'
+    body: notification.body,
+    icon: 'http://localhost:3000/icon512_rounded.png',
   };
 
-  self.registration.showNotification(notificationTitle,
-    notificationOptions);
+  self.registration.showNotification(notificationTitle, notificationOptions);
 });
-

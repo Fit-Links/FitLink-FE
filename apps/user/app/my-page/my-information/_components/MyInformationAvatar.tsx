@@ -16,7 +16,10 @@ export default function MyInformationAvatar() {
 
   return (
     <>
-      <ProfileImage profilePictureUrl={myDetailInformation?.profilePictureUrl ?? ""} />
+      <ProfileImage
+        name={myDetailInformation.name}
+        profilePictureUrl={myDetailInformation?.profilePictureUrl}
+      />
 
       <EditProfileBottomSheet>
         <Button className="mt-[1.25rem]" variant={"brand"} size={"sm"} corners={"pill"}>

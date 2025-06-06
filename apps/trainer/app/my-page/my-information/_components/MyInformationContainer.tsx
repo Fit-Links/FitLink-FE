@@ -1,8 +1,9 @@
 "use client";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/Avatar";
+import { Avatar, AvatarFallback } from "@ui/components/Avatar";
 import { Button } from "@ui/components/Button";
+import Image from "next/image";
 
 import { myInformationQueries } from "@trainer/queries/myInformation";
 
@@ -23,8 +24,17 @@ export default function MyInformationContainer() {
       <Header title="내 정보" />
 
       <Avatar className="mt-[1.563rem] h-[6.313rem] w-[6.313rem]">
-        <AvatarImage src={myDetailInformation.profilePictureUrl} />
-        <AvatarFallback>CN</AvatarFallback>
+        {myDetailInformation.profilePictureUrl ? (
+          <Image
+            width={50}
+            height={50}
+            src={myDetailInformation.profilePictureUrl}
+            alt={`${myDetailInformation.name} 프로필`}
+            className="h-full w-full"
+          />
+        ) : (
+          <AvatarFallback />
+        )}
       </Avatar>
 
       <EditProfileBottomSheet>
