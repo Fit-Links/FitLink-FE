@@ -18,6 +18,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@ui/components/Sheet";
+import Spinner from "@ui/components/Spinner";
 import DateController from "@ui/lib/DateController";
 import { cn } from "@ui/lib/utils";
 import { useRouter } from "next/navigation";
@@ -52,7 +53,7 @@ function ReservationStatusSheet({
   const [isReservationRemindCancelPopupOpen, setIsReservationRemindCancelPopupOpen] =
     useState(false);
 
-  const { reservationCancel, isSuccess } = useReservationCancelMutation();
+  const { reservationCancel, isSuccess, isPending } = useReservationCancelMutation();
 
   const handleClickCancelButton = () => {
     if (status === "예약 대기") {
@@ -169,12 +170,18 @@ function ReservationStatusSheet({
           </DialogHeader>
           <DialogFooter>
             <DialogClose className="flex w-full items-center justify-center gap-[0.625rem]">
-              <Button variant="secondary" className="flex-1">
-                닫기
-              </Button>
-              <Button onClick={handleClickRemindButton} className="flex-1">
-                확인
-              </Button>
+              {isPending ? (
+                <Spinner />
+              ) : (
+                <>
+                  <Button variant="secondary" className="flex-1">
+                    닫기
+                  </Button>
+                  <Button onClick={handleClickRemindButton} className="flex-1">
+                    확인
+                  </Button>
+                </>
+              )}
             </DialogClose>
           </DialogFooter>
         </DialogContent>
