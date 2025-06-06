@@ -1,7 +1,7 @@
 "use client";
 
 import { BaseReservationListItem } from "@5unwan/core/api/types/common";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { DayPicker } from "@ui/components/DayPicker/index";
 import { format, startOfMonth } from "date-fns";
 import React, { useState } from "react";
@@ -14,6 +14,7 @@ import WeekRow from "./WeekRow";
 import { checkReservationIsFuture } from "../../_libs/checkReservationIsFuture";
 import { filterLatestReservationsByDate } from "../../_utils/reservationMerger";
 import ReservationStatusSheet from "../BottomSheet/ReservationStatusSheet";
+import ConnectionFallback from "../Fallback/ConnectionFallback";
 
 export default function Calendar() {
   const [selectedDate, setSelectedDate] = useState<Date>();
@@ -28,12 +29,16 @@ export default function Calendar() {
 
   const firstDayOfMonth = startOfMonth(month);
 
-  const { data: myInformation } = useQuery(myInformationQueries.summary());
+  const { data: myInformation } = useSuspenseQuery(myInformationQueries.summary());
 
   const { data: reservations } = useQuery({
     ...reservationQueries.list(format(firstDayOfMonth, "yyyy-MM-dd")),
     enabled: myInformation?.data?.connectingStatus === "CONNECTED",
   });
+
+  if (myInformation?.data?.connectingStatus !== "CONNECTED") {
+    return <ConnectionFallback />;
+  }
 
   return (
     <>
