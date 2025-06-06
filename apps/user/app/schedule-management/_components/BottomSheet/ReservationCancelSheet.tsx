@@ -13,7 +13,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@ui/components/Sheet";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 import RequestSuccessSheet from "./RequestSuccessSheet";
 import { useReservationCancelMutation } from "../../_hooks/mutation/useReservationCancelMutation";
@@ -47,7 +47,7 @@ function ReservationCancelSheet({
   const [inputValue, setInputValue] = useState("");
   const [isRequestSuccessOpen, setIsRequestSuccessOpen] = useState(false);
 
-  const { reservationCancel } = useReservationCancelMutation();
+  const { reservationCancel, isSuccess } = useReservationCancelMutation();
 
   const handleChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -59,9 +59,13 @@ function ReservationCancelSheet({
       cancelReason: inputValue,
       cancelDate: reservationDates[0],
     });
-
-    setIsRequestSuccessOpen(true);
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setIsRequestSuccessOpen(true);
+    }
+  }, [isSuccess]);
 
   return (
     <>
@@ -98,13 +102,15 @@ function ReservationCancelSheet({
         </SheetContent>
       </Sheet>
 
-      <RequestSuccessSheet
-        open={isRequestSuccessOpen}
-        onChangeOpen={setIsRequestSuccessOpen}
-        title={REQUEST_SUCCESS_MAP[status].title}
-        description={REQUEST_SUCCESS_MAP[status].description}
-        closeSheetText="확인"
-      />
+      {status !== "고정 예약" && (
+        <RequestSuccessSheet
+          open={isRequestSuccessOpen}
+          onChangeOpen={setIsRequestSuccessOpen}
+          title={REQUEST_SUCCESS_MAP[status].title}
+          description={REQUEST_SUCCESS_MAP[status].description}
+          closeSheetText="확인"
+        />
+      )}
     </>
   );
 }

@@ -11,11 +11,10 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@ui/components/Sheet";
 import { format, subHours } from "date-fns";
 import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { myInformationQueries } from "@trainer/queries/myInformation";
 
@@ -33,9 +32,11 @@ function ReservationAdderButton({ selectedMemberInformation }: ReservationAdderB
   const searchParams = useSearchParams();
   const router = useRouter();
 
+  const [isReservationRequestSheetOpen, setIsReservationRequestSheetOpen] = useState(false);
+
   const { data: myInformation } = useSuspenseQuery(myInformationQueries.myInformation());
 
-  const { reservationRequest } = useReservationRequestMutation();
+  const { reservationRequest, isSuccess } = useReservationRequestMutation();
 
   const selectedDate = searchParams.get("selectedDate") as string;
   const dateObj = new Date(selectedDate);
@@ -50,37 +51,50 @@ function ReservationAdderButton({ selectedMemberInformation }: ReservationAdderB
       name: (selectedMemberInformation as PtUser).name,
       dates: [formattedDate],
     });
+  };
 
+  const handleClickConfirm = () => {
     router.push(RouteInstance["schedule-management"]());
   };
 
+  useEffect(() => {
+    if (isSuccess) {
+      setIsReservationRequestSheetOpen(true);
+    }
+  }, [isSuccess]);
+
   return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button
-          className="h-[3.375rem] w-full rounded-[0.625rem]"
-          disabled={selectedMemberInformation === null}
-          onClick={handleClickReservationRequest}
-        >
-          예약
-        </Button>
-      </SheetTrigger>
-      <SheetContent side="bottom" className="md:max-w-mobile left-1/2 w-full -translate-x-1/2">
-        <SheetHeader className="flex flex-col items-center">
-          <Button className="mb-7 h-[3.125rem] w-[3.125rem] rounded-full">
-            <Icon name="Check" size="lg" />
-          </Button>
-          <SheetTitle className="whitespace-pre-line text-center">
-            {`${selectedMemberInformation?.name} 회원의\n예약이 확정되었습니다`}
-          </SheetTitle>
-        </SheetHeader>
-        <SheetFooter>
-          <SheetClose asChild>
-            <Button className="h-[3.375rem] w-full rounded-[0.625rem]">확인</Button>
-          </SheetClose>
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
+    <>
+      <Button
+        className="h-[3.375rem] w-full rounded-[0.625rem]"
+        disabled={selectedMemberInformation === null}
+        onClick={handleClickReservationRequest}
+      >
+        예약
+      </Button>
+      <Sheet open={isReservationRequestSheetOpen} onOpenChange={setIsReservationRequestSheetOpen}>
+        <SheetContent side="bottom" className="md:max-w-mobile left-1/2 w-full -translate-x-1/2">
+          <SheetHeader className="flex flex-col items-center">
+            <Button className="mb-7 h-[3.125rem] w-[3.125rem] rounded-full">
+              <Icon name="Check" size="lg" />
+            </Button>
+            <SheetTitle className="whitespace-pre-line text-center">
+              {`${selectedMemberInformation?.name} 회원의\n예약이 확정되었습니다`}
+            </SheetTitle>
+          </SheetHeader>
+          <SheetFooter>
+            <SheetClose asChild>
+              <Button
+                onClick={handleClickConfirm}
+                className="h-[3.375rem] w-full rounded-[0.625rem]"
+              >
+                확인
+              </Button>
+            </SheetClose>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
+    </>
   );
 }
 

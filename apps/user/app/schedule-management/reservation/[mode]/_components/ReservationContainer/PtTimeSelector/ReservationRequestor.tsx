@@ -2,10 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "@ui/components/Button";
 import { format } from "date-fns";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
-import RequestSuccessSheet, {
-  RequestSucccessSheetTrigger,
-} from "@user/app/schedule-management/_components/BottomSheet/RequestSuccessSheet";
+import RequestSuccessSheet from "@user/app/schedule-management/_components/BottomSheet/RequestSuccessSheet";
 import { myInformationQueries } from "@user/queries/myInformation";
 
 import RouteInstance from "@user/constants/routes";
@@ -53,8 +52,9 @@ function ReservationRequestor({
   selectedTime,
 }: ReservationRequestorProps) {
   const router = useRouter();
-  const { reservationRequest } = useReservationRequestMutation();
-  const { reservationChange } = useReservationChangeMutation();
+  const { reservationRequest, isSuccess: reservationRequestSuccess } =
+    useReservationRequestMutation();
+  const { reservationChange, isSuccess: reservationChangeSuccess } = useReservationChangeMutation();
   const searchParams = useSearchParams();
 
   const { data: myInformation } = useQuery(myInformationQueries.summary());
@@ -79,25 +79,38 @@ function ReservationRequestor({
         changeRequestDate: formattedDateTimes[0],
       });
     }
+  };
+
+  const handleClickCloseButton = () => {
+    onChangeOpen(false);
 
     router.push(RouteInstance["schedule-management"]());
   };
 
+  useEffect(() => {
+    if (reservationRequestSuccess || reservationChangeSuccess) {
+      onChangeOpen(true);
+    }
+  }, [reservationRequestSuccess, reservationChangeSuccess]);
+
   return (
-    <RequestSuccessSheet
-      open={open}
-      onChangeOpen={onChangeOpen}
-      title={MODE_CONTENT_MAP[mode].title}
-      description={MODE_CONTENT_MAP[mode].description}
-      closeSheetText="확인"
-      onClickCloseButton={handleClickRequestButton}
-    >
-      <RequestSucccessSheetTrigger asChild>
-        <Button disabled={!isActive} className="h-[3.375rem] w-full">
-          {MODE_CONTENT_MAP[mode].buttonText}
-        </Button>
-      </RequestSucccessSheetTrigger>
-    </RequestSuccessSheet>
+    <>
+      <Button
+        disabled={!isActive}
+        onClick={handleClickRequestButton}
+        className="h-[3.375rem] w-full"
+      >
+        {MODE_CONTENT_MAP[mode].buttonText}
+      </Button>
+      <RequestSuccessSheet
+        open={open}
+        onChangeOpen={onChangeOpen}
+        title={MODE_CONTENT_MAP[mode].title}
+        description={MODE_CONTENT_MAP[mode].description}
+        closeSheetText="확인"
+        onClickCloseButton={handleClickCloseButton}
+      />
+    </>
   );
 }
 

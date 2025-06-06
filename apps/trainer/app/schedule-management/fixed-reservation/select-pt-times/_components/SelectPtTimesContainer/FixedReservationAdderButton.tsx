@@ -9,10 +9,10 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@ui/components/Sheet";
 import { addDays, format, startOfWeek } from "date-fns";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { myInformationQueries } from "@trainer/queries/myInformation";
 import { reservationQueries } from "@trainer/queries/reservation";
@@ -39,6 +39,8 @@ function FixedReservationAdderButton({
 }: FixedReservationAdderButtonProps) {
   const router = useRouter();
 
+  const [isFixedReservationAdderSheetOpen, setIsFixedReservationAdderSheetOpen] = useState(false);
+
   const fixedReservationDatesAndTimes = getFixedReservationDatesAndTimes(
     selectedFixedSchedules,
     currentDate,
@@ -61,7 +63,7 @@ function FixedReservationAdderButton({
 
   const { data: dayoff } = useQuery(myInformationQueries.dayOff());
 
-  const { fixReservation } = useFixReservationMutation();
+  const { fixReservation, isSuccess } = useFixReservationMutation();
 
   const handleClickFixReservation = () => {
     if (!dayoff) return;
@@ -87,35 +89,47 @@ function FixedReservationAdderButton({
     router.push(RouteInstance["schedule-management"]());
   };
 
+  useEffect(() => {
+    if (isSuccess) {
+      setIsFixedReservationAdderSheetOpen(true);
+    }
+  }, [isSuccess]);
+
   return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button
-          className="h-[3.375rem] w-full rounded-[0.625rem]"
-          disabled={!fixedReservationDatesAndTimes.length}
-          onClick={handleClickFixReservation}
-        >
-          예약
-        </Button>
-      </SheetTrigger>
-      <SheetContent side="bottom" className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
-        <SheetHeader className="flex flex-col items-center">
-          <Button className="mb-7 h-[3.125rem] w-[3.125rem] rounded-full">
-            <Icon name="Check" size="lg" />
-          </Button>
-          <SheetTitle className="whitespace-pre-line text-center">
-            {`${userInformation.name} 회원의\nPT 고정 예약이 확정되었습니다`}
-          </SheetTitle>
-        </SheetHeader>
-        <SheetFooter>
-          <SheetClose asChild>
-            <Button className="h-[3.375rem] w-full rounded-[0.625rem]" onClick={handleClickConfirm}>
-              확인
+    <>
+      <Button
+        className="h-[3.375rem] w-full rounded-[0.625rem]"
+        disabled={!fixedReservationDatesAndTimes.length}
+        onClick={handleClickFixReservation}
+      >
+        예약
+      </Button>
+      <Sheet
+        open={isFixedReservationAdderSheetOpen}
+        onOpenChange={setIsFixedReservationAdderSheetOpen}
+      >
+        <SheetContent side="bottom" className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+          <SheetHeader className="flex flex-col items-center">
+            <Button className="mb-7 h-[3.125rem] w-[3.125rem] rounded-full">
+              <Icon name="Check" size="lg" />
             </Button>
-          </SheetClose>
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
+            <SheetTitle className="whitespace-pre-line text-center">
+              {`${userInformation.name} 회원의\nPT 고정 예약이 확정되었습니다`}
+            </SheetTitle>
+          </SheetHeader>
+          <SheetFooter>
+            <SheetClose asChild>
+              <Button
+                className="h-[3.375rem] w-full rounded-[0.625rem]"
+                onClick={handleClickConfirm}
+              >
+                확인
+              </Button>
+            </SheetClose>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
+    </>
   );
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import React from "react";
 
 import { myInformationQueries } from "@trainer/queries/myInformation";
@@ -11,7 +11,7 @@ import MyPageHeader from "./MyPageHeader";
 import ProfileItemForRouting from "./ProfileItemForRouting";
 
 export default function MyPageContainer() {
-  const { data: response } = useQuery(myInformationQueries.myInformation());
+  const { data: response } = useSuspenseQuery(myInformationQueries.myInformation());
 
   if (!response) return;
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 "use client";
 
 import { Button } from "@ui/components/Button";
@@ -9,10 +10,10 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@ui/components/Sheet";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import RouteInstance from "@trainer/constants/route";
 
@@ -34,7 +35,9 @@ export default function TimeOptionList({
 }: TimeOptionListProps) {
   const router = useRouter();
 
-  const { reservationNotAllow } = useReservationNotAllowMutation();
+  const [isReservationNotAllowSheetOpen, setIsReservationNotAllowSheetOpen] = useState(false);
+
+  const { reservationNotAllow, isSuccess } = useReservationNotAllowMutation();
 
   const handleClickTimeOption = (
     route: Extract<Route, "reservation" | "fixed-reservation" | "dayoff-management">,
@@ -60,10 +63,18 @@ export default function TimeOptionList({
     reservationNotAllow({
       date: format(selectedDate, "yyyy-MM-dd'T'HH:mm"),
     });
-    onChangeOpen(false);
   };
 
-  // TODO: 추후 각 TimeOption 클릭 시 이동할 페이지의 경로 Name이 정해지면 클릭 이벤트 추가
+  useEffect(() => {
+    if (isSuccess) {
+      setIsReservationNotAllowSheetOpen(true);
+
+      setTimeout(() => {
+        onChangeOpen(false);
+      }, 500);
+    }
+  }, [isSuccess]);
+
   return (
     <div className="mb-[1.625rem] ml-[1.063rem] mt-[1.25rem] flex items-center gap-1.5 overflow-x-auto [&::-webkit-scrollbar]:hidden">
       <TimeOption onClick={() => handleClickTimeOption("reservation")}>
@@ -81,16 +92,23 @@ export default function TimeOptionList({
         </TimeOption.Content>
       </TimeOption>
 
-      <Sheet>
-        <SheetTrigger asChild>
-          <TimeOption>
-            <TimeOption.Icon iconName={"CalendarX2"} />
-            <TimeOption.Content onClick={handleCloseScheduleBottomSheet}>
-              <div>예약 불가</div>
-              <div>시간대 등록</div>
-            </TimeOption.Content>
-          </TimeOption>
-        </SheetTrigger>
+      <TimeOption onClick={handleCloseScheduleBottomSheet}>
+        <TimeOption.Icon iconName={"CalendarX2"} />
+        <TimeOption.Content>
+          <div>예약 불가</div>
+          <div>시간대 등록</div>
+        </TimeOption.Content>
+      </TimeOption>
+
+      <TimeOption onClick={() => handleClickTimeOption("dayoff-management")}>
+        <TimeOption.Icon iconName={"CalendarMinus"} />
+        <TimeOption.Content>
+          <div>휴무일</div>
+          <div>설정</div>
+        </TimeOption.Content>
+      </TimeOption>
+
+      <Sheet open={isReservationNotAllowSheetOpen} onOpenChange={setIsReservationNotAllowSheetOpen}>
         <SheetContent side="bottom" className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
           <SheetHeader className="flex flex-col items-center">
             <Button className="mb-7 h-[3.125rem] w-[3.125rem] rounded-full">
@@ -107,14 +125,6 @@ export default function TimeOptionList({
           </SheetFooter>
         </SheetContent>
       </Sheet>
-
-      <TimeOption onClick={() => handleClickTimeOption("dayoff-management")}>
-        <TimeOption.Icon iconName={"CalendarMinus"} />
-        <TimeOption.Content>
-          <div>휴무일</div>
-          <div>설정</div>
-        </TimeOption.Content>
-      </TimeOption>
     </div>
   );
 }

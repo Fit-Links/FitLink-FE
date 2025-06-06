@@ -1,4 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { reservationQueries } from "@user/queries/reservation";
 
 import { reservationChange } from "@user/services/reservations";
 
@@ -9,6 +11,8 @@ type ReservationChangeMutationParams = {
 };
 
 export const useReservationChangeMutation = () => {
+  const queryClient = useQueryClient();
+
   const { mutate, ...rest } = useMutation({
     mutationFn: ({
       reservationId,
@@ -16,6 +20,9 @@ export const useReservationChangeMutation = () => {
       changeRequestDate,
     }: ReservationChangeMutationParams) =>
       reservationChange({ reservationId }, { reservationDate, changeRequestDate }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: reservationQueries.list() });
+    },
   });
 
   return { reservationChange: mutate, ...rest };

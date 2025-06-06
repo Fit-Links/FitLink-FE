@@ -22,7 +22,9 @@ export default function Calendar() {
   const [selectedReservationContent, setSelectedReservationContent] =
     useState<BaseReservationListItem>();
 
-  const canRenderSheet = checkReservationIsFuture(selectedReservationContent?.reservationDates[0]);
+  const canRenderSheet = checkReservationIsFuture(
+    selectedReservationContent?.reservationDates.sort()[0],
+  );
 
   const firstDayOfMonth = startOfMonth(month);
 

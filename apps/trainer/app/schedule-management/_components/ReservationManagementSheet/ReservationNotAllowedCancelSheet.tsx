@@ -8,6 +8,7 @@ import {
   DialogFooter,
   DialogHeader,
 } from "@ui/components/Dialog";
+import Icon from "@ui/components/Icon";
 import {
   Sheet,
   SheetClose,
@@ -18,7 +19,7 @@ import {
 } from "@ui/components/Sheet";
 import DateController from "@ui/lib/DateController";
 import { format } from "date-fns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useReservationNotAllowMutation } from "../../_hooks/mutations/useReservationNotAllowMutation";
 type ReservationNotAllowedCancelSheetProps = {
@@ -38,8 +39,10 @@ function ReservationNotAllowedCancelSheet({
   const selectedFormatDate = DateController(selectedDate).toDateTimeWithDayFormat();
 
   const [isRemindPopupOpen, setIsRemindPopupOpen] = useState(false);
+  const [isReservationNotAllowCancelSheetOpen, setIsReservationNotAllowCancelSheetOpen] =
+    useState(false);
 
-  const { reservationNotAllow } = useReservationNotAllowMutation();
+  const { reservationNotAllow, isSuccess } = useReservationNotAllowMutation();
 
   const handleClickOpenPopup = () => {
     setIsRemindPopupOpen(true);
@@ -52,6 +55,12 @@ function ReservationNotAllowedCancelSheet({
       reservationId,
     });
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setIsReservationNotAllowCancelSheetOpen(true);
+    }
+  }, [isSuccess]);
 
   return (
     <>
@@ -99,6 +108,23 @@ function ReservationNotAllowedCancelSheet({
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <Sheet
+        open={isReservationNotAllowCancelSheetOpen}
+        onOpenChange={setIsReservationNotAllowCancelSheetOpen}
+      >
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+          <SheetHeader className="items-center">
+            <Button className="mb-7 h-[3.125rem] w-[3.125rem] rounded-full">
+              <Icon name="Check" size="lg" />
+            </Button>
+            <SheetTitle className="text-center">예약 불가 설정이 해제되었습니다</SheetTitle>
+          </SheetHeader>
+          <SheetFooter>
+            <Button className="h-[3.375rem] w-full">확인</Button>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
     </>
   );
 }

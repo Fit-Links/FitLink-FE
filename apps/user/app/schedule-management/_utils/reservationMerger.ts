@@ -10,6 +10,9 @@ export const filterLatestReservationsByDate = (reservations: BaseReservationList
 
   for (let i = 0; i < reservations.length; i += 1) {
     const reservation = reservations[i];
+
+    if (reservation.status === "예약 취소") continue;
+
     reservation.reservationDates.forEach((dateString) => {
       const dateKey = extractDateOnly(dateString);
       dateMap[dateKey] = reservation;
