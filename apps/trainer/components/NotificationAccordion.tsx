@@ -58,21 +58,24 @@ export default function NotificationAccordion() {
   return (
     <Accordion type="multiple">
       <AccordionItem value="전체 알림">
-        <AccordionTrigger icon={<Bell />} className="border-0">
-          <span onClick={() => router.push(RouteInstance.notification())}>전체 알림</span>
+        <AccordionTrigger
+          icon={<Bell />}
+          onClick={() => router.push(RouteInstance.notification())}
+          className="border-0"
+        >
+          <span>전체 알림</span>
         </AccordionTrigger>
       </AccordionItem>
       {NOTIFICATION_ACCORDION_ITEMS.map(({ title, contents, icon, route }, index) => (
         <AccordionItem value={String(index)} key={`${index}-${title}`}>
-          <AccordionTrigger icon={icon}>
-            <span
-              onClick={() => {
-                if (!route) return;
-                router.push(RouteInstance.notification(route));
-              }}
-            >
-              {title}
-            </span>
+          <AccordionTrigger
+            icon={icon}
+            onClick={() => {
+              if (!route) return;
+              router.push(RouteInstance.notification(route));
+            }}
+          >
+            <span>{title}</span>
           </AccordionTrigger>
           {contents.map(({ content, route }) => (
             <AccordionContent
