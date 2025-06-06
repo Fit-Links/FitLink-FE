@@ -31,10 +31,13 @@ function FooterProvider({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div
-        className={cn("md:border-background-sub2 w-full flex-1 px-4 md:border-x md:border-t", {
-          "pb-[5.625rem]": hasFooter,
-          "pb-[2.125rem]": !hasFooter,
-        })}
+        className={cn(
+          "md:border-background-sub2 h-full w-full flex-1 px-4 md:border-x md:border-t",
+          {
+            "pb-[5.625rem]": hasFooter,
+            "pb-[2.125rem]": !hasFooter,
+          },
+        )}
       >
         {children}
       </div>
