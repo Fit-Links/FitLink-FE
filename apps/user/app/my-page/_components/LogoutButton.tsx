@@ -14,23 +14,21 @@ import {
 import { useRouter } from "next/navigation";
 import React from "react";
 
-import { logout } from "@user/services/auth";
+import { clearToken } from "@user/services/auth";
 
 import RouteInstance from "@user/constants/routes";
 
 export default function LogoutButton() {
   const router = useRouter();
 
-  const { mutate, isSuccess } = useMutation({
-    mutationFn: logout,
+  const { mutate } = useMutation({
+    mutationFn: clearToken,
   });
 
   const handleClickLogout = () => {
     mutate(undefined, {
       onSuccess: () => {
-        if (isSuccess) {
-          router.push(RouteInstance.login());
-        }
+        router.push(RouteInstance.login());
       },
     });
   };
@@ -53,11 +51,10 @@ export default function LogoutButton() {
               취소
             </Button>
           </DialogClose>
-          <DialogClose asChild>
-            <Button className="w-full" onClick={handleClickLogout}>
-              로그아웃
-            </Button>
-          </DialogClose>
+
+          <Button className="w-full" onClick={handleClickLogout}>
+            로그아웃
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
