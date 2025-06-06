@@ -1,3 +1,5 @@
+"use client";
+
 import { ErrorBoundary } from "@suspensive/react";
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
 import React from "react";
@@ -11,7 +13,14 @@ type QueryErrorFallbackProps = {
 export default function QueryErrorFallback({ children }: QueryErrorFallbackProps) {
   return (
     <QueryErrorResetBoundary>
-      <ErrorBoundary fallback={<ErrorFallback />}>{children}</ErrorBoundary>
+      {({ reset }) => (
+        <ErrorBoundary
+          fallback={(props) => <ErrorFallback onClick={props.reset} />}
+          onReset={reset}
+        >
+          {children}
+        </ErrorBoundary>
+      )}
     </QueryErrorResetBoundary>
   );
 }

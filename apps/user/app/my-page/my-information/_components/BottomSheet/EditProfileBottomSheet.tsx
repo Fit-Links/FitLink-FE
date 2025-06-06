@@ -25,6 +25,8 @@ interface EditProfileBottomSheetProps {
   children: React.ReactNode;
 }
 
+// const DELETE_PROFILE_IMAGE_ATTACHMENT_ID = -1;
+
 export default function EditProfileBottomSheet({ children }: EditProfileBottomSheetProps) {
   const queryClient = useQueryClient();
 
@@ -46,15 +48,15 @@ export default function EditProfileBottomSheet({ children }: EditProfileBottomSh
     mutationFn: registerUserProfileImage,
   });
 
-  const { mutate } = useMutation({
-    // 이미지 없는 경우 여쭤보기
-    // 이미지 있는 경우 삭제
-  });
+  // const { mutate } = useMutation({
+  //   // 이미지 없는 경우 여쭤보기
+  //   // 이미지 있는 경우 삭제
+  // });
 
-  const handleClickDeleteProfileImage = () => {
-    // onChangeMyInformation("profilePictureUrl", "");
-    mutate();
-  };
+  // const handleClickDeleteProfileImage = () => {
+  //   // onChangeMyInformation("profilePictureUrl", "");
+  //   mutate();
+  // };
 
   const handleChangeProfileImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
@@ -105,6 +107,22 @@ export default function EditProfileBottomSheet({ children }: EditProfileBottomSh
     }
   };
 
+  // const handleClickDeleteProfileImage = async () => {
+  //   const {
+  //     status: registerUserProfileImageStatus,
+  //     success: registerUserProfileImageSuccess,
+  //     msg: registerUserProfileImageMsg,
+  //   } = await registerUserProfileImageMutation.mutateAsync({
+  //     attachmentId: DELETE_PROFILE_IMAGE_ATTACHMENT_ID,
+  //   });
+  //   queryClient.invalidateQueries({ queryKey: myInformationQueries.myInformation().queryKey });
+
+  //   if (!registerUserProfileImageSuccess)
+  //     throw new Error(
+  //       `Error occured during createPresignedUrl\nStatus:${registerUserProfileImageStatus}\nMessage:${registerUserProfileImageMsg}`,
+  //     );
+  // };
+
   return (
     <>
       <input
@@ -122,14 +140,14 @@ export default function EditProfileBottomSheet({ children }: EditProfileBottomSh
             <SheetClose asChild>
               <SheetItem icon="Image" label="앨범에서 선택" onClick={handleClickOpenAlbum} />
             </SheetClose>
-            <SheetClose asChild>
+            {/* <SheetClose asChild>
               <SheetItem
                 icon="Trash2"
                 label="프로필 사진 삭제"
                 variant="danger"
                 onClick={handleClickDeleteProfileImage}
               />
-            </SheetClose>
+            </SheetClose> */}
           </SheetDescription>
         </SheetContent>
       </Sheet>

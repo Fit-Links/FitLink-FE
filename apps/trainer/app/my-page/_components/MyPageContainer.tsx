@@ -29,7 +29,7 @@ export default function MyPageContainer() {
         variant="code"
         url={RouteInstance["trainer-code"]()}
       />
-      <ProfileItemForRouting variant="calendar" url={RouteInstance["schedule-management"]()} />
+      <ProfileItemForRouting variant="calendar" url={RouteInstance["dayoff-management"]()} />
     </section>
   );
 }

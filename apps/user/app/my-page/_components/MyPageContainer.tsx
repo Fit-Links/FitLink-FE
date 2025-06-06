@@ -46,7 +46,7 @@ export default function MyPageContainer() {
   const formattedFixedSchedule = getISOToKoreanTime(uniqueFixedSchedule);
 
   return (
-    <div>
+    <div className="flex h-auto flex-col">
       <ProfileHeader
         userName={myInformation?.name ?? ""}
         profilePictureUrl={myInformation?.profilePictureUrl ?? ""}

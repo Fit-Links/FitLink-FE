@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Avatar, AvatarFallback } from "@ui/components/Avatar";
 import { Button } from "@ui/components/Button";
 import Image from "next/image";
@@ -13,7 +13,7 @@ import { getFormattedPhoneNumber } from "../_utils/getFormattedPhoneNumber";
 import EditProfileBottomSheet from "./BottomSheet/EditProfileBottomSheet";
 
 export default function MyInformationContainer() {
-  const { data: response } = useQuery(myInformationQueries.myInformation());
+  const { data: response } = useSuspenseQuery(myInformationQueries.myInformation());
 
   if (!response) return;
 

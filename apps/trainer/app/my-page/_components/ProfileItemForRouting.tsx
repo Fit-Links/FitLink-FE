@@ -25,7 +25,7 @@ export default function ProfileItemForRouting({
 
   return (
     <ProfileItem variant={variant} className={cn(className)}>
-      <Icon name="ChevronRight" size="lg" onClick={handleClickRouting} />
+      <Icon name="ChevronRight" size="lg" onClick={handleClickRouting} className="cursor-pointer" />
     </ProfileItem>
   );
 }

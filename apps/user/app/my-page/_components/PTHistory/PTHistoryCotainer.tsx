@@ -11,7 +11,7 @@ export default function PTHistoryContainer() {
   const [historyFilter, setHistoryFilter] = useState<PtStatus>("NONE");
 
   return (
-    <section className="mt-[1.625rem] flex flex-col">
+    <section className="mt-[1.625rem] flex h-full flex-col overflow-hidden">
       <PTHistoryLabel />
       <PTHistoryFilter historyFilter={historyFilter} setHistoryFilter={setHistoryFilter} />
       <PTHistoryContent historyFilter={historyFilter} />
