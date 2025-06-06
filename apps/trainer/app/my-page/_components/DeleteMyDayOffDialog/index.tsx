@@ -8,7 +8,7 @@ import {
   DialogFooter,
   DialogTitle,
 } from "@ui/components/Dialog";
-import React, { useEffect } from "react";
+import React from "react";
 import { toast } from "react-toastify";
 
 import { myInformationQueries } from "@trainer/queries/myInformation";
@@ -31,7 +31,7 @@ export default function DeleteMyDayOffDialog({
 }: DeleteMyDayOffDialogProps) {
   const queryClient = useQueryClient();
 
-  const { mutate, isSuccess } = useMutation({
+  const { mutate, isError } = useMutation({
     mutationFn: (params: {
       requestPath: { dayOffId: number };
       requestBody: DeleteTimeOffRequestBody;
@@ -45,6 +45,7 @@ export default function DeleteMyDayOffDialog({
     },
   });
 
+  console.log(isError);
   const handleDeleteDayOff = () => {
     if (!deleteDayOffData) return;
 
@@ -56,10 +57,6 @@ export default function DeleteMyDayOffDialog({
       },
     });
   };
-
-  useEffect(() => {
-    console.log(isSuccess);
-  }, [isSuccess]);
 
   const handleClickCloseDialog = () => {
     onOpenChange(false);
