@@ -1,8 +1,8 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, ReactNode } from "react";
 
 import { cn } from "@ui/lib/utils";
 
-import { Avatar, AvatarFallback, AvatarImage } from "./Avatar";
+import { Avatar, AvatarFallback } from "./Avatar";
 import ChevronTrigger from "./ChevronTrigger";
 import { Text } from "./Text";
 
@@ -38,17 +38,11 @@ const ProfileHeaderSection = React.forwardRef<HTMLDivElement, ProfileHeaderSecti
 ProfileHeaderSection.displayName = "ProfileHeaderSection";
 
 type ProfileHeaderAvatarProps = {
-  name: string;
-  imageSrc: string;
+  children: ReactNode;
 };
 const ProfileHeaderAvatar = forwardRef<React.ElementRef<typeof Avatar>, ProfileHeaderAvatarProps>(
-  ({ name, imageSrc }, ref) => {
-    return (
-      <Avatar ref={ref}>
-        <AvatarImage src={imageSrc} alt={`${name}님 프로필`} />
-        <AvatarFallback />
-      </Avatar>
-    );
+  ({ children }, ref) => {
+    return <Avatar ref={ref}>{children ? children : <AvatarFallback />}</Avatar>;
   },
 );
 ProfileHeaderAvatar.displayName = "ProfileHeaderAvatar";

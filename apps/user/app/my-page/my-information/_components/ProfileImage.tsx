@@ -1,17 +1,22 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/Avatar";
+import { Avatar, AvatarFallback } from "@ui/components/Avatar";
+import Image from "next/image";
 import React from "react";
 
 interface ProfileImageProps {
+  name: string;
   profilePictureUrl: string | null;
 }
 
-function ProfileImage({ profilePictureUrl }: ProfileImageProps) {
+function ProfileImage({ name, profilePictureUrl }: ProfileImageProps) {
   return (
     <Avatar className=" mt-[1.563rem] h-[6.313rem] w-[6.313rem]">
-      <AvatarFallback />
-      <AvatarImage src={profilePictureUrl ?? ""} />
+      {profilePictureUrl ? (
+        <Image width={50} height={50} src={profilePictureUrl} alt={`${name} 프로필`} />
+      ) : (
+        <AvatarFallback />
+      )}
     </Avatar>
   );
 }

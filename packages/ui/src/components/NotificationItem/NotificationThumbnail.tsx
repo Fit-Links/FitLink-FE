@@ -1,21 +1,19 @@
 import { NotificationType } from "@5unwan/core/api/types/common";
+import { ReactNode } from "react";
 
 import IconThumbnail from "./IconThumbnail";
-import { Avatar, AvatarFallback, AvatarImage } from "../../components/Avatar";
+import { Avatar, AvatarFallback } from "../../components/Avatar";
 
 type Props = {
-  avatarSrc?: string;
+  image?: ReactNode;
   variant: NotificationType;
   isCompleted: boolean;
 };
 
-function NotificationThumbnail({ avatarSrc, variant, isCompleted }: Props) {
-  return avatarSrc ? (
+function NotificationThumbnail({ image, variant, isCompleted }: Props) {
+  return image ? (
     <div className="relative h-fit w-fit">
-      <Avatar className="h-[3.125rem] w-[3.125rem]">
-        <AvatarImage src={avatarSrc} />
-        <AvatarFallback />
-      </Avatar>
+      <Avatar className="h-[3.125rem] w-[3.125rem]">{image ? image : <AvatarFallback />}</Avatar>
       <IconThumbnail
         size="sm"
         variant={variant}

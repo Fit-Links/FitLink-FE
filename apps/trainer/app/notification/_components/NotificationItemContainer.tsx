@@ -1,6 +1,7 @@
 import { NotificationInfo } from "@5unwan/core/api/types/common";
 import { useQuery } from "@tanstack/react-query";
 import NotificationItem from "@ui/components/NotificationItem/NotificationItem";
+import Image from "next/image";
 import { MouseEventHandler } from "react";
 
 import { notificationQueries } from "@trainer/queries/notification";
@@ -34,14 +35,18 @@ function NotificationItemContainer({ notification, onClick }: NotificationItemCo
 
   if (isError) return <NotificationItemError />;
 
-  const { profilePictureUrl } = data.data.userDetail;
+  const { profilePictureUrl, name } = data.data.userDetail;
 
   return (
     <NotificationItem
       message={message}
       variant={type}
       createdAt={sendDate}
-      avatarSrc={profilePictureUrl}
+      image={
+        profilePictureUrl && (
+          <Image width={50} height={50} src={profilePictureUrl} alt={`${name} 프로필`} />
+        )
+      }
       isCompleted={isProcessed}
       key={`notification-${notificationId}`}
       className="w-full"

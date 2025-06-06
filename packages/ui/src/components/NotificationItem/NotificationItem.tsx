@@ -1,5 +1,5 @@
 import { NotificationType } from "@5unwan/core/api/types/common";
-import { forwardRef, HTMLAttributes, MouseEventHandler } from "react";
+import { forwardRef, HTMLAttributes, MouseEventHandler, ReactNode } from "react";
 
 import NotificationContent from "./NotificationContent";
 import NotificationThumbnail from "./NotificationThumbnail";
@@ -10,21 +10,18 @@ type Props = Omit<HTMLAttributes<HTMLLIElement>, "onClick"> & NotificationProps;
 
 type NotificationProps = {
   isCompleted: boolean;
-  // memberName?: string;
-  avatarSrc?: string;
   message: string;
   eventDate?: Date | string;
   eventDetail?: Date | string;
   createdAt: Date | string;
   variant: NotificationType;
   onClick?: MouseEventHandler<HTMLLIElement>;
+  image?: ReactNode;
 };
 
 const NotificationItem = forwardRef<HTMLLIElement, Props>((props, ref) => {
   const {
     isCompleted,
-    // memberName,
-    avatarSrc,
     createdAt,
     message,
     eventDate,
@@ -32,6 +29,7 @@ const NotificationItem = forwardRef<HTMLLIElement, Props>((props, ref) => {
     variant,
     onClick,
     className,
+    image,
     ...commonProps
   } = props;
 
@@ -44,7 +42,6 @@ const NotificationItem = forwardRef<HTMLLIElement, Props>((props, ref) => {
   const eventDateController = eventDate ? DateController(eventDate).validate() : undefined;
   const createdDateController = DateController(createdAt).validate();
   const eventDetailController = eventDetail ? DateController(eventDetail).validate() : undefined;
-  // const messageCompound = memberName ? `${memberName} ${message}` : message;
 
   return (
     <li
@@ -59,7 +56,7 @@ const NotificationItem = forwardRef<HTMLLIElement, Props>((props, ref) => {
       onClick={handleClick}
       {...commonProps}
     >
-      <NotificationThumbnail isCompleted={isCompleted} avatarSrc={avatarSrc} variant={variant} />
+      <NotificationThumbnail isCompleted={isCompleted} image={image} variant={variant} />
       <NotificationContent
         isCompleted={isCompleted}
         createdAt={createdDateController?.toRelative()}

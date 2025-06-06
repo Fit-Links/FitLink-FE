@@ -9,6 +9,7 @@ import { ProfileItem } from "@ui/components/ProfileItem";
 import PTPreference from "@ui/components/PTPreference";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
+import Image from "next/image";
 
 import { userManagementQueries } from "@trainer/queries/userManagement";
 
@@ -35,7 +36,9 @@ function MemberProfile({ memberId }: MemberProfileProps) {
       <section className="mb-5 w-full">
         <ProfileHeader>
           <ProfileHeader.Section>
-            <ProfileHeader.Avatar name={name} imageSrc={profilePictureUrl} />
+            <ProfileHeader.Avatar>
+              <Image width={50} height={50} src={profilePictureUrl} alt={`${name} 프로필`} />
+            </ProfileHeader.Avatar>
             <ProfileHeader.Name name={name} />
           </ProfileHeader.Section>
           <ProfileHeader.Section>
