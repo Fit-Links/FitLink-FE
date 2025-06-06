@@ -15,6 +15,7 @@ import {
   ReissueTokenApiResponse,
   ReissueTokenRequestBody,
   SaveReissuedTokensApiResponse,
+  ClearTokenApiResponse,
 } from "./types/auth.dto";
 
 export const signup = (data: SignupRequestBody) =>
@@ -53,6 +54,16 @@ export const reissueToken = (data: ReissueTokenRequestBody) =>
 export const saveReissuedTokens = async () => {
   return axios.post<SaveReissuedTokensApiResponse>(
     `${BASE_ROUTE_HANDLER_URL}/api/auth/reissue-token`,
+    {},
+    {
+      withCredentials: true,
+    },
+  );
+};
+
+export const clearToken = () => {
+  return axios.post<ClearTokenApiResponse>(
+    `${BASE_ROUTE_HANDLER_URL}/api/auth/clear-token`,
     {},
     {
       withCredentials: true,
