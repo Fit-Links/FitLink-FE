@@ -1,12 +1,12 @@
-import { ErrorBoundary, Suspense } from "@suspensive/react";
+import { Suspense } from "@suspensive/react";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import Spinner from "@ui/components/Spinner";
 import { startOfWeek, format } from "date-fns";
 import { ko } from "date-fns/locale";
 
 import { reservationQueries } from "@trainer/queries/reservation";
 
 import CalendarHintGroup from "@trainer/components/CalendarHintGroup";
+import LoadingFallback from "@trainer/components/Fallback/LoadingFallback";
 
 import Calendar from "./_components/Calendar";
 
@@ -25,11 +25,9 @@ async function ScheduleManagement() {
         <div className="py-[0.875rem]">
           <CalendarHintGroup />
         </div>
-        <ErrorBoundary fallback={<div>Error</div>}>
-          <Suspense fallback={<Spinner />}>
-            <Calendar />
-          </Suspense>
-        </ErrorBoundary>
+        <Suspense fallback={<LoadingFallback />}>
+          <Calendar />
+        </Suspense>
       </HydrationBoundary>
     </main>
   );
