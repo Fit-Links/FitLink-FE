@@ -11,6 +11,8 @@ import { reissueToken, saveTokens } from "@trainer/services/auth";
 
 import RouteInstance from "@trainer/constants/route";
 
+import { registerServiceWorker } from "@trainer/utils/fcm";
+
 type SplashProps = {
   refreshToken: string | undefined;
 };
@@ -37,6 +39,7 @@ function Splash({ refreshToken }: SplashProps) {
   });
 
   useEffect(() => {
+    registerServiceWorker();
     if (refreshToken) {
       invalidateToken(refreshToken);
     }
