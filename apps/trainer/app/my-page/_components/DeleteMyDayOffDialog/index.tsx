@@ -31,7 +31,7 @@ export default function DeleteMyDayOffDialog({
 }: DeleteMyDayOffDialogProps) {
   const queryClient = useQueryClient();
 
-  const { mutate, isError } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: (params: {
       requestPath: { dayOffId: number };
       requestBody: DeleteTimeOffRequestBody;
@@ -45,7 +45,6 @@ export default function DeleteMyDayOffDialog({
     },
   });
 
-  console.log(isError);
   const handleDeleteDayOff = () => {
     if (!deleteDayOffData) return;
 
