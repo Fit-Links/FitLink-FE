@@ -7,10 +7,9 @@ export const filterLatestReservationsByDate = (reservations: ModifiedReservation
 
   for (let i = 0; i < reservations.length; i += 1) {
     const reservation = reservations[i];
-    reservation.reservationDates.forEach((dateString) => {
-      const dateKey = dateString;
-      dateMap[dateKey] = reservation;
-    });
+    const dateKey = reservation.reservationDates[0];
+
+    dateMap[dateKey] = reservation;
   }
 
   return Object.values(dateMap);
