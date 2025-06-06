@@ -10,6 +10,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@ui/components/Sheet";
+import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import React, { Suspense, useState } from "react";
 
 import { notificationBaseKeys, notificationQueries } from "@trainer/queries/notification";
@@ -164,6 +165,11 @@ function ConnectTrainerSheet({ notificationId, open, onChangeOpen }: ConnectTrai
               <Icon name="Check" size="lg" />
             </Button>
             <SheetTitle className="text-center">연동 요청이 거절되었습니다</SheetTitle>
+            <VisuallyHidden>
+              <SheetDescription>
+                이 시트에서는 연동 요청의 거절 처리가 완료되었음을 알려줍니다.
+              </SheetDescription>
+            </VisuallyHidden>
           </SheetHeader>
           <SheetFooter>
             <SheetClose asChild>
@@ -186,6 +192,11 @@ function ConnectTrainerSheet({ notificationId, open, onChangeOpen }: ConnectTrai
               <Icon name="Check" size="lg" />
             </Button>
             <SheetTitle className="text-center">연동 요청이 승인되었습니다</SheetTitle>
+            <VisuallyHidden>
+              <SheetDescription>
+                이 시트에서는 연동 요청의 승인 처리가 완료되었음을 알려줍니다.
+              </SheetDescription>
+            </VisuallyHidden>
           </SheetHeader>
           <SheetFooter>
             <SheetClose asChild>

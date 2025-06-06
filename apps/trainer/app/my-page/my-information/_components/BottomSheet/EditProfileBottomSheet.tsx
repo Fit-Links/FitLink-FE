@@ -7,6 +7,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@ui/components/Sheet";
+import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import { useRef } from "react";
 
 import { myInformationQueries } from "@trainer/queries/myInformation";
@@ -122,12 +123,16 @@ export default function EditProfileBottomSheet({ children }: EditProfileBottomSh
       <Sheet>
         <SheetTrigger asChild>{children}</SheetTrigger>
         <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
-          <SheetTitle></SheetTitle>
-          <SheetDescription className="flex flex-col gap-[0.625rem]">
-            <SheetClose asChild>
-              <SheetItem icon="Image" label="앨범에서 선택" onClick={handleClickOpenAlbum} />
-            </SheetClose>
-            {/* <SheetClose asChild>
+          <VisuallyHidden>
+            <SheetTitle>프로필 사진 변경</SheetTitle>
+            <SheetDescription>
+              이 시트에서는 사용자 프로필 사진을 변경할 수 있습니다.
+            </SheetDescription>
+          </VisuallyHidden>
+          <SheetClose asChild>
+            <SheetItem icon="Image" label="앨범에서 선택" onClick={handleClickOpenAlbum} />
+          </SheetClose>
+          {/* <SheetClose asChild>
               <SheetItem
                 icon="Trash2"
                 label="프로필 사진 삭제"
@@ -135,7 +140,6 @@ export default function EditProfileBottomSheet({ children }: EditProfileBottomSh
                 onClick={handleClickDeleteProfileImage}
               />
             </SheetClose> */}
-          </SheetDescription>
         </SheetContent>
       </Sheet>
     </>

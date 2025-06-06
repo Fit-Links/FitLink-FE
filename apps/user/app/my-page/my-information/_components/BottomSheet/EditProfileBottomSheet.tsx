@@ -9,6 +9,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@ui/components/Sheet";
+import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import { useRef } from "react";
 
 import { myInformationQueries } from "@user/queries/myInformation";
@@ -135,8 +136,11 @@ export default function EditProfileBottomSheet({ children }: EditProfileBottomSh
       <Sheet>
         <SheetTrigger asChild>{children}</SheetTrigger>
         <SheetContent side="bottom" className="md:w-mobile md:inset-x-[calc((100%-480px)/2)] ">
-          <SheetTitle></SheetTitle>
-          <SheetDescription className="flex flex-col gap-[0.625rem]">
+          <VisuallyHidden>
+            <SheetTitle>프로필 사진 수정</SheetTitle>
+            <SheetDescription>이 시트에서 프로필 사진을 수정할 수 있습니다</SheetDescription>
+          </VisuallyHidden>
+          <div className="flex flex-col gap-[0.625rem]">
             <SheetClose asChild>
               <SheetItem icon="Image" label="앨범에서 선택" onClick={handleClickOpenAlbum} />
             </SheetClose>
@@ -148,7 +152,7 @@ export default function EditProfileBottomSheet({ children }: EditProfileBottomSh
                 onClick={handleClickDeleteProfileImage}
               />
             </SheetClose> */}
-          </SheetDescription>
+          </div>
         </SheetContent>
       </Sheet>
     </>

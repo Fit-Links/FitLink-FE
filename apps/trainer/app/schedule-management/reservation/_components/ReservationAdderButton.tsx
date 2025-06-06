@@ -8,10 +8,12 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
 } from "@ui/components/Sheet";
+import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import { format, subHours } from "date-fns";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -81,6 +83,11 @@ function ReservationAdderButton({ selectedMemberInformation }: ReservationAdderB
             <SheetTitle className="whitespace-pre-line text-center">
               {`${selectedMemberInformation?.name} 회원의\n예약이 확정되었습니다`}
             </SheetTitle>
+            <VisuallyHidden>
+              <SheetDescription>
+                이 시트는 예약 확정 처리가 완료되었음을 알려줍니다.
+              </SheetDescription>
+            </VisuallyHidden>
           </SheetHeader>
           <SheetFooter>
             <SheetClose asChild>

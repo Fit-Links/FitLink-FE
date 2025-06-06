@@ -6,12 +6,20 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@ui/components/Dialog";
 import Icon from "@ui/components/Icon";
-import { Sheet, SheetClose, SheetContent } from "@ui/components/Sheet";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+} from "@ui/components/Sheet";
+import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import { cn } from "@ui/lib/utils";
 import { useRouter } from "next/navigation";
 import { Fragment, MouseEvent, useRef, useState } from "react";
@@ -86,8 +94,8 @@ function MemberProfileListContent({
       <ul className="my-[0.625rem] flex h-full w-full flex-col gap-[0.625rem] overflow-y-auto [&::-webkit-scrollbar]:hidden">
         {data.pages[0].data.totalElements ? (
           data.pages.map((group, index) => (
-            <Fragment key={`memberList-${index}`}>
-              {group.data.content.map((memberInformation) => {
+            <Fragment key={`memberListGroup-${index}`}>
+              {group.data.content.map((memberInformation, subIndex) => {
                 const {
                   memberId,
                   name,
@@ -99,7 +107,7 @@ function MemberProfileListContent({
 
                 return (
                   <ProfileCard
-                    key={`${memberId}-${name}`}
+                    key={`memberListGroupItem-${subIndex}`}
                     imgUrl={profilePictureUrl}
                     userBirth={new Date(birthDate)}
                     userName={name}
@@ -205,6 +213,13 @@ function MemberProfileList({ searchValue }: MemberProfileListProps) {
       />
       <Sheet open={ptManagementSheetSheetOpen} onOpenChange={setPtManagementSheetSheetOpen}>
         <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+          <VisuallyHidden>
+            <SheetTitle>회원 정보 수정</SheetTitle>
+            <SheetDescription>
+              이 시트에서 회원 PT 횟수 변경, 회원 연동 해제와 같이 회원에 대한 정보를 수정할 수
+              있습니다.
+            </SheetDescription>
+          </VisuallyHidden>
           <div className="flex h-full w-full flex-col gap-[0.625rem]">
             <SheetClose asChild>
               <div
@@ -261,6 +276,11 @@ function MemberProfileList({ searchValue }: MemberProfileListProps) {
             <DialogTitle className="whitespace-pre-line">
               {`${selectedMemberInformation?.name} 회원님과의 연동을\n해제 하시겠습니까?`}
             </DialogTitle>
+            <VisuallyHidden>
+              <DialogDescription>
+                이 시트는 회원과의 연동 해제 처리를 진행할지 확인합니다.
+              </DialogDescription>
+            </VisuallyHidden>
           </DialogHeader>
           <DialogFooter>
             <div className="flex w-full gap-[0.625rem]">

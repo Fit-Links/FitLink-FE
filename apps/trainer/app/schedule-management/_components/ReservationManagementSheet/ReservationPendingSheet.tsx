@@ -1,6 +1,14 @@
 "use client";
 
-import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle } from "@ui/components/Sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+} from "@ui/components/Sheet";
+import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import DateController from "@ui/lib/DateController";
 import { useRouter } from "next/navigation";
 
@@ -41,6 +49,11 @@ function ReservationPendingSheet({
       <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
         <SheetHeader className="items-center">
           <SheetTitle className="flex justify-center">{selectedFormatDate}</SheetTitle>
+          <VisuallyHidden>
+            <SheetDescription>
+              이 시트는 선택한 시간 블록의 예약 신청 현황을 확인할 수 있습니다.
+            </SheetDescription>
+          </VisuallyHidden>
         </SheetHeader>
         <div
           className="text-body-1 bg-background-sub1 flex h-[5.625rem] w-full cursor-pointer items-center justify-center rounded-[0.625rem]"

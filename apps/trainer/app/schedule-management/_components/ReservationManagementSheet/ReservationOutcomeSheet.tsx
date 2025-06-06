@@ -10,10 +10,12 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
 } from "@ui/components/Sheet";
+import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import DateController from "@ui/lib/DateController";
 import { useEffect, useState } from "react";
 
@@ -84,6 +86,11 @@ function ReservationOutcomeSheet({
             {reservationStatus !== "예약 확정" && (
               <Badge className="h-8 w-20">{reservationStatus}</Badge>
             )}
+            <VisuallyHidden>
+              <SheetDescription>
+                이 시트에서 PT 수업에 대한 참석 여부를 처리할 수 있습니다.
+              </SheetDescription>
+            </VisuallyHidden>
           </SheetHeader>
           {userInformationDetail && (
             <ProfileCard

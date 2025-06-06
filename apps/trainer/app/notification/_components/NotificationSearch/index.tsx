@@ -3,10 +3,17 @@
 import { API_DEBOUNCE_LIMIT } from "@5unwan/core/utils/debounce";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Badge } from "@ui/components/Badge";
-import { Dialog, DialogContent, DialogTrigger } from "@ui/components/Dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "@ui/components/Dialog";
 import Header from "@ui/components/Header";
 import { InputField } from "@ui/components/InputWithIcon";
 import { InputIcon, InputWithIcon } from "@ui/components/InputWithIcon/index";
+import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import { Search } from "lucide-react";
 import { Dispatch, MouseEventHandler, SetStateAction, useRef, useState, Fragment } from "react";
 
@@ -119,10 +126,18 @@ function NotificationSearch({ isOpen, setIsOpen }: NotificationSearchProps) {
         <Search color="white" />
       </DialogTrigger>
       <DialogContent className="bg-background-primary flex h-full w-full flex-col rounded-none">
+        <VisuallyHidden>
+          <DialogTitle>알림 검색</DialogTitle>
+          <DialogDescription>
+            이 모달은 트레이너와 연동된 회원을 검색하고, 검색한 회원의 알림을 한눈에 확인할 수
+            있도록 도와줍니다
+          </DialogDescription>
+        </VisuallyHidden>
         <Header className="mb-4">
           <Header.Back onClick={handleClickHeaderBack} />
           <Header.Title content="알림 검색" />
         </Header>
+
         {selected === null && (
           <>
             <InputWithIcon id="notification-search" className="mb-4">

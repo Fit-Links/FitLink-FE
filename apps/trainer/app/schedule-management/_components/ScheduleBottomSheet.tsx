@@ -1,4 +1,12 @@
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@ui/components/Sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@ui/components/Sheet";
+import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import DateController from "@ui/lib/DateController";
 import { cn } from "@ui/lib/utils";
 import { ReactNode } from "react";
@@ -34,6 +42,12 @@ export default function ScheduleBottomSheet({
       >
         <SheetHeader className="items-center">
           <SheetTitle>{selectedFormatDate}</SheetTitle>
+          <VisuallyHidden>
+            <SheetDescription>
+              이 시트에서 선택한 시간 블록에서 수행할 수 있는 모든 기능을 확인 및 사용할 수
+              있습니다.
+            </SheetDescription>
+          </VisuallyHidden>
         </SheetHeader>
         <TimeOptionList
           selectedDate={selectedDate}
