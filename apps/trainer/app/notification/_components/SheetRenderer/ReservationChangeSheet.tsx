@@ -1,4 +1,4 @@
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { Badge } from "@ui/components/Badge";
 import { Button } from "@ui/components/Button";
 import Icon from "@ui/components/Icon";
@@ -14,7 +14,7 @@ import {
 import DateController from "@ui/lib/DateController";
 import { Suspense, useState } from "react";
 
-import { notificationQueries } from "@trainer/queries/notification";
+import { notificationBaseKeys, notificationQueries } from "@trainer/queries/notification";
 import { userManagementQueries } from "@trainer/queries/userManagement";
 
 import { processReservationChange } from "@trainer/services/reservations";
@@ -104,8 +104,13 @@ function ReservationChangeSheet({
   onChangeOpen,
   eventDateDescription,
 }: ReservationChangeSheetProps) {
+  const queryClient = useQueryClient();
+
   const reservationChangeMutation = useMutation({
     mutationFn: processReservationChange,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: notificationBaseKeys.lists() });
+    },
   });
 
   const [isDeclineSheetOpen, setIsDeclineSheetOpen] = useState(false);
