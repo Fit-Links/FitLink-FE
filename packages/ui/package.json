@@ -68,7 +68,8 @@
     "react-day-picker": "8.10.1",
     "tailwind-merge": "^2.6.0",
     "vaul": "^1.1.2",
-    "zod": "^3.24.2"
+    "zod": "^3.24.2",
+    "qrcode.react": "^4.2.0"
   },
   "exports": {
     "./utils": "./lib/utils.ts",
