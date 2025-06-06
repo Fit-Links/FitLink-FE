@@ -51,31 +51,33 @@ export default function PTHistoryContent({ historyFilter }: { historyFilter: PtS
   }
 
   return (
-    <section className="mt-[1.25rem] flex h-full flex-1 flex-col gap-[0.625rem] overflow-y-auto pb-2">
-      {ptHistory &&
-        ptHistory.pages.map((page) =>
-          page.data.content.map((item: PtInfo) => {
-            if (item.status !== (historyFilter as PtStatus) && historyFilter !== "NONE")
-              return null;
+    <section className="mt-[1.25rem] flex h-full flex-col overflow-hidden">
+      <div className="flex h-full flex-col gap-[0.625rem] overflow-y-auto">
+        {ptHistory &&
+          ptHistory.pages.map((page) =>
+            page.data.content.map((item: PtInfo) => {
+              if (item.status !== (historyFilter as PtStatus) && historyFilter !== "NONE")
+                return null;
 
-            return (
-              <PTHistoryItem
-                key={`PT-history-item-${item.sessionId}`}
-                reservationDate={new Date(item.date)}
-                status={item.status as Exclude<PtStatus, "SESSION_CANCELLED">}
-              />
-            );
-          }),
-        )}
+              return (
+                <PTHistoryItem
+                  key={`PT-history-item-${item.sessionId}`}
+                  reservationDate={new Date(item.date)}
+                  status={item.status as Exclude<PtStatus, "SESSION_CANCELLED">}
+                />
+              );
+            }),
+          )}
 
-      <div ref={intersectionRef} className="h-4 w-full">
-        {isFetchingNextPage && (
-          <div className="mt-[1.25rem] flex flex-col gap-[0.625rem] overflow-y-auto pb-2">
-            <MyPageItemSkeleton className="h-[3.375rem]" />
-            <MyPageItemSkeleton className="h-[3.375rem]" />
-            <MyPageItemSkeleton className="h-[3.375rem]" />
-          </div>
-        )}
+        <div ref={intersectionRef} className="h-4 w-full">
+          {isFetchingNextPage && (
+            <div className="mt-[1.25rem] flex flex-col gap-[0.625rem] overflow-y-auto pb-2">
+              <MyPageItemSkeleton className="min-h-[3.375rem]" />
+              <MyPageItemSkeleton className="min-h-[3.375rem]" />
+              <MyPageItemSkeleton className="min-h-[3.375rem]" />
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );

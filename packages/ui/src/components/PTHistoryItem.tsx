@@ -30,7 +30,7 @@ function PTHistoryItem({ reservationDate, status, onClick, className }: PTHistor
     return (
       <div
         className={cn(
-          "text-text-primary bg-background-sub1 flex h-[3.375rem] items-center justify-between rounded-[10px] px-[0.9375rem]",
+          "text-text-primary bg-background-sub1 flex min-h-[3.375rem] items-center justify-between rounded-[10px] px-[0.9375rem]",
           {
             "bg-background-sub2": isClickable,
           },
