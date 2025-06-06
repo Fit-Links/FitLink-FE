@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useFunnel } from "@use-funnel/browser";
 import dynamic from "next/dynamic";
 
-import { registerUserProfileImage, uploadImage } from "@trainer/services/attachment";
+import { uploadImage } from "@trainer/services/attachment";
 import { createPresignedUrl } from "@trainer/services/attachment";
 
 const BasicInfoStep = dynamic(() => import("@ui/components/FunnelSteps/BasicInfoStep"), {
@@ -40,9 +40,6 @@ function RegisterFunnel() {
   const uploadImageMutation = useMutation({
     mutationFn: uploadImage,
   });
-  const registerUserProfileImageMutation = useMutation({
-    mutationFn: registerUserProfileImage,
-  });
 
   const handleUploadProfileImage = async (imageFile: File) => {
     try {
@@ -66,19 +63,6 @@ function RegisterFunnel() {
         presignedUrl,
         imageFile,
       });
-
-      const {
-        status: registerUserProfileImageStatus,
-        success: registerUserProfileImageSuccess,
-        msg: registerUserProfileImageMsg,
-      } = await registerUserProfileImageMutation.mutateAsync({
-        attachmentId,
-      });
-
-      if (!registerUserProfileImageSuccess)
-        throw new Error(
-          `Error occured during createPresignedUrl\nStatus:${registerUserProfileImageStatus}\nMessage:${registerUserProfileImageMsg}`,
-        );
 
       return attachmentId;
     } catch {
