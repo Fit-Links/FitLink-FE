@@ -1,16 +1,18 @@
 "use client";
 
 import { useErrorBoundaryFallbackProps } from "@suspensive/react";
-import { useQueryErrorResetBoundary } from "@tanstack/react-query";
 import GlobalFallback from "@ui/components/GlobalFallback";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 import RouteInstance from "@trainer/constants/route";
 
-export default function ErrorFallback() {
+type ErrorFallbackProps = {
+  onClick: () => void;
+};
+
+export default function ErrorFallback({ onClick }: ErrorFallbackProps) {
   const router = useRouter();
-  const { reset } = useQueryErrorResetBoundary();
 
   const { error } = useErrorBoundaryFallbackProps();
 
@@ -19,6 +21,6 @@ export default function ErrorFallback() {
   };
 
   return (
-    <GlobalFallback reset={reset} error={error} onUnauthorizedRouting={onUnauthorizedRouting} />
+    <GlobalFallback onClick={onClick} error={error} onUnauthorizedRouting={onUnauthorizedRouting} />
   );
 }
