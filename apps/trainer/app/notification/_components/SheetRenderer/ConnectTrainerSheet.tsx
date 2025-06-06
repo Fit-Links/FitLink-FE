@@ -96,6 +96,9 @@ function ConnectTrainerSheet({ notificationId, open, onChangeOpen }: ConnectTrai
         requestPath: { notificationId },
         requestBody: { isApproved },
       }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: notificationBaseKeys.lists() });
+    },
   });
   const setSessionMutation = useMutation({
     mutationFn: sessionCountEdit,
@@ -132,7 +135,6 @@ function ConnectTrainerSheet({ notificationId, open, onChangeOpen }: ConnectTrai
             onSuccess: () => {
               setIsAcceptActionSheetOpen(false);
               setIsAcceptSheetOpen(true);
-              queryClient.invalidateQueries({ queryKey: notificationBaseKeys.lists() });
             },
           },
         );
