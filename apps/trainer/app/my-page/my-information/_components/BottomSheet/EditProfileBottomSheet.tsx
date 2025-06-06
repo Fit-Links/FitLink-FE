@@ -23,6 +23,8 @@ interface EditProfileBottomSheetProps {
   children: React.ReactNode;
 }
 
+// const DELETE_PROFILE_IMAGE_ATTACHMENT_ID = -1;
+
 export default function EditProfileBottomSheet({ children }: EditProfileBottomSheetProps) {
   const queryClient = useQueryClient();
 
@@ -92,9 +94,21 @@ export default function EditProfileBottomSheet({ children }: EditProfileBottomSh
     }
   };
 
-  const handleClickDeleteProfileImage = () => {
-    // TODO: 프로필 사진 삭제 API 요청
-  };
+  // const handleClickDeleteProfileImage = async () => {
+  //   const {
+  //     status: registerUserProfileImageStatus,
+  //     success: registerUserProfileImageSuccess,
+  //     msg: registerUserProfileImageMsg,
+  //   } = await registerUserProfileImageMutation.mutateAsync({
+  //     attachmentId: DELETE_PROFILE_IMAGE_ATTACHMENT_ID,
+  //   });
+  //   queryClient.invalidateQueries({ queryKey: myInformationQueries.myInformation().queryKey });
+
+  //   if (!registerUserProfileImageSuccess)
+  //     throw new Error(
+  //       `Error occured during createPresignedUrl\nStatus:${registerUserProfileImageStatus}\nMessage:${registerUserProfileImageMsg}`,
+  //     );
+  // };
 
   return (
     <>
@@ -113,14 +127,14 @@ export default function EditProfileBottomSheet({ children }: EditProfileBottomSh
             <SheetClose asChild>
               <SheetItem icon="Image" label="앨범에서 선택" onClick={handleClickOpenAlbum} />
             </SheetClose>
-            <SheetClose asChild>
+            {/* <SheetClose asChild>
               <SheetItem
                 icon="Trash2"
                 label="프로필 사진 삭제"
                 variant="danger"
                 onClick={handleClickDeleteProfileImage}
               />
-            </SheetClose>
+            </SheetClose> */}
           </SheetDescription>
         </SheetContent>
       </Sheet>
