@@ -25,6 +25,7 @@ import { reservationQueries } from "@user/queries/reservation";
 import { RequestReservationMode } from "@user/app/schedule-management/reservation/[mode]/types/requestReservation";
 
 import ReservationRequestor from "./ReservationRequestor";
+import PtTimeSelectorFallback from "../../Fallback/PtTimeSelectorFallback";
 
 type PtTimeSelectorProps = {
   mode: RequestReservationMode;
@@ -59,7 +60,7 @@ function PtTimeSelector({
   );
 
   const { data: myInformation } = useQuery(myInformationQueries.summary());
-  const { data: trainerAvailableTimes } = useQuery({
+  const { data: trainerAvailableTimes, isLoading } = useQuery({
     ...myInformationQueries.trainerAvailableTimes({
       trainerId: myInformation?.data?.trainerId as number,
     }),
@@ -145,70 +146,76 @@ function PtTimeSelector({
   }, [selectedDate]);
 
   return (
-    <section className="mt-1 flex h-full flex-col overflow-hidden">
-      <section className="mb-1 h-full overflow-y-scroll">
-        {formattedTrainerAvailableTimes && (
-          <TimeCellToggleGroup
-            className="md:max-w-mobile my-10"
-            selected={selectedTimes}
-            onSelectedChange={setSelectedTimes}
-            onExceedToggleLimit={handleExceedToggleLimit}
-            variant="notification"
-            toggleLimit={mode === "new" ? 2 : 1}
-            timeCellInfo={
-              isReservationAvailable && mode === "new"
-                ? generateTimeCells("MONDAY", 23, 0)
-                : formattedTrainerAvailableTimes
-            }
+    <>
+      {isLoading ? (
+        <PtTimeSelectorFallback />
+      ) : (
+        <section className="mt-1 flex h-full flex-col overflow-hidden">
+          <section className="mb-1 h-full overflow-y-scroll [&::-webkit-scrollbar]:hidden">
+            {formattedTrainerAvailableTimes && (
+              <TimeCellToggleGroup
+                className="md:max-w-mobile my-10"
+                selected={selectedTimes}
+                onSelectedChange={setSelectedTimes}
+                onExceedToggleLimit={handleExceedToggleLimit}
+                variant="notification"
+                toggleLimit={mode === "new" ? 2 : 1}
+                timeCellInfo={
+                  isReservationAvailable && mode === "new"
+                    ? generateTimeCells("MONDAY", 23, 0)
+                    : formattedTrainerAvailableTimes
+                }
+              />
+            )}
+          </section>
+
+          <ReservationRequestor
+            mode={mode}
+            open={isRequestSuccessSheetOpen}
+            onChangeOpen={setIsRequestSuccessSheetOpen}
+            selectedDate={selectedDate}
+            selectedTime={selectedTimes}
+            isActive={!!selectedTimes.length}
           />
-        )}
-      </section>
 
-      <ReservationRequestor
-        mode={mode}
-        open={isRequestSuccessSheetOpen}
-        onChangeOpen={setIsRequestSuccessSheetOpen}
-        selectedDate={selectedDate}
-        selectedTime={selectedTimes}
-        isActive={!!selectedTimes.length}
-      />
+          <Dialog
+            open={isReservationChangeRemindPopupOpen}
+            onOpenChange={setIsReservationChangeRemindPopupOpen}
+          >
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>
+                  당일 수업 시간 변경은 변경할 시간보다
+                  <br />
+                  현재 시간이 1시간 이상 빨라야 합니다
+                </DialogTitle>
+              </DialogHeader>
+              <DialogFooter>
+                <DialogClose>
+                  <Button>확인</Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
 
-      <Dialog
-        open={isReservationChangeRemindPopupOpen}
-        onOpenChange={setIsReservationChangeRemindPopupOpen}
-      >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
-              당일 수업 시간 변경은 변경할 시간보다
-              <br />
-              현재 시간이 1시간 이상 빨라야 합니다
-            </DialogTitle>
-          </DialogHeader>
-          <DialogFooter>
-            <DialogClose>
-              <Button>확인</Button>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog
-        open={isReservationMaxSelectedPopupOpen}
-        onOpenChange={setIsReservationMaxSelectedPopupOpen}
-      >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>최다 지망 선택이 완료되었습니다.</DialogTitle>
-          </DialogHeader>
-          <DialogFooter>
-            <DialogClose>
-              <Button>확인</Button>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </section>
+          <Dialog
+            open={isReservationMaxSelectedPopupOpen}
+            onOpenChange={setIsReservationMaxSelectedPopupOpen}
+          >
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>최다 지망 선택이 완료되었습니다.</DialogTitle>
+              </DialogHeader>
+              <DialogFooter>
+                <DialogClose>
+                  <Button>확인</Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </section>
+      )}
+    </>
   );
 }
 

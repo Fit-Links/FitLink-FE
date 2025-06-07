@@ -1,13 +1,14 @@
-import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
 import tailwindcssAnimate from "tailwindcss-animate";
+
+import type { Config } from "tailwindcss";
 
 // We want each package to be responsible for its own content.
 const config: Omit<Config, "content"> = {
   theme: {
     extend: {
       screens: {
-        xs: '380px',
+        xs: "380px",
       },
       colors: {
         brand: {
@@ -154,11 +155,19 @@ const config: Omit<Config, "content"> = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        wobble: {
+          "0%": { transform: "rotate(0deg)" },
+          "25%": { transform: "rotate(-15deg)" },
+          "50%": { transform: "rotate(0deg)" },
+          "75%": { transform: "rotate(15deg)" },
+          "100%": { transform: "rotate(0deg)" },
+        },
       },
       animation: {
         "caret-blink": "caret-blink 1.25s ease-out infinite",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        wobble: "wobble 3s ease-in-out infinite",
       },
     },
   },
