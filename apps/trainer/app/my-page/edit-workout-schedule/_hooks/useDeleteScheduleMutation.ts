@@ -1,0 +1,18 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { myInformationQueries } from "@trainer/queries/myInformation";
+
+import { deleteAvailablePtTime } from "@trainer/services/myInformation";
+
+export default function useDeleteScheduleMutation() {
+  const queryClient = useQueryClient();
+
+  const { mutateAsync, ...rest } = useMutation({
+    mutationFn: deleteAvailablePtTime,
+    onSuccess: () => {
+      queryClient.invalidateQueries(myInformationQueries.ptAvailableTime());
+    },
+  });
+
+  return { deleteSchedule: mutateAsync, ...rest };
+}
