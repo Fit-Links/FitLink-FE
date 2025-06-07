@@ -13,6 +13,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@ui/components/Sheet";
+import Spinner from "@ui/components/Spinner";
 import { ChangeEvent, useEffect, useState } from "react";
 
 import RequestSuccessSheet from "./RequestSuccessSheet";
@@ -47,7 +48,7 @@ function ReservationCancelSheet({
   const [inputValue, setInputValue] = useState("");
   const [isRequestSuccessOpen, setIsRequestSuccessOpen] = useState(false);
 
-  const { reservationCancel, isSuccess } = useReservationCancelMutation();
+  const { reservationCancel, isSuccess, isPending } = useReservationCancelMutation();
 
   const handleChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -94,7 +95,7 @@ function ReservationCancelSheet({
                   disabled={!inputValue.length}
                   className="bg-brand-primary-500 hover:bg-brand-primary-400 disabled:bg-background-sub1 flex h-full flex-1 items-center justify-center rounded-[0.625rem] transition-colors"
                 >
-                  취소 요청
+                  {isPending ? <Spinner /> : "취소 요청"}
                 </Button>
               </SheetClose>
             </div>

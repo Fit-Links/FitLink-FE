@@ -170,18 +170,12 @@ function ReservationStatusSheet({
           </DialogHeader>
           <DialogFooter>
             <DialogClose className="flex w-full items-center justify-center gap-[0.625rem]">
-              {isPending ? (
-                <Spinner />
-              ) : (
-                <>
-                  <Button variant="secondary" className="flex-1">
-                    닫기
-                  </Button>
-                  <Button onClick={handleClickRemindButton} className="flex-1">
-                    확인
-                  </Button>
-                </>
-              )}
+              <Button variant="secondary" className="flex-1">
+                닫기
+              </Button>
+              <Button onClick={handleClickRemindButton} className="flex-1">
+                {isPending ? <Spinner /> : "확인"}
+              </Button>
             </DialogClose>
           </DialogFooter>
         </DialogContent>
