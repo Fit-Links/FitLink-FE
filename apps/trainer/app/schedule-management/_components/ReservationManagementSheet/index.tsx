@@ -77,4 +77,19 @@ export const SheetAdapter: Record<
       />
     );
   },
+  "예약 취소 거절": (commonProps, reservationContent) => {
+    return isReservationPast(reservationContent[0]) ? (
+      <ReservationOutcomeSheet
+        {...commonProps}
+        memberInformation={reservationContent[0]}
+        reservationStatus="예약 확정"
+      />
+    ) : (
+      <ReservationControlSheet
+        {...commonProps}
+        memberInformation={reservationContent[0]}
+        reservationStatus="예약 확정"
+      />
+    );
+  },
 };

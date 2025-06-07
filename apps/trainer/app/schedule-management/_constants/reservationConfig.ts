@@ -44,4 +44,9 @@ export const RESERVATION_CONFIG: Record<
     content: (reservationContent) => reservationContent.memberInfo.name,
     ptStatus: () => "고정 예약",
   },
+  "예약 취소 거절": {
+    style: "bg-brand-primary-500 hover:bg-brand-primary-600",
+    content: (reservationContent) => reservationContent.memberInfo.name,
+    ptStatus: () => "예약 확정",
+  },
 };
