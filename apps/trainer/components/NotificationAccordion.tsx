@@ -43,8 +43,12 @@ export default function NotificationAccordion() {
             route: "reservation",
           },
           {
-            content: "예약 변경/취소",
-            route: "reservation-edit",
+            content: "예약 변경",
+            route: "reservation-change",
+          },
+          {
+            content: "예약 취소",
+            route: "reservation-cancel",
           },
         ],
         icon: <Calendar />,

@@ -4,7 +4,7 @@ import { NotificationInfo } from "@5unwan/core/api/types/common";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import Header from "@ui/components/Header";
 import { ToggleGroup, ToggleGroupItem } from "@ui/components/ToggleGroup";
-import { Suspense, useState, Fragment, useRef } from "react";
+import { Fragment, Suspense, useRef, useState } from "react";
 
 import { notificationQueries } from "@trainer/queries/notification";
 
@@ -16,24 +16,24 @@ import EmptyList from "../_components/EmptyList";
 import NotificationItemContainer from "../_components/NotificationItemContainer";
 import NotificationListFallback from "../_components/NotificationListFallback";
 import NotificationSearch from "../_components/NotificationSearch";
-import SheetRenderer from "../_components/SheetRenderer";
+import ReservationChangeSheet from "../_components/SheetRenderer/ReservationChangeSheet";
 import { NotificationStatus } from "../_types";
 import createFilteredNotificationCount from "../_utils/createFilteredNotificationCount";
 import handleNotificationFilter from "../_utils/handleNotificationFilter";
 import { parseEventDateFromContent } from "../_utils/parser";
 
-type ReservationEditNotificationContentProps = {
+type ReservationChangeNotificationContentProps = {
   status: NotificationStatus;
   onNotificationClick: (notification: NotificationInfo) => () => void;
 };
-function ReservationEditNotificationContent({
+function ReservationChangeNotificationContent({
   status,
   onNotificationClick,
-}: ReservationEditNotificationContentProps) {
+}: ReservationChangeNotificationContentProps) {
   const intersectionRef = useRef(null);
 
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage } = useSuspenseInfiniteQuery(
-    notificationQueries.list({ type: "RESERVATION_CHANGE_CANCEL" }),
+    notificationQueries.list({ type: "RESERVATION_CHANGE" }),
   );
   const handleIntersect = () => {
     if (hasNextPage && !isFetchingNextPage) fetchNextPage();
@@ -74,7 +74,7 @@ function ReservationEditNotificationContent({
   );
 }
 
-function ReservationEditNotificationPage() {
+function ReservationChangeNotificationPage() {
   const [isNotificationSearchOpen, setIsNotificationSearchOpen] = useState(false);
   const [status, setStatus] = useState<NotificationStatus>("all");
   const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);
@@ -98,16 +98,13 @@ function ReservationEditNotificationPage() {
     setIsActionSheetOpen(true);
   };
 
-  const ActionSheet =
-    selectedNotification && selectedNotification.type && SheetRenderer[selectedNotification.type];
-
   return (
-    <div>
+    <div className="flex h-full flex-col">
       <Header className="mb-4">
         <Header.Left>
           <NotificationSideBar />
         </Header.Left>
-        <Header.Title content="PT 예약 변경/취소" />
+        <Header.Title content="PT 수업" />
         <Header.Right>
           <NotificationSearch
             isOpen={isNotificationSearchOpen}
@@ -127,22 +124,21 @@ function ReservationEditNotificationPage() {
         <ToggleGroupItem value="complete">처리</ToggleGroupItem>
       </ToggleGroup>
       <Suspense fallback={<NotificationListFallback />}>
-        <ReservationEditNotificationContent
+        <ReservationChangeNotificationContent
           status={status}
           onNotificationClick={handleNotificationClick}
         />
       </Suspense>
-      {ActionSheet &&
-        ActionSheet(
-          {
-            notificationId: selectedNotification.notificationId,
-            open: isActionSheetOpen,
-            onChangeOpen: setIsActionSheetOpen,
-          },
-          parseEventDateFromContent(selectedNotification.content),
-        )}
+      {selectedNotification && (
+        <ReservationChangeSheet
+          notificationId={selectedNotification.notificationId}
+          open={isActionSheetOpen}
+          onChangeOpen={setIsActionSheetOpen}
+          eventDateDescription={parseEventDateFromContent(selectedNotification.content)}
+        />
+      )}
     </div>
   );
 }
 
-export default ReservationEditNotificationPage;
+export default ReservationChangeNotificationPage;
