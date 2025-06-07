@@ -6,6 +6,7 @@ import { cn } from "@ui/lib/utils";
 import { format, parse } from "date-fns";
 import { ko } from "date-fns/locale";
 
+import WorkoutScheduleFallback from "@trainer/app/schedule-management/_components/Fallback/WorkoutScheduleFallback";
 import MemberProfileCard from "@trainer/app/schedule-management/_components/MemberProfileCard";
 import { userManagementQueries } from "@trainer/queries/userManagement";
 
@@ -39,7 +40,7 @@ function MemberCardList({
    * TODO: memberId를 통해 회원 상세 정보를 리스트로 가져와 PT 가능 시간을 프로필카드 Dropdown에 나타내기
    * TODO: reservationDate를 통해 상세 대기 목록을 모두 가져오기
    */
-  const { data: userInformationDetail } = useQuery({
+  const { data: userInformationDetail, isLoading } = useQuery({
     ...userManagementQueries.detail(selectedMemberInformation?.memberId as number),
     enabled: !!selectedMemberInformation?.memberId,
   });
@@ -106,15 +107,19 @@ function MemberCardList({
                 </div>
               </DropdownTrigger>
               <DropdownContent>
-                {userInformationDetail?.data?.workoutSchedules.map(
-                  ({ workoutScheduleId, dayOfWeek, preferenceTimes }) => (
-                    <DropdownItem key={workoutScheduleId} className="flex items-start gap-2">
-                      <span>{DAYS[dayOfWeek]}</span>
-                      <span className="w-full whitespace-pre-line">
-                        {formatContinuousTimes(preferenceTimes)}
-                      </span>
-                    </DropdownItem>
-                  ),
+                {isLoading ? (
+                  <WorkoutScheduleFallback />
+                ) : (
+                  userInformationDetail?.data?.workoutSchedules.map(
+                    ({ workoutScheduleId, dayOfWeek, preferenceTimes }) => (
+                      <DropdownItem key={workoutScheduleId} className="flex items-start gap-2">
+                        <span>{DAYS[dayOfWeek]}</span>
+                        <span className="w-full whitespace-pre-line">
+                          {formatContinuousTimes(preferenceTimes)}
+                        </span>
+                      </DropdownItem>
+                    ),
+                  )
                 )}
               </DropdownContent>
             </Dropdown>

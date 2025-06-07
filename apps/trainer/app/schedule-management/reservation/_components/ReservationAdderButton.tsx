@@ -13,6 +13,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@ui/components/Sheet";
+import Spinner from "@ui/components/Spinner";
 import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import { format, subHours } from "date-fns";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -38,7 +39,7 @@ function ReservationAdderButton({ selectedMemberInformation }: ReservationAdderB
 
   const { data: myInformation } = useSuspenseQuery(myInformationQueries.myInformation());
 
-  const { reservationRequest, isSuccess } = useReservationRequestMutation();
+  const { reservationRequest, isSuccess, isPending } = useReservationRequestMutation();
 
   const selectedDate = searchParams.get("selectedDate") as string;
   const dateObj = new Date(selectedDate);
@@ -72,7 +73,7 @@ function ReservationAdderButton({ selectedMemberInformation }: ReservationAdderB
         disabled={selectedMemberInformation === null}
         onClick={handleClickReservationRequest}
       >
-        예약
+        {isPending ? <Spinner /> : "예약"}
       </Button>
       <Sheet open={isReservationRequestSheetOpen} onOpenChange={setIsReservationRequestSheetOpen}>
         <SheetContent side="bottom" className="md:max-w-mobile left-1/2 w-full -translate-x-1/2">

@@ -15,11 +15,11 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@ui/components/Sheet";
+import Spinner from "@ui/components/Spinner";
 import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import DateController from "@ui/lib/DateController";
 import { useEffect, useState } from "react";
 
-import { reservationQueries } from "@trainer/queries/reservation";
 import { userManagementQueries } from "@trainer/queries/userManagement";
 
 import { ModifiedReservationListItem } from "@trainer/services/types/reservations.dto";
@@ -27,6 +27,7 @@ import { ModifiedReservationListItem } from "@trainer/services/types/reservation
 import ProfileCard from "@trainer/components/ProfileCard";
 
 import { useReservationCompletionMutation } from "../../_hooks/mutations/useReservationCompletionMutation";
+import ProfileCardFallback from "../Fallback/ProfileCardFallback";
 
 type ReservationOutcomeSheetProps = {
   reservationStatus: Extract<ReservationStatus, "예약 종료" | "예약 확정" | "고정 예약">;
@@ -51,17 +52,17 @@ function ReservationOutcomeSheet({
 
   const selectedFormatDate = DateController(selectedDate).toDateTimeWithDayFormat();
 
-  const { data: reservationDetail } = useQuery(reservationQueries.detail(reservationId));
-  const { data: userInformationDetail } = useQuery({
+  // const { data: reservationDetail } = useQuery(reservationQueries.detail(reservationId));
+  const { data: userInformationDetail, isLoading: userInformationDetailLoading } = useQuery({
     ...userManagementQueries.detail(memberId as number),
     enabled: !!memberId,
   });
 
-  const { reservationCompletion, isSuccess } = useReservationCompletionMutation();
+  const { reservationCompletion, isSuccess, isPending } = useReservationCompletionMutation();
 
   const handleClickChangeStatus =
     (status: Extract<PtStatus, "SESSION_NOT_ATTEND" | "SESSION_COMPLETED">) => () => {
-      if (!reservationDetail) return;
+      // if (!reservationDetail) return;
 
       reservationCompletion({
         reservationId,
@@ -92,14 +93,18 @@ function ReservationOutcomeSheet({
               </SheetDescription>
             </VisuallyHidden>
           </SheetHeader>
-          {userInformationDetail && (
-            <ProfileCard
-              imgUrl={userInformationDetail.data.profilePictureUrl}
-              userBirth={new Date(userInformationDetail.data.birthDate)}
-              userName={name as string}
-              phoneNumber={userInformationDetail.data.phoneNumber}
-              className="bg-background-sub1 w-full hover:bg-none"
-            />
+          {userInformationDetailLoading ? (
+            <ProfileCardFallback />
+          ) : (
+            userInformationDetail && (
+              <ProfileCard
+                imgUrl={userInformationDetail.data.profilePictureUrl}
+                userBirth={new Date(userInformationDetail.data.birthDate)}
+                userName={name as string}
+                phoneNumber={userInformationDetail.data.phoneNumber}
+                className="bg-background-sub1 w-full hover:bg-none"
+              />
+            )
           )}
           <SheetFooter>
             {reservationStatus === "예약 확정" ? (
@@ -110,7 +115,7 @@ function ReservationOutcomeSheet({
                     variant={"secondary"}
                     onClick={handleClickChangeStatus("SESSION_NOT_ATTEND")}
                   >
-                    불참석
+                    {isPending ? <Spinner /> : "불참석"}
                   </Button>
                 </SheetClose>
                 <SheetClose asChild>
@@ -119,7 +124,7 @@ function ReservationOutcomeSheet({
                     variant={"negative"}
                     onClick={handleClickChangeStatus("SESSION_COMPLETED")}
                   >
-                    PT 완료
+                    {isPending ? <Spinner /> : "PT 완료"}
                   </Button>
                 </SheetClose>
               </div>

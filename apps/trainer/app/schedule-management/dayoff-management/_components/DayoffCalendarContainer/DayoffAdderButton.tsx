@@ -10,6 +10,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@ui/components/Sheet";
+import Spinner from "@ui/components/Spinner";
 import DateController from "@ui/lib/DateController";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -26,7 +27,7 @@ type DayoffAdderButtonProps = {
 function DayoffAdderButton({ selectedDate }: DayoffAdderButtonProps) {
   const router = useRouter();
 
-  const { addDayoff, isSuccess } = useDayoffAddMutation();
+  const { addDayoff, isSuccess, isPending } = useDayoffAddMutation();
 
   const [isDayoffAdderSheetOpen, setIsDayoffAdderSheetOpen] = useState(false);
 
@@ -56,7 +57,7 @@ function DayoffAdderButton({ selectedDate }: DayoffAdderButtonProps) {
         disabled={!selectedDate}
         className="h-[3.375rem] w-full"
       >
-        확인
+        {isPending ? <Spinner /> : "확인"}
       </Button>
       <Sheet open={isDayoffAdderSheetOpen} onOpenChange={setIsDayoffAdderSheetOpen}>
         <SheetTrigger asChild></SheetTrigger>

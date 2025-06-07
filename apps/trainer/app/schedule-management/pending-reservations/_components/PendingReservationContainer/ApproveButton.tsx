@@ -9,6 +9,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@ui/components/Sheet";
+import Spinner from "@ui/components/Spinner";
 import { format, parseISO } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useRouter } from "next/navigation";
@@ -30,7 +31,7 @@ function ApproveButton({ selectedMemberInformation, selectedDate }: ApproveButto
 
   const [isApproveSheetOpen, setIsApproveSheetOpen] = useState(false);
 
-  const { reservationApprove, isSuccess } = useReservationApproveMutation();
+  const { reservationApprove, isSuccess, isPending } = useReservationApproveMutation();
 
   const handleSubmitApproveReservation = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -60,7 +61,7 @@ function ApproveButton({ selectedMemberInformation, selectedDate }: ApproveButto
     <>
       <form onSubmit={handleSubmitApproveReservation}>
         <Button disabled={selectedMemberInformation === null} className="w-full" size={"xl"}>
-          승인
+          {isPending ? <Spinner /> : "승인"}
         </Button>
       </form>
       <Sheet open={isApproveSheetOpen} onOpenChange={setIsApproveSheetOpen}>

@@ -18,6 +18,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@ui/components/Sheet";
+import Spinner from "@ui/components/Spinner";
 import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import DateController from "@ui/lib/DateController";
 import { format } from "date-fns";
@@ -44,7 +45,7 @@ function ReservationNotAllowedCancelSheet({
   const [isReservationNotAllowCancelSheetOpen, setIsReservationNotAllowCancelSheetOpen] =
     useState(false);
 
-  const { reservationNotAllow, isSuccess } = useReservationNotAllowMutation();
+  const { reservationNotAllow, isSuccess, isPending } = useReservationNotAllowMutation();
 
   const handleClickOpenPopup = () => {
     setIsRemindPopupOpen(true);
@@ -103,8 +104,12 @@ function ReservationNotAllowedCancelSheet({
               </Button>
             </DialogClose>
             <DialogClose asChild>
-              <Button onClick={handleClickDeleteNotAllowedReservation} className="w-full">
-                삭제
+              <Button
+                onClick={handleClickDeleteNotAllowedReservation}
+                className="w-full"
+                disabled={isPending}
+              >
+                {isPending ? <Spinner /> : "삭제"}
               </Button>
             </DialogClose>
           </DialogFooter>

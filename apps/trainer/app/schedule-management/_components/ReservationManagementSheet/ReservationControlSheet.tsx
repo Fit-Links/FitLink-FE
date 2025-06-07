@@ -24,6 +24,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@ui/components/Sheet";
+import Spinner from "@ui/components/Spinner";
 import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import DateController from "@ui/lib/DateController";
 import { format } from "date-fns";
@@ -37,6 +38,7 @@ import ProfileCard from "@trainer/components/ProfileCard";
 
 import { useFixedReservationTerminateMutation } from "../../_hooks/mutations/useFixedReservationTerminateMutation";
 import { useReservationCancelMutation } from "../../_hooks/mutations/useReservationCancelMutation";
+import ProfileCardFallback from "../Fallback/ProfileCardFallback";
 
 type ReservationControlSheetProps = {
   open: boolean;
@@ -68,14 +70,21 @@ function ReservationControlSheet({
   const [isTerminateFixedReservationSheetOpen, setIsTerminateFixedReservationSheetOpen] =
     useState(false);
 
-  const { data: userInformationDetail } = useQuery({
+  const { data: userInformationDetail, isLoading: userInformationDetailLoading } = useQuery({
     ...userManagementQueries.detail(memberId as number),
     enabled: !!memberId,
   });
 
-  const { reservationCancel, isSuccess: reservationCancelSuccess } = useReservationCancelMutation();
-  const { terminateFixedReservation, isSuccess: terminateFixedReservationSuccess } =
-    useFixedReservationTerminateMutation();
+  const {
+    reservationCancel,
+    isSuccess: reservationCancelSuccess,
+    isPending: reservationCancelPending,
+  } = useReservationCancelMutation();
+  const {
+    terminateFixedReservation,
+    isSuccess: terminateFixedReservationSuccess,
+    isPending: terminateFixedReservationPending,
+  } = useFixedReservationTerminateMutation();
 
   const handleClickReservationCancelSheetOpen = () => {
     setIsReservationCancelSheetOpen(true);
@@ -134,14 +143,18 @@ function ReservationControlSheet({
               )}
             </div>
           </SheetHeader>
-          {userInformationDetail && (
-            <ProfileCard
-              imgUrl={userInformationDetail.data.profilePictureUrl}
-              userBirth={new Date(userInformationDetail.data.birthDate)}
-              userName={userInformationDetail.data.name}
-              phoneNumber={userInformationDetail.data.phoneNumber}
-              className="bg-background-sub1 w-full hover:bg-none"
-            />
+          {userInformationDetailLoading ? (
+            <ProfileCardFallback />
+          ) : (
+            userInformationDetail && (
+              <ProfileCard
+                imgUrl={userInformationDetail.data.profilePictureUrl}
+                userBirth={new Date(userInformationDetail.data.birthDate)}
+                userName={userInformationDetail.data.name}
+                phoneNumber={userInformationDetail.data.phoneNumber}
+                className="bg-background-sub1 w-full hover:bg-none"
+              />
+            )
           )}
           <SheetFooter>
             <div className="flex w-full justify-center gap-[0.625rem]">
@@ -183,7 +196,7 @@ function ReservationControlSheet({
               className="disabled:bg-background-sub1 h-[3.375rem] w-full"
               onClick={handleClickReservationCancelSuccessSheetOpen}
             >
-              예약 취소
+              {reservationCancelPending ? <Spinner /> : "예약 취소"}
             </Button>
           </SheetFooter>
         </SheetContent>
@@ -235,7 +248,7 @@ function ReservationControlSheet({
                 취소
               </Button>
               <Button onClick={handleClickTerminateFixedReservation} className="w-full">
-                고정 예약 해제
+                {terminateFixedReservationPending ? <Spinner /> : "고정 예약 해제"}
               </Button>
             </DialogClose>
           </DialogFooter>
