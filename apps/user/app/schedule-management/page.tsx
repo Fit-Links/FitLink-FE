@@ -1,9 +1,11 @@
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import { Suspense } from "react";
 
 import { myInformationQueries } from "@user/queries/myInformation";
 
 import Calendar from "./_components/Calendar";
 import ReservationAdder from "./_components/ReservationAdder";
+import LoadingFallback from "../../components/Fallback/LoadingFallback";
 
 async function ScheduleManagement() {
   const queryClient = new QueryClient();
@@ -13,7 +15,9 @@ async function ScheduleManagement() {
   return (
     <main className="relative flex h-full w-full justify-center overflow-y-auto">
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Calendar />
+        <Suspense fallback={<LoadingFallback />}>
+          <Calendar />
+        </Suspense>
         <ReservationAdder />
       </HydrationBoundary>
     </main>

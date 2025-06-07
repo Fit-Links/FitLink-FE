@@ -48,7 +48,13 @@ function UserInfo({
         <div className="flex h-full w-[5rem] items-center justify-center">
           <Avatar>
             {imgUrl ? (
-              <Image width={50} height={50} src={imgUrl} alt={`${userName} 프로필`} />
+              <Image
+                width={50}
+                height={50}
+                src={imgUrl}
+                alt={`${userName} 프로필`}
+                className="h-full w-full"
+              />
             ) : (
               <AvatarFallback />
             )}

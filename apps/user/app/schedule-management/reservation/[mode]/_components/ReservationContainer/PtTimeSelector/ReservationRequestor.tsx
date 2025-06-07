@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@ui/components/Button";
+import Spinner from "@ui/components/Spinner";
 import { format } from "date-fns";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
@@ -52,9 +53,16 @@ function ReservationRequestor({
   selectedTime,
 }: ReservationRequestorProps) {
   const router = useRouter();
-  const { reservationRequest, isSuccess: reservationRequestSuccess } =
-    useReservationRequestMutation();
-  const { reservationChange, isSuccess: reservationChangeSuccess } = useReservationChangeMutation();
+  const {
+    reservationRequest,
+    isSuccess: reservationRequestSuccess,
+    isPending: reservationRequestPending,
+  } = useReservationRequestMutation();
+  const {
+    reservationChange,
+    isSuccess: reservationChangeSuccess,
+    isPending: reservationChangePending,
+  } = useReservationChangeMutation();
   const searchParams = useSearchParams();
 
   const { data: myInformation } = useQuery(myInformationQueries.summary());
@@ -100,7 +108,11 @@ function ReservationRequestor({
         onClick={handleClickRequestButton}
         className="h-[3.375rem] w-full"
       >
-        {MODE_CONTENT_MAP[mode].buttonText}
+        {reservationRequestPending || reservationChangePending ? (
+          <Spinner />
+        ) : (
+          MODE_CONTENT_MAP[mode].buttonText
+        )}
       </Button>
       <RequestSuccessSheet
         open={open}
