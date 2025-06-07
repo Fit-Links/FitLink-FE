@@ -1,19 +1,19 @@
 "use client";
 
 import { AvailablePtTime } from "@5unwan/core/api/types/common";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@ui/components/Button";
 import React from "react";
 
+import MyPagePending from "@trainer/app/my-page/_components/MyPagePending";
 import { myInformationQueries } from "@trainer/queries/myInformation";
-
-import { addAvailablePtTime, deleteAvailablePtTime } from "@trainer/services/myInformation";
 
 import { formatAvailableScheduleConfirm } from "@trainer/utils/avaliableScheduleUtils";
 
 import ScheduleChangeResultSheet from "./ScheduleChangeResultSheet";
 import Header from "../../../_components/Header";
+import useAddScheduleMutation from "../../_hooks/useAddScheduleMutation";
+import useDeleteScheduleMutation from "../../_hooks/useDeleteScheduleMutation";
 
 type EditScheduleConfirmStepProps = {
   context: {
@@ -36,31 +36,22 @@ export default function EditScheduleConfirmStep({ context }: EditScheduleConfirm
   const deleteTargetApplyAt =
     currentApplyAt === changeApplyAt ? currentApplyAt : previousChangeApplyAt;
 
-  const { mutateAsync: deleteAvailablePtTimeMutate } = useMutation({
-    mutationFn: deleteAvailablePtTime,
-  });
+  const { deleteSchedule: deleteAvailablePtTimeMutate } = useDeleteScheduleMutation();
 
-  const { mutateAsync: addAvailablePtTimeMutate } = useMutation({
-    mutationFn: addAvailablePtTime,
-  });
+  const { addSchedule: addAvailablePtTimeMutate, isPending } = useAddScheduleMutation();
 
   const handleClickChangeSchedule = async () => {
-    try {
-      if (deleteTargetApplyAt) {
-        await deleteAvailablePtTimeMutate({
-          applyAt: deleteTargetApplyAt as string,
-        });
-      }
-      await addAvailablePtTimeMutate({
-        applyAt: changeApplyAt as string,
-        availableTimes: availableTimes,
+    if (deleteTargetApplyAt) {
+      await deleteAvailablePtTimeMutate({
+        applyAt: deleteTargetApplyAt as string,
       });
-
-      await queryClient.invalidateQueries(myInformationQueries.ptAvailableTime());
-    } catch (error) {
-      // 에러 처리
-      console.log(error);
     }
+    await addAvailablePtTimeMutate({
+      applyAt: changeApplyAt as string,
+      availableTimes: availableTimes,
+    });
+
+    await queryClient.invalidateQueries(myInformationQueries.ptAvailableTime());
   };
 
   return (
@@ -89,6 +80,7 @@ export default function EditScheduleConfirmStep({ context }: EditScheduleConfirm
           변경
         </Button>
       </ScheduleChangeResultSheet>
+      {isPending && <MyPagePending />}
     </section>
   );
 }

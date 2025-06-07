@@ -47,12 +47,14 @@ function PhoneVerification({ onClick, verificationToken }: PhoneVerificationProp
 
   return (
     <main className="flex h-full w-full flex-col items-center">
-      <PhoneVerificationGuide />
-      <PhoneVerificationImage />
-      <PhoneVerificationNotice />
+      <section className="flex-1">
+        <PhoneVerificationGuide />
+        <PhoneVerificationImage />
+        <PhoneVerificationNotice />
+      </section>
       <Button
         size="xl"
-        className="text-headline w-full"
+        className="text-headline shirink-0 min-h-[3.375rem] w-full"
         onClick={handleButtonClick}
         disabled={!verificationToken}
       >
@@ -68,13 +70,13 @@ function PhoneVerification({ onClick, verificationToken }: PhoneVerificationProp
         <DialogContent className="p-10">
           <div className="flex items-center justify-center gap-20">
             <div className="flex flex-col items-center justify-center gap-4">
-              <Text.Subhead1 className="font-bold">안드로이드</Text.Subhead1>
+              <Text.Subhead1 className="font-bold">Android</Text.Subhead1>
               <QRCodeGenerator
                 value={`sms:${encodeURIComponent("verification@fitlink.biz")}?body=${encodeURIComponent(generateSnsBody(verificationToken))}`}
               />
             </div>
             <div className="flex flex-col items-center justify-center gap-4">
-              <Text.Subhead1 className="font-bold">아이폰</Text.Subhead1>
+              <Text.Subhead1 className="font-bold">IOS</Text.Subhead1>
               <QRCodeGenerator
                 value={`sms:verification@fitlink.biz&body=${generateSnsBody(verificationToken)}`}
               />

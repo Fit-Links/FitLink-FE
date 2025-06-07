@@ -6,7 +6,7 @@ import * as React from "react";
 import { cn } from "../lib/utils";
 
 const inputOTPSlotVariants = cva(
-  "h-[60px] w-[52.08px] border text-sm rounded-l-md border-l rounded-r-md",
+  "bg-background-sub2 text-text-primary relative flex items-center justify-center text-4xl h-[60px] w-[52.08px] border rounded-l-md border-l rounded-r-md",
   {
     variants: {
       variant: {
@@ -56,15 +56,7 @@ const InputOTPSlot = React.forwardRef<
   const { char, hasFakeCaret } = inputOTPContext.slots[index];
 
   return (
-    <div
-      ref={ref}
-      className={cn(
-        inputOTPSlotVariants({ variant: variant }),
-        "bg-background-sub2 text-text-primary relative flex items-center justify-center text-4xl",
-        className,
-      )}
-      {...props}
-    >
+    <div ref={ref} className={cn(inputOTPSlotVariants({ variant: variant }), className)} {...props}>
       {char}
       {hasFakeCaret && (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
