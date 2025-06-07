@@ -1,5 +1,6 @@
 "use client";
 
+import { AvailablePtTime } from "@5unwan/core/api/types/common";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@ui/components/Button";
@@ -8,7 +9,6 @@ import React from "react";
 import { myInformationQueries } from "@trainer/queries/myInformation";
 
 import { addAvailablePtTime, deleteAvailablePtTime } from "@trainer/services/myInformation";
-import { AvailablePtTimeEntry } from "@trainer/services/types/myInformation.dto";
 
 import { formatAvailableScheduleConfirm } from "@trainer/utils/avaliableScheduleUtils";
 
@@ -17,17 +17,19 @@ import Header from "../../../_components/Header";
 
 type EditScheduleConfirmStepProps = {
   context: {
-    scheduleApplyAt?: string;
-    availablePtTime?: Omit<AvailablePtTimeEntry, "availableTimeId">[];
+    applyAt: string;
+    availableTimes: Omit<AvailablePtTime, "availableTimeId">[];
   };
 };
 export default function EditScheduleConfirmStep({ context }: EditScheduleConfirmStepProps) {
   const queryClient = useQueryClient();
   const { data: currentData } = useQuery(myInformationQueries.ptAvailableTime());
 
+  const { applyAt, availableTimes } = context;
+
   const currentApplyAt = currentData?.data.currentSchedules?.applyAt;
 
-  const changeApplyAt = context.scheduleApplyAt;
+  const changeApplyAt = applyAt;
 
   const previousChangeApplyAt = currentData?.data.scheduledChanges?.applyAt;
 
@@ -51,7 +53,7 @@ export default function EditScheduleConfirmStep({ context }: EditScheduleConfirm
       }
       await addAvailablePtTimeMutate({
         applyAt: changeApplyAt as string,
-        availableTimes: context.availablePtTime as Omit<AvailablePtTimeEntry, "availableTimeId">[],
+        availableTimes: availableTimes,
       });
 
       await queryClient.invalidateQueries(myInformationQueries.ptAvailableTime());
@@ -71,13 +73,13 @@ export default function EditScheduleConfirmStep({ context }: EditScheduleConfirm
 
         <div className="bg-background-sub2 mt-[3.25rem] min-h-[3rem] w-full rounded-lg py-[1.25rem]">
           <p className="text-subhead-1 text-text-primary">
-            {context.availablePtTime?.map((time) => (
+            {availableTimes?.map((time) => (
               <p key={time.dayOfWeek}>{formatAvailableScheduleConfirm(time)}</p>
             ))}
           </p>
         </div>
       </div>
-      <ScheduleChangeResultSheet scheduleApplyAt={context.scheduleApplyAt}>
+      <ScheduleChangeResultSheet scheduleApplyAt={applyAt}>
         <Button
           className="mb-[2.125rem] w-full"
           size="lg"
