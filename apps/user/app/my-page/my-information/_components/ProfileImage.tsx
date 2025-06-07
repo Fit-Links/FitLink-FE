@@ -13,7 +13,13 @@ function ProfileImage({ name, profilePictureUrl }: ProfileImageProps) {
   return (
     <Avatar className=" mt-[1.563rem] h-[6.313rem] w-[6.313rem]">
       {profilePictureUrl ? (
-        <Image width={50} height={50} src={profilePictureUrl} alt={`${name} 프로필`} />
+        <Image
+          width={50}
+          height={50}
+          src={profilePictureUrl}
+          alt={`${name} 프로필`}
+          className="h-full w-full"
+        />
       ) : (
         <AvatarFallback />
       )}

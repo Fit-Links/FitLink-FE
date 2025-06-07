@@ -6,10 +6,12 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
 } from "@ui/components/Sheet";
+import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import { Suspense, useState } from "react";
 
 import { notificationBaseKeys, notificationQueries } from "@trainer/queries/notification";
@@ -51,6 +53,9 @@ function SessionCompleteSheetContent({
     <>
       <SheetHeader className="items-center">
         <SheetTitle className="flex justify-center">{eventDate}</SheetTitle>
+        <VisuallyHidden>
+          <SheetDescription>이 시트에서 PT 수업의 참석 여부를 처리할 수 있습니다</SheetDescription>
+        </VisuallyHidden>
       </SheetHeader>
       <ProfileCard
         imgUrl={profilePictureUrl}
@@ -152,6 +157,11 @@ function SessionCompleteSheet({
               <Icon name="Check" size="lg" />
             </Button>
             <SheetTitle className="text-center">수업을 불참석 처리했습니다</SheetTitle>
+            <VisuallyHidden>
+              <SheetDescription>
+                이 시트에서 PT 수업 불참석 처리가 완료되었음을 알려줍니다
+              </SheetDescription>
+            </VisuallyHidden>
           </SheetHeader>
           <SheetFooter>
             <SheetClose asChild>
@@ -169,6 +179,11 @@ function SessionCompleteSheet({
               <Icon name="Check" size="lg" />
             </Button>
             <SheetTitle className="text-center">수업을 완료 처리했습니다</SheetTitle>
+            <VisuallyHidden>
+              <SheetDescription>
+                이 시트에서 PT 수업 완료 처리가 완료되었음을 알려줍니다
+              </SheetDescription>
+            </VisuallyHidden>
           </SheetHeader>
           <SheetFooter>
             <SheetClose asChild>

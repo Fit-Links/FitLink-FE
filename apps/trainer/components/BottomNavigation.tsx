@@ -24,7 +24,7 @@ export default function BottomNavigation() {
             className={cn(
               "text-background-sub4 hover:text-background-sub5 flex w-12 flex-col items-center justify-center gap-1 transition-colors",
               {
-                "text-text-primary": pathname === path,
+                "text-text-primary": pathname.startsWith(path),
               },
             )}
           >

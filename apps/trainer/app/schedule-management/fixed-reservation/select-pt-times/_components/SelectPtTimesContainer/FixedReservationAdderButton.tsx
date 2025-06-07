@@ -6,10 +6,12 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
 } from "@ui/components/Sheet";
+import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import { addDays, format, startOfWeek } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -116,6 +118,11 @@ function FixedReservationAdderButton({
             <SheetTitle className="whitespace-pre-line text-center">
               {`${userInformation.name} 회원의\nPT 고정 예약이 확정되었습니다`}
             </SheetTitle>
+            <VisuallyHidden>
+              <SheetDescription>
+                이 시트는 PT 고정 예약 확정 처리가 완료되었음을 알려줍니다.
+              </SheetDescription>
+            </VisuallyHidden>
           </SheetHeader>
           <SheetFooter>
             <SheetClose asChild>

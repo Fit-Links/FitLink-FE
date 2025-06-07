@@ -43,3 +43,8 @@ export type SaveReissuedTokensApiResponse = {
   success: boolean;
   accessToken: string;
 };
+
+export type ClearTokenApiResponse = {
+  success: boolean;
+  status: number;
+};

@@ -14,11 +14,14 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
 } from "@ui/components/Sheet";
+
 import Spinner from "@ui/components/Spinner";
+import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import DateController from "@ui/lib/DateController";
 import { cn } from "@ui/lib/utils";
 import { useRouter } from "next/navigation";
@@ -109,6 +112,11 @@ function ReservationStatusSheet({
                 </p>
               ))}
             </div>
+            <VisuallyHidden>
+              <SheetDescription>
+                이 시트에서 예약 상태를 확인하고, 상태별로 가능한 기능을 확인 및 수행할 수 있습니다.
+              </SheetDescription>
+            </VisuallyHidden>
           </SheetHeader>
           <SheetFooter>
             {status === "예약 변경 요청" || status === "고정 예약" ? (

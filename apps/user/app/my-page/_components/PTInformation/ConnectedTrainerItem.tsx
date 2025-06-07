@@ -31,8 +31,6 @@ export default function ConnectedTrainerItem({
     }
   };
 
-  console.log(connectingStatus);
-
   return (
     <ProfileItem variant="trainer">
       <ProfileItemContent>
