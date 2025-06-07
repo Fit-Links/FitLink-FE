@@ -45,7 +45,7 @@ function MemberListContainer({ renderFooterReservationButton }: MemberListContai
 
   return (
     <>
-      <section className="flex h-full w-full flex-col overflow-hidden pb-3 pt-[1.688rem]">
+      <section className="flex h-full w-full flex-col overflow-hidden pb-5 pt-[1.688rem]">
         <SearchBar value={inputValue} onChangeValue={setInputValue} />
         <section className="relative h-full overflow-hidden">
           <div className="bg-background-primary absolute top-0 z-10 box-content flex h-7 w-full justify-between">
@@ -59,7 +59,7 @@ function MemberListContainer({ renderFooterReservationButton }: MemberListContai
           />
         </section>
       </section>
-      <footer className="bg-background-primary h-[3.375rem] w-full">
+      <footer className="bg-background-primary mb-2 h-[3.375rem] w-full">
         {renderFooterReservationButton({ selectedMemberInformation })}
       </footer>
     </>
