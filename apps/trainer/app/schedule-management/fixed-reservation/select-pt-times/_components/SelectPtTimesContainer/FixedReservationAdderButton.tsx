@@ -11,6 +11,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@ui/components/Sheet";
+import Spinner from "@ui/components/Spinner";
 import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import { addDays, format, startOfWeek } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -65,7 +66,7 @@ function FixedReservationAdderButton({
 
   const { data: dayoff } = useQuery(myInformationQueries.dayOff());
 
-  const { fixReservation, isSuccess } = useFixReservationMutation();
+  const { fixReservation, isSuccess, isPending } = useFixReservationMutation();
 
   const handleClickFixReservation = () => {
     if (!dayoff) return;
@@ -104,7 +105,7 @@ function FixedReservationAdderButton({
         disabled={!fixedReservationDatesAndTimes.length}
         onClick={handleClickFixReservation}
       >
-        예약
+        {isPending ? <Spinner /> : "예약"}
       </Button>
       <Sheet
         open={isFixedReservationAdderSheetOpen}
