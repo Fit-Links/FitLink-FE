@@ -1,4 +1,9 @@
-import { DayOfWeek, NoResponseData, ResponseBase } from "@5unwan/core/api/types/common";
+import {
+  AvailablePtTime,
+  DayOfWeek,
+  NoResponseData,
+  ResponseBase,
+} from "@5unwan/core/api/types/common";
 
 export type TimeOffInformation = { dayOfWeek: DayOfWeek; dayOfTime: string };
 export type DayoffResponseInformation = { dayOffId: number; dayOffDate: string };
@@ -42,11 +47,11 @@ export type DeleteAvailableTimeApiResponse = NoResponseData;
 
 export type AddAvailablePtTimeRequestBody = {
   applyAt: string;
-  availableTimes: Omit<AvailablePtTimeEntry, "availableTimeId">[];
+  availableTimes: Omit<AvailablePtTime, "availableTimeId">[];
 };
 type AddAvailablePtTimeResponse = {
   applyAt: string;
-  availableTimes: Omit<AvailablePtTimeEntry, "availableTimeId">[];
+  availableTimes: Omit<AvailablePtTime, "availableTimeId">[];
 };
 export type AddAvailablePtTimeApiResponse = ResponseBase<AddAvailablePtTimeResponse>;
 

@@ -22,6 +22,7 @@ type WrapperProps = {
   defaultDay?: Days;
   completed?: boolean[];
   disabledDays?: Days[];
+  errorDays?: boolean[];
 };
 
 const DayOfWeekPicker = forwardRef<HTMLDivElement, DayOfWeekPickerProps>(
@@ -32,6 +33,7 @@ const DayOfWeekPicker = forwardRef<HTMLDivElement, DayOfWeekPickerProps>(
       completed,
       defaultDay = Days.Monday,
       disabledDays,
+      errorDays,
       ...commonProps
     },
     ref,
@@ -49,6 +51,7 @@ const DayOfWeekPicker = forwardRef<HTMLDivElement, DayOfWeekPickerProps>(
           completed: completed || Array.from(Array(DAYS_IN_WEEK), () => false),
           onItemClick: useCallback(setValue, [setValue]),
           disabledDays: disabledDays || [],
+          errorDays,
         }}
       >
         <DayOfWeekPickerImpl ref={ref} {...commonProps} />
@@ -88,7 +91,7 @@ type ItemProps = {
 
 const DayOfWeekPickerItem = forwardRef<HTMLDivElement, DayOfWeekPickerItemProps>(
   ({ day, children }, ref) => {
-    const { value, onItemClick, completed, disabledDays } = useDayOfWeekPickerContext();
+    const { value, onItemClick, completed, disabledDays, errorDays } = useDayOfWeekPickerContext();
     const isCurrent = value === day;
     const isDisabled = disabledDays?.includes(day);
 
@@ -99,6 +102,7 @@ const DayOfWeekPickerItem = forwardRef<HTMLDivElement, DayOfWeekPickerItemProps>
       onItemClick(day);
     };
     const isCompleted = completed[day];
+    const isError = errorDays ? errorDays[day] : false;
 
     return (
       <div
@@ -112,6 +116,9 @@ const DayOfWeekPickerItem = forwardRef<HTMLDivElement, DayOfWeekPickerItemProps>
           },
           {
             "cursor-not-allowed bg-gray-200 opacity-50": isDisabled,
+          },
+          {
+            "bg-notification": isError,
           },
           {
             "bg-brand-primary-500": isCurrent,

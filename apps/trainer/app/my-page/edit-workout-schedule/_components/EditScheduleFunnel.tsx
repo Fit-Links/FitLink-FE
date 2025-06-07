@@ -1,13 +1,15 @@
 "use client";
 
+import { AvailablePtTime } from "@5unwan/core/api/types/common";
 import { useFunnel } from "@use-funnel/browser";
 import dynamic from "next/dynamic";
 
-import { AvailablePtTimeEntry } from "@trainer/services/types/myInformation.dto";
-
-const EditScheduleStep = dynamic(() => import("./EditScheduleStep"), {
-  ssr: false,
-});
+const TrainerScheduleStep = dynamic(
+  () => import("@ui/components/FunnelSteps/TrainerScheduleStep"),
+  {
+    ssr: false,
+  },
+);
 
 const EditScheduleApplyAtStep = dynamic(() => import("./EditScheduleApplyAtStep"), {
   ssr: false,
@@ -33,18 +35,18 @@ export default function EditScheduleFunnel() {
   switch (funnel.step) {
     case "editSchedule":
       return (
-        <EditScheduleStep
-          onNext={(availablePtTime: Omit<AvailablePtTimeEntry, "availableTimeId">[]) =>
-            funnel.history.push("editScheduleApplyAt", { availablePtTime })
+        <TrainerScheduleStep
+          onNext={(availableTimes) =>
+            funnel.history.replace("editScheduleApplyAt", {
+              availableTimes,
+            })
           }
         />
       );
     case "editScheduleApplyAt":
       return (
         <EditScheduleApplyAtStep
-          onNext={(scheduleApplyAt: string) =>
-            funnel.history.push("editScheduleConfirm", { scheduleApplyAt })
-          }
+          onNext={(applyAt) => funnel.history.push("editScheduleConfirm", { applyAt })}
         />
       );
     case "editScheduleConfirm":
@@ -52,17 +54,19 @@ export default function EditScheduleFunnel() {
   }
 }
 
+type AvailablePtTimeWithoutId = Omit<AvailablePtTime, "availableTimeId">;
+
 type EditScheduleStep = {
-  scheduleApplyAt?: string;
-  workoutSchedule?: Omit<AvailablePtTimeEntry, "availableTimeId">[];
+  applyAt?: string;
+  availableTimes?: AvailablePtTimeWithoutId[];
 };
 
 type EditScheduleApplyAtStep = {
-  scheduleApplyAt?: string;
-  availablePtTime?: Omit<AvailablePtTimeEntry, "availableTimeId">[];
+  applyAt?: string;
+  availableTimes: AvailablePtTimeWithoutId[];
 };
 
 type EditScheduleConfirmStep = {
-  scheduleApplyAt?: string;
-  availablePtTime?: Omit<AvailablePtTimeEntry, "availableTimeId">[];
+  applyAt: string;
+  availableTimes: AvailablePtTimeWithoutId[];
 };
