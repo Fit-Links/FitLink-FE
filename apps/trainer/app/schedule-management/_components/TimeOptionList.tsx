@@ -12,6 +12,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@ui/components/Sheet";
+import Spinner from "@ui/components/Spinner";
 import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -39,7 +40,7 @@ export default function TimeOptionList({
 
   const [isReservationNotAllowSheetOpen, setIsReservationNotAllowSheetOpen] = useState(false);
 
-  const { reservationNotAllow, isSuccess } = useReservationNotAllowMutation();
+  const { reservationNotAllow, isSuccess, isPending } = useReservationNotAllowMutation();
 
   const handleClickTimeOption = (
     route: Extract<Route, "reservation" | "fixed-reservation" | "dayoff-management">,
@@ -97,8 +98,14 @@ export default function TimeOptionList({
       <TimeOption onClick={handleCloseScheduleBottomSheet}>
         <TimeOption.Icon iconName={"CalendarX2"} />
         <TimeOption.Content>
-          <div>예약 불가</div>
-          <div>시간대 등록</div>
+          {isPending ? (
+            <Spinner />
+          ) : (
+            <>
+              <div>예약 불가</div>
+              <div>시간대 등록</div>
+            </>
+          )}
         </TimeOption.Content>
       </TimeOption>
 
