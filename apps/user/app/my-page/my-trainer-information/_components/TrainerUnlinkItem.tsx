@@ -1,35 +1,28 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
-import { useQueryClient } from "@tanstack/react-query";
 import Icon from "@ui/components/Icon";
 import { ProfileItem } from "@ui/components/ProfileItem";
-import React, { useState } from "react";
-
-import { myInformationQueries } from "@user/queries/myInformation";
-
-import { disconnectTrainer } from "@user/services/myInformation";
+import React, { useEffect, useState } from "react";
 
 import UnlinkAlarmSheet from "./BottomSheet/UnlinkAlarmSheet";
 import UnlinkDialog from "./Dialog";
+import MyPagePending from "../../_components/MyPagePending";
+import useUnlinkTrainerMutation from "../_hooks/useUnlinkTrainerMutation";
 
 export default function TrainerUnlinkItem() {
-  const queryClient = useQueryClient();
-
   const [isOpenBottomSheet, setIsOpenBottomSheet] = useState(false);
 
-  const { mutate } = useMutation({
-    mutationFn: () => disconnectTrainer(),
-  });
+  const { unlinkTrainer, isSuccess, isPending } = useUnlinkTrainerMutation();
 
   const handleClickUnlinkTrainer = () => {
-    mutate(undefined, {
-      onSuccess: () => {
-        setIsOpenBottomSheet(true);
-        queryClient.invalidateQueries(myInformationQueries.summary());
-      },
-    });
+    unlinkTrainer(undefined);
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setIsOpenBottomSheet(true);
+    }
+  }, [isSuccess]);
 
   return (
     <>
@@ -49,6 +42,7 @@ export default function TrainerUnlinkItem() {
         isOpenBottomSheet={isOpenBottomSheet}
         setIsOpenBottomSheet={setIsOpenBottomSheet}
       />
+      {isPending && <MyPagePending />}
     </>
   );
 }

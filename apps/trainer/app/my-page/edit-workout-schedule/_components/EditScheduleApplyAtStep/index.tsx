@@ -1,6 +1,7 @@
 import { Button } from "@ui/components/Button";
 import { DayPicker } from "@ui/components/DayPicker";
 import React from "react";
+import { toast } from "react-toastify";
 
 import Header from "../../../_components/Header";
 
@@ -8,16 +9,32 @@ type EditScheduleApplyAtStepProps = {
   onNext: (scheduleApplyAt: string) => void;
 };
 
+const DAYS_TO_ADD = 1;
 const MONTH_OFFSET = 1;
 const PAD_LENGTH = 2;
+
+const RESET_TIME = 0;
 const PAD_CHAR = "0";
 
-export default function EditScheduleApplyAtStep({ onNext }: EditScheduleApplyAtStepProps) {
-  const [selectedDate, setSelectedDate] = React.useState<Date>(new Date());
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + DAYS_TO_ADD);
 
-  const handleClickChangeStartDate = (date: Date | undefined) => {
+export default function EditScheduleApplyAtStep({ onNext }: EditScheduleApplyAtStepProps) {
+  const [selectedDate, setSelectedDate] = React.useState<Date>(tomorrow);
+
+  const handleClickChangeApplyAtDate = (date: Date | undefined) => {
     if (date) {
-      setSelectedDate(date);
+      const today = new Date();
+      today.setHours(RESET_TIME, RESET_TIME, RESET_TIME, RESET_TIME); // 시간을 0으로 설정하여 날짜만 비교
+
+      const selectedDateOnly = new Date(date);
+      selectedDateOnly.setHours(RESET_TIME, RESET_TIME, RESET_TIME, RESET_TIME);
+
+      if (selectedDateOnly > today) {
+        setSelectedDate(date);
+      } else {
+        toast.error("오늘 이후의 날짜를 선택해주세요.");
+      }
     }
   };
 
@@ -39,7 +56,7 @@ export default function EditScheduleApplyAtStep({ onNext }: EditScheduleApplyAtS
         <DayPicker
           mode="single"
           selectedDate={selectedDate}
-          onChangeSelectedDate={handleClickChangeStartDate}
+          onChangeSelectedDate={handleClickChangeApplyAtDate}
         />
       </div>
 

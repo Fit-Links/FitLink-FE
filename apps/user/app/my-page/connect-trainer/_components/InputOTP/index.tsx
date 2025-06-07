@@ -1,6 +1,5 @@
 "use client";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@ui/components/Button";
 import {
   InputOTP as InputOTPComponent,
@@ -9,13 +8,13 @@ import {
   InputOTPSlot,
 } from "@ui/components/InputOTP";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { myInformationQueries } from "@user/queries/myInformation";
-
-import { connectTrainer } from "@user/services/myInformation";
+import MyPagePending from "@user/app/my-page/_components/MyPagePending";
 
 import RouteInstance from "@user/constants/routes";
+
+import useRequestConnectTrainer from "../../_hooks/useRequestConnectTrainer";
 
 type otp_status = "default" | "focused" | "filled" | "error";
 
@@ -23,45 +22,38 @@ const OTP_LENGTH = 6;
 
 export default function InputOTP() {
   const router = useRouter();
-  const queryClient = useQueryClient();
 
   const [trainerCode, setTrainerCode] = useState("");
   const [status, setStatus] = useState<otp_status>("default");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { mutate } = useMutation({
-    mutationKey: ["connectTrainer"],
-    mutationFn: (trainerCode: string) => connectTrainer({ trainerCode }),
-  });
+  const { requestConnectTrainer, isSuccess, isError, isPending } = useRequestConnectTrainer();
 
   const handleChangeValue = (newValue: string) => {
     setTrainerCode(newValue);
 
     if (newValue.length === OTP_LENGTH) {
       setStatus("filled");
-
-      return;
+    } else {
+      setErrorMessage("");
+      setStatus("default");
     }
-
-    setErrorMessage("");
-    setStatus("default");
   };
 
   const handleRequestConnectTrainer = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-
-    mutate(trainerCode, {
-      onSuccess: () => {
-        queryClient.invalidateQueries(myInformationQueries.summary());
-        router.push(RouteInstance["my-page"]());
-      },
-
-      onError: () => {
-        setStatus("error");
-        setErrorMessage("입력한 코드를 확인해 주세요.");
-      },
-    });
+    requestConnectTrainer({ trainerCode });
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      router.push(RouteInstance["my-page"]());
+    }
+    if (isError) {
+      setStatus("error");
+      setErrorMessage("입력한 코드를 확인해 주세요.");
+    }
+  }, [isSuccess, isError]);
 
   return (
     <form className="mt-[3.75rem] flex h-full w-full flex-col justify-between">
@@ -84,6 +76,7 @@ export default function InputOTP() {
       >
         연동 요청
       </Button>
+      {isPending && <MyPagePending />}
     </form>
   );
 }
