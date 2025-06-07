@@ -1,6 +1,6 @@
 /* eslint-disable no-magic-numbers */
 import { AvailablePtTime } from "@5unwan/core/api/types/common";
-import { DialogTrigger } from "@radix-ui/react-dialog";
+import { DialogClose, DialogTrigger } from "@radix-ui/react-dialog";
 import { useRef, useState } from "react";
 
 import { Button } from "@ui/components/Button";
@@ -10,6 +10,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@ui/components/Dialog";
@@ -37,7 +38,7 @@ const generateTrainerScheduleTime = (
   return `${timePeriod} ${hours}:${minutes}`;
 };
 
-function convertKoreanTimeTo24Hour(timeStr: string): string {
+const convertKoreanTimeTo24Hour = (timeStr: string): string => {
   const PAD_LENGTH = 2;
   const match = timeStr.match(/(오전|오후)\s(\d{2}):(\d{2})/);
 
@@ -55,7 +56,10 @@ function convertKoreanTimeTo24Hour(timeStr: string): string {
   }
 
   return `${hour.toString().padStart(PAD_LENGTH, "0")}:${minute}`;
-}
+};
+
+const isOrderedChronologically = (startTime: string | null, endTime: string | null) =>
+  startTime === null || endTime === null ? false : startTime < endTime;
 
 type TrainerScheduleStepProps = {
   onNext: (availablePtTimes: Omit<AvailablePtTime, "availableTimeId">[]) => void;
@@ -65,8 +69,11 @@ function TrainerScheduleStep({ onNext }: TrainerScheduleStepProps) {
   const hoursRef = useRef<string>(null);
   const minutesRef = useRef<string>(null);
 
+  const [isErrorDialogOpen, setIsErrorDialogOpen] = useState(false);
+
   const [currentDay, setCurrentDay] = useState<Days>(Days.Monday);
 
+  const [errorDays, setErrorDays] = useState<boolean[]>();
   const [trainerSchedule, setTrainerSchedule] = useState<
     {
       dayOfWeek: (typeof DAYS_OF_WEEK_MAP)[number];
@@ -102,6 +109,23 @@ function TrainerScheduleStep({ onNext }: TrainerScheduleStepProps) {
 
       return copy;
     });
+    const isValid = formattedTrainerSchedule
+      ? trainerSchedule.every(
+          ({ isHoliday, startTime, endTime }) =>
+            isHoliday || isOrderedChronologically(startTime, endTime),
+        )
+      : false;
+    if (!isValid) {
+      setIsErrorDialogOpen(true);
+      setErrorDays(
+        formattedTrainerSchedule.map(
+          ({ isHoliday, startTime, endTime }) =>
+            !isHoliday && !isOrderedChronologically(startTime, endTime),
+        ),
+      );
+
+      return;
+    }
     onNext(formattedTrainerSchedule);
   };
   const handleHolidaySwitchChange = (checked: boolean) => {
@@ -135,6 +159,7 @@ function TrainerScheduleStep({ onNext }: TrainerScheduleStepProps) {
         onCurrentDayChange={setCurrentDay}
         completed={filledDays}
         currentDay={currentDay}
+        errorDays={errorDays}
         className="w-full"
       />
       <div className="mt-[1.5rem] flex flex-1 flex-col justify-between">
@@ -261,6 +286,24 @@ function TrainerScheduleStep({ onNext }: TrainerScheduleStepProps) {
           완료
         </Button>
       </div>
+      <Dialog open={isErrorDialogOpen} onOpenChange={setIsErrorDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>설정하신 PT 수업 시간이 유효하지 않습니다</DialogTitle>
+            <DialogDescription>
+              시작 시간을 종료 시간보다 <br />
+              앞선 시간으로 설정하셨는지 확인해주세요
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button size="lg" className="w-full">
+                확인
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

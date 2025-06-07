@@ -7,6 +7,7 @@ type DayOfWeekPickerContext = {
   completed: boolean[];
   onItemClick: Dispatch<React.SetStateAction<Days | undefined>>;
   disabledDays?: Days[];
+  errorDays?: boolean[];
 };
 
 const DayOfWeekPickerContext = createContext<DayOfWeekPickerContext | null>(null);
