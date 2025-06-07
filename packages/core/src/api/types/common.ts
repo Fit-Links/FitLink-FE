@@ -124,7 +124,8 @@ export type NotificationQueryType =
   | "CONNECT"
   | "DISCONNECT"
   | "RESERVATION_REQUEST"
-  | "RESERVATION_CHANGE_CANCEL"
+  | "RESERVATION_CHANGE"
+  | "RESERVATION_CANCEL"
   | "SESSION";
 
 export type Gender = "MALE" | "FEMALE";
