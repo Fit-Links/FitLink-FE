@@ -146,7 +146,7 @@ function PtTimeSelector({
 
   return (
     <section className="mt-1 flex h-full flex-col overflow-hidden">
-      <section className="mb-1 h-full overflow-y-scroll">
+      <section className="mb-1 h-full overflow-y-scroll [&::-webkit-scrollbar]:hidden">
         {formattedTrainerAvailableTimes && (
           <TimeCellToggleGroup
             className="md:max-w-mobile my-10"
