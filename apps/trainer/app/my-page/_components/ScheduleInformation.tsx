@@ -5,6 +5,7 @@ import React, { useState } from "react";
 
 import PTSchedule from "@trainer/components/PTSchedule";
 
+import DeleteScheduleBottomSheet from "./DeleteScheduleBottomSheet";
 import EditScheduleBottomSheet from "./EditScheduleBottomSheet";
 import { PTScheduleProps } from "./MyAvailableTimeContainer";
 
@@ -14,20 +15,30 @@ type ScheduleInformationProps = {
 };
 
 export default function ScheduleInformation({ className, ptSchedule }: ScheduleInformationProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isEditScheduleOpen, setIsEditScheduleOpen] = useState(false);
+  const [isDeleteScheduleOpen, setIsDeleteScheduleOpen] = useState(false);
 
-  const handleClickSheetOpen = () => {
-    setIsOpen(true);
+  const handleClickCurrentScheduleSheetOpen = () => {
+    setIsEditScheduleOpen(true);
+  };
+
+  const handleClickChangeScheduleSheetOpen = () => {
+    setIsDeleteScheduleOpen(true);
   };
 
   return (
     <section className={cn("mt-[1.563rem] w-full ", className)}>
       <p className="text-headline mb-[0.625rem]">PT 수업 시간</p>
-      <EditScheduleBottomSheet open={isOpen} onOpenChange={setIsOpen} />
+      <EditScheduleBottomSheet open={isEditScheduleOpen} onOpenChange={setIsEditScheduleOpen} />
+      <DeleteScheduleBottomSheet
+        open={isDeleteScheduleOpen}
+        onOpenChange={setIsDeleteScheduleOpen}
+      />
       <PTSchedule
         currentSchedules={ptSchedule.currentSchedules}
         scheduledChanges={ptSchedule.scheduledChanges}
-        onClickEllipsis={handleClickSheetOpen}
+        onClickCurrentEllipsis={handleClickCurrentScheduleSheetOpen}
+        onClickChangeEllipsis={handleClickChangeScheduleSheetOpen}
       />
     </section>
   );

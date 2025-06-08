@@ -20,19 +20,30 @@ type PTSchedulesProps = {
     applyAt: string;
     schedules: SpanScheduleUnit[];
   }[];
-  onClickEllipsis: () => void;
+  onClickCurrentEllipsis: () => void;
+  onClickChangeEllipsis?: () => void;
 };
 
-function PTSchedule({ currentSchedules, scheduledChanges, onClickEllipsis }: PTSchedulesProps) {
+function PTSchedule({
+  currentSchedules,
+  scheduledChanges,
+  onClickCurrentEllipsis,
+  onClickChangeEllipsis,
+}: PTSchedulesProps) {
   return (
     <div className="flex flex-col items-center gap-[0.5rem]">
       <PTScheduleItem
         current={true}
         schedules={currentSchedules}
-        onClickEllipsis={onClickEllipsis}
+        onClickEllipsis={onClickCurrentEllipsis}
       />
       {scheduledChanges.map(({ applyAt, schedules }, index) => (
-        <PTScheduleItem key={`scheduled-${index}`} applyAt={applyAt} schedules={schedules} />
+        <PTScheduleItem
+          key={`scheduled-${index}`}
+          applyAt={applyAt}
+          schedules={schedules}
+          onClickEllipsis={onClickChangeEllipsis}
+        />
       ))}
     </div>
   );

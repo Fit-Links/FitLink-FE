@@ -27,24 +27,26 @@ export default function EditScheduleConfirmStep({ context }: EditScheduleConfirm
 
   const { applyAt, availableTimes } = context;
 
-  const currentApplyAt = currentData?.data.currentSchedules?.applyAt;
+  availableTimes.forEach((time) => {
+    if (!time.startTime) {
+      time.startTime = "00:00";
+    }
+    if (!time.endTime) {
+      time.endTime = "23:00";
+    }
+  });
 
   const changeApplyAt = applyAt;
 
   const previousChangeApplyAt = currentData?.data.scheduledChanges?.applyAt;
-
-  const deleteTargetApplyAt =
-    currentApplyAt === changeApplyAt ? currentApplyAt : previousChangeApplyAt;
 
   const { deleteSchedule: deleteAvailablePtTimeMutate } = useDeleteScheduleMutation();
 
   const { addSchedule: addAvailablePtTimeMutate, isPending } = useAddScheduleMutation();
 
   const handleClickChangeSchedule = async () => {
-    if (deleteTargetApplyAt) {
-      await deleteAvailablePtTimeMutate({
-        applyAt: deleteTargetApplyAt as string,
-      });
+    if (previousChangeApplyAt) {
+      await deleteAvailablePtTimeMutate({ applyAt: previousChangeApplyAt });
     }
     await addAvailablePtTimeMutate({
       applyAt: changeApplyAt as string,
@@ -55,7 +57,7 @@ export default function EditScheduleConfirmStep({ context }: EditScheduleConfirm
   };
 
   return (
-    <section className="bg-background-primary text-text-primary flex h-screen w-full flex-col justify-between">
+    <section className="bg-background-primary text-text-primary flex h-full w-full flex-col justify-between">
       <div className="w-full text-center">
         <Header title="PT 수업 시간" />
         <p className="text-body-1 text-text-sub2 mt-[0.625rem]">

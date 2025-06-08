@@ -1,7 +1,7 @@
 "use client";
 
 import { DayOfWeek } from "@5unwan/core/api/types/common";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import Icon from "@ui/components/Icon";
 import React, { useState } from "react";
 
@@ -22,7 +22,7 @@ export type RequestDayOffInformation = {
 };
 
 export default function MyDayOffContainer() {
-  const { data: response } = useQuery(myInformationQueries.dayOff());
+  const { data: response } = useSuspenseQuery(myInformationQueries.dayOff());
 
   const [open, setOpen] = useState(false);
   const [deleteDayOffData, setDeleteDayOffData] = useState<RequestDayOffInformation | null>(null);
