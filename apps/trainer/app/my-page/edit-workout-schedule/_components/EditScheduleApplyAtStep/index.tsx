@@ -49,7 +49,7 @@ export default function EditScheduleApplyAtStep({ onNext }: EditScheduleApplyAtS
   };
 
   return (
-    <section className="bg-background-primary text-text-primary flex h-screen w-full flex-col  justify-between">
+    <section className="bg-background-primary text-text-primary flex h-full w-full flex-col  justify-between">
       <div>
         <Header title="변경 시점 적용" />
 

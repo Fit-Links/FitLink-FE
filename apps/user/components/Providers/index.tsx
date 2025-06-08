@@ -12,8 +12,11 @@ function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 60 * 1000,
+        staleTime: 60 * 20,
+        refetchOnWindowFocus: true,
+        refetchOnMount: true,
       },
+
       mutations: {
         onError: () => {
           toast.error("요청에 실패했습니다. 다시 시도해주세요!");
