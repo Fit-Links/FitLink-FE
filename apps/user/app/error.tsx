@@ -4,10 +4,12 @@ import { Button } from "@ui/components/Button";
 import Icon from "@ui/components/Icon";
 import { Text } from "@ui/components/Text";
 
-export default function Error({ reset }: { error: Error; reset: () => void }) {
+export default function Error({ reset, error }: { error: Error; reset: () => void }) {
   const handleReset = () => {
     reset();
   };
+
+  console.log("Error:", error);
 
   return (
     <main className="bg-background-primary flex h-full w-full flex-col items-center justify-between">
