@@ -33,6 +33,8 @@ const InputOTP = React.forwardRef<
     containerClassName={cn("gap-2 has-[:disabled]:opacity-50", containerClassName)}
     className={cn("disabled:cursor-not-allowed", className)}
     {...props}
+    inputMode="text"
+    type="text"
   />
 ));
 InputOTP.displayName = "InputOTP";
