@@ -14,14 +14,18 @@ import MemberCardList from "./MemberCardList";
 type PendingReservationContainerProps = {
   formattedAdjustedDate: string;
   selectedDate: string;
+  emptyErrorCheckSelectedDate: Date;
 };
 
 function PendingReservationContainer({
   formattedAdjustedDate,
   selectedDate,
+  emptyErrorCheckSelectedDate,
 }: PendingReservationContainerProps) {
   const [selectedMemberInformation, setSelectedMemberInformation] =
     useState<ReservationDetailPendingStatus | null>(null);
+
+  console.log("쿼리파람 SelectedDate 체크:", emptyErrorCheckSelectedDate);
 
   const NINE_HOURS = 9;
   const isProduction = process.env.NODE_ENV === "production";
