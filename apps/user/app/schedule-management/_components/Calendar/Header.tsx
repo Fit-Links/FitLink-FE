@@ -1,6 +1,4 @@
-import { Badge } from "@ui/components/Badge";
 import { Caption } from "@ui/components/DayPicker/Caption";
-import Icon from "@ui/components/Icon";
 
 type HeaderProps = {
   month: Date;
@@ -13,12 +11,12 @@ export default function Header({ month, onChangeMonth }: HeaderProps) {
     <Caption
       month={month}
       onChangeMonth={onChangeMonth}
-      captionLeft={
-        <Badge className="flex h-[1.563rem] min-w-[3.563rem] items-center justify-center">
-          좌측
-        </Badge>
-      }
-      captionRight={<Icon name="Bell" size="lg" />}
+      // captionLeft={
+      //   <Badge className="flex h-[1.563rem] min-w-[3.563rem] items-center justify-center">
+      //     좌측
+      //   </Badge>
+      // }
+      // captionRight={<Icon name="Bell" size="lg" />}
     />
   );
 }
