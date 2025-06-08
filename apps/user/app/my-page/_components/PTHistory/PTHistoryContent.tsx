@@ -3,6 +3,7 @@
 import { PtInfo, PtStatus } from "@5unwan/core/api/types/common";
 import { useQueryClient, useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import PTHistoryItem from "@ui/components/PTHistoryItem";
+import { cn } from "@ui/lib/utils";
 import { useRef } from "react";
 
 import { myInformationQueries } from "@user/queries/myInformation";
@@ -71,7 +72,12 @@ export default function PTHistoryContent({ historyFilter }: { historyFilter: PtS
 
         <div ref={intersectionRef} className="h-4 w-full">
           {isFetchingNextPage && (
-            <div className="mt-[1.25rem] flex flex-col gap-[0.625rem] overflow-y-auto pb-2">
+            <div
+              className={cn(
+                "flex flex-col gap-[0.625rem] overflow-y-auto pb-2",
+                !ptHistory && "mt-[1.25rem]",
+              )}
+            >
               <MyPageItemSkeleton className="min-h-[3.375rem]" />
               <MyPageItemSkeleton className="min-h-[3.375rem]" />
               <MyPageItemSkeleton className="min-h-[3.375rem]" />

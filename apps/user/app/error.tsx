@@ -4,8 +4,14 @@ import { Button } from "@ui/components/Button";
 import Icon from "@ui/components/Icon";
 import { Text } from "@ui/components/Text";
 
-export default function Error({ reset }: { error: Error; reset: () => void }) {
+type ErrorProps = {
+  error: Error;
+  reset: () => void;
+};
+
+export default function Error({ reset }: ErrorProps) {
   const handleReset = () => {
+    window.location.reload();
     reset();
   };
 
@@ -24,7 +30,7 @@ export default function Error({ reset }: { error: Error; reset: () => void }) {
 
       <div className="flex w-full gap-2">
         <Button variant={"brand"} className="mt-10 h-[3.375rem] flex-1" onClick={handleReset}>
-          <Text.Headline1>다시 시도</Text.Headline1>
+          <Text.Headline1 onClick={reset}>다시 시도</Text.Headline1>
         </Button>
       </div>
     </main>
