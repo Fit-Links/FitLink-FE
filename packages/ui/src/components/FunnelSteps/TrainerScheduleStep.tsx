@@ -21,6 +21,8 @@ import TimePicker from "@ui/components/TimePicker";
 import { DAYS_OF_WEEK_MAP } from "@ui/utils/timeCellUtils";
 
 const DEFAULT_TIME = "-- : --";
+const NINE_HOURS = 9;
+const isProduction = process.env.NODE_ENV === "production";
 
 const setHalfHours = (relative: number) => {
   return relative ? "30" : "00";
@@ -28,6 +30,19 @@ const setHalfHours = (relative: number) => {
 const setTimePeriods = (relative: number) => {
   return relative ? "오후" : "오전";
 };
+const addHours = (timeStr: string, hoursToAdd: number) => {
+  const [hourStr, minuteStr] = timeStr.split(":");
+  const hour = parseInt(hourStr, 10);
+  const minute = parseInt(minuteStr, 10);
+
+  const newHour = (hour + hoursToAdd) % 24;
+
+  const paddedHour = newHour.toString().padStart(2, "0");
+  const paddedMinute = minute.toString().padStart(2, "0");
+
+  return `${paddedHour}:${paddedMinute}`;
+};
+
 const generateTrainerScheduleTime = (
   timePeriod: string | null,
   hours: string | null,
@@ -55,7 +70,10 @@ const convertKoreanTimeTo24Hour = (timeStr: string): string => {
     if (hour !== 12) hour += 12;
   }
 
-  return `${hour.toString().padStart(PAD_LENGTH, "0")}:${minute}`;
+  return addHours(
+    `${hour.toString().padStart(PAD_LENGTH, "0")}:${minute}`,
+    isProduction ? NINE_HOURS : 0,
+  );
 };
 
 const isOrderedChronologically = (startTime: string | null, endTime: string | null) =>
