@@ -28,7 +28,10 @@ const isReservationPast = (reservation: ModifiedReservationListItem): boolean =>
 };
 
 export const SheetAdapter: Record<
-  Exclude<ReservationStatus, "휴무일" | "예약 취소 요청" | "예약 변경 요청" | "예약 취소">,
+  Exclude<
+    ReservationStatus,
+    "휴무일" | "예약 취소 요청" | "예약 변경 요청" | "예약 취소" | "예약 거절"
+  >,
   ReservationSheetRenderer
 > = {
   "예약 불가 설정": (commonProps, reservationContent) => (
@@ -78,6 +81,21 @@ export const SheetAdapter: Record<
     );
   },
   "예약 취소 거절": (commonProps, reservationContent) => {
+    return isReservationPast(reservationContent[0]) ? (
+      <ReservationOutcomeSheet
+        {...commonProps}
+        memberInformation={reservationContent[0]}
+        reservationStatus="예약 확정"
+      />
+    ) : (
+      <ReservationControlSheet
+        {...commonProps}
+        memberInformation={reservationContent[0]}
+        reservationStatus="예약 확정"
+      />
+    );
+  },
+  "예약 변경 거절": (commonProps, reservationContent) => {
     return isReservationPast(reservationContent[0]) ? (
       <ReservationOutcomeSheet
         {...commonProps}

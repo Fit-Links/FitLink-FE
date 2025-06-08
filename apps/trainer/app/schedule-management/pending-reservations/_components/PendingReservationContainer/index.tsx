@@ -1,6 +1,5 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { format, addHours } from "date-fns";
 import { useState } from "react";
 
 import FixedReservationListFallback from "@trainer/app/schedule-management/_components/Fallback/FixedReservationListFallback";
@@ -27,19 +26,18 @@ function PendingReservationContainer({
 
   console.log("쿼리파람 SelectedDate 체크:", emptyErrorCheckSelectedDate);
 
-  const NINE_HOURS = 9;
-  const isProduction = process.env.NODE_ENV === "production";
-  const adjustedDate = isProduction
-    ? addHours(new Date(formattedAdjustedDate), NINE_HOURS)
-    : new Date(formattedAdjustedDate);
-  const formattedDate = format(adjustedDate, "yyyy-MM-dd'T'HH:mm");
+  // const NINE_HOURS = 9;
+  // const isProduction = process.env.NODE_ENV === "production";
+  // const adjustedDate = isProduction
+  //   ? addHours(new Date(formattedAdjustedDate), NINE_HOURS)
+  //   : new Date(formattedAdjustedDate);
+  // const formattedDate = format(adjustedDate, "yyyy-MM-dd'T'HH:mm");
 
   const { data: reservationPendingList, isLoading } = useQuery(
-    reservationQueries.pendingDetail(formattedDate),
+    reservationQueries.pendingDetail(formattedAdjustedDate),
   );
 
-  console.log("formattedAdjustedDate", formattedDate);
-  console.log("reservationPendingList", reservationPendingList);
+  console.log("예약 대기 리스트 확인용 콘솔:", reservationPendingList);
 
   return (
     <section className="flex h-full w-full flex-col overflow-hidden pt-[1.688rem]">
@@ -82,7 +80,7 @@ function PendingReservationContainer({
       </section>
       <ApproveButton
         selectedMemberInformation={selectedMemberInformation}
-        selectedDate={formattedDate}
+        selectedDate={formattedAdjustedDate}
       />
     </section>
   );
