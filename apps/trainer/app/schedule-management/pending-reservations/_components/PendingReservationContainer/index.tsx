@@ -2,6 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
+import FixedReservationListFallback from "@trainer/app/schedule-management/_components/Fallback/FixedReservationListFallback";
 import { reservationQueries } from "@trainer/queries/reservation";
 
 import { ReservationDetailPendingStatus } from "@trainer/services/types/reservations.dto";
@@ -21,9 +22,11 @@ function PendingReservationContainer({
   const [selectedMemberInformation, setSelectedMemberInformation] =
     useState<ReservationDetailPendingStatus | null>(null);
 
-  const { data: reservationPendingList } = useQuery(
+  const { data: reservationPendingList, isLoading } = useQuery(
     reservationQueries.pendingDetail(formattedAdjustedDate),
   );
+
+  console.log("reservationPendingList", reservationPendingList);
 
   return (
     <section className="flex h-full w-full flex-col overflow-hidden pt-[1.688rem]">
@@ -39,23 +42,29 @@ function PendingReservationContainer({
       </section>
       <section className="mb-[0.625rem] mt-[1.563rem] flex h-full flex-col overflow-y-auto [&::-webkit-scrollbar]:hidden">
         <p className="text-body-3  w-full text-left">해당 시간에만 가능한 회원</p>
-        {reservationPendingList && (
-          <>
-            <MemberCardList
-              reservationPendingList={reservationPendingList.data}
-              hasOtherReservations={false}
-              selectedMemberInformation={selectedMemberInformation}
-              onChangeSelectMemberInformation={setSelectedMemberInformation}
-            />
-            <p className="text-body-3 mt-[1.563rem] w-full text-left">다른 시간에도 가능한 회원</p>
-            <MemberCardList
-              reservationPendingList={reservationPendingList.data}
-              selectedDate={selectedDate}
-              hasOtherReservations={true}
-              selectedMemberInformation={selectedMemberInformation}
-              onChangeSelectMemberInformation={setSelectedMemberInformation}
-            />
-          </>
+        {isLoading ? (
+          <FixedReservationListFallback />
+        ) : (
+          reservationPendingList && (
+            <>
+              <MemberCardList
+                reservationPendingList={reservationPendingList.data}
+                hasOtherReservations={false}
+                selectedMemberInformation={selectedMemberInformation}
+                onChangeSelectMemberInformation={setSelectedMemberInformation}
+              />
+              <p className="text-body-3 mt-[1.563rem] w-full text-left">
+                다른 시간에도 가능한 회원
+              </p>
+              <MemberCardList
+                reservationPendingList={reservationPendingList.data}
+                selectedDate={selectedDate}
+                hasOtherReservations={true}
+                selectedMemberInformation={selectedMemberInformation}
+                onChangeSelectMemberInformation={setSelectedMemberInformation}
+              />
+            </>
+          )
         )}
       </section>
       <ApproveButton

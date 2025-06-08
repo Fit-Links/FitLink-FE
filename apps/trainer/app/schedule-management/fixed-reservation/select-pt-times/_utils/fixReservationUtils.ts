@@ -10,7 +10,13 @@ export const checkForReservationConflicts = (
   dayoff: GetDayoffApiResponse["data"],
 ) => {
   const isConflicts = reservations.filter(({ status, reservationDates }) => {
-    if (status === "예약 확정" || status === "고정 예약" || status === "예약 불가 설정") {
+    if (
+      status === "예약 확정" ||
+      status === "고정 예약" ||
+      status === "예약 불가 설정" ||
+      status === "예약 대기" ||
+      status === "예약 취소 거절"
+    ) {
       return dates.some((date) => {
         const newDateString = `${date}:00`;
 
@@ -42,9 +48,6 @@ export const createNonConflictingFixedReservation = (
   depth: number,
 ): string[] | undefined => {
   if (!reservations || !dayoff) return;
-
-  console.log("reservations", reservations);
-  console.log("dayoff", dayoff);
 
   const fixedReservationDatesAndTimes = getFixedReservationDatesAndTimes(
     selectedFixedSchedules,

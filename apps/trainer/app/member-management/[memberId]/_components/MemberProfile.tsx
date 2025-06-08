@@ -2,8 +2,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Accordion } from "@ui/components/Accordion";
 import { Badge } from "@ui/components/Badge";
-import { Button } from "@ui/components/Button";
-import Icon from "@ui/components/Icon";
 import ProfileHeader from "@ui/components/ProfileHeader";
 import { ProfileItem } from "@ui/components/ProfileItem";
 import PTPreference from "@ui/components/PTPreference";
@@ -43,9 +41,9 @@ function MemberProfile({ memberId }: MemberProfileProps) {
           </ProfileHeader.Section>
           <ProfileHeader.Section>
             <Badge className="text-body-1">{`${sessionInfo.remainingCount} / ${sessionInfo.totalCount}`}</Badge>
-            <Button className="bg-background-sub5 text-text-sub5 h-[1.875rem] w-[1.875rem] rounded-full">
+            {/* <Button className="bg-background-sub5 text-text-sub5 h-[1.875rem] w-[1.875rem] rounded-full">
               <Icon name="Ellipsis" size="lg" />
-            </Button>
+            </Button> */}
           </ProfileHeader.Section>
         </ProfileHeader>
       </section>

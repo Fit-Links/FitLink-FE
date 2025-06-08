@@ -1,10 +1,6 @@
 /* eslint-disable no-magic-numbers */
-/** TODO: 예약 대기 내역 구현이 완료되지 않아 에러 방지를 위한 주석 처리 */
-import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import { format, subHours } from "date-fns";
 
-import { myInformationQueries } from "@trainer/queries/myInformation";
-import { reservationQueries } from "@trainer/queries/reservation";
+import { format, subHours } from "date-fns";
 
 import Header from "./_components/Header";
 import PendingReservationContainer from "./_components/PendingReservationContainer";
@@ -17,8 +13,6 @@ type PendingReservationsProps = {
  * 해당 페이지로 선택된 예약 블록의 reservationId를 받아서 조회하기
  */
 async function PendingReservations({ searchParams }: PendingReservationsProps) {
-  const queryClient = new QueryClient();
-
   const selectedDate = new Date(searchParams.selectedDate);
 
   const adjustedDate = subHours(selectedDate, 9);
@@ -26,22 +20,13 @@ async function PendingReservations({ searchParams }: PendingReservationsProps) {
 
   const koreanDateTimeFormat = searchParams.formattedSelectedDate;
 
-  await Promise.all([
-    queryClient.prefetchQuery(reservationQueries.pendingDetail(formattedAdjustedDate)),
-    queryClient.prefetchQuery(myInformationQueries.myInformation()),
-  ]);
-
-  const dehydratedState = dehydrate(queryClient);
-
   return (
     <main className="flex h-full flex-col">
-      <HydrationBoundary state={dehydratedState}>
-        <Header />
-        <PendingReservationContainer
-          formattedAdjustedDate={formattedAdjustedDate}
-          selectedDate={koreanDateTimeFormat}
-        />
-      </HydrationBoundary>
+      <Header />
+      <PendingReservationContainer
+        formattedAdjustedDate={formattedAdjustedDate}
+        selectedDate={koreanDateTimeFormat}
+      />
     </main>
   );
 }

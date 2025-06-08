@@ -76,7 +76,7 @@ function FixedReservationAdderButton({
       currentDate,
       reservations,
       dayoff.data,
-      1,
+      2,
     );
 
     if (!fixedReservationDatesAndTimes) return;
@@ -101,7 +101,7 @@ function FixedReservationAdderButton({
   return (
     <>
       <Button
-        className="h-[3.375rem] w-full rounded-[0.625rem]"
+        className="mb-2 h-[3.375rem] w-full rounded-[0.625rem]"
         disabled={!fixedReservationDatesAndTimes.length}
         onClick={handleClickFixReservation}
       >
