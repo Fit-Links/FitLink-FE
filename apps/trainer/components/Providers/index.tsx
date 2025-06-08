@@ -12,7 +12,9 @@ function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 60 * 1000,
+        staleTime: 60 * 20,
+        refetchOnWindowFocus: true,
+        refetchOnMount: true,
       },
       mutations: {
         onError: () => {
