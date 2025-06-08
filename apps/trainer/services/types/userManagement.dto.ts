@@ -39,7 +39,7 @@ type PtUserDetailResponse = Omit<PtUser, "totalCount" | "remainingCount"> & {
 };
 export type PtUserDetailApiResponse = ResponseBase<PtUserDetailResponse>;
 
-export type UnlinkMemberRequestPath = { memberId: number };
+export type UnlinkMemberRequestBody = { memberId: number };
 export type UnlinkMemberApiResponse = NoResponseData;
 
 export type SessionCountEditRequestPath = { memberId: number; sessionInfoId: number };
