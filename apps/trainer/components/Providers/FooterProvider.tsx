@@ -33,7 +33,7 @@ function FooterProvider({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div
-        className={cn("h-full px-4", {
+        className={cn("flex h-full flex-col px-4 pt-3", {
           "pb-[5.063rem]": hasFooter,
           "pb-[2.125rem]": !hasFooter,
         })}
