@@ -43,6 +43,26 @@ export default function WeekRow({
 
   if (!reservationInformation || isLoading) return null;
 
+  console.log(
+    "예약 데이터 체크:",
+    reservationInformation.data.sort((a, b) => {
+      const aDate = new Date(a.reservationDates[0]);
+      const bDate = new Date(b.reservationDates[0]);
+
+      return aDate.getTime() - bDate.getTime();
+    }),
+  );
+
+  console.log(
+    "컨버팅 된 예약 데이터 체크->",
+    filterLatestReservationsByDate(reservationInformation.data).sort((a, b) => {
+      const aDate = new Date(a.reservationDates[0]);
+      const bDate = new Date(b.reservationDates[0]);
+
+      return aDate.getTime() - bDate.getTime();
+    }),
+  );
+
   return (
     <div className="flex h-full gap-[0.125rem]">
       {week.map((date) => (

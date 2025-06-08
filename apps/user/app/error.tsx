@@ -9,11 +9,13 @@ type ErrorProps = {
   reset: () => void;
 };
 
-export default function Error({ reset }: ErrorProps) {
+export default function Error({ reset, error }: ErrorProps) {
   const handleReset = () => {
     window.location.reload();
     reset();
   };
+
+  console.log("Error:", error);
 
   return (
     <main className="bg-background-primary flex h-full w-full flex-col items-center justify-between">
