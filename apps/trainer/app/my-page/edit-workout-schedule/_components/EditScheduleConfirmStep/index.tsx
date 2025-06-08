@@ -27,22 +27,26 @@ export default function EditScheduleConfirmStep({ context }: EditScheduleConfirm
 
   const { applyAt, availableTimes } = context;
 
-  const currentApplyAt = currentData?.data.currentSchedules?.applyAt;
+  availableTimes.forEach((time) => {
+    if (!time.startTime) {
+      time.startTime = "00:00";
+    }
+    if (!time.endTime) {
+      time.endTime = "23:00";
+    }
+  });
 
   const changeApplyAt = applyAt;
 
   const previousChangeApplyAt = currentData?.data.scheduledChanges?.applyAt;
-
-  const deleteTargetApplyAt =
-    currentApplyAt === changeApplyAt ? currentApplyAt : previousChangeApplyAt;
 
   const { deleteSchedule: deleteAvailablePtTimeMutate } = useDeleteScheduleMutation();
 
   const { addSchedule: addAvailablePtTimeMutate, isPending } = useAddScheduleMutation();
 
   const handleClickChangeSchedule = async () => {
-    if (deleteTargetApplyAt) {
-      await deleteAvailablePtTimeMutate();
+    if (previousChangeApplyAt) {
+      await deleteAvailablePtTimeMutate({ applyAt: previousChangeApplyAt });
     }
     await addAvailablePtTimeMutate({
       applyAt: changeApplyAt as string,
