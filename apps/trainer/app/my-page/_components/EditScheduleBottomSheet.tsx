@@ -29,8 +29,9 @@ function EditScheduleBottomSheet({ open, onOpenChange }: EditScheduleBottomSheet
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="bottom" className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
         <SheetHeader>
-          <SheetTitle>PT 수업 시간 설정</SheetTitle>
           <VisuallyHidden>
+            <SheetTitle>PT 수업 시간 설정</SheetTitle>
+
             <SheetDescription>
               이 모달은 PT 수업 시간 설정과 관련된 기능을 제공합니다.
             </SheetDescription>
