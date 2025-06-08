@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import {
   Sheet,
   SheetContent,
@@ -7,6 +8,8 @@ import {
 } from "@ui/components/Sheet";
 import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import React, { useEffect } from "react";
+
+import { myInformationQueries } from "@trainer/queries/myInformation";
 
 import useDeleteScheduleMutation from "../edit-workout-schedule/_hooks/useDeleteScheduleMutation";
 import SheetItem from "../my-information/_components/BottomSheet/SheetItem";
@@ -19,8 +22,12 @@ type DeleteScheduleBottomSheetProps = {
 function DeleteScheduleBottomSheet({ open, onOpenChange }: DeleteScheduleBottomSheetProps) {
   const { deleteSchedule, isSuccess } = useDeleteScheduleMutation();
 
+  const { data: currentData } = useQuery(myInformationQueries.ptAvailableTime());
+
+  const previousChangeApplyAt = currentData?.data.scheduledChanges?.applyAt;
+
   const handleClickDeleteSchedule = () => {
-    deleteSchedule();
+    deleteSchedule({ applyAt: previousChangeApplyAt as string });
   };
 
   useEffect(() => {
