@@ -248,7 +248,7 @@ export const processReservationChange = ({
   const { reservationId } = requestPath;
 
   return http.post<ProcessReservationChangeApiResponse>({
-    url: `/v1/${RESERVATION_BASE_URL}/${reservationId}/change-apporove`,
+    url: `/v1/${RESERVATION_BASE_URL}/${reservationId}/change-approve`,
     data: requestBody,
   });
 };

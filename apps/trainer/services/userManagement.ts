@@ -19,7 +19,7 @@ import {
   TargetMemberPtHistoryRequestQuery,
   TargetUserEditPtHistoryApiResponse,
   UnlinkMemberApiResponse,
-  UnlinkMemberRequestPath,
+  UnlinkMemberRequestBody,
 } from "./types/userManagement.dto";
 
 export const getTargetMemberPtHistory = (
@@ -47,9 +47,12 @@ export const getPtUserList = ({ q, page, size }: PtUserListRequestQuery) =>
 export const getPtUserDetail = ({ memberId }: PtUserDetailRequestPath) =>
   http.get<PtUserDetailApiResponse>({ url: `/v1/members/${memberId}` });
 
-export const unLinkMember = ({ memberId }: UnlinkMemberRequestPath) =>
+export const unLinkMember = ({ memberId }: UnlinkMemberRequestBody) =>
   http.post<UnlinkMemberApiResponse>({
-    url: `/v1/${TRAINER_BASE_URL}/members/${memberId}/disconnect`,
+    url: `/v1/${TRAINER_BASE_URL}/disconnect`,
+    data: {
+      memberId,
+    },
   });
 
 export const sessionCountEdit = ({
