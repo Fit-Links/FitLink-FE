@@ -42,9 +42,7 @@ export default function EditScheduleConfirmStep({ context }: EditScheduleConfirm
 
   const handleClickChangeSchedule = async () => {
     if (deleteTargetApplyAt) {
-      await deleteAvailablePtTimeMutate({
-        applyAt: deleteTargetApplyAt as string,
-      });
+      await deleteAvailablePtTimeMutate();
     }
     await addAvailablePtTimeMutate({
       applyAt: changeApplyAt as string,
@@ -55,7 +53,7 @@ export default function EditScheduleConfirmStep({ context }: EditScheduleConfirm
   };
 
   return (
-    <section className="bg-background-primary text-text-primary flex h-screen w-full flex-col justify-between">
+    <section className="bg-background-primary text-text-primary flex h-full w-full flex-col justify-between">
       <div className="w-full text-center">
         <Header title="PT 수업 시간" />
         <p className="text-body-1 text-text-sub2 mt-[0.625rem]">
