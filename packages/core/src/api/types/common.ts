@@ -57,7 +57,9 @@ export type ReservationStatus =
   | "예약 변경 요청"
   | "예약 취소 요청"
   | "예약 취소 거절"
-  | "고정 예약";
+  | "고정 예약"
+  | "예약 변경 거절"
+  | "예약 거절";
 
 export type BaseMemberInfo = {
   memberId: number;

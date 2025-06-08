@@ -15,7 +15,7 @@ type ReservationConfig = {
 export const RESERVATION_CONFIG: Record<
   Exclude<
     ModifiedReservationListItem["status"],
-    "휴무일" | "예약 취소 요청" | "예약 변경 요청" | "예약 취소"
+    "휴무일" | "예약 취소 요청" | "예약 변경 요청" | "예약 취소" | "예약 거절"
   >,
   ReservationConfig
 > = {
@@ -45,6 +45,11 @@ export const RESERVATION_CONFIG: Record<
     ptStatus: () => "고정 예약",
   },
   "예약 취소 거절": {
+    style: "bg-brand-primary-500 hover:bg-brand-primary-600",
+    content: (reservationContent) => reservationContent.memberInfo.name,
+    ptStatus: () => "예약 확정",
+  },
+  "예약 변경 거절": {
     style: "bg-brand-primary-500 hover:bg-brand-primary-600",
     content: (reservationContent) => reservationContent.memberInfo.name,
     ptStatus: () => "예약 확정",
