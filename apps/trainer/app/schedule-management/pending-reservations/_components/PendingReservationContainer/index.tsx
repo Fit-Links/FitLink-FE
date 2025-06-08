@@ -1,6 +1,6 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { toZonedTime, format } from "date-fns-tz";
+import { format, addHours } from "date-fns";
 import { useState } from "react";
 
 import FixedReservationListFallback from "@trainer/app/schedule-management/_components/Fallback/FixedReservationListFallback";
@@ -23,15 +23,18 @@ function PendingReservationContainer({
   const [selectedMemberInformation, setSelectedMemberInformation] =
     useState<ReservationDetailPendingStatus | null>(null);
 
-  const timeZone = "Asia/Seoul";
-  const zonedDate = toZonedTime(formattedAdjustedDate, timeZone);
-  const formattedZonedDate = format(zonedDate, "yyyy-MM-dd'T'HH:mm");
+  const NINE_HOURS = 9;
+  const isProduction = process.env.NODE_ENV === "production";
+  const adjustedDate = isProduction
+    ? addHours(new Date(formattedAdjustedDate), NINE_HOURS)
+    : new Date(formattedAdjustedDate);
+  const formattedDate = format(adjustedDate, "yyyy-MM-dd'T'HH:mm");
 
   const { data: reservationPendingList, isLoading } = useQuery(
-    reservationQueries.pendingDetail(formattedZonedDate),
+    reservationQueries.pendingDetail(formattedDate),
   );
 
-  console.log("formattedAdjustedDate", formattedZonedDate);
+  console.log("formattedAdjustedDate", formattedDate);
   console.log("reservationPendingList", reservationPendingList);
 
   return (
@@ -75,7 +78,7 @@ function PendingReservationContainer({
       </section>
       <ApproveButton
         selectedMemberInformation={selectedMemberInformation}
-        selectedDate={formattedAdjustedDate}
+        selectedDate={formattedDate}
       />
     </section>
   );
