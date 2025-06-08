@@ -6,6 +6,7 @@ import { Text } from "@ui/components/Text";
 
 export default function Error({ reset }: { error: Error; reset: () => void }) {
   const handleReset = () => {
+    window.location.reload();
     reset();
   };
 
