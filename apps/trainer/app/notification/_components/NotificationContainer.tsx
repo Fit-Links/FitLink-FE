@@ -39,7 +39,7 @@ function NotificationContainer({ onClick }: NotificationContainerProps) {
   const filteredNotificationCount = createFilteredNotificationCount(data, status);
 
   return (
-    <div className="flex-1">
+    <div className="flex flex-1 flex-col overflow-hidden">
       <ToggleGroup
         type="single"
         value={status}
@@ -54,24 +54,26 @@ function NotificationContainer({ onClick }: NotificationContainerProps) {
         <span className="text-body-3">{`${filteredNotificationCount}개의 알림`}</span>
         <span className="text-body-3">최신순</span>
       </div>
-      {data.pages[0].data.totalElements ? (
-        <ul>
-          {data.pages.map((group, index) => (
-            <Fragment key={`notification-group-${index}`}>
-              {group.data.content.filter(handleNotificationFilter(status)).map((notification) => (
-                <NotificationItemContainer
-                  key={`notification-${notification.notificationId}`}
-                  notification={notification}
-                  onClick={onClick(notification)}
-                />
-              ))}
-            </Fragment>
-          ))}
-          <div ref={intersectionRef} />
-        </ul>
-      ) : (
-        <EmptyList />
-      )}
+      <div className="h-full overflow-y-auto">
+        {data.pages[0].data.totalElements ? (
+          <ul className="flex flex-col gap-4">
+            {data.pages.map((group, index) => (
+              <Fragment key={`notification-group-${index}`}>
+                {group.data.content.filter(handleNotificationFilter(status)).map((notification) => (
+                  <NotificationItemContainer
+                    key={`notification-${notification.notificationId}`}
+                    notification={notification}
+                    onClick={onClick(notification)}
+                  />
+                ))}
+              </Fragment>
+            ))}
+            <div ref={intersectionRef} />
+          </ul>
+        ) : (
+          <EmptyList />
+        )}
+      </div>
     </div>
   );
 }
