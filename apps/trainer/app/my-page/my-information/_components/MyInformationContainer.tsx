@@ -3,6 +3,8 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Avatar, AvatarFallback } from "@ui/components/Avatar";
 import { Button } from "@ui/components/Button";
+import { ProfileItem } from "@ui/components/ProfileItem";
+import PushPermissionSwitch from "@ui/components/PushPermissionSwitch";
 import Image from "next/image";
 
 import { myInformationQueries } from "@trainer/queries/myInformation";
@@ -58,6 +60,9 @@ export default function MyInformationContainer() {
           변경 <Icon name="ChevronRight" size="lg" />
         </section> */}
       </MemorizedProfileItem>
+      <ProfileItem variant="pushAlarm" className="w-full">
+        <PushPermissionSwitch />
+      </ProfileItem>
     </section>
   );
 }
