@@ -1,12 +1,4 @@
-import {
-  ChangeEvent,
-  ComponentProps,
-  forwardRef,
-  ReactNode,
-  useEffect,
-  useRef,
-  useCallback,
-} from "react";
+import { ChangeEvent, ComponentProps, forwardRef, ReactNode, useEffect, useRef } from "react";
 import { useState } from "react";
 
 import useInputWithLabelContext from "../../hooks/useInputWithLabelContext";
@@ -118,15 +110,15 @@ const ResidentNumberInput = forwardRef<HTMLInputElement, ResidentNumberInputProp
       }
     };
 
-    const handleCaretOnInput = useCallback(() => {
+    const handleCaretOnInput = () => {
       if (inputRef.current && idNumber.length >= MAX_MASKED_LENGTH) {
         inputRef.current.setSelectionRange(CARET_POSITION, CARET_POSITION);
       }
-    }, [idNumber]);
+    };
 
     useEffect(() => {
       handleCaretOnInput();
-    }, [handleCaretOnInput]);
+    }, [idNumber]);
 
     return (
       <Input
