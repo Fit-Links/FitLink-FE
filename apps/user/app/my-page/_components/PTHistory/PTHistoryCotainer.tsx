@@ -8,7 +8,7 @@ import PTHistoryFilter from "./PTHistoryFilter";
 import { PTHistoryLabel } from "./PTHistoryLabel";
 
 export default function PTHistoryContainer() {
-  const [historyFilter, setHistoryFilter] = useState<PtStatus>("NONE");
+  const [historyFilter, setHistoryFilter] = useState<PtStatus>("SESSION_COMPLETED");
 
   return (
     <section className="mt-[1.625rem] flex h-full flex-col overflow-hidden">
