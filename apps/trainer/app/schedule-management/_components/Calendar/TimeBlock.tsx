@@ -1,6 +1,7 @@
 /* eslint-disable no-magic-numbers */
 
 import { ReservationStatus } from "@5unwan/core/api/types/common";
+import Icon from "@ui/components/Icon";
 import { cn } from "@ui/lib/utils";
 import { format } from "date-fns";
 import { ComponentProps, useEffect, useState } from "react";
@@ -125,13 +126,13 @@ export default function TimeBlock({
       ) : (
         <div
           className={cn(
-            "bg-background-sub2 hover:bg-background-sub2 text-text-primary relative flex h-[3.9375rem] w-full cursor-not-allowed flex-col items-center justify-center gap-1 rounded-[0.125rem] p-1",
+            "bg-background-sub2 text-text-primary relative flex h-[3.9375rem] w-full cursor-not-allowed flex-col items-center justify-center gap-1 rounded-[0.125rem] p-1",
             isToday(date) && "bg-background-sub3 hover:bg-background-sub4",
             reservationBlockStyle,
           )}
           {...props}
         >
-          -
+          <Icon name="CircleOff" size="sm" className="text-gray-400" />
         </div>
       )}
     </>
