@@ -17,7 +17,7 @@ import { Switch } from "./Switch";
 
 function PushPermissionSwitch() {
   const [isNotificationGranted, setIsNotificationGranted] = useState(false);
-  const [isDialopOpen, setIsDialogOpen] = useState(false);
+  const [isHelpDialopOpen, setIsHelpDialogOpen] = useState(false);
 
   const environmentRef = useRef<ReturnType<typeof getEnvironment>>("desktop-web");
 
@@ -45,24 +45,33 @@ function PushPermissionSwitch() {
   const isMobilePwa = environmentRef.current === "mobile-pwa";
 
   const handleToggle = (isNotificationGranted: boolean) => {
+    if (Notification.permission !== "default") {
+      setIsHelpDialogOpen(true);
+
+      return;
+    }
     if (!isNotificationGranted) {
-      setIsDialogOpen(true);
+      setIsHelpDialogOpen(true);
 
       return;
     }
     setIsNotificationGranted(isNotificationGranted);
   };
 
-  const dialogDescription = `${isMobilePwa ? "앱 시스템 설정" : "브라우저 환경설정"}에서 [알림] 스위치를 꺼주세요`;
+  const systemBasedDescription = `${isMobilePwa ? "앱 시스템 설정" : "브라우저 환경설정"}에서 [알림] 항목을 설정해주세요`;
 
   return (
     <>
       <Switch checked={isNotificationGranted} onCheckedChange={handleToggle} />
-      <Dialog open={isDialopOpen} onOpenChange={setIsDialogOpen}>
+      <Dialog open={isHelpDialopOpen} onOpenChange={setIsHelpDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>푸시 알림 해제 안내</DialogTitle>
-            <DialogDescription>{dialogDescription}</DialogDescription>
+            <DialogTitle>푸시 알림 재설정 안내</DialogTitle>
+            <DialogDescription>
+              푸시 알림을 다시 설정하려면
+              <br />
+              {systemBasedDescription}
+            </DialogDescription>
           </DialogHeader>
           <DialogClose asChild>
             <Button size="lg" className="w-full">
