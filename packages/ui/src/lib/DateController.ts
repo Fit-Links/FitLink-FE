@@ -77,10 +77,10 @@ const DateController = (date: string | Date) => {
     // 메서드 체이닝을 지원하지 않습니다
     toAbsolute: () => {
       const year = targetDate.getFullYear();
-      const month = targetDate.getMonth() + 1;
-      const day = targetDate.getDate();
-      const hours = targetDate.getHours();
-      const minutes = targetDate.getMinutes();
+      const month = String(targetDate.getMonth() + 1).padStart(2, "0");
+      const day = String(targetDate.getDate()).padStart(2, "0");
+      const hours = String(targetDate.getHours()).padStart(2, "0");
+      const minutes = String(targetDate.getMinutes()).padStart(2, "0");
 
       return `${year}-${month}-${day}T${hours}:${minutes}`;
     },
