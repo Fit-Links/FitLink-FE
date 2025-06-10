@@ -1,6 +1,8 @@
 "use client";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { ProfileItem } from "@ui/components/ProfileItem";
+import PushPermissionSwitch from "@ui/components/PushPermissionSwitch";
 import React from "react";
 
 import { myInformationQueries } from "@user/queries/myInformation";
@@ -21,6 +23,9 @@ export default function MyDetailInformations() {
       <MemorizedChangePhoneLink
         value={`${getFormattedPhoneNumber(myDetailInformation?.phoneNumber ?? "")}`}
       />
+      <ProfileItem variant="pushAlarm" className="w-full">
+        <PushPermissionSwitch />
+      </ProfileItem>
     </section>
   );
 }

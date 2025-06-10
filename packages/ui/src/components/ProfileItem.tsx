@@ -3,13 +3,7 @@ import { ComponentProps } from "react";
 
 import { cn } from "@ui/lib/utils";
 
-const ProfileItemVariants: Record<
-  string,
-  {
-    icon: Icon;
-    content: string;
-  }
-> = {
+const ProfileItemVariants = {
   calendar: {
     icon: "CalendarMinus2",
     content: "휴무일 설정",
@@ -42,7 +36,17 @@ const ProfileItemVariants: Record<
     icon: "UserRoundX",
     content: "트레이너 연동 해제",
   },
-};
+  pushAlarm: {
+    icon: "Bell",
+    content: "푸시 알림 허용",
+  },
+} satisfies Record<
+  string,
+  {
+    icon: Icon;
+    content: string;
+  }
+>;
 
 type ProfileItemProps = ComponentProps<"div"> & {
   variant: keyof typeof ProfileItemVariants;
