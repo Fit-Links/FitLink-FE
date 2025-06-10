@@ -1,4 +1,4 @@
-import { ChangeEvent, ComponentProps, forwardRef, ReactNode } from "react";
+import { ChangeEvent, ComponentProps, forwardRef, ReactNode, useEffect, useRef } from "react";
 import { useState } from "react";
 
 import useInputWithLabelContext from "../../hooks/useInputWithLabelContext";
@@ -8,6 +8,8 @@ import InputWithLabelContext from "./context";
 
 const MAX_MASKED_LENGTH = 14;
 const MIN_MASKED_LENGTH = 0;
+
+const CARET_POSITION = 8;
 
 type InputWithLabelProps = ComponentProps<"div"> & {
   error?: boolean | string;
@@ -87,6 +89,7 @@ const ResidentNumberInput = forwardRef<HTMLInputElement, ResidentNumberInputProp
   ({ onChangeValue, ...props }, ref) => {
     const { id } = useInputWithLabelContext();
     const [idNumber, setIdNumber] = useState("");
+    const inputRef = useRef<HTMLInputElement | null>(null);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value.replace(/[^0-9]/g, "");
@@ -98,15 +101,36 @@ const ResidentNumberInput = forwardRef<HTMLInputElement, ResidentNumberInputProp
       if (onChangeValue) onChangeValue(value);
     };
 
+    const setRef = (element: HTMLInputElement) => {
+      inputRef.current = element;
+      if (typeof ref === "function") {
+        ref(element);
+      } else if (ref && "current" in ref) {
+        ref.current = element;
+      }
+    };
+
+    const handleCaretOnInput = () => {
+      if (inputRef.current && idNumber.length >= MAX_MASKED_LENGTH) {
+        inputRef.current.setSelectionRange(CARET_POSITION, CARET_POSITION);
+      }
+    };
+
+    useEffect(() => {
+      handleCaretOnInput();
+    }, [idNumber]);
+
     return (
       <Input
         id={id}
-        ref={ref}
+        ref={setRef}
         type="text"
         placeholder="생년월일 - *******"
         maxLength={14}
         value={idNumber}
         onChange={handleChange}
+        onFocus={handleCaretOnInput}
+        onClick={handleCaretOnInput}
         className="text-title-1 h-fit w-full bg-transparent p-0 tracking-[0.625rem]"
         {...props}
       />
