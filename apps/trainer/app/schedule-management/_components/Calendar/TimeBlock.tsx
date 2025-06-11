@@ -1,9 +1,20 @@
 /* eslint-disable no-magic-numbers */
 
 import { ReservationStatus } from "@5unwan/core/api/types/common";
+import { Button } from "@ui/components/Button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@ui/components/Dialog";
 import Icon from "@ui/components/Icon";
 import { cn } from "@ui/lib/utils";
 import { format } from "date-fns";
+import { useSearchParams } from "next/navigation";
 import { ComponentProps, useEffect, useState } from "react";
 
 import ScheduleBottomSheet from "@trainer/app/schedule-management/_components/ScheduleBottomSheet";
@@ -14,6 +25,7 @@ import { ModifiedReservationListItem } from "@trainer/services/types/reservation
 import { isToday } from "@trainer/utils/CalendarUtils";
 
 import { RESERVATION_CONFIG } from "../../_constants/reservationConfig";
+import { useFixReservationChangeMutation } from "../../fixed-reservation/select-pt-times/_hooks/mutations/useFixReservationChangeMutation";
 import { SheetAdapter } from "../ReservationManagementSheet";
 
 type TimeBlockProps = ComponentProps<"div"> & {
@@ -31,6 +43,10 @@ export default function TimeBlock({
   ptAvailableTime,
   ...props
 }: TimeBlockProps) {
+  const searchParams = useSearchParams();
+
+  const { fixReservationChange, isSuccess } = useFixReservationChangeMutation();
+
   const ptTimeInformation = (
     ptAvailableTime.data.currentSchedules || ptAvailableTime.data.scheduledChanges
   ).schedules?.find(({ dayOfWeek }) => dayOfWeek === format(date, "EEEE").toUpperCase());
@@ -68,6 +84,7 @@ export default function TimeBlock({
 
   const [isScheduleBottomSheetOpen, setIsScheduleBottomSheetOpen] = useState(false);
   const [isReservationManagementSheetOpen, setIsReservationManagementSheetOpen] = useState(false);
+  const [fixedReservationChangePopupOpen, setFixedReservationChangePopupOpen] = useState(false);
 
   const RenderSheet =
     currentStatus &&
@@ -81,6 +98,20 @@ export default function TimeBlock({
     );
 
   const handleClickBlock = () => {
+    if (searchParams.get("fixReservationChangeMode")) {
+      const fixReservationChangeMode = JSON.parse(
+        searchParams.get("fixReservationChangeMode") || "{}",
+      );
+
+      fixReservationChange({
+        reservationId: fixReservationChangeMode.reservationId,
+        reservationDate: fixReservationChangeMode.reservationDate,
+        changeRequestDate: format(date, "yyyy-MM-dd'T'HH:mm"),
+      });
+
+      return;
+    }
+
     if (!reservationContent.length || reservationContent[0].status === "예약 취소") {
       setIsScheduleBottomSheetOpen(true);
     }
@@ -92,6 +123,16 @@ export default function TimeBlock({
       setIsReservationManagementSheetOpen(false);
     }
   }, [isScheduleBottomSheetOpen]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setFixedReservationChangePopupOpen(true);
+
+      const url = new URL(window.location.href);
+      url.searchParams.delete("fixReservationChangeMode");
+      window.history.pushState({}, "", url);
+    }
+  }, [isSuccess]);
 
   return (
     <>
@@ -135,6 +176,24 @@ export default function TimeBlock({
           <Icon name="CircleOff" size="sm" className="text-gray-400" />
         </div>
       )}
+      <Dialog
+        open={fixedReservationChangePopupOpen}
+        onOpenChange={setFixedReservationChangePopupOpen}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>고정 예약 변경이 완료되었습니다.</DialogTitle>
+            <DialogDescription>
+              {`변경 날짜 -> ${format(new Date(date), "yyyy년 MM월 dd일 HH시")}`}
+            </DialogDescription>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button className="w-full">확인</Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
