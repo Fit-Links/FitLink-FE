@@ -5,7 +5,6 @@ import { ko } from "date-fns/locale";
 
 import { reservationQueries } from "@trainer/queries/reservation";
 
-import CalendarHintGroup from "@trainer/components/CalendarHintGroup";
 import LoadingFallback from "@trainer/components/Fallback/LoadingFallback";
 
 import Calendar from "./_components/Calendar";
@@ -22,9 +21,6 @@ async function ScheduleManagement() {
   return (
     <main className="flex h-full flex-col">
       <HydrationBoundary state={dehydratedState}>
-        <div className="py-[0.875rem]">
-          <CalendarHintGroup />
-        </div>
         <Suspense fallback={<LoadingFallback />}>
           <Calendar />
         </Suspense>
