@@ -28,7 +28,7 @@ export default function useSessionCountEditMutation() {
         },
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: userManagementBaseKeys.all });
+      queryClient.invalidateQueries({ queryKey: userManagementBaseKeys.lists() });
     },
   });
 

@@ -10,7 +10,7 @@ export default function useUnlinkMember() {
   const { mutate: unlinkMemeber, ...rest } = useMutation({
     mutationFn: unLinkMember,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: userManagementBaseKeys.all });
+      queryClient.invalidateQueries({ queryKey: userManagementBaseKeys.lists() });
     },
   });
 
