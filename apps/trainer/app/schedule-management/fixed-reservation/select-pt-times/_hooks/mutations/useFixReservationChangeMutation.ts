@@ -1,4 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { reservationBaseKeys } from "@trainer/queries/reservation";
 
 import { editFixedReservation } from "@trainer/services/reservations";
 import {
@@ -10,6 +12,8 @@ type FixReservationChangeMutationProps = EditFixedReservationRequestPath &
   EditFixedReservationRequestBody;
 
 export const useFixReservationChangeMutation = () => {
+  const queryClient = useQueryClient();
+
   const { mutate, ...rest } = useMutation({
     mutationFn: ({
       reservationId,
@@ -20,6 +24,9 @@ export const useFixReservationChangeMutation = () => {
         requestPath: { reservationId },
         requestBody: { reservationDate, changeRequestDate },
       }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: reservationBaseKeys.lists() });
+    },
   });
 
   return { fixReservationChange: mutate, ...rest };

@@ -69,6 +69,7 @@ function ReservationControlSheet({
     useState(false);
   const [isTerminateFixedReservationSheetOpen, setIsTerminateFixedReservationSheetOpen] =
     useState(false);
+  const [isFixedReservationChangePopupOpen, setIsFixedReservationChangePopupOpen] = useState(false);
 
   const { data: userInformationDetail, isLoading: userInformationDetailLoading } = useQuery({
     ...userManagementQueries.detail(memberId as number),
@@ -110,6 +111,21 @@ function ReservationControlSheet({
     terminateFixedReservation(reservationId);
   };
 
+  const handleClickChangeFixedReservation = () => {
+    const url = new URL(window.location.href);
+    url.searchParams.set(
+      "fixReservationChangeMode",
+      JSON.stringify({
+        reservationId: reservationId,
+        reservationDate: format(selectedDate, "yyyy-MM-dd'T'HH:mm"),
+      }),
+    );
+    window.history.pushState({}, "", url);
+
+    onChangeOpen(false);
+    setIsFixedReservationChangePopupOpen(true);
+  };
+
   useEffect(() => {
     if (reservationCancelSuccess) {
       setIsReservationCancelSuccessSheetOpen(true);
@@ -131,7 +147,16 @@ function ReservationControlSheet({
               </SheetDescription>
             </VisuallyHidden>
             <div className="flex items-center justify-center gap-2">
-              {reservationStatus && <Badge className="h-8 w-24">{reservationStatus}</Badge>}
+              {reservationStatus === "고정 예약" ? (
+                <Badge
+                  onClick={handleClickChangeFixedReservation}
+                  className="h-8 w-24 hover:cursor-pointer"
+                >
+                  {"고정 예약 변경"}
+                </Badge>
+              ) : (
+                <Badge className="h-8 w-24">{reservationStatus}</Badge>
+              )}
               {reservationStatus === "고정 예약" && (
                 <Badge
                   onClick={handleClickTerminateFixedReservationDialogOpen}
@@ -275,6 +300,25 @@ function ReservationControlSheet({
           </SheetFooter>
         </SheetContent>
       </Sheet>
+
+      <Dialog
+        open={isFixedReservationChangePopupOpen}
+        onOpenChange={setIsFixedReservationChangePopupOpen}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>고정 예약 변경 날짜 선택</DialogTitle>
+            <DialogDescription className="whitespace-pre-line text-center">
+              {`시간 블록을 선택하면 고정 예약이 변경됩니다\n변경을 원하지 않을 시에는 상단의\n[고정 예약 변경 비활성화] 버튼을 눌러\n변경을 취소할 수 있습니다`}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button className="w-full">확인</Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
