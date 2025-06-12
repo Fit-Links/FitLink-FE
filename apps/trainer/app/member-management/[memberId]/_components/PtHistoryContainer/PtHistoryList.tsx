@@ -14,7 +14,7 @@ import {
 } from "@ui/components/Sheet";
 import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import DateController from "@ui/lib/DateController";
-import React, { useRef, useState } from "react";
+import React, { forwardRef, useRef, useState } from "react";
 
 import { TargetMemberPtHistoryApiResponse } from "@trainer/services/types/userManagement.dto";
 
@@ -22,7 +22,7 @@ type PtHistoryListProps = {
   ptHistories?: TargetMemberPtHistoryApiResponse["data"]["content"];
 };
 
-function PtHistoryList({ ptHistories }: PtHistoryListProps) {
+const PtHistoryList = forwardRef<HTMLDivElement, PtHistoryListProps>(({ ptHistories }, ref) => {
   const [ptHistoryEditSheetOpen, setPtHistoryEditSheetOpen] = useState(false);
   const reservationFormatDateRef = useRef("");
 
@@ -46,6 +46,7 @@ function PtHistoryList({ ptHistories }: PtHistoryListProps) {
               onClick={() => handleClickPtHistoryEdit(status, date)}
             />
           ))}
+        <div ref={ref} />
       </section>
       <Sheet open={ptHistoryEditSheetOpen} onOpenChange={setPtHistoryEditSheetOpen}>
         <SheetHeader>
@@ -78,6 +79,5 @@ function PtHistoryList({ ptHistories }: PtHistoryListProps) {
       </Sheet>
     </>
   );
-}
-
+});
 export default PtHistoryList;

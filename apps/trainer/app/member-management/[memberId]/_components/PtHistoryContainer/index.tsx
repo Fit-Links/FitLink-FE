@@ -2,9 +2,11 @@
 
 import { PtStatus } from "@5unwan/core/api/types/common";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { userManagementQueries } from "@trainer/queries/userManagement";
+
+import useIntersectionObserver from "@trainer/hooks/useIntersectionObserver";
 
 import PtHistoryFilterButton from "./PtHistoryFilterButton";
 import PtHistoryList from "./PtHistoryList";
@@ -26,9 +28,37 @@ function PtHistoryContainer({ memberId }: PtHistoryContainerProps) {
     PT_STATUS_OPTIONS[0],
   );
 
-  const { data: ptHistory } = useInfiniteQuery(
-    userManagementQueries.ptHistory(memberId, STATUS_MAP[selectedPtStatus]),
-  );
+  const intersectionRef = useRef(null);
+
+  const {
+    data: ptHistory,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    ...userManagementQueries.ptHistory(memberId, STATUS_MAP[selectedPtStatus]),
+    select: (data) => ({
+      ...data,
+      pages: data.pages.map((page) => ({
+        ...page,
+        data: {
+          ...page.data,
+          content: page.data.content.sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+          ),
+        },
+      })),
+    }),
+  });
+
+  const handleIntersect = () => {
+    if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+  };
+
+  useIntersectionObserver({
+    target: intersectionRef,
+    handleIntersect,
+  });
 
   const filteredPtHistories = ptHistory?.pages
     .flatMap(({ data }) => data.content)
@@ -37,16 +67,16 @@ function PtHistoryContainer({ memberId }: PtHistoryContainerProps) {
     );
 
   return (
-    <section className="mt-[1.563rem] max-h-[20rem] w-full">
+    <section className="mt-[1.563rem] flex h-full w-full flex-col overflow-hidden">
       <p className="text-headline mb-[0.625rem] w-full text-left">PT 내역</p>
-      <section className="h-full w-full">
+      <section className="flex h-full w-full flex-col overflow-y-auto">
         <PtHistoryFilterButton
           ptStatusOptions={PT_STATUS_OPTIONS}
           selectedPtStatus={selectedPtStatus}
           onChangeSelectedPtStatus={setSelectedPtStatus}
         />
         {/** TODO: 회원의 고정 예약 날짜/시간도 나타내기 */}
-        <PtHistoryList ptHistories={filteredPtHistories} />
+        <PtHistoryList ptHistories={filteredPtHistories} ref={intersectionRef} />
       </section>
     </section>
   );

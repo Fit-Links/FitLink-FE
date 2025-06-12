@@ -47,7 +47,10 @@ export const userManagementQueries = {
     infiniteQueryOptions({
       queryKey: [...userManagementBaseKeys.info(memberId), status] as const,
       queryFn: ({ pageParam }) =>
-        getTargetMemberPtHistory({ status, page: pageParam, size: 10 }, { memberId }),
+        getTargetMemberPtHistory(
+          { status, page: pageParam, size: PT_HISTORY_PAGE_SIZE },
+          { memberId },
+        ),
       getNextPageParam: (lastPage, _allPages, lastPageParam) => {
         if (lastPage.data.content.length === EMPTY_PAGE) {
           return undefined;

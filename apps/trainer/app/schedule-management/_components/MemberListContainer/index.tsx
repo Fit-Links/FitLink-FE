@@ -1,11 +1,13 @@
 "use client";
 
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useRef, useState } from "react";
 
 import { userManagementQueries } from "@trainer/queries/userManagement";
 
 import { PtUser } from "@trainer/services/types/userManagement.dto";
+
+import useIntersectionObserver from "@trainer/hooks/useIntersectionObserver";
 
 import MemberCardList from "./MemberCardList";
 import SearchBar from "./SearchBar";
@@ -23,7 +25,25 @@ function MemberListContainer({ renderFooterReservationButton }: MemberListContai
   const [inputValue, setInputValue] = useState<string>("");
   const [selectedMemberInformation, setSelectedMemberInformation] = useState<PtUser | null>(null);
 
-  const { data: userList } = useSuspenseInfiniteQuery(userManagementQueries.list());
+  const intersectionRef = useRef(null);
+
+  const {
+    data: userList,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useSuspenseInfiniteQuery(userManagementQueries.list());
+
+  const handleIntersect = () => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  };
+
+  useIntersectionObserver({
+    target: intersectionRef,
+    handleIntersect,
+  });
 
   const handleClickSelectMember = (selectedMemberInformation: PtUser | null) => {
     const selectedMemberId = selectedMemberInformation?.memberId;
@@ -41,7 +61,10 @@ function MemberListContainer({ renderFooterReservationButton }: MemberListContai
     });
   };
 
-  const filteredMembers = useFilteredMembers(userList.pages[0].data.content, inputValue);
+  const filteredMembers = useFilteredMembers(
+    userList.pages.flatMap((page) => page.data.content),
+    inputValue,
+  );
 
   return (
     <>
@@ -53,6 +76,7 @@ function MemberListContainer({ renderFooterReservationButton }: MemberListContai
             <div>최신 등록순</div>
           </div>
           <MemberCardList
+            ref={intersectionRef}
             memberList={filteredMembers}
             selectedMemberInformation={selectedMemberInformation}
             onChangeSelectMemberInformation={handleClickSelectMember}
