@@ -11,8 +11,10 @@ import {
 } from "@ui/components/Sheet";
 import { Text } from "@ui/components/Text";
 import { getEnvironment } from "@ui/utils/getEnvironment";
-import { Bell, LoaderCircle } from "lucide-react";
+import { Bell } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+
+import BrandSpinner from "@user/components/BrandSpinner";
 
 import { useRegisterFcmToken } from "../_hooks/useRegisterFcmToken";
 
@@ -71,7 +73,7 @@ function PushPermissionStep({ onNext }: PushPermissionStepProps) {
         </div>
         {isPending ? (
           <div className="flex h-[3.375rem] w-full items-center justify-center">
-            <LoaderCircle className="from-brand-primary-500 h-10 w-10 animate-spin rounded-full bg-gradient-to-r to-[#A6E6FF]" />
+            <BrandSpinner />
           </div>
         ) : (
           <div className="flex h-[3.375rem] w-full items-center gap-4">
