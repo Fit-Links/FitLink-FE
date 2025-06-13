@@ -1,17 +1,21 @@
 import { PreferredWorkout } from "@5unwan/core/api/types/common";
-
 import Header from "@ui/components/Header";
 import WorkoutForm from "@ui/components/WorkoutForm";
+
+import { SignupRequestBody } from "../../services/types/auth.dto";
 
 const TIME_CELL_SPAN = 50;
 
 type WorkoutScheduleStepProps = {
+  onSubmit: (data: SignupRequestBody) => Promise<void>;
+  onPrev: () => void;
   onNext: (workoutSchedule: Omit<PreferredWorkout, "workoutScheduleId">[]) => void;
 };
-function WorkoutScheduleStep({ onNext }: WorkoutScheduleStepProps) {
+function WorkoutScheduleStep({ onPrev, onNext }: WorkoutScheduleStepProps) {
   return (
     <div className="flex h-full flex-col">
       <Header>
+        <Header.Back onClick={onPrev} />
         <Header.Title content="PT 희망 시간" />
       </Header>
       <p className="text-text-sub2 text-body-1 mt-2 text-center">PT 시간: {TIME_CELL_SPAN}분</p>
