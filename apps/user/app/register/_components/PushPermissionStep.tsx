@@ -1,5 +1,6 @@
 "use client";
 
+import BrandSpinner from "@ui/components/BrandSpinner";
 import { Button } from "@ui/components/Button";
 import {
   Sheet,
@@ -13,8 +14,6 @@ import { Text } from "@ui/components/Text";
 import { getEnvironment } from "@ui/utils/getEnvironment";
 import { Bell } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-
-import BrandSpinner from "@user/components/BrandSpinner";
 
 import { useRegisterFcmToken } from "../_hooks/useRegisterFcmToken";
 
