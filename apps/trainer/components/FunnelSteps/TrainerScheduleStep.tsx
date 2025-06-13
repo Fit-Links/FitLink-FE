@@ -1,8 +1,5 @@
 /* eslint-disable no-magic-numbers */
 import { AvailablePtTime } from "@5unwan/core/api/types/common";
-import { DialogClose, DialogTrigger } from "@radix-ui/react-dialog";
-import { useRef, useState } from "react";
-
 import { Button } from "@ui/components/Button";
 import DayOfWeekPicker from "@ui/components/DayOfWeekPicker";
 import { Days } from "@ui/components/DayOfWeekPicker/Days";
@@ -13,12 +10,14 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogClose,
+  DialogTrigger,
 } from "@ui/components/Dialog";
 import Header from "@ui/components/Header";
 import { Switch } from "@ui/components/Switch";
 import TimePicker from "@ui/components/TimePicker";
-
 import { DAYS_OF_WEEK_MAP } from "@ui/utils/timeCellUtils";
+import { useRef, useState } from "react";
 
 const DEFAULT_TIME = "-- : --";
 
@@ -63,9 +62,11 @@ const isOrderedChronologically = (startTime: string | null, endTime: string | nu
   startTime === null || endTime === null ? false : startTime < endTime;
 
 type TrainerScheduleStepProps = {
-  onNext: (availablePtTimes: Omit<AvailablePtTime, "availableTimeId">[]) => void;
+  onPrev: () => void;
+  onNext?: (availablePtTimes: Omit<AvailablePtTime, "availableTimeId">[]) => void;
+  onSubmit?: (availablePtTimes: Omit<AvailablePtTime, "availableTimeId">[]) => Promise<void>;
 };
-function TrainerScheduleStep({ onNext }: TrainerScheduleStepProps) {
+function TrainerScheduleStep({ onPrev, onNext, onSubmit }: TrainerScheduleStepProps) {
   const timePeriodRef = useRef<string>(null);
   const hoursRef = useRef<string>(null);
   const minutesRef = useRef<string>(null);
@@ -102,7 +103,7 @@ function TrainerScheduleStep({ onNext }: TrainerScheduleStepProps) {
       )
     : false;
 
-  const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = () => {
+  const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = async () => {
     const formattedTrainerSchedule = trainerSchedule.map((schedule) => {
       const copy = { ...schedule };
       if (copy.startTime) copy.startTime = convertKoreanTimeTo24Hour(copy.startTime);
@@ -127,7 +128,12 @@ function TrainerScheduleStep({ onNext }: TrainerScheduleStepProps) {
 
       return;
     }
-    onNext(formattedTrainerSchedule);
+    try {
+      if (onSubmit) await onSubmit(formattedTrainerSchedule);
+      if (onNext) onNext(formattedTrainerSchedule);
+    } catch {
+      return;
+    }
   };
   const handleHolidaySwitchChange = (checked: boolean) => {
     const newTrainerSchedule = [...trainerSchedule];
@@ -153,6 +159,7 @@ function TrainerScheduleStep({ onNext }: TrainerScheduleStepProps) {
   return (
     <div className="flex h-full flex-col">
       <Header>
+        <Header.Back onClick={onPrev} />
         <Header.Title content="PT 수업 시간" />
       </Header>
 
