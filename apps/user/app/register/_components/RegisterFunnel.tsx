@@ -1,6 +1,7 @@
 "use client";
 
 import { Gender, PreferredWorkout } from "@5unwan/core/api/types/common";
+import BrandSpinner from "@ui/components/BrandSpinner";
 import {
   Sheet,
   SheetContent,
@@ -11,8 +12,6 @@ import {
 import { useFunnel } from "@use-funnel/browser";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-
-import BrandSpinner from "@user/components/BrandSpinner";
 
 import RouteInstance from "@user/constants/routes";
 
@@ -76,13 +75,17 @@ function RegisterFunnel() {
           <WorkoutScheduleStep
             onPrev={() => history.back()}
             onSubmit={async (workoutSchedule) => {
-              await onSubmit({
-                ...context,
-                workoutSchedule,
-              });
-              history.replace("result", {
-                workoutSchedule,
-              });
+              try {
+                await onSubmit({
+                  ...context,
+                  workoutSchedule,
+                });
+                history.replace("result", {
+                  workoutSchedule,
+                });
+              } catch {
+                return;
+              }
             }}
           />
         )}
