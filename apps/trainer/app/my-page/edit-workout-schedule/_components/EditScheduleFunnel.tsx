@@ -5,7 +5,7 @@ import { useFunnel } from "@use-funnel/browser";
 import dynamic from "next/dynamic";
 
 const TrainerScheduleStep = dynamic(
-  () => import("@ui/components/FunnelSteps/TrainerScheduleStep"),
+  () => import("@trainer/components/FunnelSteps/TrainerScheduleStep"),
   {
     ssr: false,
   },
@@ -36,6 +36,7 @@ export default function EditScheduleFunnel() {
     case "editSchedule":
       return (
         <TrainerScheduleStep
+          onPrev={() => history.back()}
           onNext={(availableTimes) =>
             funnel.history.replace("editScheduleApplyAt", {
               availableTimes,
