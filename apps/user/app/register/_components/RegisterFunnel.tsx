@@ -1,18 +1,20 @@
 "use client";
 
 import { Gender, PreferredWorkout } from "@5unwan/core/api/types/common";
-import { useMutation } from "@tanstack/react-query";
 import { useFunnel } from "@use-funnel/browser";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 
-import { uploadImage } from "@user/services/attachment";
-import { createPresignedUrl } from "@user/services/attachment";
+import RouteInstance from "@user/constants/routes";
+
+import { useRegisterForm } from "../_hooks/useRegisterForm";
+import { useUploadProfileImage } from "../_hooks/useUploadProfileImage";
 
 const BasicInfoStep = dynamic(() => import("@ui/components/FunnelSteps/BasicInfoStep"), {
   ssr: false,
 });
 const WorkoutScheduleStep = dynamic(
-  () => import("@ui/components/FunnelSteps/WorkoutScheduleStep"),
+  () => import("@user/components/FunnelSteps/WorkoutScheduleStep"),
   {
     ssr: false,
   },
@@ -20,12 +22,20 @@ const WorkoutScheduleStep = dynamic(
 const ResultStep = dynamic(() => import("./ResultStep"), {
   ssr: false,
 });
+const PushPermissionStep = dynamic(() => import("./PushPermissionStep"), {
+  ssr: false,
+});
 
 function RegisterFunnel() {
+  const router = useRouter();
+
+  const { onSubmit } = useRegisterForm();
+  const { uploadProfileImage } = useUploadProfileImage();
   const funnel = useFunnel<{
     basicInfo: BasicInfoStep;
     workoutSchedule: WorkoutScheduleStep;
     result: ResultStep;
+    pushPermission: PushPermissionStep;
   }>({
     id: "register-user",
     initial: {
@@ -34,48 +44,16 @@ function RegisterFunnel() {
     },
   });
 
-  const createPresignedUrlMutation = useMutation({
-    mutationFn: createPresignedUrl,
-  });
-  const uploadImageMutation = useMutation({
-    mutationFn: uploadImage,
-  });
-
-  const handleUploadProfileImage = async (imageFile: File) => {
-    try {
-      const {
-        data: { presignedUrl, attachmentId },
-        status: createPresignedUrlStatus,
-        success: createPresignedUrlSuccess,
-        msg: createPresignedUrlMsg,
-      } = await createPresignedUrlMutation.mutateAsync({
-        fileName: imageFile.name,
-        contentLength: imageFile.size.toString(),
-        contentType: imageFile.type,
-      });
-
-      if (!createPresignedUrlSuccess)
-        throw new Error(
-          `Error occured during createPresignedUrl\nStatus:${createPresignedUrlStatus}\nMessage:${createPresignedUrlMsg}`,
-        );
-
-      await uploadImageMutation.mutateAsync({
-        presignedUrl,
-        imageFile,
-      });
-
-      return attachmentId;
-    } catch {
-      //TODO: 에러 처리 로직 추가
-    }
-  };
-  switch (funnel.step) {
-    case "basicInfo":
-      return (
+  return (
+    <funnel.Render
+      basicInfo={({ history }) => (
         <BasicInfoStep
+          onPrev={() => {
+            router.replace(RouteInstance.login());
+          }}
           onNext={async (name, birthDate, gender, profileImage) => {
-            const attachmentId = await handleUploadProfileImage(profileImage);
-            funnel.history.push("workoutSchedule", {
+            const attachmentId = await uploadProfileImage(profileImage);
+            history.push("workoutSchedule", {
               name,
               birthDate,
               gender,
@@ -83,20 +61,26 @@ function RegisterFunnel() {
             });
           }}
         />
-      );
-    case "workoutSchedule":
-      return (
+      )}
+      workoutSchedule={({ history }) => (
         <WorkoutScheduleStep
+          onPrev={() => history.back()}
+          onSubmit={onSubmit}
           onNext={(workoutSchedule) =>
-            funnel.history.replace("result", {
+            history.replace("result", {
               workoutSchedule,
             })
           }
         />
-      );
-    case "result":
-      return <ResultStep form={funnel.context} />;
-  }
+      )}
+      result={({ history, context }) => (
+        <ResultStep form={context} onNext={() => history.replace("pushPermission")} />
+      )}
+      pushPermission={() => (
+        <PushPermissionStep onNext={() => router.replace(RouteInstance["schedule-management"]())} />
+      )}
+    />
+  );
 }
 
 export default RegisterFunnel;
@@ -116,6 +100,13 @@ type WorkoutScheduleStep = {
   workoutSchedule?: Omit<PreferredWorkout, "workoutScheduleId">[];
 };
 type ResultStep = {
+  name: string;
+  birthDate: string;
+  gender: Gender;
+  attachmentId: number;
+  workoutSchedule: Omit<PreferredWorkout, "workoutScheduleId">[];
+};
+type PushPermissionStep = {
   name: string;
   birthDate: string;
   gender: Gender;
