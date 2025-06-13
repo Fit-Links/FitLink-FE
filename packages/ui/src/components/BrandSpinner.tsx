@@ -1,5 +1,6 @@
-import { cn } from "@ui/lib/utils";
 import { LoaderCircle } from "lucide-react";
+
+import { cn } from "@ui/lib/utils";
 
 type BrandSpinnerProps = {
   className?: string;
