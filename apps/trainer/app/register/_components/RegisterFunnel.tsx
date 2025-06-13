@@ -1,18 +1,27 @@
 "use client";
-
 import { AvailablePtTime, Gender } from "@5unwan/core/api/types/common";
-import { useMutation } from "@tanstack/react-query";
+import BrandSpinner from "@ui/components/BrandSpinner";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@ui/components/Sheet";
 import { useFunnel } from "@use-funnel/browser";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 
-import { uploadImage } from "@trainer/services/attachment";
-import { createPresignedUrl } from "@trainer/services/attachment";
+import RouteInstance from "@trainer/constants/route";
+
+import { useRegisterForm } from "../_hooks/useRegisterForm";
+import { useUploadProfileImage } from "../_hooks/useUploadProfileImage";
 
 const BasicInfoStep = dynamic(() => import("@ui/components/FunnelSteps/BasicInfoStep"), {
   ssr: false,
 });
 const TrainerScheduleStep = dynamic(
-  () => import("@ui/components/FunnelSteps/TrainerScheduleStep"),
+  () => import("@trainer/components/FunnelSteps/TrainerScheduleStep"),
   {
     ssr: false,
   },
@@ -20,12 +29,20 @@ const TrainerScheduleStep = dynamic(
 const ResultStep = dynamic(() => import("./ResultStep"), {
   ssr: false,
 });
+const PushPermissionStep = dynamic(() => import("./PushPermissionStep"), {
+  ssr: false,
+});
 
 function RegisterFunnel() {
+  const router = useRouter();
+
+  const { onSubmit, status } = useRegisterForm();
+  const { uploadProfileImage } = useUploadProfileImage();
   const funnel = useFunnel<{
     basicInfo: BasicInfoStep;
     trainerSchedule: TrainerScheduleStep;
     result: ResultStep;
+    pushPermission: PushPermissionStep;
   }>({
     id: "register-trainer",
     initial: {
@@ -34,69 +51,61 @@ function RegisterFunnel() {
     },
   });
 
-  const createPresignedUrlMutation = useMutation({
-    mutationFn: createPresignedUrl,
-  });
-  const uploadImageMutation = useMutation({
-    mutationFn: uploadImage,
-  });
-
-  const handleUploadProfileImage = async (imageFile: File) => {
-    try {
-      const {
-        data: { presignedUrl, attachmentId },
-        status: createPresignedUrlStatus,
-        success: createPresignedUrlSuccess,
-        msg: createPresignedUrlMsg,
-      } = await createPresignedUrlMutation.mutateAsync({
-        fileName: imageFile.name,
-        contentLength: imageFile.size.toString(),
-        contentType: imageFile.type,
-      });
-
-      if (!createPresignedUrlSuccess)
-        throw new Error(
-          `Error occured during createPresignedUrl\nStatus:${createPresignedUrlStatus}\nMessage:${createPresignedUrlMsg}`,
-        );
-
-      await uploadImageMutation.mutateAsync({
-        presignedUrl,
-        imageFile,
-      });
-
-      return attachmentId;
-    } catch {
-      //TODO: 에러 처리 로직 추가
-    }
-  };
-  switch (funnel.step) {
-    case "basicInfo":
-      return (
-        <BasicInfoStep
-          onNext={async (name, birthDate, gender, profileImage) => {
-            const attachmentId = await handleUploadProfileImage(profileImage);
-            funnel.history.push("trainerSchedule", {
-              name,
-              birthDate,
-              gender,
-              attachmentId: attachmentId!,
-            });
-          }}
-        />
-      );
-    case "trainerSchedule":
-      return (
-        <TrainerScheduleStep
-          onNext={(availableTimes) =>
-            funnel.history.replace("result", {
-              availableTimes,
-            })
-          }
-        />
-      );
-    case "result":
-      return <ResultStep form={funnel.context} />;
-  }
+  return (
+    <>
+      <funnel.Render
+        basicInfo={({ history }) => (
+          <BasicInfoStep
+            onPrev={() => {
+              router.replace(RouteInstance.login());
+            }}
+            onNext={async (name, birthDate, gender, profileImage) => {
+              const attachmentId = await uploadProfileImage(profileImage);
+              history.push("trainerSchedule", {
+                name,
+                birthDate,
+                gender,
+                attachmentId: attachmentId!,
+              });
+            }}
+          />
+        )}
+        trainerSchedule={({ history, context }) => (
+          <TrainerScheduleStep
+            onPrev={() => history.back()}
+            onSubmit={async (availableTimes) => {
+              await onSubmit({
+                ...context,
+                availableTimes,
+              });
+            }}
+            onNext={(availableTimes) =>
+              history.replace("result", {
+                availableTimes,
+              })
+            }
+          />
+        )}
+        result={({ history }) => <ResultStep onNext={() => history.replace("pushPermission")} />}
+        pushPermission={() => (
+          <PushPermissionStep
+            onNext={() => router.replace(RouteInstance["schedule-management"]())}
+          />
+        )}
+      />
+      <Sheet open={status === "pending"}>
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+          <SheetHeader>
+            <SheetTitle>회원가입을 진행중입니다</SheetTitle>
+            <SheetDescription>잠시만 기다려주세요</SheetDescription>
+          </SheetHeader>
+          <div className="flex items-center justify-center">
+            <BrandSpinner />
+          </div>
+        </SheetContent>
+      </Sheet>
+    </>
+  );
 }
 
 export default RegisterFunnel;
@@ -118,6 +127,13 @@ type TrainerScheduleStep = {
   availableTimes?: AvailablePtTimeWithoutId[];
 };
 type ResultStep = {
+  name: string;
+  birthDate: string;
+  gender: Gender;
+  attachmentId: number;
+  availableTimes: AvailablePtTimeWithoutId[];
+};
+type PushPermissionStep = {
   name: string;
   birthDate: string;
   gender: Gender;
