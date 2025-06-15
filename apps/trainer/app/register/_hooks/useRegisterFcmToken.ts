@@ -7,19 +7,21 @@ import { sendPushToken } from "@trainer/services/notification";
 import { getDeviceToken, registerServiceWorker } from "@trainer/utils/fcm";
 
 export const useRegisterFcmToken = () => {
-  const { status, mutateAsync } = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: sendPushToken,
   });
-  const [isPending, setIsPending] = useState(false);
-  async function requestFcmPermission() {
-    if (typeof window === "undefined" || typeof navigator === "undefined") return false;
 
-    setIsPending(true);
+  const [status, setStatus] = useState<"pending" | "success" | "error" | "idle">("idle");
+  async function requestFcmPermission() {
+    if (typeof window === "undefined" || typeof navigator === "undefined") return "unSupported";
+
+    setStatus("pending");
+
     const supported = await isSupported();
     if (!supported) {
-      setIsPending(false);
+      setStatus("error");
 
-      return false;
+      return "unSupported";
     }
     const permission = await Notification.requestPermission();
     try {
@@ -27,35 +29,44 @@ export const useRegisterFcmToken = () => {
         registerServiceWorker();
         const token = await getDeviceToken();
         if (token) {
-          await mutateAsync({
-            pushToken: token,
-          });
+          await mutateAsync(
+            {
+              pushToken: token,
+            },
+            {
+              onSuccess: () => {},
+              onError: () => {},
+            },
+          );
 
-          setIsPending(false);
+          setStatus("success");
 
-          return true;
+          return permission;
         }
-        setIsPending(false);
+        setStatus("error");
 
-        return false;
+        return permission;
       } else if (permission === "denied") {
-        setIsPending(false);
+        setStatus("success");
 
-        return false;
+        return permission;
       } else {
-        setIsPending(false);
+        setStatus("success");
 
-        return false;
+        return permission;
       }
-    } catch {
-      setIsPending(false);
+    } catch (e) {
+      console.error(e);
+      setStatus("error");
 
-      return false;
+      return permission;
     }
   }
 
   return {
     requestFcmPermission,
-    isPending: isPending || status === "pending",
+    status,
+    isPending: status === "pending",
+    isError: status === "error",
   };
 };

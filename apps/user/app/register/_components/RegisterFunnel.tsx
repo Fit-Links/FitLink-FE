@@ -1,18 +1,28 @@
 "use client";
 
 import { Gender, PreferredWorkout } from "@5unwan/core/api/types/common";
-import { useMutation } from "@tanstack/react-query";
+import BrandSpinner from "@ui/components/BrandSpinner";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@ui/components/Sheet";
 import { useFunnel } from "@use-funnel/browser";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 
-import { uploadImage } from "@user/services/attachment";
-import { createPresignedUrl } from "@user/services/attachment";
+import RouteInstance from "@user/constants/routes";
+
+import { useRegisterForm } from "../_hooks/useRegisterForm";
+import { useUploadProfileImage } from "../_hooks/useUploadProfileImage";
 
 const BasicInfoStep = dynamic(() => import("@ui/components/FunnelSteps/BasicInfoStep"), {
   ssr: false,
 });
 const WorkoutScheduleStep = dynamic(
-  () => import("@ui/components/FunnelSteps/WorkoutScheduleStep"),
+  () => import("@user/components/FunnelSteps/WorkoutScheduleStep"),
   {
     ssr: false,
   },
@@ -20,12 +30,20 @@ const WorkoutScheduleStep = dynamic(
 const ResultStep = dynamic(() => import("./ResultStep"), {
   ssr: false,
 });
+const PushPermissionStep = dynamic(() => import("./PushPermissionStep"), {
+  ssr: false,
+});
 
 function RegisterFunnel() {
+  const router = useRouter();
+
+  const { onSubmit, status } = useRegisterForm();
+  const { uploadProfileImage } = useUploadProfileImage();
   const funnel = useFunnel<{
     basicInfo: BasicInfoStep;
     workoutSchedule: WorkoutScheduleStep;
     result: ResultStep;
+    pushPermission: PushPermissionStep;
   }>({
     id: "register-user",
     initial: {
@@ -34,69 +52,63 @@ function RegisterFunnel() {
     },
   });
 
-  const createPresignedUrlMutation = useMutation({
-    mutationFn: createPresignedUrl,
-  });
-  const uploadImageMutation = useMutation({
-    mutationFn: uploadImage,
-  });
-
-  const handleUploadProfileImage = async (imageFile: File) => {
-    try {
-      const {
-        data: { presignedUrl, attachmentId },
-        status: createPresignedUrlStatus,
-        success: createPresignedUrlSuccess,
-        msg: createPresignedUrlMsg,
-      } = await createPresignedUrlMutation.mutateAsync({
-        fileName: imageFile.name,
-        contentLength: imageFile.size.toString(),
-        contentType: imageFile.type,
-      });
-
-      if (!createPresignedUrlSuccess)
-        throw new Error(
-          `Error occured during createPresignedUrl\nStatus:${createPresignedUrlStatus}\nMessage:${createPresignedUrlMsg}`,
-        );
-
-      await uploadImageMutation.mutateAsync({
-        presignedUrl,
-        imageFile,
-      });
-
-      return attachmentId;
-    } catch {
-      //TODO: 에러 처리 로직 추가
-    }
-  };
-  switch (funnel.step) {
-    case "basicInfo":
-      return (
-        <BasicInfoStep
-          onNext={async (name, birthDate, gender, profileImage) => {
-            const attachmentId = await handleUploadProfileImage(profileImage);
-            funnel.history.push("workoutSchedule", {
-              name,
-              birthDate,
-              gender,
-              attachmentId: attachmentId!,
-            });
-          }}
-        />
-      );
-    case "workoutSchedule":
-      return (
-        <WorkoutScheduleStep
-          onNext={(workoutSchedule) =>
-            funnel.history.replace("result", {
-              workoutSchedule,
-            })
-          }
-        />
-      );
-    case "result":
-      return <ResultStep form={funnel.context} />;
-  }
+  return (
+    <>
+      <funnel.Render
+        basicInfo={({ history }) => (
+          <BasicInfoStep
+            onPrev={() => {
+              router.replace(RouteInstance.login());
+            }}
+            onNext={async (name, birthDate, gender, profileImage) => {
+              const attachmentId = await uploadProfileImage(profileImage);
+              history.push("workoutSchedule", {
+                name,
+                birthDate,
+                gender,
+                attachmentId: attachmentId!,
+              });
+            }}
+          />
+        )}
+        workoutSchedule={({ history, context }) => (
+          <WorkoutScheduleStep
+            onPrev={() => history.back()}
+            onSubmit={async (workoutSchedule) => {
+              try {
+                await onSubmit({
+                  ...context,
+                  workoutSchedule,
+                });
+                history.replace("result", {
+                  workoutSchedule,
+                });
+              } catch {
+                return;
+              }
+            }}
+          />
+        )}
+        result={({ history }) => <ResultStep onNext={() => history.replace("pushPermission")} />}
+        pushPermission={() => (
+          <PushPermissionStep
+            onNext={() => router.replace(RouteInstance["schedule-management"]())}
+          />
+        )}
+      />
+      <Sheet open={status === "pending"}>
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+          <SheetHeader>
+            <SheetTitle>회원가입을 진행중입니다</SheetTitle>
+            <SheetDescription>잠시만 기다려주세요</SheetDescription>
+          </SheetHeader>
+          <div className="flex items-center justify-center">
+            <BrandSpinner />
+          </div>
+        </SheetContent>
+      </Sheet>
+    </>
+  );
 }
 
 export default RegisterFunnel;
@@ -108,7 +120,7 @@ type BasicInfoStep = {
   attachmentId?: number;
   workoutSchedule?: Omit<PreferredWorkout, "workoutScheduleId">[];
 };
-type WorkoutScheduleStep = {
+export type WorkoutScheduleStep = {
   name: string;
   birthDate: string;
   gender: Gender;
@@ -116,6 +128,13 @@ type WorkoutScheduleStep = {
   workoutSchedule?: Omit<PreferredWorkout, "workoutScheduleId">[];
 };
 type ResultStep = {
+  name: string;
+  birthDate: string;
+  gender: Gender;
+  attachmentId: number;
+  workoutSchedule: Omit<PreferredWorkout, "workoutScheduleId">[];
+};
+type PushPermissionStep = {
   name: string;
   birthDate: string;
   gender: Gender;

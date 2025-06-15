@@ -61,10 +61,11 @@ const areRequiredFormFiledsFilled = (
 };
 type zodErrors = z.inferFlattenedErrors<typeof formSchema>;
 type BasicInfoStepProps = {
+  onPrev: () => void;
   onNext: (name: string, birthDate: string, gender: Gender, profileImage: File) => void;
 };
 
-function BasicInfoStep({ onNext }: BasicInfoStepProps) {
+function BasicInfoStep({ onPrev, onNext }: BasicInfoStepProps) {
   const formDataRef = React.useRef<{
     profileImage?: File;
     name?: string;
@@ -119,6 +120,7 @@ function BasicInfoStep({ onNext }: BasicInfoStepProps) {
   return (
     <div className="flex h-full flex-col">
       <Header>
+        <Header.Back onClick={onPrev} />
         <Header.Title content="내 정보" />
       </Header>
       <form onSubmit={handleSubmit} className="flex flex-1 flex-col justify-between pt-[15px]">

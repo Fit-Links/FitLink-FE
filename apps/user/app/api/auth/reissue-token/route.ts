@@ -33,7 +33,7 @@ export async function POST() {
     }
 
     return response;
-  } catch (error) {
+  } catch {
     return NextResponse.json({ success: false, error: "Server error", status: 500 });
   }
 }

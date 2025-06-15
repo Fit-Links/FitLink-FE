@@ -19,7 +19,7 @@ export default function RefreshSessionPage() {
 
         if (success) router.replace(next);
         else router.replace("/login");
-      } catch (err) {
+      } catch {
         router.replace("/login");
       }
     };

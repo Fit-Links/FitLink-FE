@@ -10,7 +10,7 @@ export async function POST() {
     cookieStore.delete(REFRESH_TOKEN_KEY);
 
     return NextResponse.json({ success: true, status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ success: false, status: 500 });
   }
 }
