@@ -15,7 +15,7 @@ import {
 } from "@ui/components/Sheet";
 import Spinner from "@ui/components/Spinner";
 import { VisuallyHidden } from "@ui/components/VisuallyHidden";
-import { format, subHours } from "date-fns";
+import { format } from "date-fns";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -42,11 +42,9 @@ function ReservationAdderButton({ selectedMemberInformation }: ReservationAdderB
   const { reservationRequest, isSuccess, isPending } = useReservationRequestMutation();
 
   const selectedDate = searchParams.get("selectedDate") as string;
-  const dateObj = new Date(selectedDate);
-  const koreanDate = subHours(dateObj, 9);
-  const formattedDate = format(koreanDate, "yyyy-MM-dd'T'HH:mm");
 
-  /** TODO: 특정 회원을 선택하고 나면 그 회원의 정보를 바탕으로 직접 예약 요청 API 호출 */
+  const formattedDate = format(new Date(selectedDate.replace(/GMT.*$/, "")), "yyyy-MM-dd'T'HH:mm");
+
   const handleClickReservationRequest = () => {
     reservationRequest({
       trainerId: myInformation.data?.trainerId,
