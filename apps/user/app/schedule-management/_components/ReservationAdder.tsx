@@ -14,8 +14,9 @@ import {
   DialogTrigger,
 } from "@ui/components/Dialog";
 import Icon from "@ui/components/Icon";
-import { useRouter } from "next/navigation";
-import { ComponentPropsWithoutRef } from "react";
+import { addDays, format, isWithinInterval, startOfDay } from "date-fns";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ComponentPropsWithoutRef, useState } from "react";
 
 import { myInformationQueries } from "@user/queries/myInformation";
 
@@ -25,11 +26,34 @@ import { resolveTrainerConnectionFlow } from "../_utils/resolveTrainerConnection
 
 function ReservationAdder() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
-  /** TODO: 내정보 API 호출 후, Response 내의 트레이너 연결 상태 추출 */
+  const dateParam = searchParams.get("date");
+  const koreanDate = dateParam ? startOfDay(new Date(dateParam)) : startOfDay(new Date());
+
+  const [isWithinTwoWeeks, setIsWithinTwoWeeks] = useState(false);
+
   const { data: myInformation } = useQuery(myInformationQueries.summary());
 
-  const onGoNewReservation = () => router.push(RouteInstance.reservation("new"));
+  const onGoNewReservation = () => {
+    const isCheckedWithInTwoWeeks = isWithinInterval(koreanDate, {
+      start: startOfDay(new Date()),
+      end: addDays(new Date(), 13),
+    });
+
+    if (isCheckedWithInTwoWeeks) {
+      router.push(
+        RouteInstance.reservation("new", {
+          selectedDate: format(koreanDate, "yyyy-MM-dd"),
+        }),
+      );
+
+      return;
+    }
+
+    setIsWithinTwoWeeks(true);
+  };
+
   const onRequestConnect = () => router.push(RouteInstance["connect-trainer"]());
 
   const { popupData, onClickButton } = resolveTrainerConnectionFlow(
@@ -62,7 +86,25 @@ function ReservationAdder() {
     );
   }
 
-  return <AddReservationButton onClick={onClickButton} />;
+  return (
+    <>
+      <AddReservationButton onClick={onClickButton} />
+      <Dialog open={isWithinTwoWeeks} onOpenChange={setIsWithinTwoWeeks}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="whitespace-pre">
+              {"예약 가능 기간은\n현재로부터 2주 이내입니다"}
+            </DialogTitle>
+          </DialogHeader>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button className="w-full">확인</Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
 }
 
 export default ReservationAdder;
