@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 import { RequestReservationMode } from "@user/app/schedule-management/reservation/[mode]/types/requestReservation";
@@ -20,7 +21,12 @@ function ReservationContainer({
   reservationDateTime,
   firstDayOfMonthKorea,
 }: ReservationContainerProps) {
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date(reservationDate || new Date()));
+  const searchParams = useSearchParams();
+  const dateParam = searchParams.get("selectedDate");
+
+  const [selectedDate, setSelectedDate] = useState<Date>(
+    reservationDate ? new Date(reservationDate) : new Date(dateParam || Date.now()),
+  );
 
   return (
     <section className="flex h-full w-full flex-col overflow-hidden">

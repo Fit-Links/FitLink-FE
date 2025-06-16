@@ -1,9 +1,11 @@
+/* eslint-disable no-magic-numbers */
 "use client";
 
 import { BaseReservationListItem } from "@5unwan/core/api/types/common";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { DayPicker } from "@ui/components/DayPicker/index";
-import { format, startOfMonth } from "date-fns";
+import { addHours, format, startOfMonth } from "date-fns";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 
 import { myInformationQueries } from "@user/queries/myInformation";
@@ -17,7 +19,14 @@ import ReservationStatusSheet from "../BottomSheet/ReservationStatusSheet";
 import ConnectionFallback from "../Fallback/ConnectionFallback";
 
 export default function Calendar() {
-  const [selectedDate, setSelectedDate] = useState<Date>();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(() => {
+    const dateParam = searchParams.get("date");
+
+    return dateParam ? new Date(dateParam) : undefined;
+  });
   const [month, setMonth] = useState(new Date());
   const [isReservationStatusSheetOpen, setIsReservationStatusSheetOpen] = useState(false);
   const [selectedReservationContent, setSelectedReservationContent] =
@@ -40,6 +49,16 @@ export default function Calendar() {
     return <ConnectionFallback />;
   }
 
+  const handleDateChange = (date: Date | undefined) => {
+    setSelectedDate(date);
+
+    if (date) {
+      const params = new URLSearchParams();
+      params.set("date", addHours(date, 9).toISOString());
+      router.push(`?${params.toString()}`);
+    }
+  };
+
   return (
     <>
       {reservations && (
@@ -53,7 +72,7 @@ export default function Calendar() {
             Row: (props) => (
               <WeekRow
                 selectedDate={selectedDate}
-                onChangeSelectedDate={setSelectedDate}
+                onChangeSelectedDate={handleDateChange}
                 reservationContent={filterLatestReservationsByDate(reservations.data)}
                 onSelectedReservationContent={setSelectedReservationContent}
                 onChangeOpen={setIsReservationStatusSheetOpen}
