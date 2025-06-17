@@ -1,5 +1,5 @@
 /* eslint-disable no-magic-numbers */
-import { InfiniteData, useInfiniteQuery, useMutation } from "@tanstack/react-query";
+import { InfiniteData, useInfiniteQuery } from "@tanstack/react-query";
 import { Badge } from "@ui/components/Badge";
 import { Button } from "@ui/components/Button";
 import {
@@ -22,13 +22,12 @@ import {
 import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import { cn } from "@ui/lib/utils";
 import { useRouter } from "next/navigation";
-import { Fragment, MouseEvent, useRef, useState } from "react";
+import { Fragment, MouseEvent, useEffect, useRef, useState } from "react";
 
 import { WithBottomSheetStepper } from "@trainer/hoc/WithBottomSheetStepper";
 import { userManagementQueries } from "@trainer/queries/userManagement";
 
 import { PtUser, PtUserListApiResponse } from "@trainer/services/types/userManagement.dto";
-import { unLinkMember } from "@trainer/services/userManagement";
 
 import EmptySearchResult from "@trainer/components/EmptySearchResult";
 import ProfileCard, { MenuIcon } from "@trainer/components/ProfileCard";
@@ -39,6 +38,7 @@ import RouteInstance from "@trainer/constants/route";
 
 import PtRemainingCountEditSheet from "./PtRemainingCountEditSheet";
 import PtTotalCountEditSheet from "./PtTotalCountEditSheet";
+import useUnlinkMember from "../../_hooks/useUnlinkMember";
 import MemberProfileListFallback from "../MemberProfileListFallback";
 
 type MemberProfileListContentProps = {
@@ -147,9 +147,7 @@ type MemberProfileListProps = {
 function MemberProfileList({ searchValue }: MemberProfileListProps) {
   const router = useRouter();
 
-  const unlinkMutation = useMutation({
-    mutationFn: unLinkMember,
-  });
+  const { unlinkMemeber, isSuccess } = useUnlinkMember();
 
   const [ptManagementSheetSheetOpen, setPtManagementSheetSheetOpen] = useState(false);
   const [selectedMemberInformation, setSelectedMemberInformation] = useState<PtUser | null>(null);
@@ -197,8 +195,14 @@ function MemberProfileList({ searchValue }: MemberProfileListProps) {
 
   const handleClickUnlinkConfirm = () => {
     if (!selectedMemberInformation) return;
-    unlinkMutation.mutate({ memberId: selectedMemberInformation.memberId });
+    unlinkMemeber({ memberId: selectedMemberInformation.memberId });
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setUnLinkMemberPopupOpen(false);
+    }
+  }, [isSuccess]);
 
   const PtTotalCountEditSheetWithStepper = WithBottomSheetStepper(PtTotalCountEditSheet);
   const PtRemainingCountEditSheetWithStepper = WithBottomSheetStepper(PtRemainingCountEditSheet);

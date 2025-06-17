@@ -1,4 +1,5 @@
-import { useMutation } from "@tanstack/react-query";
+"use client";
+
 import { Button } from "@ui/components/Button";
 import Icon from "@ui/components/Icon";
 import {
@@ -11,9 +12,11 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@ui/components/Sheet";
+import { useEffect, useState } from "react";
 
 import { PtUser } from "@trainer/services/types/userManagement.dto";
-import { sessionCountEdit } from "@trainer/services/userManagement";
+
+import useSessionCountEditMutation from "../../_hooks/useSessionCountEditMutation";
 
 type PtTotalCountEditSheetProps = {
   value: number;
@@ -31,21 +34,18 @@ function PtTotalCountEditSheet({
     sessionInfo: { totalCount, sessionInfoId },
   } = selectedMemberInformation;
 
-  const editSessionMutation = useMutation({
-    mutationFn: (totalCount: number) =>
-      sessionCountEdit({
-        requestPath: {
-          memberId,
-          sessionInfoId: sessionInfoId,
-        },
-        requestBody: {
-          totalCount,
-        },
-      }),
-  });
+  const [successSheetOpen, setSuccessSheetOpen] = useState(false);
+
+  const { mutate: updatePtTotalCount, isSuccess } = useSessionCountEditMutation();
 
   const handleClick = () => {
-    editSessionMutation.mutate(value);
+    updatePtTotalCount({
+      memberId: memberId,
+      sessionInfoId: sessionInfoId,
+      editSessionCount: {
+        totalCount: value,
+      },
+    });
   };
 
   const handleClickCheckButton = () => {
@@ -56,8 +56,14 @@ function PtTotalCountEditSheet({
     return value === totalCount;
   };
 
+  useEffect(() => {
+    if (isSuccess) {
+      setSuccessSheetOpen(true);
+    }
+  }, [isSuccess]);
+
   return (
-    <Sheet>
+    <Sheet open={successSheetOpen} onOpenChange={setSuccessSheetOpen}>
       <SheetTrigger asChild>
         <Button
           disabled={checkDisabledButton()}
