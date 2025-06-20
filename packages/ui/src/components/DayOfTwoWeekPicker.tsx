@@ -100,7 +100,7 @@ function Weeks({ currentDate, selectedDate, onSelectedDate }: WeeksProps) {
                 data-testid={isVisible && format(day, "yyyy-MM-dd")}
                 onClick={handleSelectDate(day)}
                 className={cn(
-                  "first:text-brand-secondary-500 last:text-brand-secondary-500 hover:bg-brand-primary-500 flex h-[1.875rem] w-[1.875rem] items-center justify-center rounded-full",
+                  "first:text-brand-secondary-500 last:text-brand-secondary-500 md:hover:bg-brand-primary-500 flex h-[1.875rem] w-[1.875rem] items-center justify-center rounded-full",
                   !isVisible && "invisible",
                   isToday(day) && "text-text-sub5 bg-white",
                   selectedDate && isSameDay(selectedDate, day) && "bg-brand-primary-500",

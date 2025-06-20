@@ -63,12 +63,12 @@ const PtHistoryList = forwardRef<HTMLDivElement, PtHistoryListProps>(({ ptHistor
             <SheetFooter>
               <div className="flex w-full gap-[0.625rem]">
                 <SheetClose asChild>
-                  <Button className="bg-background-sub1 hover:bg-background-sub3 h-[3.375rem] flex-1 transition-colors">
+                  <Button className="bg-background-sub1 md:hover:bg-background-sub3 h-[3.375rem] flex-1 transition-colors">
                     불참석
                   </Button>
                 </SheetClose>
                 <SheetClose asChild>
-                  <Button className="bg-background-sub5 text-text-sub5 hover:bg-background-sub4 h-[3.375rem] flex-1 transition-colors">
+                  <Button className="bg-background-sub5 text-text-sub5 md:hover:bg-background-sub4 h-[3.375rem] flex-1 transition-colors">
                     PT완료
                   </Button>
                 </SheetClose>

@@ -10,13 +10,13 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        brand: "bg-brand-primary-500 text-text-primary shadow hover:bg-brand-primary-500/90",
-        negative: "bg-background-sub5 text-text-sub5 shadow hover:bg-background-sub5/90",
-        secondary: "bg-background-sub1 text-text-primary shadow hover:bg-background-sub2",
+        brand: "bg-brand-primary-500 text-text-primary shadow md:hover:bg-brand-primary-500/90",
+        negative: "bg-background-sub5 text-text-sub5 shadow md:hover:bg-background-sub5/90",
+        secondary: "bg-background-sub1 text-text-primary shadow md:hover:bg-background-sub2",
         outline:
-          "bg-transparent text-text-sub2 border border-solid border-background-sub4 hover:border-background-sub5 hover:bg-background-sub5 hover:text-text-sub5",
-        ghost: "bg-transparent text-text-primary hover:bg-background-sub3",
-        destructive: "bg-notification text-text-primary shadow hover:bg-notification/90",
+          "bg-transparent text-text-sub2 border border-solid border-background-sub4 md:hover:border-background-sub5 md:hover:bg-background-sub5 md:hover:text-text-sub5",
+        ghost: "bg-transparent text-text-primary md:hover:bg-background-sub3",
+        destructive: "bg-notification text-text-primary shadow md:hover:bg-notification/90",
       },
       size: {
         sm: "h-[2rem] text-body-3",

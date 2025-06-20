@@ -25,7 +25,7 @@ function PtHistoryFilterButton({
           key={status}
           onClick={handleClick(status)}
           className={cn(
-            "bg-background-sub2 text-body-1 hover:bg-background-sub5 hover:text-text-sub5 h-8 rounded-[0.625rem] px-[0.813rem] py-[0.625rem] transition-colors",
+            "bg-background-sub2 text-body-1 md:hover:bg-background-sub5 md:hover:text-text-sub5 h-8 rounded-[0.625rem] px-[0.813rem] py-[0.625rem] transition-colors",
             {
               "bg-background-sub5 text-text-sub5": status === selectedPtStatus,
             },

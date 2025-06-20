@@ -20,37 +20,37 @@ export const RESERVATION_CONFIG: Record<
   ReservationConfig
 > = {
   "예약 종료": {
-    style: "bg-brand-primary-500 hover:bg-brand-primary-600",
+    style: "bg-brand-primary-500 md:hover:bg-brand-primary-600",
     content: (reservationContent) => reservationContent.memberInfo.name,
     ptStatus: () => "PT 완료",
   },
   "예약 확정": {
-    style: "bg-brand-primary-500 hover:bg-brand-primary-600",
+    style: "bg-brand-primary-500 md:hover:bg-brand-primary-600",
     content: (reservationContent) => reservationContent.memberInfo.name,
     ptStatus: ({ reservationContents }) => `${reservationContents?.[0].status}`,
   },
   "예약 대기": {
-    style: "bg-brand-secondary-500 hover:bg-brand-secondary-600",
+    style: "bg-brand-secondary-500 md:hover:bg-brand-secondary-600",
     content: () => "대기",
     ptStatus: ({ reservationContents }) => `${reservationContents?.length}명`,
   },
   "예약 불가 설정": {
-    style: "bg-background-sub2 hover:bg-background-sub3",
+    style: "bg-background-sub2 md:hover:bg-background-sub3",
     content: () => "예약\n불가",
     ptStatus: () => "",
   },
   "고정 예약": {
-    style: "bg-brand-primary-500 hover:bg-brand-primary-600",
+    style: "bg-brand-primary-500 md:hover:bg-brand-primary-600",
     content: (reservationContent) => reservationContent.memberInfo.name,
     ptStatus: () => "고정 예약",
   },
   "예약 취소 거절": {
-    style: "bg-brand-primary-500 hover:bg-brand-primary-600",
+    style: "bg-brand-primary-500 md:hover:bg-brand-primary-600",
     content: (reservationContent) => reservationContent.memberInfo.name,
     ptStatus: () => "예약 확정",
   },
   "예약 변경 거절": {
-    style: "bg-brand-primary-500 hover:bg-brand-primary-600",
+    style: "bg-brand-primary-500 md:hover:bg-brand-primary-600",
     content: (reservationContent) => reservationContent.memberInfo.name,
     ptStatus: () => "예약 확정",
   },
