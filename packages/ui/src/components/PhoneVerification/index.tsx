@@ -1,17 +1,17 @@
 "use client";
 
-import { DialogTitle } from "@mui/material";
-import { DialogDescription } from "@radix-ui/react-dialog";
-import { Check, Clipboard } from "lucide-react";
 import { useRef, useState } from "react";
+
+import { copyToClipboard } from "@ui/utils/copyToClipboard";
 
 import { Button } from "../Button";
 import PhoneVerificationGuide from "./PhoneVerificationGuide";
 import PhoneVerificationImage from "./PhoneVerificationImage";
 import PhoneVerificationNotice from "./PhoneVerificationNotice";
-import { Dialog, DialogContent, DialogHeader } from "../Dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "../Dialog";
 import QRCodeGenerator from "../QRCodeGenerator";
 import { Text } from "../Text";
+import VerificationInfoDialog from "./VerificationInfoDialog";
 
 type PhoneVerificationProps = {
   onClick: () => void;
@@ -41,36 +41,11 @@ const isAndroidCheck = () => {
 const generateSnsBody = (type: "link" | "clipboard", token?: string) => {
   return `[Fitlink]${type === "clipboard" ? "\n" : "%0A"}${token}`;
 };
-const formatToHTML = (message: string) => {
-  const [header, content] = message.split("\n");
-
-  return (
-    <>
-      {header}
-      <br />
-      {content}
-    </>
-  );
-};
-const copyToClipboard = async (text: string) => {
-  if (typeof navigator === "undefined") return false;
-
-  try {
-    await navigator.clipboard.writeText(text);
-
-    return true;
-  } catch {
-    alert("클립보드 복사에 실패했습니다. 수동으로 복사해주세요.");
-
-    return false;
-  }
-};
 
 function PhoneVerification({ onClick, verificationToken }: PhoneVerificationProps) {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const [isQrCodeDialogOpen, setIsQrCodeDialogOpen] = useState(false);
-  const [isMessageDialogOpen, setIsMessageDialogOpen] = useState(false);
-  const [isCopied, setIsCopied] = useState(false);
+  const [isVerificationInfoDialogOpen, setIsVerificationInfoDialogOpen] = useState(false);
 
   const handleAndroidClick = async (token: string) => {
     const isCopied = await copyToClipboard(generateSnsBody("clipboard", token));
@@ -110,7 +85,7 @@ function PhoneVerification({ onClick, verificationToken }: PhoneVerificationProp
           iconLeft="CircleHelp"
           className="shink-0 min-h-[2.5rem]"
           onClick={() => {
-            setIsMessageDialogOpen(true);
+            setIsVerificationInfoDialogOpen(true);
           }}
         >
           인증 메시지 확인하기
@@ -159,42 +134,11 @@ function PhoneVerification({ onClick, verificationToken }: PhoneVerificationProp
           </div>
         </DialogContent>
       </Dialog>
-      <Dialog
-        open={isMessageDialogOpen}
-        onOpenChange={(open) => {
-          setIsMessageDialogOpen(open);
-          setIsCopied(false);
-        }}
-      >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>인증 메시지 확인</DialogTitle>
-            <DialogDescription className="text-center">
-              <span className="text-brand-primary-300">문자</span>로{" "}
-              <span className="text-brand-primary-300 ">verification@fitlink.biz</span> 에게 인증
-              메시지를 전송해주세요
-            </DialogDescription>
-          </DialogHeader>
-
-          <div className="bg-background-sub3 mt-8 flex items-center justify-between rounded-lg p-2 pl-4">
-            <p>{formatToHTML(generateSnsBody("clipboard", verificationToken))}</p>
-            <Button
-              variant={"outline"}
-              className="h-10 w-10"
-              onClick={async () => {
-                if (isCopied) return;
-                const copySuccessful = await copyToClipboard(
-                  generateSnsBody("clipboard", verificationToken),
-                );
-
-                if (copySuccessful) setIsCopied(true);
-              }}
-            >
-              {!isCopied ? <Clipboard /> : <Check />}
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <VerificationInfoDialog
+        open={isVerificationInfoDialogOpen}
+        onOpenChange={setIsVerificationInfoDialogOpen}
+        verificationMessage={generateSnsBody("clipboard", verificationToken)}
+      />
     </main>
   );
 }
