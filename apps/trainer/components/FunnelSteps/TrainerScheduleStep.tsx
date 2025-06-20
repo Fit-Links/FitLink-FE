@@ -19,6 +19,8 @@ import TimePicker from "@ui/components/TimePicker";
 import { DAYS_OF_WEEK_MAP } from "@ui/utils/timeCellUtils";
 import { useRef, useState } from "react";
 
+import { AvailablePtTimeEntry } from "@trainer/services/types/myInformation.dto";
+
 const DEFAULT_TIME = "-- : --";
 
 const setHalfHours = (relative: number) => {
@@ -65,8 +67,15 @@ type TrainerScheduleStepProps = {
   onPrev: () => void;
   onNext?: (availablePtTimes: Omit<AvailablePtTime, "availableTimeId">[]) => void;
   onSubmit?: (availablePtTimes: Omit<AvailablePtTime, "availableTimeId">[]) => Promise<void>;
+  currentSchedule?: AvailablePtTimeEntry[];
 };
-function TrainerScheduleStep({ onPrev, onNext, onSubmit }: TrainerScheduleStepProps) {
+
+function TrainerScheduleStep({
+  onPrev,
+  onNext,
+  onSubmit,
+  currentSchedule,
+}: TrainerScheduleStepProps) {
   const timePeriodRef = useRef<string>(null);
   const hoursRef = useRef<string>(null);
   const minutesRef = useRef<string>(null);
@@ -83,13 +92,16 @@ function TrainerScheduleStep({ onPrev, onNext, onSubmit }: TrainerScheduleStepPr
       startTime: string | null;
       endTime: string | null;
     }[]
-  >(
-    Array.from({ length: 7 }, (_v, index) => ({
-      dayOfWeek: DAYS_OF_WEEK_MAP[index],
-      isHoliday: true,
-      startTime: null,
-      endTime: null,
-    })),
+  >(() =>
+    currentSchedule
+      ? // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        currentSchedule.map(({ availableTimeId: _, ...dailySchedule }) => dailySchedule)
+      : Array.from({ length: 7 }, (_v, index) => ({
+          dayOfWeek: DAYS_OF_WEEK_MAP[index],
+          isHoliday: true,
+          startTime: null,
+          endTime: null,
+        })),
   );
 
   const filledDays = trainerSchedule
