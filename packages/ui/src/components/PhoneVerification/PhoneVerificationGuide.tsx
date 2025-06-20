@@ -12,7 +12,10 @@ export default function PhoneVerificationGuide() {
         </p>
       </div>
 
-      <p>③ 인증 메시지를 그대로 보내주세요.</p>
+      <p>
+        ③ 인증 메시지를 그대로{" "}
+        <span className="text-brand-primary-300">verification@fitlink.biz</span>로 보내주세요.
+      </p>
     </div>
   );
 }
