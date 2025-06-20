@@ -67,7 +67,7 @@ function ReservationChangeSheetContent({
         userBirth={new Date(birthDate)}
         userName={name as string}
         phoneNumber={phoneNumber}
-        className="bg-background-sub1 w-full hover:bg-none"
+        className="bg-background-sub1 w-full md:hover:bg-none"
       >
         <Badge variant={"sub2"}>{formatSessionData(remainingCount, totalCount)}</Badge>
       </ProfileCard>

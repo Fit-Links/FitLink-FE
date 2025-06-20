@@ -109,7 +109,7 @@ const DayOfWeekPickerItem = forwardRef<HTMLDivElement, DayOfWeekPickerItemProps>
         className={cn(
           "flex h-[30px] w-[30px] items-center justify-center rounded-full border-none transition-colors duration-150",
           {
-            "hover:bg-brand-primary-600": !isDisabled,
+            "md:hover:bg-brand-primary-600": !isDisabled,
           },
           {
             "bg-background-sub3": isCompleted,

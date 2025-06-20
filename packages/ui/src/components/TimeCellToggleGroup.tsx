@@ -110,7 +110,7 @@ function TimeCellToggleItem({ disabled, time, variant, priority }: TimeCellToggl
         disabled={disabled}
         value={time}
         className={cn(
-          "text-text-sub2 border-text-sub2 data-[state=on]:border-brand-primary-500 data-[state=on]:bg-brand-primary-500 data-[state=on]:text-text-primary disabled:bg-background-sub2 disabled:text-text-sub3 disabled:border-background-sub2 text-headline hover:bg-brand-primary-600 hover:text-text-primary hover:border-brand-primary-600 h-[2.375rem] min-w-[4.875rem] rounded-full disabled:opacity-100",
+          "text-text-sub2 border-text-sub2 data-[state=on]:border-brand-primary-500 data-[state=on]:bg-brand-primary-500 data-[state=on]:text-text-primary disabled:bg-background-sub2 disabled:text-text-sub3 disabled:border-background-sub2 text-headline md:hover:bg-brand-primary-600 md:hover:text-text-primary md:hover:border-brand-primary-600 h-[2.375rem] min-w-[4.875rem] rounded-full disabled:opacity-100",
           {
             "data-[state=on]:dot-mask-lg": variant === "notification" && isSelected,
           },

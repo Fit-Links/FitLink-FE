@@ -22,7 +22,7 @@ export default function BottomNavigation() {
           <Link
             href={path}
             className={cn(
-              "text-background-sub4 hover:text-background-sub5 flex w-12 flex-col items-center justify-center gap-1 transition-colors",
+              "text-background-sub4 md:hover:text-background-sub5 flex w-12 flex-col items-center justify-center gap-1 transition-colors",
               {
                 "text-text-primary": pathname.startsWith(path),
               },

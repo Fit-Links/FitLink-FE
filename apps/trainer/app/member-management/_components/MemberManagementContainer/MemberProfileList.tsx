@@ -227,7 +227,7 @@ function MemberProfileList({ searchValue }: MemberProfileListProps) {
           <div className="flex h-full w-full flex-col gap-[0.625rem]">
             <SheetClose asChild>
               <div
-                className="bg-background-sub1 hover:bg-background-sub3 flex cursor-pointer items-center gap-2 rounded-[0.625rem] px-[0.813rem] py-[0.625rem] transition-colors"
+                className="bg-background-sub1 md:hover:bg-background-sub3 flex cursor-pointer items-center gap-2 rounded-[0.625rem] px-[0.813rem] py-[0.625rem] transition-colors"
                 onClick={handleClickPtTotalCountEdit}
               >
                 <Icon name="Pencil" size="lg" />
@@ -236,7 +236,7 @@ function MemberProfileList({ searchValue }: MemberProfileListProps) {
             </SheetClose>
             <SheetClose asChild>
               <div
-                className="bg-background-sub1 hover:bg-background-sub3 flex cursor-pointer items-center gap-2 rounded-[0.625rem] px-[0.813rem] py-[0.625rem] transition-colors"
+                className="bg-background-sub1 md:hover:bg-background-sub3 flex cursor-pointer items-center gap-2 rounded-[0.625rem] px-[0.813rem] py-[0.625rem] transition-colors"
                 onClick={handleClickPtRemainingCountEdit}
               >
                 <Icon name="Pencil" size="lg" />
@@ -245,7 +245,7 @@ function MemberProfileList({ searchValue }: MemberProfileListProps) {
             </SheetClose>
             <SheetClose asChild>
               <div
-                className="bg-background-sub1 text-notification hover:bg-background-sub3 flex cursor-pointer items-center gap-2 rounded-[0.625rem] px-[0.813rem] py-[0.625rem] transition-colors"
+                className="bg-background-sub1 text-notification md:hover:bg-background-sub3 flex cursor-pointer items-center gap-2 rounded-[0.625rem] px-[0.813rem] py-[0.625rem] transition-colors"
                 onClick={handleClickUnLinkMember}
               >
                 <Icon name="UserRoundX" size="lg" />
@@ -291,7 +291,7 @@ function MemberProfileList({ searchValue }: MemberProfileListProps) {
               <DialogClose asChild>
                 <Button
                   variant={"secondary"}
-                  className="hover:bg-background-sub3 flex-1 transition-colors"
+                  className="md:hover:bg-background-sub3 flex-1 transition-colors"
                 >
                   취소
                 </Button>

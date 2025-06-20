@@ -102,7 +102,7 @@ function ReservationOutcomeSheet({
                 userBirth={new Date(userInformationDetail.data.birthDate)}
                 userName={name as string}
                 phoneNumber={userInformationDetail.data.phoneNumber}
-                className="bg-background-sub1 w-full hover:bg-none"
+                className="bg-background-sub1 w-full md:hover:bg-none"
               />
             )
           )}
