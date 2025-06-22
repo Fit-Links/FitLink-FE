@@ -15,16 +15,19 @@ import {
 } from "@ui/components/Sheet";
 import Spinner from "@ui/components/Spinner";
 import { VisuallyHidden } from "@ui/components/VisuallyHidden";
-import { format } from "date-fns";
+import { format, subHours } from "date-fns";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 import { myInformationQueries } from "@trainer/queries/myInformation";
+import { reservationQueries } from "@trainer/queries/reservation";
 
 import { PtUser } from "@trainer/services/types/userManagement.dto";
 
 import RouteInstance from "@trainer/constants/route";
 
+import { filterLatestReservationsByDate } from "../../_utils/reservationMerger";
 import { useReservationRequestMutation } from "../_hooks/mutations/useReservationRequestMutation";
 
 type ReservationAdderButtonProps = {
@@ -37,15 +40,44 @@ function ReservationAdderButton({ selectedMemberInformation }: ReservationAdderB
 
   const [isReservationRequestSheetOpen, setIsReservationRequestSheetOpen] = useState(false);
 
+  const selectedDate = searchParams.get("selectedDate") as string;
+
+  const koreanFormattedDate = format(subHours(new Date(selectedDate as string), 9), "yyyy-MM-dd");
+
   const { data: myInformation } = useSuspenseQuery(myInformationQueries.myInformation());
+  const { data: reservationList } = useSuspenseQuery(reservationQueries.list(koreanFormattedDate));
+
+  const filteredReservationList = filterLatestReservationsByDate(reservationList.data);
+
+  const hasExistingReservationOnSameDay = filteredReservationList.some((reservationContent) => {
+    if (
+      reservationContent.status === "고정 예약" ||
+      reservationContent.status === "예약 변경 거절" ||
+      reservationContent.status === "예약 변경 요청" ||
+      reservationContent.status === "예약 종료" ||
+      reservationContent.status === "예약 취소 거절" ||
+      reservationContent.status === "예약 취소 요청" ||
+      reservationContent.status === "예약 확정"
+    ) {
+      return reservationContent.reservationDates.some(
+        (date) => format(new Date(date), "yyyy-MM-dd") === koreanFormattedDate,
+      );
+    }
+
+    return false;
+  });
 
   const { reservationRequest, isSuccess, isPending } = useReservationRequestMutation();
-
-  const selectedDate = searchParams.get("selectedDate") as string;
 
   const formattedDate = format(new Date(selectedDate.replace(/GMT.*$/, "")), "yyyy-MM-dd'T'HH:mm");
 
   const handleClickReservationRequest = () => {
+    if (hasExistingReservationOnSameDay) {
+      toast.error(`${selectedMemberInformation?.name} 회원의 예약이 이미 같은 날짜에 존재합니다.`);
+
+      return;
+    }
+
     reservationRequest({
       trainerId: myInformation.data?.trainerId,
       memberId: (selectedMemberInformation as PtUser).memberId,
