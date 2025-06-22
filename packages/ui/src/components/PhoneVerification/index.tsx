@@ -2,8 +2,6 @@
 
 import { useRef, useState } from "react";
 
-import { copyToClipboard } from "@ui/utils/copyToClipboard";
-
 import { Button } from "../Button";
 import PhoneVerificationGuide from "./PhoneVerificationGuide";
 import PhoneVerificationImage from "./PhoneVerificationImage";
@@ -47,10 +45,7 @@ function PhoneVerification({ onClick, verificationToken }: PhoneVerificationProp
   const [isQrCodeDialogOpen, setIsQrCodeDialogOpen] = useState(false);
   const [isVerificationInfoDialogOpen, setIsVerificationInfoDialogOpen] = useState(false);
 
-  const handleAndroidClick = async (token: string) => {
-    const isCopied = await copyToClipboard(generateSnsBody("clipboard", token));
-    if (!isCopied) return;
-
+  const handleAndroidClick = async () => {
     window.location.href = `sms:`;
   };
 
@@ -64,9 +59,7 @@ function PhoneVerification({ onClick, verificationToken }: PhoneVerificationProp
     }
 
     if (isAndroidCheck()) {
-      if (verificationToken) {
-        handleAndroidClick(verificationToken);
-      }
+      handleAndroidClick();
     } else linkRef.current?.click();
   };
 
