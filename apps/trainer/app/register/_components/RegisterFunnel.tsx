@@ -36,7 +36,7 @@ const PushPermissionStep = dynamic(() => import("./PushPermissionStep"), {
 function RegisterFunnel() {
   const router = useRouter();
 
-  const { onSubmit, status } = useRegisterForm();
+  const { onSubmit, isPending: isRegisterPending } = useRegisterForm();
   const { uploadProfileImage } = useUploadProfileImage();
   const funnel = useFunnel<{
     basicInfo: BasicInfoStep;
@@ -93,7 +93,7 @@ function RegisterFunnel() {
           />
         )}
       />
-      <Sheet open={status === "pending"}>
+      <Sheet open={isRegisterPending}>
         <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
           <SheetHeader>
             <SheetTitle>회원가입을 진행중입니다</SheetTitle>
