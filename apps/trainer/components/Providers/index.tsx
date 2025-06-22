@@ -17,8 +17,8 @@ function makeQueryClient() {
         refetchOnMount: true,
       },
       mutations: {
-        onError: () => {
-          toast.error("요청에 실패했습니다. 다시 시도해주세요!");
+        onError: (error) => {
+          toast.error(error.message);
         },
         onSuccess: () => {
           toast.success("요청이 완료되었습니다.");
