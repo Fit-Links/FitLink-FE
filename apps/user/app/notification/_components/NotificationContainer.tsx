@@ -2,7 +2,6 @@
 
 import { API_THROTTLE_LIMIT, throttle } from "@5unwan/core/utils/throttle";
 import { useMutation, useQueryClient, useSuspenseInfiniteQuery } from "@tanstack/react-query";
-import NotificationItem from "@ui/components/NotificationItem/NotificationItem";
 import { Text } from "@ui/components/Text";
 import React, { Fragment, useRef } from "react";
 
@@ -13,6 +12,7 @@ import { readNotification } from "@user/services/notification";
 import useIntersectionObserver from "@user/hooks/useIntersectionObserver";
 
 import EmptyList from "./EmptyList";
+import NotificationItemContainer from "./NotificationItemContainer";
 
 function NotificationContainer() {
   const intersectionRef = useRef(null);
@@ -49,19 +49,18 @@ function NotificationContainer() {
         <ul className="flex flex-col items-center gap-4">
           {data.pages.map((group, index) => (
             <Fragment key={`notificationGroup-${index}`}>
-              {group.data.content.map(
-                ({ notificationId, content, sendDate, isProcessed, type }) => (
-                  <NotificationItem
-                    message={content}
-                    createdAt={sendDate}
+              {group.data.content.map((notification) => {
+                const { notificationId, isProcessed } = notification;
+
+                return (
+                  <NotificationItemContainer
+                    notification={notification}
                     isCompleted={isPending && notificationId === variables.id ? true : isProcessed}
-                    variant={type}
                     onClick={handleClick(notificationId)}
-                    className="w-full"
                     key={`notification-${notificationId}`}
                   />
-                ),
-              )}
+                );
+              })}
             </Fragment>
           ))}
           <div ref={intersectionRef} />
