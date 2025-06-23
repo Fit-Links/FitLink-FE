@@ -7,7 +7,6 @@ type NotificationContentProps = {
   message: string;
   eventDate?: string;
   createdAt?: string;
-  eventDetail?: string;
   variant: NotificationType;
 };
 function NotificationContent({
@@ -15,9 +14,29 @@ function NotificationContent({
   message,
   eventDate,
   createdAt,
-  eventDetail,
   variant,
 }: NotificationContentProps) {
+  const createEventDateJSX = (eventDate: string) => {
+    const [before, after] = eventDate.split(" -> ");
+
+    if (variant === "예약 변경")
+      return (
+        <span>
+          <span>{before}</span>
+          <span> → </span>
+          <span
+            className={cn("text-brand-primary-400", {
+              "text-brand-primary-700": isCompleted,
+            })}
+          >
+            {after}
+          </span>
+        </span>
+      );
+
+    return <span>{eventDate}</span>;
+  };
+
   return (
     <div
       className={cn(
@@ -29,27 +48,7 @@ function NotificationContent({
     >
       <span>{message}</span>
 
-      <p>
-        {eventDate && <span>{`${eventDate} ${variant === "예약 변경" ? "→ " : ""}`}</span>}
-        {eventDetail && (
-          <span
-            className={cn(
-              "text-brand-primary-500 transition-colors",
-              {
-                "text-brand-primary-700": variant !== "세션" && isCompleted,
-              },
-              {
-                "text-text-primary": variant === "세션" && !isCompleted,
-              },
-              {
-                "text-text-sub3": variant === "세션" && isCompleted,
-              },
-            )}
-          >
-            {eventDetail}
-          </span>
-        )}
-      </p>
+      <p>{eventDate && createEventDateJSX(eventDate)}</p>
 
       <span className="text-body-4 text-text-sub3">{createdAt}</span>
     </div>

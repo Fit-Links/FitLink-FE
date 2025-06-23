@@ -30,17 +30,20 @@ type ReservationCancelSheetProps = {
   open: boolean;
   onChangeOpen: (isOpen: boolean) => void;
   eventDateDescription: string;
+  cancelReason: string;
 };
 
 type ReservationCancelSheetContentProps = {
   notificationId: number;
   eventDateDescription: string;
+  cancelReason: string;
   handleDeclineClick: (reservationId: number, userId: number) => () => void;
   handleAcceptClick: (reservationId: number, userId: number) => () => void;
 };
 function ReservationCancelSheetContent({
   notificationId,
   eventDateDescription,
+  cancelReason,
   handleDeclineClick,
   handleAcceptClick,
 }: ReservationCancelSheetContentProps) {
@@ -70,6 +73,9 @@ function ReservationCancelSheetContent({
       >
         <Badge variant={"sub2"}>{formatSessionData(remainingCount, totalCount)}</Badge>
       </ProfileCard>
+      <div className="bg-background-sub1 mt-2 w-full rounded-[0.625rem] p-4 md:hover:bg-none">
+        {cancelReason}
+      </div>
       <SheetFooter>
         <div className="flex w-full justify-center gap-[0.625rem]">
           <SheetClose asChild>
@@ -103,6 +109,7 @@ function ReservationCancelSheet({
   open,
   onChangeOpen,
   eventDateDescription,
+  cancelReason,
 }: ReservationCancelSheetProps) {
   const queryClient = useQueryClient();
 
@@ -146,6 +153,7 @@ function ReservationCancelSheet({
               <ReservationCancelSheetContent
                 notificationId={notificationId}
                 eventDateDescription={eventDateDescription}
+                cancelReason={cancelReason}
                 handleDeclineClick={handleDeclineClick}
                 handleAcceptClick={handleAcceptClick}
               />

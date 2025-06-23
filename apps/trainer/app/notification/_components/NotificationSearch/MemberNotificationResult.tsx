@@ -12,7 +12,7 @@ import useIntersectionObserver from "@trainer/hooks/useIntersectionObserver";
 import { NotificationStatus } from "../../_types";
 import createFilteredNotificationCount from "../../_utils/createFilteredNotificationCount";
 import handleNotificationFilter from "../../_utils/handleNotificationFilter";
-import { parseEventDateFromContent } from "../../_utils/parser";
+import { parseContent } from "../../_utils/notificationParser";
 import EmptyList from "../EmptyList";
 import NotificationItemContainer from "../NotificationItemContainer";
 import NotificationListFallback from "../NotificationListFallback";
@@ -102,6 +102,10 @@ function MemberNotificationResult({ memberId }: MemberNotificationResultProps) {
   const ActionSheet =
     selectedNotification && selectedNotification.type && SheetRenderer[selectedNotification.type];
 
+  const info = selectedNotification
+    ? parseContent(selectedNotification.content)
+    : { message: "", eventDate: "", other: "" };
+
   return (
     <>
       <div className="flex flex-col items-start gap-4">
@@ -156,7 +160,10 @@ function MemberNotificationResult({ memberId }: MemberNotificationResultProps) {
             open: isActionSheetOpen,
             onChangeOpen: setIsActionSheetOpen,
           },
-          parseEventDateFromContent(selectedNotification.content),
+          {
+            eventDate: info.eventDate,
+            cancelReason: info.other,
+          },
         )}
     </>
   );

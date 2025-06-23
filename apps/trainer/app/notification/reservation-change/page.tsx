@@ -20,7 +20,7 @@ import ReservationChangeSheet from "../_components/SheetRenderer/ReservationChan
 import { NotificationStatus } from "../_types";
 import createFilteredNotificationCount from "../_utils/createFilteredNotificationCount";
 import handleNotificationFilter from "../_utils/handleNotificationFilter";
-import { parseEventDateFromContent } from "../_utils/parser";
+import { parseContent } from "../_utils/notificationParser";
 
 type ReservationChangeNotificationContentProps = {
   status: NotificationStatus;
@@ -98,6 +98,10 @@ function ReservationChangeNotificationPage() {
     setIsActionSheetOpen(true);
   };
 
+  const info = selectedNotification
+    ? parseContent(selectedNotification.content)
+    : { message: "", eventDate: "", other: "" };
+
   return (
     <div className="flex h-full flex-col">
       <Header className="mb-4">
@@ -134,7 +138,7 @@ function ReservationChangeNotificationPage() {
           notificationId={selectedNotification.notificationId}
           open={isActionSheetOpen}
           onChangeOpen={setIsActionSheetOpen}
-          eventDateDescription={parseEventDateFromContent(selectedNotification.content)}
+          eventDateDescription={info.eventDate}
         />
       )}
     </div>
