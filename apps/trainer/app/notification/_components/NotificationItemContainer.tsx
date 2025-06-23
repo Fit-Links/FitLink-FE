@@ -8,7 +8,7 @@ import { notificationQueries } from "@trainer/queries/notification";
 
 import NotificationItemError from "./NotificationItemError";
 import NotificationItemFallback from "./NotificationItemFallback";
-import { parseMessageFromContent } from "../_utils/parser";
+import { parseContent } from "../_utils/notificationParser";
 
 type NotificationItemContainerProps = {
   notification: NotificationInfo;
@@ -21,7 +21,7 @@ function NotificationItemContainer({ notification, onClick }: NotificationItemCo
   );
 
   const { content, type, sendDate, isProcessed, notificationId } = notification;
-  const message = parseMessageFromContent(content);
+  const { message, eventDate } = parseContent(content);
 
   if (isPending)
     return (
@@ -40,6 +40,7 @@ function NotificationItemContainer({ notification, onClick }: NotificationItemCo
   return (
     <NotificationItem
       message={message}
+      eventDate={eventDate}
       variant={type}
       createdAt={sendDate}
       image={
