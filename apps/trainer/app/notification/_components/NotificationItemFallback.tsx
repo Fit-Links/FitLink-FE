@@ -7,8 +7,7 @@ import { cn } from "@ui/lib/utils";
 type NotificationItemFallbackProps = {
   isCompleted: boolean;
   message: string;
-  eventDate?: Date | string;
-  eventDetail?: Date | string;
+  eventDate?: string;
   createdAt: Date | string;
   variant: NotificationType;
 };
@@ -16,6 +15,7 @@ function NotificationItemFallback({
   isCompleted,
   createdAt,
   message,
+  eventDate,
   variant,
 }: NotificationItemFallbackProps) {
   const createdDateController = DateController(createdAt).validate();
@@ -34,6 +34,7 @@ function NotificationItemFallback({
         isCompleted={isCompleted}
         createdAt={createdDateController?.toRelative()}
         message={message}
+        eventDate={eventDate}
         variant={variant}
       />
     </li>

@@ -30,6 +30,7 @@ function NotificationItemContainer({ notification, onClick }: NotificationItemCo
         createdAt={sendDate}
         isCompleted={isProcessed}
         message={message}
+        eventDate={eventDate}
       />
     );
 
