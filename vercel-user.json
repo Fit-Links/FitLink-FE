@@ -1,6 +1,6 @@
 {
   "buildCommand": "pnpm -w run build:user",
-  "outputDirectory": "apps/user/.next",
+  "outputDirectory": "./apps/user/.next",
   "framework": "nextjs",
   "installCommand": "pnpm install",
   "devCommand": "pnpm -w run dev:user"
