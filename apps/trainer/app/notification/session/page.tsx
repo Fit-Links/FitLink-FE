@@ -20,7 +20,7 @@ import SessionCompleteSheet from "../_components/SheetRenderer/SessionCompleteSh
 import { NotificationStatus } from "../_types";
 import createFilteredNotificationCount from "../_utils/createFilteredNotificationCount";
 import handleNotificationFilter from "../_utils/handleNotificationFilter";
-import { parseEventDateFromContent } from "../_utils/parser";
+import { parseContent } from "../_utils/notificationParser";
 
 type SessionNotificationContentProps = {
   status: NotificationStatus;
@@ -98,6 +98,10 @@ function SessionNotificationPage() {
     setIsActionSheetOpen(true);
   };
 
+  const info = selectedNotification
+    ? parseContent(selectedNotification.content)
+    : { message: "", eventDate: "", other: "" };
+
   return (
     <div>
       <Header className="mb-4">
@@ -131,7 +135,7 @@ function SessionNotificationPage() {
           notificationId={selectedNotification.notificationId}
           open={isActionSheetOpen}
           onChangeOpen={setIsActionSheetOpen}
-          eventDate={parseEventDateFromContent(selectedNotification.content)}
+          eventDate={info.eventDate}
         />
       )}
     </div>

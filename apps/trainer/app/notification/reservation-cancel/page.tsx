@@ -20,7 +20,7 @@ import ReservationCancelSheet from "../_components/SheetRenderer/ReservationCanc
 import { NotificationStatus } from "../_types";
 import createFilteredNotificationCount from "../_utils/createFilteredNotificationCount";
 import handleNotificationFilter from "../_utils/handleNotificationFilter";
-import { parseEventDateFromContent } from "../_utils/parser";
+import { parseContent } from "../_utils/notificationParser";
 
 type ReservationCancelNotificationContentProps = {
   status: NotificationStatus;
@@ -98,6 +98,10 @@ function ReservationCancelNotificationPage() {
     setIsActionSheetOpen(true);
   };
 
+  const info = selectedNotification
+    ? parseContent(selectedNotification.content)
+    : { message: "", eventDate: "", other: "" };
+
   return (
     <div className="flex h-full flex-col">
       <Header className="mb-4">
@@ -134,7 +138,8 @@ function ReservationCancelNotificationPage() {
           notificationId={selectedNotification.notificationId}
           open={isActionSheetOpen}
           onChangeOpen={setIsActionSheetOpen}
-          eventDateDescription={parseEventDateFromContent(selectedNotification.content)}
+          eventDateDescription={info.eventDate}
+          cancelReason={info.other}
         />
       )}
     </div>
