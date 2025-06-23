@@ -6,6 +6,7 @@ import Splash from "@trainer/components/Splash";
 import { REFRESH_TOKEN_KEY } from "@trainer/constants/token";
 
 function page() {
+  // Test comment for trainer preview deployment
   const cookieStore = cookies();
 
   const refreshToken = cookieStore.get(REFRESH_TOKEN_KEY)?.value;
