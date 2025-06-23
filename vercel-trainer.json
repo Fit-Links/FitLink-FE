@@ -1,7 +1,7 @@
 {
-  "buildCommand": "pnpm run build:trainer",
+  "buildCommand": "pnpm -w run build:trainer",
   "outputDirectory": "apps/trainer/.next",
   "framework": "nextjs",
   "installCommand": "pnpm install",
-  "devCommand": "pnpm run dev:trainer"
+  "devCommand": "pnpm -w run dev:trainer"
 }
