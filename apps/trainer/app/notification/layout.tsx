@@ -4,6 +4,8 @@ import RouteInstance from "@trainer/constants/route";
 
 import { requireAuth } from "@trainer/utils/auth";
 
+import NotificationProvider from "./_components/NotificationProvider";
+
 async function NotificationLayout({
   children,
 }: Readonly<{
@@ -11,7 +13,7 @@ async function NotificationLayout({
 }>) {
   await requireAuth(RouteInstance.notification());
 
-  return <>{children}</>;
+  return <NotificationProvider>{children}</NotificationProvider>;
 }
 
 export default NotificationLayout;

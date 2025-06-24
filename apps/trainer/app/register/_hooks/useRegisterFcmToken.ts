@@ -1,10 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
-import { isSupported } from "firebase/messaging";
 import { useState } from "react";
 
-import { sendPushToken } from "@trainer/services/notification";
+import { getDeviceToken, registerServiceWorker } from "@trainer/lib/firebaseMessaging";
 
-import { getDeviceToken, registerServiceWorker } from "@trainer/utils/fcm";
+import { sendPushToken } from "@trainer/services/notification";
 
 export const useRegisterFcmToken = () => {
   const { mutateAsync } = useMutation({
@@ -17,12 +16,6 @@ export const useRegisterFcmToken = () => {
 
     setStatus("pending");
 
-    const supported = await isSupported();
-    if (!supported) {
-      setStatus("error");
-
-      return "unSupported";
-    }
     const permission = await Notification.requestPermission();
     try {
       if (permission === "granted") {

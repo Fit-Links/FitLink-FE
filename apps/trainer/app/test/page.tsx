@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
+import { showFcmToastForReservation } from "@trainer/lib/toastService.tsx";
+
 import RouteInstance from "@trainer/constants/route";
 
 import { useRegisterFcmToken } from "../register/_hooks/useRegisterFcmToken";
@@ -69,6 +71,21 @@ function Page() {
         </button>
 
         <Button onClick={handleToastBtnClick}>토스트 테스트</Button>
+        <Button
+          onClick={() =>
+            showFcmToastForReservation({
+              title: "예약 요청",
+              body: {
+                message: "최용재회원 회원님이 PT 예약을 요청하였습니다.",
+                eventDate: "07.07 (월) 오후 3시",
+                other: null,
+              },
+              onClick: () => router.push(RouteInstance.notification()),
+            })
+          }
+        >
+          포그라운드 알림 UI 테스트
+        </Button>
       </div>
     </div>
   );
