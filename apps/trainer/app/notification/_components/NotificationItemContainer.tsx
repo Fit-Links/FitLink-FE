@@ -18,7 +18,6 @@ type NotificationItemContainerProps = {
 function NotificationItemContainer({ notification, onClick }: NotificationItemContainerProps) {
   const { data, isPending, isError } = useQuery({
     ...notificationQueries.detail(notification.notificationId),
-    staleTime: Infinity,
   });
 
   const { content, type, sendDate, isProcessed, notificationId } = notification;
