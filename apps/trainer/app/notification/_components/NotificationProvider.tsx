@@ -8,10 +8,10 @@ type NotificationProviderProps = {
   children: ReactNode;
 };
 function NotificationProvider({ children }: NotificationProviderProps) {
-  const setHasNewNotifications = useNotificationStore((state) => state.setHasNewNotifications);
+  const setNewNotificationTypes = useNotificationStore((state) => state.setNewNotificationTypes);
 
   useEffect(() => {
-    setHasNewNotifications(false);
+    setNewNotificationTypes(new Set());
   }, []);
 
   return <>{children}</>;

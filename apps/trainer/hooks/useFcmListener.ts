@@ -1,3 +1,4 @@
+import { NotificationType } from "@5unwan/core/api/types/common";
 import { onMessage } from "firebase/messaging";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -12,7 +13,7 @@ import RouteInstance from "@trainer/constants/route";
 export const useFcmListener = () => {
   let unsubscribe: (() => void) | undefined;
   const router = useRouter();
-  const setHasNewNotifications = useNotificationStore((state) => state.setHasNewNotifications);
+  const setNewNotificationTypes = useNotificationStore((state) => state.setNewNotificationTypes);
 
   useEffect(() => {
     getMessagingInstance().then((messaging) => {
@@ -23,9 +24,16 @@ export const useFcmListener = () => {
         const { notification } = payload;
         if (!notification) return;
 
-        setHasNewNotifications(true);
-
         const { title, body } = notification;
+
+        if (title) {
+          setNewNotificationTypes((prev) => {
+            const newSet = new Set(prev);
+            newSet.add(title as NotificationType);
+
+            return newSet;
+          });
+        }
 
         const parsedBody = body
           ? parseContent(body)

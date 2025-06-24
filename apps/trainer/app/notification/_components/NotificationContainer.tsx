@@ -28,9 +28,6 @@ function NotificationContainer({ onClick }: NotificationContainerProps) {
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage, refetch } =
     useSuspenseInfiniteQuery({
       ...notificationQueries.list({}),
-      staleTime: 0,
-      refetchOnWindowFocus: "always",
-      refetchOnMount: "always",
     });
 
   const handleIntersect = () => {
@@ -42,8 +39,9 @@ function NotificationContainer({ onClick }: NotificationContainerProps) {
     handleIntersect: handleIntersect,
   });
 
-  const hasNewNotifications = useNotificationStore((state) => state.hasNewNotifications);
-  const setHasNewNotifications = useNotificationStore((state) => state.setHasNewNotifications);
+  // eslint-disable-next-line no-magic-numbers
+  const hasNewNotifications = useNotificationStore((state) => state.newNotificationTypes.size > 0);
+  const setNewNotificationTypes = useNotificationStore((state) => state.setNewNotificationTypes);
 
   const filteredNotificationCount = createFilteredNotificationCount(data, status);
 
@@ -72,7 +70,7 @@ function NotificationContainer({ onClick }: NotificationContainerProps) {
               corners="pill"
               iconLeft="RotateCcw"
               onClick={() => {
-                setHasNewNotifications(false);
+                setNewNotificationTypes(new Set());
                 refetch();
               }}
             >
