@@ -2,10 +2,12 @@
 
 import { NotificationInfo } from "@5unwan/core/api/types/common";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
+import { Button } from "@ui/components/Button";
 import { ToggleGroup, ToggleGroupItem } from "@ui/components/ToggleGroup";
 import { Fragment, useRef, useState } from "react";
 
 import { notificationQueries } from "@trainer/queries/notification";
+import { useNotificationStore } from "@trainer/store/notificationStore";
 
 import useIntersectionObserver from "@trainer/hooks/useIntersectionObserver";
 
@@ -23,12 +25,13 @@ function NotificationContainer({ onClick }: NotificationContainerProps) {
   const [status, setStatus] = useState<NotificationStatus>("all");
   const intersectionRef = useRef(null);
 
-  const { data, hasNextPage, isFetchingNextPage, fetchNextPage } = useSuspenseInfiniteQuery({
-    ...notificationQueries.list({}),
-    staleTime: 0,
-    refetchOnWindowFocus: "always",
-    refetchOnMount: "always",
-  });
+  const { data, hasNextPage, isFetchingNextPage, fetchNextPage, refetch } =
+    useSuspenseInfiniteQuery({
+      ...notificationQueries.list({}),
+      staleTime: 0,
+      refetchOnWindowFocus: "always",
+      refetchOnMount: "always",
+    });
 
   const handleIntersect = () => {
     if (hasNextPage && !isFetchingNextPage) fetchNextPage();
@@ -38,6 +41,9 @@ function NotificationContainer({ onClick }: NotificationContainerProps) {
     target: intersectionRef,
     handleIntersect: handleIntersect,
   });
+
+  const hasNewNotifications = useNotificationStore((state) => state.hasNewNotifications);
+  const setHasNewNotifications = useNotificationStore((state) => state.setHasNewNotifications);
 
   const filteredNotificationCount = createFilteredNotificationCount(data, status);
 
@@ -58,6 +64,22 @@ function NotificationContainer({ onClick }: NotificationContainerProps) {
         <span className="text-body-3">최신순</span>
       </div>
       <div className="h-full overflow-y-auto">
+        {hasNewNotifications && (
+          <div className="mb-4 flex w-full items-center justify-center">
+            <Button
+              size="sm"
+              variant="negative"
+              corners="pill"
+              iconLeft="RotateCcw"
+              onClick={() => {
+                setHasNewNotifications(false);
+                refetch();
+              }}
+            >
+              새 알림 확인하기
+            </Button>
+          </div>
+        )}
         {data.pages[0].data.totalElements ? (
           <ul className="flex flex-col gap-4">
             {data.pages.map((group, index) => (
