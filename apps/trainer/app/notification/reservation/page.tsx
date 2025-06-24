@@ -16,6 +16,8 @@ import useIntersectionObserver from "@trainer/hooks/useIntersectionObserver";
 
 import RouteInstance from "@trainer/constants/route";
 
+import { getKoreanDate } from "@trainer/utils/date";
+
 import EmptyList from "../_components/EmptyList";
 import NotificationItemContainer from "../_components/NotificationItemContainer";
 import NotificationSearch from "../_components/NotificationSearch";
@@ -25,7 +27,7 @@ import handleNotificationFilter from "../_utils/handleNotificationFilter";
 
 function parseKoreanDateString(dateStr: string) {
   // 현재 연도 사용 (필요시 인자로 받게 변경 가능)
-  const currentYear = new Date().getFullYear();
+  const currentYear = getKoreanDate().getFullYear();
 
   // 월, 일 추출
   const match = dateStr

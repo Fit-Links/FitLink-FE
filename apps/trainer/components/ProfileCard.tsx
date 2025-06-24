@@ -5,6 +5,7 @@ import { cn } from "@ui/lib/utils";
 import Image from "next/image";
 import { ComponentProps, ReactNode } from "react";
 
+import { getKoreanDate } from "@trainer/utils/date";
 import { formatToMeridiem, formatPhoneNumber } from "@trainer/utils/ProfileCardUtils";
 
 type ProfileCardProps = ComponentProps<"section"> & {
@@ -30,7 +31,7 @@ type ContentProps = Pick<ProfileCardProps, "PTReservationOtherTime" | "children"
 type MenuIconProps = Omit<ComponentProps<typeof Icon>, "name">;
 
 const AGE_OFFSET_KOREAN = 1;
-const CURRENT_YEAR = new Date().getFullYear();
+const CURRENT_YEAR = getKoreanDate().getFullYear();
 
 function UserInfo({
   imgUrl,

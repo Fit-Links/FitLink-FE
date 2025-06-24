@@ -6,6 +6,7 @@ import { DayPicker as Calendar } from "react-day-picker";
 
 import { cn } from "@ui/lib/utils";
 
+import { getKoreanDate } from "@ui/utils/date";
 import { isWeekend } from "@ui/utils/DayPickerUtils";
 
 import { Caption } from "./Caption";
@@ -29,8 +30,8 @@ function DayPicker({
   onChangeSelectedDate,
   ...props
 }: DayPickerProps) {
-  const [month, setMonth] = useState(new Date());
-  const [date, setDate] = useState(new Date());
+  const [month, setMonth] = useState(getKoreanDate());
+  const [date, setDate] = useState(getKoreanDate());
 
   const handleChangeMonth = (date: Date | undefined) => {
     if (date) {

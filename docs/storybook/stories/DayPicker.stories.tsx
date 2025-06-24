@@ -1,7 +1,9 @@
 import { DayPicker } from "@5unwan/ui/components/DayPicker/index";
-import type { Meta, StoryObj } from "@storybook/react";
-
 import { useState } from "react";
+
+import { getKoreanDate } from "../../../apps/trainer/utils/date";
+
+import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof DayPicker> = {
   component: DayPicker,
@@ -44,7 +46,7 @@ export const Default: DayPickerStory = {
     fixedWeeks: false,
   },
   render: ({ fixedWeeks, className }) => {
-    const [date, setDate] = useState<Date | undefined>(new Date());
+    const [date, setDate] = useState<Date | undefined>(getKoreanDate());
 
     return (
       <div className="bg-background-primary flex h-[700px] w-full items-center justify-center">
@@ -65,7 +67,7 @@ export const FixedWeeks: DayPickerStory = {
     fixedWeeks: true,
   },
   render: ({ fixedWeeks, className }) => {
-    const [date, setDate] = useState<Date | undefined>(new Date());
+    const [date, setDate] = useState<Date | undefined>(getKoreanDate());
 
     return (
       <div className="bg-background-primary flex h-[700px] w-full items-center justify-center">

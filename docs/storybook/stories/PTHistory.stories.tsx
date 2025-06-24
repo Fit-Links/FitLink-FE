@@ -1,6 +1,8 @@
 import PTHistoryItem from "@5unwan/ui/components/PTHistoryItem";
 import { Meta, StoryObj } from "@storybook/react";
 
+import { getKoreanDate } from "../../../apps/trainer/utils/date";
+
 const meta: Meta<typeof PTHistoryItem> = {
   component: ({ reservationDate, ...args }) => (
     <PTHistoryItem reservationDate={reservationDate && new Date(reservationDate)} {...args} />
@@ -16,8 +18,8 @@ const meta: Meta<typeof PTHistoryItem> = {
     },
   },
   args: {
-    status: "COMPLETED",
-    reservationDate: new Date()
+    status: "NONE",
+    reservationDate: getKoreanDate(),
   },
 };
 export default meta;
@@ -27,7 +29,7 @@ type Story = StoryObj<typeof PTHistoryItem>;
 export const Default: Story = {};
 export const Clickable: Story = {
   args: {
-    status: 'NONE',
-    onClick: () => alert('clicked')
-  }
-}
+    status: "NONE",
+    onClick: () => alert("clicked"),
+  },
+};

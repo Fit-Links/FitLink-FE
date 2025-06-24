@@ -1,9 +1,11 @@
+import { getKoreanDate } from "./date";
+
 const WEEK_LENGTH = 7;
 const STEP = 1;
 const INITIAL_OFFSET = 0;
 
 export const isToday = (date: Date) => {
-  const today = new Date();
+  const today = getKoreanDate();
 
   return (
     date.getFullYear() === today.getFullYear() &&

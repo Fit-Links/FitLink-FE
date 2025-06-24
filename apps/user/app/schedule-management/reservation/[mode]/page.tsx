@@ -6,6 +6,8 @@ import { notFound } from "next/navigation";
 import { myInformationQueries } from "@user/queries/myInformation";
 import { reservationQueries } from "@user/queries/reservation";
 
+import { getKoreanDate } from "@user/utils/date";
+
 import Header from "./_components/Header";
 import ReservationContainer from "./_components/ReservationContainer";
 import { RequestReservationMode } from "./types/requestReservation";
@@ -34,7 +36,7 @@ async function Reservation({ params, searchParams }: ReservationParams) {
 
   const queryClient = new QueryClient();
 
-  const today = new Date();
+  const today = getKoreanDate();
   const firstDayOfMonthUTC = startOfMonth(today);
   const firstDayOfMonthKorea = format(addHours(firstDayOfMonthUTC, 9), "yyyy-MM-dd");
 

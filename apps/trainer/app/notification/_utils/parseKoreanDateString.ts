@@ -1,7 +1,9 @@
 /* eslint-disable no-magic-numbers */
+import { getKoreanDate } from "@trainer/utils/date";
+
 export function parseKoreanDateString(dateStr: string) {
   // 현재 연도 사용 (필요시 인자로 받게 변경 가능)
-  const currentYear = new Date().getFullYear();
+  const currentYear = getKoreanDate().getFullYear();
 
   // 월, 일 추출
   const match = dateStr

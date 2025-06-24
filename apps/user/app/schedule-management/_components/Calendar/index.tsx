@@ -11,6 +11,8 @@ import React, { useState } from "react";
 import { myInformationQueries } from "@user/queries/myInformation";
 import { reservationQueries } from "@user/queries/reservation";
 
+import { getKoreanDate } from "@user/utils/date";
+
 import Header from "./Header";
 import WeekRow from "./WeekRow";
 import { checkReservationIsFuture } from "../../_libs/checkReservationIsFuture";
@@ -27,7 +29,7 @@ export default function Calendar() {
 
     return dateParam ? new Date(dateParam) : undefined;
   });
-  const [month, setMonth] = useState(new Date());
+  const [month, setMonth] = useState(getKoreanDate());
   const [isReservationStatusSheetOpen, setIsReservationStatusSheetOpen] = useState(false);
   const [selectedReservationContent, setSelectedReservationContent] =
     useState<BaseReservationListItem>();
