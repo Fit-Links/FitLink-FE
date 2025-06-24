@@ -1,7 +1,7 @@
 import { Button } from "@ui/components/Button";
 import { DayPicker } from "@ui/components/DayPicker";
 import React from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 import Header from "../../../_components/Header";
 

@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 export const copyToClipboard = async (text: string) => {
   if (typeof navigator === "undefined") return false;
 
@@ -6,7 +8,9 @@ export const copyToClipboard = async (text: string) => {
 
     return true;
   } catch {
-    alert("클립보드 복사에 실패했습니다. 수동으로 복사해주세요.");
+    toast.error("클립보드 복사에 실패했습니다", {
+      description: "수동으로 복사해주세요.",
+    });
 
     return false;
   }

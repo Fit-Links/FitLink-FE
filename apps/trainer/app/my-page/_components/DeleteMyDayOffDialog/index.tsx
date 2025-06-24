@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from "@ui/components/Dialog";
 import React from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 import { myInformationQueries } from "@trainer/queries/myInformation";
 
