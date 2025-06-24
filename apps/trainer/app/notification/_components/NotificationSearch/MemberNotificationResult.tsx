@@ -161,8 +161,8 @@ function MemberNotificationResult({ memberId }: MemberNotificationResultProps) {
             onChangeOpen: setIsActionSheetOpen,
           },
           {
-            eventDate: info.eventDate,
-            cancelReason: info.other,
+            eventDate: info.eventDate || "",
+            cancelReason: info.other || "",
           },
         )}
     </>

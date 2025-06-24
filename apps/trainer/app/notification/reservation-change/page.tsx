@@ -138,7 +138,7 @@ function ReservationChangeNotificationPage() {
           notificationId={selectedNotification.notificationId}
           open={isActionSheetOpen}
           onChangeOpen={setIsActionSheetOpen}
-          eventDateDescription={info.eventDate}
+          eventDateDescription={info.eventDate || ""}
         />
       )}
     </div>

@@ -138,8 +138,8 @@ function ReservationCancelNotificationPage() {
           notificationId={selectedNotification.notificationId}
           open={isActionSheetOpen}
           onChangeOpen={setIsActionSheetOpen}
-          eventDateDescription={info.eventDate}
-          cancelReason={info.other}
+          eventDateDescription={info.eventDate || ""}
+          cancelReason={info.other || ""}
         />
       )}
     </div>

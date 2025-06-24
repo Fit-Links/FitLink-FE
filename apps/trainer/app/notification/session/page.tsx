@@ -135,7 +135,7 @@ function SessionNotificationPage() {
           notificationId={selectedNotification.notificationId}
           open={isActionSheetOpen}
           onChangeOpen={setIsActionSheetOpen}
-          eventDate={info.eventDate}
+          eventDate={info.eventDate || ""}
         />
       )}
     </div>
