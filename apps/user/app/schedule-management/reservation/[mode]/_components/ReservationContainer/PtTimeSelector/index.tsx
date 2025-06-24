@@ -16,7 +16,7 @@ import TimeCellToggleGroup from "@ui/components/TimeCellToggleGroup";
 import { TimeCell } from "@ui/utils/timeCellUtils";
 import { format, isSameDay } from "date-fns";
 import { useEffect, useLayoutEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 import { filterLatestReservationsByDate } from "@user/app/schedule-management/_utils/reservationMerger";
 import { myInformationQueries } from "@user/queries/myInformation";

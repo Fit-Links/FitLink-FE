@@ -18,7 +18,7 @@ import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import { format, subHours } from "date-fns";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 import { myInformationQueries } from "@trainer/queries/myInformation";
 import { reservationQueries } from "@trainer/queries/reservation";
