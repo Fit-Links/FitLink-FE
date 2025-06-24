@@ -25,6 +25,9 @@ function NotificationContainer({ onClick }: NotificationContainerProps) {
 
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage } = useSuspenseInfiniteQuery({
     ...notificationQueries.list({}),
+    staleTime: 0,
+    refetchOnWindowFocus: "always",
+    refetchOnMount: "always",
   });
 
   const handleIntersect = () => {
