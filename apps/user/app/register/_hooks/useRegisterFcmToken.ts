@@ -2,9 +2,9 @@ import { useMutation } from "@tanstack/react-query";
 import { isSupported } from "firebase/messaging";
 import { useState } from "react";
 
-import { sendPushToken } from "@user/services/notification";
+import { getDeviceToken, registerServiceWorker } from "@user/lib/firebaseMessaging";
 
-import { getDeviceToken, registerServiceWorker } from "@user/utils/fcm";
+import { sendPushToken } from "@user/services/notification";
 
 export const useRegisterFcmToken = () => {
   const { mutateAsync } = useMutation({
