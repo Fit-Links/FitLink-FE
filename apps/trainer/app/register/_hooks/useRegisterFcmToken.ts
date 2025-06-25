@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { getDeviceToken, registerServiceWorker } from "@trainer/lib/firebaseMessaging";
 
@@ -11,7 +11,7 @@ export const useRegisterFcmToken = () => {
   });
 
   const [status, setStatus] = useState<"pending" | "success" | "error" | "idle">("idle");
-  async function requestFcmPermission() {
+  const requestFcmPermission = useCallback(async () => {
     if (typeof window === "undefined" || typeof navigator === "undefined") return "unSupported";
 
     setStatus("pending");
@@ -54,7 +54,7 @@ export const useRegisterFcmToken = () => {
 
       return permission;
     }
-  }
+  }, []);
 
   return {
     requestFcmPermission,
