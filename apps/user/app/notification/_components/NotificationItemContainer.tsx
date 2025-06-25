@@ -21,8 +21,8 @@ function NotificationItemContainer({
 
   return (
     <NotificationItem
-      message={message}
-      eventDate={eventDate}
+      message={message || ""}
+      eventDate={eventDate || ""}
       createdAt={sendDate}
       isCompleted={isCompleted}
       variant={type}
