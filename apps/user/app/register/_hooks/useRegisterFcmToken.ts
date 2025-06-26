@@ -1,6 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { isSupported } from "firebase/messaging";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { getDeviceToken, registerServiceWorker } from "@user/lib/firebaseMessaging";
 
@@ -12,17 +11,11 @@ export const useRegisterFcmToken = () => {
   });
 
   const [status, setStatus] = useState<"pending" | "success" | "error" | "idle">("idle");
-  async function requestFcmPermission() {
+  const requestFcmPermission = useCallback(async () => {
     if (typeof window === "undefined" || typeof navigator === "undefined") return "unSupported";
 
     setStatus("pending");
 
-    const supported = await isSupported();
-    if (!supported) {
-      setStatus("error");
-
-      return "unSupported";
-    }
     const permission = await Notification.requestPermission();
     try {
       if (permission === "granted") {
@@ -61,7 +54,7 @@ export const useRegisterFcmToken = () => {
 
       return permission;
     }
-  }
+  }, []);
 
   return {
     requestFcmPermission,
