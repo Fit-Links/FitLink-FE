@@ -6,6 +6,8 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import React from "react";
 import { Toaster, toast } from "sonner";
 
+import { useFcmListener } from "@user/hooks/useFcmListener";
+
 import FooterProvider from "./FooterProvider";
 
 function makeQueryClient() {
@@ -47,6 +49,8 @@ type ProvidersProps = {
 
 function Providers({ children }: ProvidersProps) {
   const queryClient = getQueryClient();
+
+  useFcmListener();
 
   return (
     <QueryClientProvider client={queryClient}>

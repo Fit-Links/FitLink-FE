@@ -5,14 +5,13 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
+import { registerServiceWorker } from "@user/lib/firebaseMessaging";
 import splashIcon from "@user/public/splash_screens/web_splash_icon.avif";
 
 import { reissueToken, saveTokens } from "@user/services/auth";
 import { ReissueTokenApiResponse, ReissueTokenRequestBody } from "@user/services/types/auth.dto";
 
 import RouteInstance from "@user/constants/routes";
-
-import { registerServiceWorker } from "@user/utils/fcm";
 
 type SplashProps = {
   refreshToken: string | undefined;
