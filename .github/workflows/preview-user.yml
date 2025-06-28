@@ -2,7 +2,7 @@ name: Preview User
 
 on:
   push:
-    branches: ["FLIZ-396/feat/root"]
+    branches: ["dev", "FLIZ-396/feat/root"]
     paths:
       - "apps/user/**"
       - "packages/**"
