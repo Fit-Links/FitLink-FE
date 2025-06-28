@@ -5,6 +5,8 @@ import { BaseReservationListItem } from "@5unwan/core/api/types/common";
 import { Badge } from "@ui/components/Badge";
 import { cn } from "@ui/lib/utils";
 
+import { getKoreanDate } from "@user/utils/date";
+
 type WeekCellProps = {
   date: Date;
   ptReservation?: BaseReservationListItem;
@@ -15,7 +17,7 @@ function WeekCell({ ptReservation }: WeekCellProps) {
   const { status, reservationDates } = ptReservation;
 
   const parsedTime = (reservationDate: string) => {
-    const time = new Date(reservationDate).getHours();
+    const time = getKoreanDate(reservationDate).getHours();
 
     return `${time < 12 ? "오전" : "오후"} ${time % 12 === 0 ? 12 : time % 12}시`;
   };

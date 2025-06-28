@@ -8,6 +8,8 @@ import { userManagementQueries } from "@trainer/queries/userManagement";
 
 import useIntersectionObserver from "@trainer/hooks/useIntersectionObserver";
 
+import { getKoreanDate } from "@trainer/utils/date";
+
 import PtHistoryFilterButton from "./PtHistoryFilterButton";
 import PtHistoryList from "./PtHistoryList";
 
@@ -44,7 +46,7 @@ function PtHistoryContainer({ memberId }: PtHistoryContainerProps) {
         data: {
           ...page.data,
           content: page.data.content.sort(
-            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+            (a, b) => getKoreanDate(b.date).getTime() - getKoreanDate(a.date).getTime(),
           ),
         },
       })),

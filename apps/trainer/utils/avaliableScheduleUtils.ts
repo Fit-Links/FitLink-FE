@@ -2,6 +2,8 @@ import { AvailablePtTime } from "@5unwan/core/api/types/common";
 
 import { DAYS } from "@trainer/constants/Day";
 
+import { getKoreanDate } from "./date";
+
 /* eslint-disable no-magic-numbers */
 
 export const formatAvailableScheduleToMeridiem = (time: string | null) => {
@@ -56,7 +58,7 @@ export const formatDateStringToKorean = (dateString: string | number | undefined
     return "";
   }
 
-  const date = new Date(dateString);
+  const date = getKoreanDate(dateString);
 
   return formatDateToKorean(date);
 };

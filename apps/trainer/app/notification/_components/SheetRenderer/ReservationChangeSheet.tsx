@@ -66,7 +66,7 @@ function ReservationChangeSheetContent({
       </SheetHeader>
       <ProfileCard
         imgUrl={profilePictureUrl}
-        userBirth={new Date(birthDate)}
+        userBirth={getKoreanDate(birthDate)}
         userName={name as string}
         phoneNumber={phoneNumber}
         className="bg-background-sub1 w-full md:hover:bg-none"

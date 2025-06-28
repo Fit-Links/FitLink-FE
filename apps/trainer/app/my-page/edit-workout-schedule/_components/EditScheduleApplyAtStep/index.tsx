@@ -29,7 +29,7 @@ export default function EditScheduleApplyAtStep({ onNext }: EditScheduleApplyAtS
       const today = getKoreanDate();
       today.setHours(RESET_TIME, RESET_TIME, RESET_TIME, RESET_TIME); // 시간을 0으로 설정하여 날짜만 비교
 
-      const selectedDateOnly = new Date(date);
+      const selectedDateOnly = getKoreanDate(date);
       selectedDateOnly.setHours(RESET_TIME, RESET_TIME, RESET_TIME, RESET_TIME);
 
       if (selectedDateOnly > today) {

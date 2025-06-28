@@ -8,6 +8,8 @@ import { reservationQueries } from "@trainer/queries/reservation";
 
 import { ReservationDetailPendingStatus } from "@trainer/services/types/reservations.dto";
 
+import { getKoreanDate } from "@trainer/utils/date";
+
 import ApproveButton from "./ApproveButton";
 import MemberCardList from "./MemberCardList";
 
@@ -30,8 +32,8 @@ function PendingReservationContainer({
   const NINE_HOURS = 9;
   const isProduction = process.env.NODE_ENV === "production";
   const adjustedDate = isProduction
-    ? addHours(new Date(formattedAdjustedDate), NINE_HOURS)
-    : new Date(formattedAdjustedDate);
+    ? addHours(getKoreanDate(formattedAdjustedDate), NINE_HOURS)
+    : getKoreanDate(formattedAdjustedDate);
   const formattedDate = format(adjustedDate, "yyyy-MM-dd'T'HH:mm");
 
   const { data: reservationPendingList, isLoading } = useQuery(

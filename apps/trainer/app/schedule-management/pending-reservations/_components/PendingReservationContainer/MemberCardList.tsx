@@ -90,7 +90,7 @@ function MemberCardList({
             key={`${memberId}-${name}`}
             memberId={memberId}
             imgUrl={profilePictureUrl}
-            userBirth={new Date(birthDate)}
+            userBirth={getKoreanDate(birthDate)}
             userName={name}
             phoneNumber={phoneNumber}
             PTReservationOtherTime={formatedTime(reservationDates)}

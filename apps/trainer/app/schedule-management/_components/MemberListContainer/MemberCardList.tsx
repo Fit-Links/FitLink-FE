@@ -3,6 +3,8 @@ import React, { forwardRef } from "react";
 
 import { PtUser, PtUserListApiResponse } from "@trainer/services/types/userManagement.dto";
 
+import { getKoreanDate } from "@trainer/utils/date";
+
 import MemberProfileCard from "../MemberProfileCard";
 import WorkoutSchedule from "../MemberProfileCard/WorkoutSchedule";
 
@@ -26,7 +28,7 @@ const MemberCardList = forwardRef<HTMLDivElement, MemberCardListProps>(
             key={`${memberId}-${name}`}
             memberId={memberId}
             imgUrl={profilePictureUrl}
-            userBirth={new Date(birthDate)}
+            userBirth={getKoreanDate(birthDate)}
             userName={name}
             phoneNumber={phoneNumber}
             className={cn(

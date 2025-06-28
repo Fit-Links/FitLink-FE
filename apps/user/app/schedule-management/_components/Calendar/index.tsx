@@ -27,7 +27,7 @@ export default function Calendar() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(() => {
     const dateParam = searchParams.get("date");
 
-    return dateParam ? new Date(dateParam) : undefined;
+    return dateParam ? getKoreanDate(dateParam) : undefined;
   });
   const [month, setMonth] = useState(getKoreanDate());
   const [isReservationStatusSheetOpen, setIsReservationStatusSheetOpen] = useState(false);

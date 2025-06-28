@@ -3,6 +3,8 @@
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
+import { getKoreanDate } from "@user/utils/date";
+
 import { RequestReservationMode } from "@user/app/schedule-management/reservation/[mode]/types/requestReservation";
 
 import PtTimeSelector from "./PtTimeSelector";
@@ -25,7 +27,7 @@ function ReservationContainer({
   const dateParam = searchParams.get("selectedDate");
 
   const [selectedDate, setSelectedDate] = useState<Date>(
-    reservationDate ? new Date(reservationDate) : new Date(dateParam || Date.now()),
+    reservationDate ? getKoreanDate(reservationDate) : getKoreanDate(dateParam || Date.now()),
   );
 
   return (

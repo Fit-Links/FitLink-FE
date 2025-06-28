@@ -24,6 +24,8 @@ import ProfileCard from "@trainer/components/ProfileCard";
 import useDebounce from "@trainer/hooks/useDebounce";
 import useIntersectionObserver from "@trainer/hooks/useIntersectionObserver";
 
+import { getKoreanDate } from "@trainer/utils/date";
+
 import MemberNotificationResult from "./MemberNotificationResult";
 import EmptySearchResult from "../../../../components/EmptySearchResult";
 import { formatSessionData } from "../../_utils/formatter";
@@ -76,7 +78,7 @@ function NotificationSearchContent({ search, onProfileClick }: NotificationSearc
                 <ProfileCard
                   userName={name}
                   imgUrl={profilePictureUrl}
-                  userBirth={new Date(birthDate)}
+                  userBirth={getKoreanDate(birthDate)}
                   phoneNumber={phoneNumber}
                   className="w-full"
                   onClick={onProfileClick(memberId)}

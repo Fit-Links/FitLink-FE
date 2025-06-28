@@ -54,7 +54,7 @@ function parseKoreanDateString(dateStr: string) {
   }
 
   // Date 객체 생성
-  return new Date(currentYear, month, day, hour);
+  return getKoreanDate(`${currentYear}-${month}-${day}T${hour}:00:00`);
 }
 
 type ReservationNotificationContentProps = {

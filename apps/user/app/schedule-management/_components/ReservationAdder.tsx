@@ -31,7 +31,7 @@ function ReservationAdder() {
   const searchParams = useSearchParams();
 
   const dateParam = searchParams.get("date");
-  const koreanDate = dateParam ? startOfDay(new Date(dateParam)) : startOfDay(getKoreanDate());
+  const koreanDate = dateParam ? startOfDay(getKoreanDate(dateParam)) : startOfDay(getKoreanDate());
 
   const [isWithinTwoWeeks, setIsWithinTwoWeeks] = useState(false);
 

@@ -3,6 +3,8 @@ import { addHours, isEqual, isSameDay, startOfDay } from "date-fns";
 import { GetDayoffApiResponse } from "@trainer/services/types/myInformation.dto";
 import { ReservationStatusApiResponse } from "@trainer/services/types/reservations.dto";
 
+import { getKoreanDate } from "@trainer/utils/date";
+
 export const mergeDateAndTime = (date: Date) => {
   return Array.from({ length: 24 }, (_, index) => addHours(startOfDay(date), index));
 };
@@ -26,6 +28,6 @@ export const isCheckDayOff = (date: Date, reservationContents?: GetDayoffApiResp
   if (!reservationContents) return false;
 
   return reservationContents.some((content) => {
-    return isSameDay(date, new Date(content.dayOffDate));
+    return isSameDay(date, getKoreanDate(content.dayOffDate));
   });
 };

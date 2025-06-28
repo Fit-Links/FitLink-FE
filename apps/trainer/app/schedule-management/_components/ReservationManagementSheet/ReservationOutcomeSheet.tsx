@@ -26,6 +26,8 @@ import { ModifiedReservationListItem } from "@trainer/services/types/reservation
 
 import ProfileCard from "@trainer/components/ProfileCard";
 
+import { getKoreanDate } from "@trainer/utils/date";
+
 import { useReservationCompletionMutation } from "../../_hooks/mutations/useReservationCompletionMutation";
 import ProfileCardFallback from "../Fallback/ProfileCardFallback";
 
@@ -99,7 +101,7 @@ function ReservationOutcomeSheet({
             userInformationDetail && (
               <ProfileCard
                 imgUrl={userInformationDetail.data.profilePictureUrl}
-                userBirth={new Date(userInformationDetail.data.birthDate)}
+                userBirth={getKoreanDate(userInformationDetail.data.birthDate)}
                 userName={name as string}
                 phoneNumber={userInformationDetail.data.phoneNumber}
                 className="bg-background-sub1 w-full md:hover:bg-none"

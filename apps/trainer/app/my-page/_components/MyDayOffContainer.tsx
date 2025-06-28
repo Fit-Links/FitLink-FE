@@ -11,6 +11,8 @@ import { DayoffResponseInformation } from "@trainer/services/types/myInformation
 
 import { DAYS } from "@trainer/constants/Day";
 
+import { getKoreanDate } from "@trainer/utils/date";
+
 import DeleteMyDayOffDialog from "./DeleteMyDayOffDialog";
 
 const NoDayOff = 0;
@@ -80,7 +82,7 @@ export default function MyDayOffContainer() {
 }
 
 const getDayOfWeek = (dateString: string): DayOfWeek => {
-  const date = new Date(dateString);
+  const date = getKoreanDate(dateString);
   const days = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
 
   return days[date.getDay()] as DayOfWeek;

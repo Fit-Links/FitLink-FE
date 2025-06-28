@@ -36,6 +36,8 @@ import useIntersectionObserver from "@trainer/hooks/useIntersectionObserver";
 
 import RouteInstance from "@trainer/constants/route";
 
+import { getKoreanDate } from "@trainer/utils/date";
+
 import PtRemainingCountEditSheet from "./PtRemainingCountEditSheet";
 import PtTotalCountEditSheet from "./PtTotalCountEditSheet";
 import useUnlinkMember from "../../_hooks/useUnlinkMember";
@@ -109,7 +111,7 @@ function MemberProfileListContent({
                   <ProfileCard
                     key={`memberListGroupItem-${subIndex}`}
                     imgUrl={profilePictureUrl}
-                    userBirth={new Date(birthDate)}
+                    userBirth={getKoreanDate(birthDate)}
                     userName={name}
                     phoneNumber={phoneNumber}
                     ellipsIcon

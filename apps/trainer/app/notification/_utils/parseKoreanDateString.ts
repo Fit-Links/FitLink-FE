@@ -30,5 +30,5 @@ export function parseKoreanDateString(dateStr: string | null) {
   }
 
   // Date 객체 생성
-  return new Date(currentYear, month, day, hour);
+  return getKoreanDate(`${currentYear}-${month}-${day}T${hour}:00:00`);
 }

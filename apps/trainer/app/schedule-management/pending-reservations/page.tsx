@@ -2,6 +2,8 @@
 
 import { format, subHours } from "date-fns";
 
+import { getKoreanDate } from "@trainer/utils/date";
+
 import Header from "./_components/Header";
 import PendingReservationContainer from "./_components/PendingReservationContainer";
 
@@ -13,7 +15,7 @@ type PendingReservationsProps = {
  * 해당 페이지로 선택된 예약 블록의 reservationId를 받아서 조회하기
  */
 async function PendingReservations({ searchParams }: PendingReservationsProps) {
-  const selectedDate = new Date(searchParams.selectedDate);
+  const selectedDate = getKoreanDate(searchParams.selectedDate);
 
   const adjustedDate = subHours(selectedDate, 9);
   const formattedAdjustedDate = format(adjustedDate, "yyyy-MM-dd'T'HH:mm");

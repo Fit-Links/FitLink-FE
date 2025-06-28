@@ -22,6 +22,8 @@ import { createCompletedPt } from "@trainer/services/reservations";
 import ProfileCard from "@trainer/components/ProfileCard";
 import QueryErrorBoundary from "@trainer/components/QueryErrorBoundary";
 
+import { getKoreanDate } from "@trainer/utils/date";
+
 import SheetErrorFallback from "./SheetErrorFallback";
 import SheetFallback from "./SheetFallback";
 import { formatSessionData } from "../../_utils/formatter";
@@ -59,7 +61,7 @@ function SessionCompleteSheetContent({
       </SheetHeader>
       <ProfileCard
         imgUrl={profilePictureUrl}
-        userBirth={new Date(birthDate)}
+        userBirth={getKoreanDate(birthDate)}
         userName={name as string}
         phoneNumber={phoneNumber}
         className="bg-background-sub1 w-full md:hover:bg-none"

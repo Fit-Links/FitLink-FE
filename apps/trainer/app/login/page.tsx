@@ -1,26 +1,13 @@
 import React from "react";
 
-import { getKoreanDate } from "@trainer/utils/date";
-
 import LoginButton from "./_components/LoginButton";
-import ClientDate from "./_components/LoginButton/ClientDate";
 import GoogleContent from "./_components/LoginButton/GoogleContent";
 import KakaoContent from "./_components/LoginButton/KakaoContent";
 import NaverContent from "./_components/LoginButton/NaverContent";
 
 function LoginPage() {
-  const date = getKoreanDate("2025-05-10T15:00:00");
-  const date2 = getKoreanDate("2025-05-10");
-  const date3 = getKoreanDate();
-
   return (
     <main className="flex h-full flex-col justify-between pb-[3.375rem] pt-[6.25rem]">
-      <p suppressHydrationWarning>{date.toString()}</p>
-      <p suppressHydrationWarning>{date.toLocaleString()}</p>
-      <p suppressHydrationWarning>{date2.toString()}</p>
-      <p suppressHydrationWarning>{date2.toLocaleString()}</p>
-      <p suppressHydrationWarning>{date3.toString()}</p>
-      <p suppressHydrationWarning>{date3.toLocaleString()}</p>
       <section>
         <h1 className="text-[1.6875rem] font-medium">
           가장 편한 방법으로 <br />
@@ -33,7 +20,6 @@ function LoginPage() {
         <LoginButton type="naver" renderContent={NaverContent} />
         <LoginButton type="google" renderContent={GoogleContent} />
       </div>
-      <ClientDate />
     </main>
   );
 }

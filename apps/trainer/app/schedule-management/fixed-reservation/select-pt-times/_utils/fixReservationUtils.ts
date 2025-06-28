@@ -2,6 +2,8 @@
 import { GetDayoffApiResponse } from "@trainer/services/types/myInformation.dto";
 import { ReservationStatusApiResponse } from "@trainer/services/types/reservations.dto";
 
+import { getKoreanDate } from "@trainer/utils/date";
+
 import { getFixedReservationDatesAndTimes } from "../_libs/getFixedReservationDatesAndTimes";
 
 export const checkForReservationConflicts = (
@@ -20,7 +22,9 @@ export const checkForReservationConflicts = (
       return dates.some((date) => {
         const newDateString = `${date}:00`;
 
-        return new Date(reservationDates[0]).getTime() === new Date(newDateString).getTime();
+        return (
+          getKoreanDate(reservationDates[0]).getTime() === getKoreanDate(newDateString).getTime()
+        );
       });
     }
 
