@@ -5,7 +5,7 @@ import { getKoreanDate } from "../../../apps/trainer/utils/date";
 
 const meta: Meta<typeof PTHistoryItem> = {
   component: ({ reservationDate, ...args }) => (
-    <PTHistoryItem reservationDate={reservationDate && new Date(reservationDate)} {...args} />
+    <PTHistoryItem reservationDate={reservationDate && getKoreanDate(reservationDate)} {...args} />
   ),
   tags: ["autodocs"],
   argTypes: {

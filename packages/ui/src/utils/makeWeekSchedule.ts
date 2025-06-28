@@ -1,3 +1,5 @@
+import { getKoreanDate } from "./date";
+
 /* eslint-disable no-magic-numbers */
 export type DaysOfWeek =
   | "MONDAY"
@@ -69,7 +71,7 @@ const groupContinuousTimes = (timeList: string[]): string[] => {
   }
 
   const times = timeList
-    .map((time) => new Date(`1970-01-01T${time}:00Z`))
+    .map((time) => getKoreanDate(`1970-01-01T${time}:00Z`))
     .sort((a, b) => a.getTime() - b.getTime());
 
   const result: string[] = [];
@@ -77,7 +79,7 @@ const groupContinuousTimes = (timeList: string[]): string[] => {
   let prev = start;
 
   times.slice(1).forEach((time) => {
-    const nextTime = new Date(prev.getTime() + 60 * 60 * 1000);
+    const nextTime = getKoreanDate(prev.getTime() + 60 * 60 * 1000);
     if (time.getTime() !== nextTime.getTime()) {
       result.push(
         start.getTime() === prev.getTime()
@@ -116,7 +118,7 @@ export const convertFixedReservationsToWeekSchedule = (
   };
 
   fixedReservations.forEach((reservation) => {
-    const date = new Date(reservation.reservationDateTime);
+    const date = getKoreanDate(reservation.reservationDateTime);
 
     const daysMapping: DaysOfWeek[] = [
       "SUNDAY",
