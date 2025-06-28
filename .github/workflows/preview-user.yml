@@ -1,8 +1,9 @@
 name: Preview User
 
 on:
-  push:
-    branches: ["dev", "FLIZ-396/feat/root"]
+  pull_request:
+    branches:
+      - dev
     paths:
       - "apps/user/**"
       - "packages/**"
