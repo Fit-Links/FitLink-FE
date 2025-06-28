@@ -18,11 +18,11 @@ type CaptionProps = {
 
 function Caption({ className, month, onChangeMonth, captionLeft, captionRight }: CaptionProps) {
   const handlePrevMonth = () => {
-    onChangeMonth(getKoreanDate(new Date(month.getFullYear(), month.getMonth() - MONTH_OFFSET)));
+    onChangeMonth(getKoreanDate(month.getFullYear(), month.getMonth() - MONTH_OFFSET));
   };
 
   const handleNextMonth = () => {
-    onChangeMonth(getKoreanDate(new Date(month.getFullYear(), month.getMonth() + MONTH_OFFSET)));
+    onChangeMonth(getKoreanDate(month.getFullYear(), month.getMonth() + MONTH_OFFSET));
   };
 
   return (
