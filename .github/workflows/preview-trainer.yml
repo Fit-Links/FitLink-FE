@@ -1,8 +1,8 @@
 name: Preview Trainer
 
 on:
-  pull_request:
-    branches: ["dev", "main"]
+  push:
+    branches: ["FLIZ-396/feat/root"]
     paths:
       - "apps/trainer/**"
       - "packages/**"
