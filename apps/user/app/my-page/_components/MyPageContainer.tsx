@@ -16,7 +16,6 @@ import React from "react";
 import { myInformationQueries } from "@user/queries/myInformation";
 
 import { getFormattedPTCount } from "@user/utils/count";
-import { getKoreanDate } from "@user/utils/date";
 
 import EditPreferredScheduleBottomSheet from "./BottomSheet/EditPreferredScheduleBottomSheet";
 import ScheduleContainer from "./PTInformation/ScheduleContainer";
@@ -46,8 +45,6 @@ export default function MyPageContainer() {
 
   const formattedFixedSchedule = getISOToKoreanTime(uniqueFixedSchedule);
 
-  const time = getKoreanDate();
-
   return (
     <div className="flex h-auto flex-col">
       <ProfileHeader
@@ -63,9 +60,6 @@ export default function MyPageContainer() {
           )}
         </Badge>
       </ProfileItem>
-
-      <p suppressHydrationWarning>{time.toString()}</p>
-      <p suppressHydrationWarning>{time.toLocaleString()}</p>
 
       <ConnectedTrainerItem
         connectingStatus={myInformation?.connectingStatus}
