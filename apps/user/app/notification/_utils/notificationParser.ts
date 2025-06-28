@@ -8,9 +8,9 @@ export const parseMessageFromContent = (content: string) => {
 
 export const parseContent = (content: string) => {
   const [messageRaw, eventDateRaw, otherRaw] = content.split("\n");
-  const message = messageRaw ? messageRaw.trim() : messageRaw;
-  const eventDate = eventDateRaw ? eventDateRaw.trim().split("날짜: ")[1] : eventDateRaw;
-  const other = otherRaw ? otherRaw.trim() : otherRaw;
+  const message = messageRaw ? messageRaw.trim() : null;
+  const eventDate = eventDateRaw ? eventDateRaw.trim().split("날짜: ")[1] : null;
+  const other = otherRaw ? otherRaw.trim() : null;
 
   return {
     message,

@@ -2,16 +2,19 @@
 
 import { NotificationInfo } from "@5unwan/core/api/types/common";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
+import { Button } from "@ui/components/Button";
 import Header from "@ui/components/Header";
 import { ToggleGroup, ToggleGroupItem } from "@ui/components/ToggleGroup";
-import { useRef, useState, Fragment, Suspense } from "react";
+import { useRef, useState, Fragment, Suspense, useEffect } from "react";
 
 import { notificationQueries } from "@trainer/queries/notification";
+import { useNotificationStore } from "@trainer/store/notificationStore";
 
 import NotificationSideBar from "@trainer/components/NotificationSideBar";
 
 import useIntersectionObserver from "@trainer/hooks/useIntersectionObserver";
 
+import { NOTIFICATION_QUERY_TYPE, NOTIFICATION_TYPE } from "./_constants";
 import EmptyList from "../_components/EmptyList";
 import NotificationItemContainer from "../_components/NotificationItemContainer";
 import NotificationListFallback from "../_components/NotificationListFallback";
@@ -32,9 +35,9 @@ function SessionNotificationContent({
 }: SessionNotificationContentProps) {
   const intersectionRef = useRef(null);
 
-  const { data, hasNextPage, isFetchingNextPage, fetchNextPage } = useSuspenseInfiniteQuery(
-    notificationQueries.list({ type: "SESSION" }),
-  );
+  const { data, hasNextPage, isFetchingNextPage, fetchNextPage, refetch } =
+    useSuspenseInfiniteQuery(notificationQueries.list({ type: NOTIFICATION_QUERY_TYPE }));
+
   const handleIntersect = () => {
     if (hasNextPage && !isFetchingNextPage) fetchNextPage();
   };
@@ -46,14 +49,50 @@ function SessionNotificationContent({
 
   const filteredNotificationCount = createFilteredNotificationCount(data, status);
 
+  const hasNewNotifications = useNotificationStore((state) =>
+    state.newNotificationTypes.has(NOTIFICATION_TYPE),
+  );
+  const setNewNotificationTypes = useNotificationStore((state) => state.setNewNotificationTypes);
+
+  useEffect(() => {
+    setNewNotificationTypes((prev) => {
+      const newSet = new Set(prev);
+      newSet.delete(NOTIFICATION_TYPE);
+
+      return newSet;
+    });
+  }, []);
+
   return (
     <>
       <div className="my-4 flex items-center justify-between">
         <span className="text-body-3">{`${filteredNotificationCount}개의 알림`}</span>
         <span className="text-body-3">최신순</span>
       </div>
+      {hasNewNotifications && (
+        <div className="mb-4 flex w-full items-center justify-center">
+          <Button
+            size="sm"
+            variant="negative"
+            corners="pill"
+            iconLeft="RotateCcw"
+            onClick={() => {
+              setNewNotificationTypes((prev) => {
+                const newSet = new Set(prev);
+                newSet.delete(NOTIFICATION_TYPE);
+
+                return newSet;
+              });
+
+              refetch();
+            }}
+          >
+            새 알림 확인하기
+          </Button>
+        </div>
+      )}
       {data.pages[0].data.totalElements ? (
-        <ul>
+        <ul className="flex flex-col gap-4">
           {data.pages.map((group, index) => (
             <Fragment key={`search-notificationGroup-${index}`}>
               {group.data.content.filter(handleNotificationFilter(status)).map((notification) => (
@@ -135,7 +174,7 @@ function SessionNotificationPage() {
           notificationId={selectedNotification.notificationId}
           open={isActionSheetOpen}
           onChangeOpen={setIsActionSheetOpen}
-          eventDate={info.eventDate}
+          eventDate={info.eventDate || ""}
         />
       )}
     </div>

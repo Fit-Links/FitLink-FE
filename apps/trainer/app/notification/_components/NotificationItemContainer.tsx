@@ -16,9 +16,9 @@ type NotificationItemContainerProps = {
 };
 
 function NotificationItemContainer({ notification, onClick }: NotificationItemContainerProps) {
-  const { data, isPending, isError } = useQuery(
-    notificationQueries.detail(notification.notificationId),
-  );
+  const { data, isPending, isError } = useQuery({
+    ...notificationQueries.detail(notification.notificationId),
+  });
 
   const { content, type, sendDate, isProcessed, notificationId } = notification;
   const { message, eventDate } = parseContent(content);
@@ -29,8 +29,8 @@ function NotificationItemContainer({ notification, onClick }: NotificationItemCo
         variant={type}
         createdAt={sendDate}
         isCompleted={isProcessed}
-        message={message}
-        eventDate={eventDate}
+        message={message || ""}
+        eventDate={eventDate || ""}
       />
     );
 
@@ -40,8 +40,8 @@ function NotificationItemContainer({ notification, onClick }: NotificationItemCo
 
   return (
     <NotificationItem
-      message={message}
-      eventDate={eventDate}
+      message={message || ""}
+      eventDate={eventDate || ""}
       variant={type}
       createdAt={sendDate}
       image={

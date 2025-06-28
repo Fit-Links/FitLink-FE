@@ -81,7 +81,7 @@ function FixedReservationAdderButton({
       currentDate,
       reservations,
       dayoff.data,
-      2,
+      1,
     );
 
     if (!fixedReservationDatesAndTimes) return;
