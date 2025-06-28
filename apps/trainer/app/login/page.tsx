@@ -9,7 +9,7 @@ import KakaoContent from "./_components/LoginButton/KakaoContent";
 import NaverContent from "./_components/LoginButton/NaverContent";
 
 function LoginPage() {
-  const date = getKoreanDate();
+  const date = getKoreanDate("2025-05-10T15:00:00");
 
   return (
     <main className="flex h-full flex-col justify-between pb-[3.375rem] pt-[6.25rem]">
