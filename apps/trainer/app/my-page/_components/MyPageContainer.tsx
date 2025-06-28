@@ -7,6 +7,8 @@ import { myInformationQueries } from "@trainer/queries/myInformation";
 
 import RouteInstance from "@trainer/constants/route";
 
+import { getKoreanDate } from "@trainer/utils/date";
+
 import MyPageHeader from "./MyPageHeader";
 import ProfileItemForRouting from "./ProfileItemForRouting";
 
@@ -17,12 +19,17 @@ export default function MyPageContainer() {
 
   const myInformationData = response.data;
 
+  const time = getKoreanDate();
+
   return (
     <section>
       <MyPageHeader
         name={myInformationData?.name}
         imageSrc={myInformationData?.profilePictureUrl}
       />
+
+      <p suppressHydrationWarning>{time.toString()}</p>
+      <p suppressHydrationWarning>{time.toLocaleString()}</p>
 
       <ProfileItemForRouting
         className="mt-[1.5625rem]"
