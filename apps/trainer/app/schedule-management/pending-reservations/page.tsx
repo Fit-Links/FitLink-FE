@@ -1,6 +1,6 @@
 /* eslint-disable no-magic-numbers */
 
-import { format, subHours } from "date-fns";
+import { format } from "date-fns";
 
 import { getKoreanDate } from "@trainer/utils/date";
 
@@ -17,8 +17,7 @@ type PendingReservationsProps = {
 async function PendingReservations({ searchParams }: PendingReservationsProps) {
   const selectedDate = getKoreanDate(searchParams.selectedDate);
 
-  const adjustedDate = subHours(selectedDate, 9);
-  const formattedAdjustedDate = format(adjustedDate, "yyyy-MM-dd'T'HH:mm");
+  const formattedAdjustedDate = format(selectedDate, "yyyy-MM-dd'T'HH:mm");
 
   const koreanDateTimeFormat = searchParams.formattedSelectedDate;
 

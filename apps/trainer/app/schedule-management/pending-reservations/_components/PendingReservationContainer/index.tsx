@@ -1,6 +1,6 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { addHours, format } from "date-fns";
+import { format } from "date-fns";
 import { useState } from "react";
 
 import FixedReservationListFallback from "@trainer/app/schedule-management/_components/Fallback/FixedReservationListFallback";
@@ -29,11 +29,8 @@ function PendingReservationContainer({
 
   console.log("쿼리파람 SelectedDate 체크:", emptyErrorCheckSelectedDate);
 
-  const NINE_HOURS = 9;
-  const isProduction = process.env.NODE_ENV === "production";
-  const adjustedDate = isProduction
-    ? addHours(getKoreanDate(formattedAdjustedDate), NINE_HOURS)
-    : getKoreanDate(formattedAdjustedDate);
+  // 서버, 클라이언트 상관없이 한국 시로 가져오므로 addHours값 삭제
+  const adjustedDate = getKoreanDate(formattedAdjustedDate);
   const formattedDate = format(adjustedDate, "yyyy-MM-dd'T'HH:mm");
 
   const { data: reservationPendingList, isLoading } = useQuery(
