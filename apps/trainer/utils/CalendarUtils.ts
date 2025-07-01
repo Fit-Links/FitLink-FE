@@ -1,9 +1,11 @@
+import { getKoreanDate } from "./date";
+
 const WEEK_LENGTH = 7;
 const STEP = 1;
 const INITIAL_OFFSET = 0;
 
 export const isToday = (date: Date) => {
-  const today = new Date();
+  const today = getKoreanDate();
 
   return (
     date.getFullYear() === today.getFullYear() &&
@@ -15,15 +17,15 @@ export const isToday = (date: Date) => {
 export const getWeekDates = (currentDate: Date) => {
   const dates: Date[] = [];
 
-  const date = new Date(currentDate);
+  const date = getKoreanDate(currentDate);
 
   const dayOfWeek = date.getDay();
 
-  const lastSunday = new Date(date);
+  const lastSunday = getKoreanDate(date);
   lastSunday.setDate(date.getDate() - dayOfWeek);
 
   for (let i = 0; i < WEEK_LENGTH; i += STEP) {
-    const newDate = new Date(lastSunday);
+    const newDate = getKoreanDate(lastSunday);
     newDate.setDate(lastSunday.getDate() + i);
     dates.push(newDate);
   }
@@ -32,7 +34,7 @@ export const getWeekDates = (currentDate: Date) => {
 };
 
 export const getOffsetDate = (date: Date, offsetDays = INITIAL_OFFSET) => {
-  const newDate = new Date(date);
+  const newDate = getKoreanDate(date);
   newDate.setDate(newDate.getDate() + offsetDays);
 
   return newDate;

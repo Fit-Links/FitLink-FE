@@ -1,10 +1,12 @@
 /* eslint-disable no-magic-numbers */
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import { format, subHours } from "date-fns";
+import { format } from "date-fns";
 import { Suspense } from "react";
 
 import { reservationQueries } from "@trainer/queries/reservation";
 import { userManagementQueries } from "@trainer/queries/userManagement";
+
+import { getKoreanDate } from "@trainer/utils/date";
 
 import MemberListContainer from "../_components/MemberListContainer";
 import Header from "./_components/Header";
@@ -18,7 +20,7 @@ type ReservationProps = {
 async function Reservation({ searchParams }: ReservationProps) {
   const selectedDate = searchParams.selectedDate;
 
-  const koreanFormattedDate = format(subHours(new Date(selectedDate as string), 9), "yyyy-MM-dd");
+  const koreanFormattedDate = format(getKoreanDate(selectedDate as string), "yyyy-MM-dd");
 
   const queryClient = new QueryClient();
 

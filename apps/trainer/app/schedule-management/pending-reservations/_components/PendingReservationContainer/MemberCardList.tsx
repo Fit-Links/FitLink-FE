@@ -17,6 +17,8 @@ import {
 
 import { DAYS } from "@trainer/constants/Day";
 
+import { getKoreanDate } from "@trainer/utils/date";
+
 import { formatContinuousTimes } from "../../_utils/formatContinuousTimes";
 
 type MemberCardListProps = {
@@ -50,7 +52,7 @@ function MemberCardList({
     if (dates.length === 1) return undefined;
 
     if (selectedDate) {
-      const parsedDate = parse(selectedDate, "M. d (E) HH:mm", new Date(), {
+      const parsedDate = parse(selectedDate, "M. d (E) HH:mm", getKoreanDate(), {
         locale: ko,
       });
 
@@ -88,7 +90,7 @@ function MemberCardList({
             key={`${memberId}-${name}`}
             memberId={memberId}
             imgUrl={profilePictureUrl}
-            userBirth={new Date(birthDate)}
+            userBirth={getKoreanDate(birthDate)}
             userName={name}
             phoneNumber={phoneNumber}
             PTReservationOtherTime={formatedTime(reservationDates)}

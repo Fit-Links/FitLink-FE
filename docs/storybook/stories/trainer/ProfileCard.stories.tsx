@@ -8,6 +8,8 @@ import {
 import { Meta, StoryObj } from "@storybook/react";
 import ProfileCard from "trainer/components/ProfileCard";
 
+import { getKoreanDate } from "../../../../apps/trainer/utils/date";
+
 const meta: Meta<typeof ProfileCard> = {
   component: ProfileCard,
   tags: ["autodocs"],
@@ -35,7 +37,7 @@ const meta: Meta<typeof ProfileCard> = {
   },
   args: {
     imgUrl: "https://picsum.photos/300",
-    userBirth: new Date("1998-07-04"),
+    userBirth: getKoreanDate("1998-07-04"),
     userName: "홍길동",
     phoneNumber: "010 0000 0000",
     PTReservationOtherTime: undefined,
@@ -44,7 +46,7 @@ const meta: Meta<typeof ProfileCard> = {
 
 export default meta;
 
-const DropdownSchedule = () => {
+function DropdownSchedule() {
   const DUMMY_DATA = [
     { day: "월", hours: "09:00 - 23:00" },
     { day: "화", hours: "12:00 - 12:00" },
@@ -68,7 +70,7 @@ const DropdownSchedule = () => {
       </DropdownContent>
     </Dropdown>
   );
-};
+}
 
 type ProfileCardStory = StoryObj<typeof ProfileCard>;
 

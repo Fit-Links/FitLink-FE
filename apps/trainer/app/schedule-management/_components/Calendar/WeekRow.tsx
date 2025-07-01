@@ -8,6 +8,8 @@ import {
   GetDayoffApiResponse,
 } from "@trainer/services/types/myInformation.dto";
 
+import { getKoreanDate } from "@trainer/utils/date";
+
 import DayColumn from "./DayColumn";
 import TimeBlock from "./TimeBlock";
 import {
@@ -46,8 +48,8 @@ export default function WeekRow({
   console.log(
     "예약 데이터 체크:",
     reservationInformation.data.sort((a, b) => {
-      const aDate = new Date(a.reservationDates[0]);
-      const bDate = new Date(b.reservationDates[0]);
+      const aDate = getKoreanDate(a.reservationDates[0]);
+      const bDate = getKoreanDate(b.reservationDates[0]);
 
       return aDate.getTime() - bDate.getTime();
     }),
@@ -56,8 +58,8 @@ export default function WeekRow({
   console.log(
     "컨버팅 된 예약 데이터 체크->",
     filterLatestReservationsByDate(reservationInformation.data).sort((a, b) => {
-      const aDate = new Date(a.reservationDates[0]);
-      const bDate = new Date(b.reservationDates[0]);
+      const aDate = getKoreanDate(a.reservationDates[0]);
+      const bDate = getKoreanDate(b.reservationDates[0]);
 
       return aDate.getTime() - bDate.getTime();
     }),

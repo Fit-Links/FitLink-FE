@@ -1,8 +1,9 @@
 /* eslint-disable no-magic-numbers */
+import { getKoreanDate } from "@trainer/utils/date";
+
 export function parseKoreanDateString(dateStr: string | null) {
   if (dateStr === null) throw new Error("Invalid date string format");
-  // 현재 연도 사용 (필요시 인자로 받게 변경 가능)
-  const currentYear = new Date().getFullYear();
+  const currentYear = getKoreanDate().getFullYear();
 
   // 월, 일 추출
   const match = dateStr
@@ -29,5 +30,5 @@ export function parseKoreanDateString(dateStr: string | null) {
   }
 
   // Date 객체 생성
-  return new Date(currentYear, month, day, hour);
+  return getKoreanDate(`${currentYear}-${month}-${day}T${hour}:00:00`);
 }

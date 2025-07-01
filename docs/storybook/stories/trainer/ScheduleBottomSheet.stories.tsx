@@ -1,12 +1,14 @@
 import ScheduleBottomSheet from "trainer/app/schedule-management/_components/ScheduleBottomSheet";
 
+import { getKoreanDate } from "../../../../apps/trainer/utils/date";
+
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof ScheduleBottomSheet> = {
   component: ScheduleBottomSheet,
   tags: ["autodocs"],
   args: {
-    selectedDate: new Date(),
+    selectedDate: getKoreanDate(),
     trigger: <button className="rounded-full border p-3">임시 버튼 클릭</button>,
   },
   argTypes: {

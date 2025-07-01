@@ -22,6 +22,8 @@ import { myInformationQueries } from "@user/queries/myInformation";
 
 import RouteInstance from "@user/constants/routes";
 
+import { getKoreanDate } from "@user/utils/date";
+
 import { resolveTrainerConnectionFlow } from "../_utils/resolveTrainerConnectionFlow";
 
 function ReservationAdder() {
@@ -29,7 +31,7 @@ function ReservationAdder() {
   const searchParams = useSearchParams();
 
   const dateParam = searchParams.get("date");
-  const koreanDate = dateParam ? startOfDay(new Date(dateParam)) : startOfDay(new Date());
+  const koreanDate = dateParam ? startOfDay(getKoreanDate(dateParam)) : startOfDay(getKoreanDate());
 
   const [isWithinTwoWeeks, setIsWithinTwoWeeks] = useState(false);
 
@@ -37,8 +39,8 @@ function ReservationAdder() {
 
   const onGoNewReservation = () => {
     const isCheckedWithInTwoWeeks = isWithinInterval(koreanDate, {
-      start: startOfDay(new Date()),
-      end: addDays(new Date(), 13),
+      start: startOfDay(getKoreanDate()),
+      end: addDays(getKoreanDate(), 13),
     });
 
     if (isCheckedWithInTwoWeeks) {

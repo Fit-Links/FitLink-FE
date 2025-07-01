@@ -23,6 +23,7 @@ import { AvailablePtTimeApiResponse } from "@trainer/services/types/myInformatio
 import { ModifiedReservationListItem } from "@trainer/services/types/reservations.dto";
 
 import { isToday } from "@trainer/utils/CalendarUtils";
+import { getKoreanDate } from "@trainer/utils/date";
 
 import { RESERVATION_CONFIG } from "../../_constants/reservationConfig";
 import { useFixReservationChangeMutation } from "../../fixed-reservation/select-pt-times/_hooks/mutations/useFixReservationChangeMutation";
@@ -184,7 +185,7 @@ export default function TimeBlock({
           <DialogHeader>
             <DialogTitle>고정 예약 변경이 완료되었습니다.</DialogTitle>
             <DialogDescription>
-              {`변경 날짜 -> ${format(new Date(date), "yyyy년 MM월 dd일 HH시")}`}
+              {`변경 날짜 -> ${format(getKoreanDate(date), "yyyy년 MM월 dd일 HH시")}`}
             </DialogDescription>
             <DialogFooter>
               <DialogClose asChild>

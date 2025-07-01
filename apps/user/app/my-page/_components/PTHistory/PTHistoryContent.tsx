@@ -15,6 +15,8 @@ import {
 
 import useIntersectionObserver from "@user/hooks/useIntersectionObserver";
 
+import { getKoreanDate } from "@user/utils/date";
+
 import MyPageItemSkeleton from "../Skeleton/MyPageItemSkeleton";
 
 export default function PTHistoryContent({ historyFilter }: { historyFilter: PtStatus }) {
@@ -63,7 +65,7 @@ export default function PTHistoryContent({ historyFilter }: { historyFilter: PtS
               return (
                 <PTHistoryItem
                   key={`PT-history-item-${item.sessionId}`}
-                  reservationDate={new Date(item.date)}
+                  reservationDate={getKoreanDate(item.date)}
                   status={item.status as Exclude<PtStatus, "SESSION_CANCELLED">}
                 />
               );

@@ -1,0 +1,6 @@
+{
+  "buildCommand": "pnpm -w run build:trainer",
+  "framework": "nextjs",
+  "installCommand": "pnpm install",
+  "devCommand": "pnpm -w run dev:trainer"
+}

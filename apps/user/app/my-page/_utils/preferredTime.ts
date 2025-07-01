@@ -1,11 +1,13 @@
 import { FixedReservation } from "@5unwan/core/api/types/common";
 
+import { getKoreanDate } from "@user/utils/date";
+
 const PAD_LENGTH = 2;
 
 const MINUTES_PER_SESSION = 50;
 
 export const formatDateTimeToKorean = (dateString: string): string => {
-  const date = new Date(dateString);
+  const date = getKoreanDate(dateString);
 
   const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
   const weekday = weekdays[date.getDay()];

@@ -19,6 +19,7 @@ import CalendarHintGroup from "@trainer/components/CalendarHintGroup";
 import useSyncScroll from "@trainer/hooks/useSyncScroll";
 
 import { getOffsetDate, getWeekDates } from "@trainer/utils/CalendarUtils";
+import { getKoreanDate } from "@trainer/utils/date";
 
 import DayOfWeek from "./DayOfWeek";
 import TimeColumn from "./TimeColumn";
@@ -27,7 +28,7 @@ import WeekRow from "./WeekRow";
 const WEEK_LENGTH = 7;
 const MONTH_START_INDEX = 1;
 const TOTAL_WEEKS = 52;
-const currentDate = new Date();
+const currentDate = getKoreanDate();
 const initialWeeks = Array.from({ length: 105 }, (_, i) =>
   getWeekDates(getOffsetDate(currentDate, (i - TOTAL_WEEKS) * WEEK_LENGTH)),
 );
@@ -36,7 +37,8 @@ function Calendar() {
   const searchParams = useSearchParams();
   const isFixedReservationChangeMode = searchParams.get("fixReservationChangeMode");
 
-  const koreanSunday = startOfWeek(new Date(), { weekStartsOn: 0, locale: ko });
+  const koreanSunday = startOfWeek(getKoreanDate(), { weekStartsOn: 0, locale: ko });
+
   const simpleDate = format(koreanSunday, "yyyy-MM-dd");
 
   const [reservationQueryDate, setReservationQueryDate] = useState(simpleDate);

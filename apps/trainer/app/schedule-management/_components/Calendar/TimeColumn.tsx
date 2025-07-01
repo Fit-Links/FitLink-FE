@@ -1,10 +1,12 @@
 import { format } from "date-fns";
 
+import { getKoreanDate } from "@trainer/utils/date";
+
 const ZERO_TIME = 0;
 
 export default function TimeColumn() {
   const TimeCoulmns = Array.from({ length: 24 }, (_, idx) => {
-    const time = new Date();
+    const time = getKoreanDate();
 
     time.setHours(idx, ZERO_TIME, ZERO_TIME, ZERO_TIME);
 

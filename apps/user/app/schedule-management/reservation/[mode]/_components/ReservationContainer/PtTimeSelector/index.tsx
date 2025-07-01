@@ -22,6 +22,8 @@ import { filterLatestReservationsByDate } from "@user/app/schedule-management/_u
 import { myInformationQueries } from "@user/queries/myInformation";
 import { reservationQueries } from "@user/queries/reservation";
 
+import { getKoreanDate } from "@user/utils/date";
+
 import { RequestReservationMode } from "@user/app/schedule-management/reservation/[mode]/types/requestReservation";
 
 import ReservationRequestor from "./ReservationRequestor";
@@ -103,7 +105,7 @@ function PtTimeSelector({
   };
 
   const validateSelectedTimesForEdit = () => {
-    const currentDate = new Date();
+    const currentDate = getKoreanDate();
     const currentHour = currentDate.getHours();
 
     if (mode === "edit" && selectedTimes.length) {

@@ -22,6 +22,8 @@ import { processReservationChange } from "@trainer/services/reservations";
 import ProfileCard from "@trainer/components/ProfileCard";
 import QueryErrorBoundary from "@trainer/components/QueryErrorBoundary";
 
+import { getKoreanDate } from "@trainer/utils/date";
+
 import SheetErrorFallback from "./SheetErrorFallback";
 import SheetFallback from "./SheetFallback";
 import { formatSessionData } from "../../_utils/formatter";
@@ -64,7 +66,7 @@ function ReservationChangeSheetContent({
       </SheetHeader>
       <ProfileCard
         imgUrl={profilePictureUrl}
-        userBirth={new Date(birthDate)}
+        userBirth={getKoreanDate(birthDate)}
         userName={name as string}
         phoneNumber={phoneNumber}
         className="bg-background-sub1 w-full md:hover:bg-none"
@@ -122,7 +124,7 @@ function ReservationChangeSheet({
       requestBody: {
         memberId: userId,
         isApprove: false,
-        approveDate: DateController(new Date()).toAbsolute(),
+        approveDate: DateController(getKoreanDate()).toAbsolute(),
       },
     });
     setIsDeclineSheetOpen(true);
@@ -135,7 +137,7 @@ function ReservationChangeSheet({
       requestBody: {
         memberId: userId,
         isApprove: true,
-        approveDate: DateController(new Date()).toAbsolute(),
+        approveDate: DateController(getKoreanDate()).toAbsolute(),
       },
     });
     setIsAccepSheetOpen(true);

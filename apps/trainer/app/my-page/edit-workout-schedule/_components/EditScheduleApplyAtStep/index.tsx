@@ -1,7 +1,10 @@
 import { Button } from "@ui/components/Button";
 import { DayPicker } from "@ui/components/DayPicker";
+import { addDays } from "date-fns";
 import React from "react";
 import { toast } from "sonner";
+
+import { getKoreanDate } from "@trainer/utils/date";
 
 import Header from "../../../_components/Header";
 
@@ -16,18 +19,17 @@ const PAD_LENGTH = 2;
 const RESET_TIME = 0;
 const PAD_CHAR = "0";
 
-const tomorrow = new Date();
-tomorrow.setDate(tomorrow.getDate() + DAYS_TO_ADD);
+const tomorrow = addDays(getKoreanDate(), DAYS_TO_ADD);
 
 export default function EditScheduleApplyAtStep({ onNext }: EditScheduleApplyAtStepProps) {
   const [selectedDate, setSelectedDate] = React.useState<Date>(tomorrow);
 
   const handleClickChangeApplyAtDate = (date: Date | undefined) => {
     if (date) {
-      const today = new Date();
+      const today = getKoreanDate();
       today.setHours(RESET_TIME, RESET_TIME, RESET_TIME, RESET_TIME); // 시간을 0으로 설정하여 날짜만 비교
 
-      const selectedDateOnly = new Date(date);
+      const selectedDateOnly = getKoreanDate(date);
       selectedDateOnly.setHours(RESET_TIME, RESET_TIME, RESET_TIME, RESET_TIME);
 
       if (selectedDateOnly > today) {

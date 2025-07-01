@@ -1,8 +1,10 @@
 /* eslint-disable no-magic-numbers */
 
+import { getKoreanDate } from "@ui/utils/date";
+
 const DateController = (date: string | Date) => {
-  const targetDate = typeof date === "string" ? new Date(date) : date;
-  const currentDate = new Date();
+  const targetDate = typeof date === "string" ? getKoreanDate(date) : date;
+  const currentDate = getKoreanDate();
 
   const isToday = () =>
     targetDate.getMonth() === currentDate.getMonth() &&

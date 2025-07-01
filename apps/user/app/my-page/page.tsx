@@ -11,7 +11,6 @@ export default function page() {
       <Suspense fallback={<MyPageSkeleton />}>
         <MyPageContainer />
       </Suspense>
-
       <Suspense fallback={<MyPageHistorySkeleton />}>
         <PTHistoryContainer />
       </Suspense>

@@ -6,11 +6,13 @@ import { render, screen } from "test-utils";
 
 import DayOfTwoWeekPicker from "@ui/components/DayOfTwoWeekPicker";
 
+import { getKoreanDate } from "@ui/utils/date";
+
 describe("DayOfTwoWeekPicker Component test", () => {
   it("현재일로부터 14일에 범위 내의 날짜만 렌더링", () => {
     render(<DayOfTwoWeekPicker />);
 
-    const currentDate = new Date();
+    const currentDate = getKoreanDate();
     const fromDate = subDays(currentDate, 1);
     const toDate = addDays(fromDate, 14);
 

@@ -21,6 +21,8 @@ import { processMemberConnectionInquiry, sessionCountEdit } from "@trainer/servi
 import ProfileCard from "@trainer/components/ProfileCard";
 import QueryErrorBoundary from "@trainer/components/QueryErrorBoundary";
 
+import { getKoreanDate } from "@trainer/utils/date";
+
 import SessionSetterSheet from "../SessionSetterSheet";
 import SheetErrorFallback from "./SheetErrorFallback";
 import SheetFallback from "./SheetFallback";
@@ -61,7 +63,7 @@ function ConnectTrainerSheetContent({
       </SheetHeader>
       <ProfileCard
         imgUrl={profilePictureUrl}
-        userBirth={new Date(birthDate)}
+        userBirth={getKoreanDate(birthDate)}
         userName={name}
         phoneNumber={phoneNumber}
         className="bg-background-sub1 w-full md:hover:bg-none"

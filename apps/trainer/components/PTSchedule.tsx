@@ -14,6 +14,8 @@ import React from "react";
 
 import { SpanScheduleUnit } from "@trainer/app/my-page/_components/MyAvailableTimeContainer";
 
+import { getKoreanDate } from "@trainer/utils/date";
+
 type PTSchedulesProps = {
   currentSchedules: SpanScheduleUnit[];
   scheduledChanges: {
@@ -83,7 +85,7 @@ function PTScheduleItem({ current, applyAt, schedules, onClickEllipsis }: PTSche
         )}
         {applyAt && (
           <Text.Body3>
-            {`${DateController(new Date(applyAt)).validate()?.toServiceFormat().untilDate}부터 적용`}
+            {`${DateController(getKoreanDate(applyAt)).validate()?.toServiceFormat().untilDate}부터 적용`}
           </Text.Body3>
         )}
         <Ellipsis

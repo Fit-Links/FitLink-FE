@@ -8,6 +8,8 @@ import { cn } from "@ui/lib/utils";
 
 import useControllableState from "@ui/hooks/useControllableState";
 
+import { getKoreanDate } from "@ui/utils/date";
+
 type DayOfTwoWeekPickerProps = {
   className?: string;
   selectDate?: Date;
@@ -39,7 +41,7 @@ export default function DayOfTwoWeekPicker({
     onChange: onSelectDate,
     defaultProp: defaultDate,
   });
-  const currentDate = new Date();
+  const currentDate = getKoreanDate();
 
   return (
     <section className={cn("w-full", className)}>

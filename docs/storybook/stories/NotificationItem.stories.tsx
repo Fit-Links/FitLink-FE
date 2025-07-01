@@ -1,11 +1,13 @@
-import type { Meta, StoryObj } from "@storybook/react";
-
 import NotificationItem from "@5unwan/ui/components/NotificationItem/NotificationItem";
+
+import { getKoreanDate } from "../../../apps/trainer/utils/date";
+
+import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof NotificationItem> = {
   component: ({ createdAt, eventDate, ...args }) => {
-    const formattedCreatedAt = createdAt ? new Date(createdAt) : createdAt;
-    const formattedEventDate = eventDate ? new Date(eventDate) : eventDate;
+    const formattedCreatedAt = createdAt ? getKoreanDate(createdAt) : createdAt;
+    const formattedEventDate = eventDate ? getKoreanDate(eventDate) : eventDate;
 
     return (
       <NotificationItem {...args} createdAt={formattedCreatedAt} eventDate={formattedEventDate} />

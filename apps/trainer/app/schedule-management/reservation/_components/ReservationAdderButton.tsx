@@ -15,7 +15,7 @@ import {
 } from "@ui/components/Sheet";
 import Spinner from "@ui/components/Spinner";
 import { VisuallyHidden } from "@ui/components/VisuallyHidden";
-import { format, subHours } from "date-fns";
+import { format } from "date-fns";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -26,6 +26,8 @@ import { reservationQueries } from "@trainer/queries/reservation";
 import { PtUser } from "@trainer/services/types/userManagement.dto";
 
 import RouteInstance from "@trainer/constants/route";
+
+import { getKoreanDate } from "@trainer/utils/date";
 
 import { filterLatestReservationsByDate } from "../../_utils/reservationMerger";
 import { useReservationRequestMutation } from "../_hooks/mutations/useReservationRequestMutation";
@@ -42,7 +44,7 @@ function ReservationAdderButton({ selectedMemberInformation }: ReservationAdderB
 
   const selectedDate = searchParams.get("selectedDate") as string;
 
-  const koreanFormattedDate = format(subHours(new Date(selectedDate as string), 9), "yyyy-MM-dd");
+  const koreanFormattedDate = format(getKoreanDate(selectedDate as string), "yyyy-MM-dd");
 
   const { data: myInformation } = useSuspenseQuery(myInformationQueries.myInformation());
   const { data: reservationList } = useSuspenseQuery(reservationQueries.list(koreanFormattedDate));
@@ -60,7 +62,7 @@ function ReservationAdderButton({ selectedMemberInformation }: ReservationAdderB
       reservationContent.status === "예약 확정"
     ) {
       return reservationContent.reservationDates.some(
-        (date) => format(new Date(date), "yyyy-MM-dd") === koreanFormattedDate,
+        (date) => format(getKoreanDate(date), "yyyy-MM-dd") === koreanFormattedDate,
       );
     }
 
@@ -69,7 +71,10 @@ function ReservationAdderButton({ selectedMemberInformation }: ReservationAdderB
 
   const { reservationRequest, isSuccess, isPending } = useReservationRequestMutation();
 
-  const formattedDate = format(new Date(selectedDate.replace(/GMT.*$/, "")), "yyyy-MM-dd'T'HH:mm");
+  const formattedDate = format(
+    getKoreanDate(selectedDate.replace(/GMT.*$/, "")),
+    "yyyy-MM-dd'T'HH:mm",
+  );
 
   const handleClickReservationRequest = () => {
     if (hasExistingReservationOnSameDay) {

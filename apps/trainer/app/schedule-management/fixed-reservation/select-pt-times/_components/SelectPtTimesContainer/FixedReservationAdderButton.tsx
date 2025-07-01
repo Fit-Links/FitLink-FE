@@ -24,6 +24,8 @@ import { ReservationStatusApiResponse } from "@trainer/services/types/reservatio
 
 import RouteInstance from "@trainer/constants/route";
 
+import { getKoreanDate } from "@trainer/utils/date";
+
 import { useFixReservationMutation } from "../../_hooks/mutations/useFixReservationMutation";
 import { getFixedReservationDatesAndTimes } from "../../_libs/getFixedReservationDatesAndTimes";
 import { createNonConflictingFixedReservation } from "../../_utils/fixReservationUtils";
@@ -33,7 +35,9 @@ type FixedReservationAdderButtonProps = {
   userInformation: { memberId: number; name: string };
 };
 
-const currentDate = new Date();
+const currentDate = getKoreanDate();
+
+console.log(currentDate);
 
 /** 유저 정보와 선택된 고정 예약 시간을 활용하여 고정 예약 mutation 진행 */
 function FixedReservationAdderButton({
@@ -50,7 +54,7 @@ function FixedReservationAdderButton({
     0,
   );
 
-  const currentWeekMonday = startOfWeek(new Date(), { weekStartsOn: 1 });
+  const currentWeekMonday = startOfWeek(getKoreanDate(), { weekStartsOn: 1 });
 
   const dates = [0, 14].map((days) => {
     const date = addDays(currentWeekMonday, days);
@@ -71,6 +75,7 @@ function FixedReservationAdderButton({
   const handleClickFixReservation = () => {
     if (!dayoff) return;
 
+    console.log(selectedFixedSchedules);
     const fixedReservationDatesAndTimes = createNonConflictingFixedReservation(
       selectedFixedSchedules,
       currentDate,

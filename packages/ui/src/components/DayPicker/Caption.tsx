@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 
 import { cn } from "@ui/lib/utils";
 
+import { getKoreanDate } from "@ui/utils/date";
 import { currentYearWithMonth } from "@ui/utils/DayPickerUtils";
 
 const MONTH_OFFSET = 1;
@@ -17,11 +18,11 @@ type CaptionProps = {
 
 function Caption({ className, month, onChangeMonth, captionLeft, captionRight }: CaptionProps) {
   const handlePrevMonth = () => {
-    onChangeMonth(new Date(month.getFullYear(), month.getMonth() - MONTH_OFFSET));
+    onChangeMonth(getKoreanDate(month.getFullYear(), month.getMonth() - MONTH_OFFSET));
   };
 
   const handleNextMonth = () => {
-    onChangeMonth(new Date(month.getFullYear(), month.getMonth() + MONTH_OFFSET));
+    onChangeMonth(getKoreanDate(month.getFullYear(), month.getMonth() + MONTH_OFFSET));
   };
 
   return (

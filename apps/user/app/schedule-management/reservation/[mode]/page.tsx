@@ -1,10 +1,12 @@
 /* eslint-disable no-magic-numbers */
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import { startOfMonth, addHours, format } from "date-fns";
+import { startOfMonth, format } from "date-fns";
 import { notFound } from "next/navigation";
 
 import { myInformationQueries } from "@user/queries/myInformation";
 import { reservationQueries } from "@user/queries/reservation";
+
+import { getKoreanDate } from "@user/utils/date";
 
 import Header from "./_components/Header";
 import ReservationContainer from "./_components/ReservationContainer";
@@ -34,9 +36,11 @@ async function Reservation({ params, searchParams }: ReservationParams) {
 
   const queryClient = new QueryClient();
 
-  const today = new Date();
-  const firstDayOfMonthUTC = startOfMonth(today);
-  const firstDayOfMonthKorea = format(addHours(firstDayOfMonthUTC, 9), "yyyy-MM-dd");
+  const today = getKoreanDate();
+
+  const firstDayOfMonth = startOfMonth(today);
+
+  const firstDayOfMonthKorea = format(firstDayOfMonth, "yyyy-MM-dd");
 
   await Promise.all([
     queryClient.prefetchQuery(myInformationQueries.summary()),
