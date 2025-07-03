@@ -19,8 +19,6 @@ import TimePicker from "@ui/components/TimePicker";
 import { DAYS_OF_WEEK_MAP } from "@ui/utils/timeCellUtils";
 import { useRef, useState } from "react";
 
-import Logo from "../Logo";
-
 const DEFAULT_TIME = "-- : --";
 
 const setHalfHours = (relative: number) => {
@@ -159,8 +157,8 @@ function TrainerScheduleStep({ onPrev, onNext, onSubmit }: TrainerScheduleStepPr
   };
 
   return (
-    <div className="flex flex-1 flex-col">
-      <Header logo={<Logo />}>
+    <>
+      <Header>
         <Header.Back onClick={onPrev} />
         <Header.Title content="PT 수업 시간" />
       </Header>
@@ -170,7 +168,7 @@ function TrainerScheduleStep({ onPrev, onNext, onSubmit }: TrainerScheduleStepPr
         completed={filledDays}
         currentDay={currentDay}
         errorDays={errorDays}
-        className="w-full"
+        className="w-full py-2"
       />
       <div className="mt-[1.5rem] flex flex-1 flex-col justify-between">
         <div className="flex flex-col gap-4">
@@ -314,7 +312,7 @@ function TrainerScheduleStep({ onPrev, onNext, onSubmit }: TrainerScheduleStepPr
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   );
 }
 
