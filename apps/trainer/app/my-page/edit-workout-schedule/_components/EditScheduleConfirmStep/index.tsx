@@ -3,6 +3,7 @@
 import { AvailablePtTime } from "@5unwan/core/api/types/common";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@ui/components/Button";
+import Header from "@ui/components/Header";
 import React from "react";
 
 import MyPagePending from "@trainer/app/my-page/_components/MyPagePending";
@@ -11,17 +12,17 @@ import { myInformationQueries } from "@trainer/queries/myInformation";
 import { formatAvailableScheduleConfirm } from "@trainer/utils/avaliableScheduleUtils";
 
 import ScheduleChangeResultSheet from "./ScheduleChangeResultSheet";
-import Header from "../../../_components/Header";
 import useAddScheduleMutation from "../../_hooks/useAddScheduleMutation";
 import useDeleteScheduleMutation from "../../_hooks/useDeleteScheduleMutation";
 
 type EditScheduleConfirmStepProps = {
+  onPrev: () => void;
   context: {
     applyAt: string;
     availableTimes: Omit<AvailablePtTime, "availableTimeId">[];
   };
 };
-export default function EditScheduleConfirmStep({ context }: EditScheduleConfirmStepProps) {
+export default function EditScheduleConfirmStep({ onPrev, context }: EditScheduleConfirmStepProps) {
   const queryClient = useQueryClient();
   const { data: currentData } = useQuery(myInformationQueries.ptAvailableTime());
 
@@ -57,10 +58,13 @@ export default function EditScheduleConfirmStep({ context }: EditScheduleConfirm
   };
 
   return (
-    <section className="flex flex-1 flex-col justify-between">
-      <div className="w-full text-center">
-        <Header title="PT 수업 시간" />
-        <p className="text-body-1 text-text-sub2 mt-[0.625rem]">
+    <>
+      <Header>
+        <Header.Back onClick={onPrev} />
+        <Header.Title content="PT 수업 시간" />
+      </Header>
+      <div className="flex w-full flex-1 flex-col">
+        <p className="text-body-1 text-text-sub2 mt-[0.625rem] text-center">
           변경하고 싶은 시간이 맞는지 확인해주세요
         </p>
 
@@ -83,6 +87,6 @@ export default function EditScheduleConfirmStep({ context }: EditScheduleConfirm
         </Button>
       </ScheduleChangeResultSheet>
       {isPending && <MyPagePending />}
-    </section>
+    </>
   );
 }
