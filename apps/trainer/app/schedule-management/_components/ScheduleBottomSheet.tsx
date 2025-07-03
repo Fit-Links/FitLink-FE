@@ -35,10 +35,7 @@ export default function ScheduleBottomSheet({
       {trigger && <SheetTrigger asChild>{trigger}</SheetTrigger>}
       <SheetContent
         side={"bottom"}
-        className={cn(
-          "md:w-mobile absolute h-[17rem] md:inset-x-[calc((100%-480px)/2)]",
-          className,
-        )}
+        className={cn("md:w-mobile h-[17rem] md:inset-x-[calc((100%-480px)/2)] ", className)}
       >
         <SheetHeader className="items-center">
           <SheetTitle>{selectedFormatDate}</SheetTitle>
