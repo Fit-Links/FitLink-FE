@@ -7,6 +7,7 @@ import Header from "@ui/components/Header";
 import DateController from "@ui/lib/DateController";
 import { useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
+import { toast } from "sonner";
 
 import { notificationBaseKeys, notificationQueries } from "@trainer/queries/notification";
 
@@ -86,6 +87,11 @@ function AllNotificationPage() {
         readNotificationMutation.mutate({ id: notificationId });
         break;
       case "예약 요청":
+        if (!parsedDate) {
+          toast.error("유효하지 않은 날짜의 일정입니다.");
+
+          return;
+        }
         router.push(
           RouteInstance["pending-reservations"]("", {
             selectedDate: String(parsedDate),
