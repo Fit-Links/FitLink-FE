@@ -23,10 +23,9 @@ export const getNotificationDetail = ({ notificationId }: GetNotificationDetailR
   });
 
 // TODO: 알림 읽음 API 오류 (백엔드 오류)
-export const readNotification = (data: ReadNotificationRequestBody) =>
+export const readNotification = ({ id }: ReadNotificationRequestBody) =>
   http.patch<ReadNotificationApiResponse>({
-    url: `/v1/notifications`,
-    data,
+    url: `/v1/notifications/${id}`,
   });
 
 export const sendPushToken = (data: SendPushTokenRequestBody) =>
