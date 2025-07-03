@@ -2,6 +2,8 @@ import Header from "@ui/components/Header";
 
 import { requireAuth } from "@user/utils/auth";
 
+import NotificationProvider from "./_components/NotificationProvdier";
+
 type NotificationLayoutProps = Readonly<{
   children: React.ReactNode;
 }>;
@@ -13,7 +15,7 @@ async function NotificationLayout({ children }: NotificationLayoutProps) {
       <Header>
         <Header.Title content="알림" />
       </Header>
-      {children}
+      <NotificationProvider>{children}</NotificationProvider>
     </>
   );
 }

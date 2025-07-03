@@ -64,7 +64,7 @@ function ConnectTrainerSheetContent({
         userBirth={new Date(birthDate)}
         userName={name}
         phoneNumber={phoneNumber}
-        className="bg-background-sub1 w-full hover:bg-none"
+        className="bg-background-sub1 w-full md:hover:bg-none"
       />
       <SheetFooter>
         <div className="flex w-full justify-center gap-[0.625rem]">

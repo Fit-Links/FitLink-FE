@@ -1,6 +1,9 @@
+/* eslint-disable no-magic-numbers */
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import { format, subHours } from "date-fns";
 import { Suspense } from "react";
 
+import { reservationQueries } from "@trainer/queries/reservation";
 import { userManagementQueries } from "@trainer/queries/userManagement";
 
 import MemberListContainer from "../_components/MemberListContainer";
@@ -8,10 +11,22 @@ import Header from "./_components/Header";
 import ReservationAdderButton from "./_components/ReservationAdderButton";
 import MemberContainerFallback from "../_components/Fallback/MemberContainerFallback";
 
-async function Reservation() {
+type ReservationProps = {
+  searchParams: { selectedDate: string | null; selectedFormatDate: string | null };
+};
+
+async function Reservation({ searchParams }: ReservationProps) {
+  const selectedDate = searchParams.selectedDate;
+
+  const koreanFormattedDate = format(subHours(new Date(selectedDate as string), 9), "yyyy-MM-dd");
+
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchInfiniteQuery(userManagementQueries.list());
+  await Promise.all([
+    await queryClient.prefetchInfiniteQuery(userManagementQueries.list()),
+    await queryClient.prefetchQuery(reservationQueries.list(koreanFormattedDate)),
+  ]);
+
   const dehydratedState = dehydrate(queryClient);
 
   return (

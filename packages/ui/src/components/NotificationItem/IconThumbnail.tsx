@@ -77,7 +77,7 @@ function IconThumbnail({
   return (
     <div
       className={cn(
-        "bg-brand-primary-500 flex h-[1.5rem] w-[1.5rem] items-center justify-center rounded-full transition-colors",
+        "bg-brand-primary-500 flex h-[1.5rem] w-[1.5rem] shrink-0 items-center justify-center rounded-full transition-colors",
         {
           "bg-background-sub2": isCompleted,
         },

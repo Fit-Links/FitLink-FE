@@ -93,7 +93,7 @@ function ReservationCancelSheet({
                 <Button
                   onClick={handleClickCancelReservation}
                   disabled={!inputValue.length}
-                  className="bg-brand-primary-500 hover:bg-brand-primary-400 disabled:bg-background-sub1 flex h-full flex-1 items-center justify-center rounded-[0.625rem] transition-colors"
+                  className="bg-brand-primary-500 md:hover:bg-brand-primary-400 disabled:bg-background-sub1 flex h-full flex-1 items-center justify-center rounded-[0.625rem] transition-colors"
                 >
                   {isPending ? <Spinner /> : "취소 요청"}
                 </Button>

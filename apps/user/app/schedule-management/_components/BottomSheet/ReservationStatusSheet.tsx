@@ -120,7 +120,7 @@ function ReservationStatusSheet({
           <SheetFooter>
             {status === "예약 변경 요청" || status === "고정 예약" ? (
               <SheetClose asChild>
-                <Button className="bg-background-sub1  hover:bg-background-sub3 flex h-[3.375rem] w-full items-center justify-center ">
+                <Button className="bg-background-sub1  md:hover:bg-background-sub3 flex h-[3.375rem] w-full items-center justify-center ">
                   확인
                 </Button>
               </SheetClose>
@@ -130,9 +130,9 @@ function ReservationStatusSheet({
                   <Button
                     onClick={handleClickCancelButton}
                     className={cn(
-                      "bg-background-sub1 hover:bg-background-sub3 flex h-full w-full flex-1 items-center justify-center rounded-[0.625rem] transition-colors",
+                      "bg-background-sub1 md:hover:bg-background-sub3 flex h-full w-full flex-1 items-center justify-center rounded-[0.625rem] transition-colors",
                       reservationContent.status === "예약 대기" &&
-                        "bg-background-sub5 text-text-sub5 hover:bg-[#f5f5f5]",
+                        "bg-background-sub5 text-text-sub5 md:hover:bg-[#f5f5f5]",
                     )}
                   >
                     예약 취소
@@ -142,7 +142,7 @@ function ReservationStatusSheet({
                   <SheetClose asChild>
                     <Button
                       onClick={handleClickChangeButton}
-                      className="bg-background-sub5 text-text-sub5 flex h-full w-full flex-1 items-center justify-center rounded-[0.625rem] transition-colors hover:bg-[#f5f5f5]"
+                      className="bg-background-sub5 text-text-sub5 flex h-full w-full flex-1 items-center justify-center rounded-[0.625rem] transition-colors md:hover:bg-[#f5f5f5]"
                     >
                       예약 변경
                     </Button>

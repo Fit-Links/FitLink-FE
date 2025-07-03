@@ -45,9 +45,13 @@ function SelectPtTimesContainer({ userInformation }: SelectPtTimesContainerProps
 
   const { data: ptAvailableTime } = useSuspenseQuery(myInformationQueries.ptAvailableTime());
 
-  const holidayDays = ptAvailableTime.data.currentSchedules.schedules
-    .filter((schedule) => schedule.isHoliday)
-    .map((schedule) => schedule.dayOfWeek);
+  const holidayDays = ptAvailableTime.data.currentSchedules
+    ? ptAvailableTime.data.currentSchedules.schedules
+        .filter((schedule) => schedule.isHoliday)
+        .map((schedule) => schedule.dayOfWeek)
+    : ptAvailableTime.data.scheduledChanges.schedules
+        .filter((schedule) => schedule.isHoliday)
+        .map((schedule) => schedule.dayOfWeek);
 
   selectedFixedSchedulesRef.current[dayRef.current] = selectedTimes;
 
@@ -62,10 +66,15 @@ function SelectPtTimesContainer({ userInformation }: SelectPtTimesContainerProps
   };
 
   const availableTimeMap = Object.fromEntries(
-    ptAvailableTime.data.currentSchedules.schedules.map((s) => [
-      s.dayOfWeek,
-      { start: s.startTime, end: s.endTime },
-    ]),
+    ptAvailableTime.data.currentSchedules
+      ? ptAvailableTime.data.currentSchedules.schedules.map((s) => [
+          s.dayOfWeek,
+          { start: s.startTime, end: s.endTime },
+        ])
+      : ptAvailableTime.data.scheduledChanges.schedules.map((s) => [
+          s.dayOfWeek,
+          { start: s.startTime, end: s.endTime },
+        ]),
   );
 
   const HOURS = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, "0") + ":00");

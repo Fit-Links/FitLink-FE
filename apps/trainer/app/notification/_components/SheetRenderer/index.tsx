@@ -13,15 +13,31 @@ const SheetRenderer = {
   "트레이너 연동": (commonProps: CommonSheetProps) => <ConnectTrainerSheet {...commonProps} />,
   "트레이너 연동 해제": () => null,
   "예약 요청": () => null,
-  "예약 변경": (commonProps: CommonSheetProps, eventDateDescription: string) => (
-    <ReservationChangeSheet {...commonProps} eventDateDescription={eventDateDescription} />
+  "예약 변경": (
+    commonProps: CommonSheetProps,
+    eventInfo: {
+      eventDate: string;
+    },
+  ) => <ReservationChangeSheet {...commonProps} eventDateDescription={eventInfo.eventDate} />,
+  "예약 취소": (
+    commonProps: CommonSheetProps,
+    eventInfo: {
+      eventDate: string;
+      cancelReason?: string;
+    },
+  ) => (
+    <ReservationCancelSheet
+      {...commonProps}
+      eventDateDescription={eventInfo.eventDate}
+      cancelReason={eventInfo.cancelReason || ""}
+    />
   ),
-  "예약 취소": (commonProps: CommonSheetProps, eventDateDescription: string) => (
-    <ReservationCancelSheet {...commonProps} eventDateDescription={eventDateDescription} />
-  ),
-  세션: (commonProps: CommonSheetProps, eventDateDescription: string) => (
-    <SessionCompleteSheet {...commonProps} eventDate={eventDateDescription} />
-  ),
+  세션: (
+    commonProps: CommonSheetProps,
+    eventInfo: {
+      eventDate: string;
+    },
+  ) => <SessionCompleteSheet {...commonProps} eventDate={eventInfo.eventDate} />,
 };
 
 export default SheetRenderer;

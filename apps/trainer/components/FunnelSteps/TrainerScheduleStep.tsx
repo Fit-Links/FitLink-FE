@@ -86,7 +86,7 @@ function TrainerScheduleStep({ onPrev, onNext, onSubmit }: TrainerScheduleStepPr
   >(
     Array.from({ length: 7 }, (_v, index) => ({
       dayOfWeek: DAYS_OF_WEEK_MAP[index],
-      isHoliday: false,
+      isHoliday: true,
       startTime: null,
       endTime: null,
     })),

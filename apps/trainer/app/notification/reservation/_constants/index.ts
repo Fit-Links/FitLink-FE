@@ -1,0 +1,2 @@
+export const NOTIFICATION_TYPE = "예약 요청";
+export const NOTIFICATION_QUERY_TYPE = "RESERVATION_REQUEST";

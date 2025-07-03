@@ -12,11 +12,11 @@ const toggleVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-background-sub2 text-text-primary hover:bg-background-sub5 hover:text-text-sub5 data-[state=on]:bg-background-sub5 data-[state=on]:text-text-sub5",
+          "bg-background-sub2 text-text-primary md:hover:bg-background-sub5 md:hover:text-text-sub5 data-[state=on]:bg-background-sub5 data-[state=on]:text-text-sub5",
         outline:
-          "border border-background-sub4 text-text-primary bg-transparent hover:border-background-sub5 data-[state=on]:bg-background-sub5 data-[state=on]:text-text-sub5",
+          "border border-background-sub4 text-text-primary bg-transparent md:hover:border-background-sub5 data-[state=on]:bg-background-sub5 data-[state=on]:text-text-sub5",
         negative:
-          "bg-background-sub5 text-text-sub5 hover:bg-brand-primary-100 data-[state=on]:bg-brand-primary-500 data-[state=on]:text-text-primary",
+          "bg-background-sub5 text-text-sub5 md:hover:bg-brand-primary-100 data-[state=on]:bg-brand-primary-500 data-[state=on]:text-text-primary",
       },
     },
     defaultVariants: {

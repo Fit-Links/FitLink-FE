@@ -80,13 +80,13 @@ function ReservationNotAllowedCancelSheet({
               <SheetClose asChild>
                 <Button
                   onClick={handleClickOpenPopup}
-                  className="bg-background-sub1 hover:bg-background-sub3 flex h-full w-full flex-1 items-center justify-center rounded-[0.625rem] transition-colors"
+                  className="bg-background-sub1 md:hover:bg-background-sub3 flex h-full w-full flex-1 items-center justify-center rounded-[0.625rem] transition-colors"
                 >
                   삭제
                 </Button>
               </SheetClose>
               <SheetClose asChild>
-                <Button className="bg-background-sub5 text-text-sub5 flex h-full w-full flex-1 items-center justify-center rounded-[0.625rem] transition-colors hover:bg-[#f5f5f5]">
+                <Button className="bg-background-sub5 text-text-sub5 flex h-full w-full flex-1 items-center justify-center rounded-[0.625rem] transition-colors md:hover:bg-[#f5f5f5]">
                   확인
                 </Button>
               </SheetClose>
