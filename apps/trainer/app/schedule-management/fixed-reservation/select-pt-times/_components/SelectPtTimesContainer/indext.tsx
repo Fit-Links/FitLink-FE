@@ -1,11 +1,11 @@
 /* eslint-disable no-magic-numbers */
 "use client";
 
+import { DayOfWeek } from "@5unwan/core/api/types/common";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import DayOfWeekPicker from "@ui/components/DayOfWeekPicker";
 import { Days } from "@ui/components/DayOfWeekPicker/Days";
 import TimeCellToggleGroup from "@ui/components/TimeCellToggleGroup";
-import { DaysOfWeek } from "@ui/utils/makeWeekSchedule";
 import { TimeCell } from "@ui/utils/timeCellUtils";
 import { useRef, useState } from "react";
 
@@ -83,9 +83,14 @@ function SelectPtTimesContainer({ userInformation }: SelectPtTimesContainerProps
     const available = availableTimeMap[dayOfWeek];
 
     return HOURS.map((time) => ({
-      dayOfWeek: dayOfWeek as DaysOfWeek,
+      dayOfWeek: dayOfWeek as DayOfWeek,
       time,
-      disabled: !available || time < available.start || time > available.end,
+      disabled:
+        !available ||
+        !available.start ||
+        !available.end ||
+        time < available.start ||
+        time > available.end,
     }));
   });
 

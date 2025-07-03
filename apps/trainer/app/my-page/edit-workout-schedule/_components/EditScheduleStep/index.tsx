@@ -1,6 +1,6 @@
 "use client";
 
-import { DayOfWeek } from "@5unwan/core/api/types/common";
+import { AvailablePtTime, DayOfWeek } from "@5unwan/core/api/types/common";
 import { Button } from "@ui/components/Button";
 import DayOfWeekPicker from "@ui/components/DayOfWeekPicker";
 import { Switch } from "@ui/components/Switch";
@@ -8,8 +8,6 @@ import { cn } from "@ui/lib/utils";
 import React, { useState } from "react";
 
 import Header from "@trainer/app/my-page/_components/Header";
-
-import { AvailablePtTimeEntry } from "@trainer/services/types/myInformation.dto";
 
 import { formatAvailableScheduleToMeridiem } from "@trainer/utils/avaliableScheduleUtils";
 
@@ -19,7 +17,7 @@ import EditScheduleItem from "./EditScheduleItem";
 import MerdiemTimePicker from "./MerdiemTimePicker";
 
 type EditScheduleStepProps = {
-  onNext: (workoutSchedule: Omit<AvailablePtTimeEntry, "availableTimeId">[]) => void;
+  onNext: (workoutSchedule: Omit<AvailablePtTime, "availableTimeId">[]) => void;
 };
 
 const DAYS_OF_WEEK = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"];
@@ -36,7 +34,7 @@ const WORKOUT_SCHEDULE_STRUCTURE = (day: number) => {
 export default function EditScheduleStep({ onNext }: EditScheduleStepProps) {
   const [openPicker, setOpenPicker] = useState<"startTime" | "endTime" | null>(null);
   const [workoutSchedule, setWorkoutSchedule] = useState<
-    Omit<AvailablePtTimeEntry, "availableTimeId">[]
+    Omit<AvailablePtTime, "availableTimeId">[]
   >(Array.from({ length: 7 }, (_, day) => WORKOUT_SCHEDULE_STRUCTURE(day)));
 
   const [currentDay, setCurrentDay] = useState<Days>(Days.Sunday);

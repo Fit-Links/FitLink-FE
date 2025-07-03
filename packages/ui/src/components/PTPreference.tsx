@@ -1,4 +1,4 @@
-import { FixedReservation } from "@5unwan/core/api/types/common";
+import { DayOfWeek, FixedReservation } from "@5unwan/core/api/types/common";
 import { Ellipsis } from "lucide-react";
 import React from "react";
 
@@ -9,13 +9,12 @@ import Icon from "./Icon";
 import {
   convertFixedReservationsToWeekSchedule,
   DAYS_OF_WEEK,
-  DaysOfWeek,
   makeWeekSchedule,
   ObjectEntries,
 } from "../utils/makeWeekSchedule";
 
 type WorkoutSchedule = {
-  dayOfWeek: DaysOfWeek;
+  dayOfWeek: DayOfWeek;
   preferenceTimes: string[];
 }[];
 type PTPreferenceProps = {
@@ -36,7 +35,7 @@ function PTPreference({
     workoutSchedule &&
     (Object.entries(
       makeWeekSchedule({ type: "block", schedule: workoutSchedule }),
-    ) as ObjectEntries<Record<DaysOfWeek, string>>);
+    ) as ObjectEntries<Record<DayOfWeek, string>>);
 
   const fixWeekSchedule =
     fixedReservations && convertFixedReservationsToWeekSchedule(fixedReservations);
@@ -50,7 +49,7 @@ function PTPreference({
       <AccordionContent className="bg-background-sub1 flex items-start rounded-[10px] p-4 ">
         <div className="flex flex-col items-start">
           {weekSchedule &&
-            weekSchedule.map(([dayOfWeek, schedule]: [DaysOfWeek, string | null]) => (
+            weekSchedule.map(([dayOfWeek, schedule]: [DayOfWeek, string | null]) => (
               <Text.Body1
                 key={dayOfWeek}
                 className="block"

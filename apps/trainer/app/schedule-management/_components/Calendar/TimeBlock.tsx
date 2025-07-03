@@ -52,6 +52,8 @@ export default function TimeBlock({
   ).schedules?.find(({ dayOfWeek }) => dayOfWeek === format(date, "EEEE").toUpperCase());
 
   const isAvailableTime =
+    ptTimeInformation?.startTime &&
+    ptTimeInformation.endTime &&
     Number(ptTimeInformation?.startTime.split(":")[0]) <= date.getHours() &&
     Number(ptTimeInformation?.endTime.split(":")[0]) >= date.getHours();
 

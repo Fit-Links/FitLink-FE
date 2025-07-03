@@ -19,8 +19,6 @@ import TimePicker from "@ui/components/TimePicker";
 import { DAYS_OF_WEEK_MAP } from "@ui/utils/timeCellUtils";
 import { useRef, useState } from "react";
 
-import { AvailablePtTimeEntry } from "@trainer/services/types/myInformation.dto";
-
 const DEFAULT_TIME = "-- : --";
 
 const setHalfHours = (relative: number) => {
@@ -90,7 +88,7 @@ type TrainerScheduleStepProps = {
   onPrev: () => void;
   onNext?: (availablePtTimes: Omit<AvailablePtTime, "availableTimeId">[]) => void;
   onSubmit?: (availablePtTimes: Omit<AvailablePtTime, "availableTimeId">[]) => Promise<void>;
-  currentSchedule?: AvailablePtTimeEntry[];
+  currentSchedule?: AvailablePtTime[];
 };
 
 function TrainerScheduleStep({

@@ -1,16 +1,12 @@
 "use client";
 
+import { DayOfWeek } from "@5unwan/core/api/types/common";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Badge } from "@ui/components/Badge";
 import Icon from "@ui/components/Icon";
 import { ProfileItem } from "@ui/components/ProfileItem";
 import { Text } from "@ui/components/Text";
-import {
-  makeWeekSchedule,
-  ObjectEntries,
-  DaysOfWeek,
-  DAYS_OF_WEEK,
-} from "@ui/utils/makeWeekSchedule";
+import { makeWeekSchedule, ObjectEntries, DAYS_OF_WEEK } from "@ui/utils/makeWeekSchedule";
 import React from "react";
 
 import { myInformationQueries } from "@user/queries/myInformation";
@@ -41,7 +37,7 @@ export default function MyPageContainer() {
 
   const formattedPreferredSchedule = Object.entries(
     makeWeekSchedule({ type: "block", schedule: preferredSchedule }),
-  ) as ObjectEntries<Record<DaysOfWeek, string>>;
+  ) as ObjectEntries<Record<DayOfWeek, string>>;
 
   const formattedFixedSchedule = getISOToKoreanTime(uniqueFixedSchedule);
 
@@ -74,7 +70,7 @@ export default function MyPageContainer() {
             </div>
           </EditPreferredScheduleBottomSheet>
 
-          {formattedPreferredSchedule.map(([dayOfWeek, schedule]: [DaysOfWeek, string | null]) => (
+          {formattedPreferredSchedule.map(([dayOfWeek, schedule]: [DayOfWeek, string | null]) => (
             <Text.Body1
               key={dayOfWeek}
               className="block"

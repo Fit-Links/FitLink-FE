@@ -8,13 +8,6 @@ import {
 export type TimeOffInformation = { dayOfWeek: DayOfWeek; dayOfTime: string };
 export type DayoffResponseInformation = { dayOffId: number; dayOffDate: string };
 
-export type AvailablePtTimeEntry = {
-  availableTimeId: number;
-  dayOfWeek: DayOfWeek;
-  isHoliday: boolean;
-  startTime: string | null;
-  endTime: string | null;
-};
 /** TODO: 트레이너ID 필드 추가 및 프로필 url 필드 이름 변경 */
 type MyInformationResponse = {
   name: string;
@@ -33,10 +26,10 @@ type TrainerCodeResponse = { trainerCode: string };
 export type TrainerCodeApiResponse = ResponseBase<TrainerCodeResponse>;
 
 type AvailablePtTimeResponse = {
-  currentSchedules: { applyAt: string; schedules: AvailablePtTimeEntry[] };
+  currentSchedules: { applyAt: string; schedules: AvailablePtTime[] };
   scheduledChanges: {
     applyAt: string;
-    schedules: AvailablePtTimeEntry[];
+    schedules: AvailablePtTime[];
   };
 };
 export type AvailablePtTimeApiResponse = ResponseBase<AvailablePtTimeResponse>;

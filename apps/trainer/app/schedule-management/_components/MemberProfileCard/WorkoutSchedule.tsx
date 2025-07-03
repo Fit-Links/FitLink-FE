@@ -1,11 +1,7 @@
+import { DayOfWeek } from "@5unwan/core/api/types/common";
 import { useQuery } from "@tanstack/react-query";
 import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "@ui/components/Dropdown";
-import {
-  DAYS_OF_WEEK,
-  DaysOfWeek,
-  makeWeekSchedule,
-  ObjectEntries,
-} from "@ui/utils/makeWeekSchedule";
+import { DAYS_OF_WEEK, makeWeekSchedule, ObjectEntries } from "@ui/utils/makeWeekSchedule";
 import React from "react";
 
 import { userManagementQueries } from "@trainer/queries/userManagement";
@@ -28,7 +24,7 @@ function WorkoutSchedule({ triggerText, memberId }: WorkoutScheduleProps) {
       type: "block",
       schedule: userInformationDetail?.data.workoutSchedules || [],
     }),
-  ) as ObjectEntries<Record<DaysOfWeek, string>>;
+  ) as ObjectEntries<Record<DayOfWeek, string>>;
 
   return (
     <Dropdown>

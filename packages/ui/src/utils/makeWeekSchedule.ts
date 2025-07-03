@@ -1,12 +1,6 @@
 /* eslint-disable no-magic-numbers */
-export type DaysOfWeek =
-  | "MONDAY"
-  | "TUESDAY"
-  | "WEDNESDAY"
-  | "THURSDAY"
-  | "FRIDAY"
-  | "SATURDAY"
-  | "SUNDAY";
+import { AvailablePtTime, DayOfWeek } from "@5unwan/core/api/types/common";
+
 export type ObjectEntries<T> = {
   [K in keyof T]: [K, T[K]];
 }[keyof T][];
@@ -24,21 +18,16 @@ export const DAYS_OF_WEEK = {
 type TimeBlockSchedule = {
   type: "block";
   schedule: {
-    dayOfWeek: DaysOfWeek;
+    dayOfWeek: DayOfWeek;
     preferenceTimes: string[];
   }[];
 };
 type TimeSpanSchedule = {
   type: "span";
-  schedule: {
-    dayOfWeek: DaysOfWeek;
-    isHoliday: boolean;
-    startTime: string;
-    endTime: string;
-  }[];
+  schedule: AvailablePtTime[];
 };
 export const makeWeekSchedule = (timeSchedule: TimeBlockSchedule | TimeSpanSchedule) => {
-  const weekScheduleMap: Record<DaysOfWeek, string | null> = {
+  const weekScheduleMap: Record<DayOfWeek, string | null> = {
     MONDAY: null,
     TUESDAY: null,
     WEDNESDAY: null,
@@ -102,10 +91,10 @@ const groupContinuousTimes = (timeList: string[]): string[] => {
 export const convertFixedReservationsToWeekSchedule = (
   fixedReservations: Array<{ reservationDateTime: string; reservationId: number }>,
 ): {
-  dayOfWeek: DaysOfWeek;
+  dayOfWeek: DayOfWeek;
   preferenceTimes: string[];
 }[] => {
-  const dayMap: Record<DaysOfWeek, string[]> = {
+  const dayMap: Record<DayOfWeek, string[]> = {
     MONDAY: [],
     TUESDAY: [],
     WEDNESDAY: [],
@@ -118,7 +107,7 @@ export const convertFixedReservationsToWeekSchedule = (
   fixedReservations.forEach((reservation) => {
     const date = new Date(reservation.reservationDateTime);
 
-    const daysMapping: DaysOfWeek[] = [
+    const daysMapping: DayOfWeek[] = [
       "SUNDAY",
       "MONDAY",
       "TUESDAY",
@@ -142,7 +131,7 @@ export const convertFixedReservationsToWeekSchedule = (
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       .filter(([_, times]) => times.length > 0) // 빈 요일은 제외
       .map(([dayOfWeek, times]) => ({
-        dayOfWeek: dayOfWeek as DaysOfWeek,
+        dayOfWeek: dayOfWeek as DayOfWeek,
         preferenceTimes: times,
       }))
   );
