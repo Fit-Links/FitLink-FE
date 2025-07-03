@@ -1,14 +1,17 @@
 import React from "react";
 
+import HeaderProvider from "@trainer/components/Providers/BasicHeaderProvider";
+
+import { commonLayoutContents } from "@trainer/constants/styles";
+
 import PhoneVerificationContainer from "./_components/PhoneVerificationContainer";
-import Header from "../../_components/Header";
 
 export default function page() {
   return (
-    <main className="bg-background-primary text-text-primary flex h-screen w-full flex-col items-center justify-center">
-      <Header title="기기 인증" />
-
-      <PhoneVerificationContainer />
-    </main>
+    <HeaderProvider back title="기기 인증">
+      <main className={commonLayoutContents}>
+        <PhoneVerificationContainer />
+      </main>
+    </HeaderProvider>
   );
 }

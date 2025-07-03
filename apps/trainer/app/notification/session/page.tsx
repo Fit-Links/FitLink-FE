@@ -10,9 +10,12 @@ import { useRef, useState, Fragment, Suspense, useEffect } from "react";
 import { notificationQueries } from "@trainer/queries/notification";
 import { useNotificationStore } from "@trainer/store/notificationStore";
 
+import Logo from "@trainer/components/Logo";
 import NotificationSideBar from "@trainer/components/NotificationSideBar";
 
 import useIntersectionObserver from "@trainer/hooks/useIntersectionObserver";
+
+import { commonLayoutContents } from "@trainer/constants/styles";
 
 import { NOTIFICATION_QUERY_TYPE, NOTIFICATION_TYPE } from "./_constants";
 import EmptyList from "../_components/EmptyList";
@@ -26,14 +29,11 @@ import handleNotificationFilter from "../_utils/handleNotificationFilter";
 import { parseContent } from "../_utils/notificationParser";
 
 type SessionNotificationContentProps = {
-  status: NotificationStatus;
   onNotificationClick: (notification: NotificationInfo) => () => void;
 };
-function SessionNotificationContent({
-  status,
-  onNotificationClick,
-}: SessionNotificationContentProps) {
+function SessionNotificationContent({ onNotificationClick }: SessionNotificationContentProps) {
   const intersectionRef = useRef(null);
+  const [status, setStatus] = useState<NotificationStatus>("all");
 
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage, refetch } =
     useSuspenseInfiniteQuery(notificationQueries.list({ type: NOTIFICATION_QUERY_TYPE }));
@@ -65,63 +65,85 @@ function SessionNotificationContent({
 
   return (
     <>
-      <div className="my-4 flex items-center justify-between">
-        <span className="text-body-3">{`${filteredNotificationCount}개의 알림`}</span>
-        <span className="text-body-3">최신순</span>
-      </div>
-      {hasNewNotifications && (
-        <div className="mb-4 flex w-full items-center justify-center">
-          <Button
-            size="sm"
-            variant="negative"
-            corners="pill"
-            iconLeft="RotateCcw"
-            onClick={() => {
-              setNewNotificationTypes((prev) => {
-                const newSet = new Set(prev);
-                newSet.delete(NOTIFICATION_TYPE);
-
-                return newSet;
-              });
-
-              refetch();
-            }}
-          >
-            새 알림 확인하기
-          </Button>
+      <Header
+        logo={<Logo />}
+        subHeader={
+          <div className="bg-background-primary pb-2">
+            <ToggleGroup
+              type="single"
+              value={status}
+              onValueChange={setStatus as (value: string) => void}
+              className="w-full justify-start"
+            >
+              <ToggleGroupItem value="all">전체</ToggleGroupItem>
+              <ToggleGroupItem value="pending">미처리</ToggleGroupItem>
+              <ToggleGroupItem value="complete">처리</ToggleGroupItem>
+            </ToggleGroup>
+          </div>
+        }
+      >
+        <Header.Left>
+          <NotificationSideBar />
+        </Header.Left>
+        <Header.Title content="PT 수업" />
+        <Header.Right>
+          <NotificationSearch />
+        </Header.Right>
+      </Header>
+      <main className={commonLayoutContents}>
+        <div className="flex items-center justify-between pb-2">
+          <span className="text-body-3">{`${filteredNotificationCount}개의 알림`}</span>
+          <span className="text-body-3">최신순</span>
         </div>
-      )}
-      {data.pages[0].data.totalElements ? (
-        <ul className="flex flex-col gap-4">
-          {data.pages.map((group, index) => (
-            <Fragment key={`search-notificationGroup-${index}`}>
-              {group.data.content.filter(handleNotificationFilter(status)).map((notification) => (
-                <NotificationItemContainer
-                  notification={notification}
-                  onClick={onNotificationClick(notification)}
-                  key={`search-notification-${notification.notificationId}`}
-                />
-              ))}
-            </Fragment>
-          ))}
-          <div ref={intersectionRef} />
-        </ul>
-      ) : (
-        <EmptyList />
-      )}
+        {hasNewNotifications && (
+          <div className="mb-4 flex w-full items-center justify-center">
+            <Button
+              size="sm"
+              variant="negative"
+              corners="pill"
+              iconLeft="RotateCcw"
+              onClick={() => {
+                setNewNotificationTypes((prev) => {
+                  const newSet = new Set(prev);
+                  newSet.delete(NOTIFICATION_TYPE);
+
+                  return newSet;
+                });
+
+                refetch();
+              }}
+            >
+              새 알림 확인하기
+            </Button>
+          </div>
+        )}
+        {data.pages[0].data.totalElements ? (
+          <ul className="flex flex-col gap-4">
+            {data.pages.map((group, index) => (
+              <Fragment key={`search-notificationGroup-${index}`}>
+                {group.data.content.filter(handleNotificationFilter(status)).map((notification) => (
+                  <NotificationItemContainer
+                    notification={notification}
+                    onClick={onNotificationClick(notification)}
+                    key={`search-notification-${notification.notificationId}`}
+                  />
+                ))}
+              </Fragment>
+            ))}
+            <div ref={intersectionRef} />
+          </ul>
+        ) : (
+          <EmptyList />
+        )}
+      </main>
     </>
   );
 }
 
 function SessionNotificationPage() {
-  const [isNotificationSearchOpen, setIsNotificationSearchOpen] = useState(false);
-  const [status, setStatus] = useState<NotificationStatus>("all");
   const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);
   const [selectedNotification, setSelectedNotification] = useState<NotificationInfo>();
 
-  const handleSelectResult = () => {
-    setIsNotificationSearchOpen(false);
-  };
   const handleNotificationClick = (notification: NotificationInfo) => () => {
     const { notificationId, type, content, sendDate, isProcessed } = notification;
     if (notificationId !== selectedNotification?.notificationId) {
@@ -142,32 +164,9 @@ function SessionNotificationPage() {
     : { message: "", eventDate: "", other: "" };
 
   return (
-    <div>
-      <Header className="mb-4">
-        <Header.Left>
-          <NotificationSideBar />
-        </Header.Left>
-        <Header.Title content="PT 수업" />
-        <Header.Right>
-          <NotificationSearch
-            isOpen={isNotificationSearchOpen}
-            setIsOpen={setIsNotificationSearchOpen}
-            onSelectResult={handleSelectResult}
-          />
-        </Header.Right>
-      </Header>
-      <ToggleGroup
-        type="single"
-        value={status}
-        onValueChange={setStatus as (value: string) => void}
-        className="w-full justify-start"
-      >
-        <ToggleGroupItem value="all">전체</ToggleGroupItem>
-        <ToggleGroupItem value="pending">미처리</ToggleGroupItem>
-        <ToggleGroupItem value="complete">처리</ToggleGroupItem>
-      </ToggleGroup>
+    <>
       <Suspense fallback={<NotificationListFallback />}>
-        <SessionNotificationContent status={status} onNotificationClick={handleNotificationClick} />
+        <SessionNotificationContent onNotificationClick={handleNotificationClick} />
       </Suspense>
       {selectedNotification && (
         <SessionCompleteSheet
@@ -177,7 +176,7 @@ function SessionNotificationPage() {
           eventDate={info.eventDate || ""}
         />
       )}
-    </div>
+    </>
   );
 }
 

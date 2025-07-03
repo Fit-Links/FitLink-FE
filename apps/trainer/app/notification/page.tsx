@@ -3,7 +3,6 @@
 
 import { NotificationInfo } from "@5unwan/core/api/types/common";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Header from "@ui/components/Header";
 import DateController from "@ui/lib/DateController";
 import { useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
@@ -12,19 +11,15 @@ import { notificationBaseKeys, notificationQueries } from "@trainer/queries/noti
 
 import { readNotification } from "@trainer/services/notification";
 
-import NotificationSideBar from "@trainer/components/NotificationSideBar";
-
 import RouteInstance from "@trainer/constants/route";
 
 import NotificationContainer from "./_components/NotificationContainer";
 import NotificationListFallback from "./_components/NotificationListFallback";
-import NotificationSearch from "./_components/NotificationSearch";
 import SheetRenderer from "./_components/SheetRenderer";
 import { parseContent } from "./_utils/notificationParser";
 import { parseKoreanDateString } from "./_utils/parseKoreanDateString";
 
 function AllNotificationPage() {
-  const [isNotificationSearchOpen, setIsNotificationSearchOpen] = useState(false);
   const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);
   const [selectedNotification, setSelectedNotification] = useState<NotificationInfo>();
 
@@ -69,10 +64,6 @@ function AllNotificationPage() {
     },
     onSettled: () => queryClient.invalidateQueries({ queryKey: notificationBaseKeys.lists() }),
   });
-
-  const handleSelectResult = () => {
-    setIsNotificationSearchOpen(false);
-  };
 
   const handleNotificationClick = (notification: NotificationInfo) => () => {
     const { notificationId, type, content, sendDate, isProcessed } = notification;
@@ -119,20 +110,7 @@ function AllNotificationPage() {
     : { message: "", eventDate: "", other: "" };
 
   return (
-    <div className="flex h-full flex-col">
-      <Header className="mb-4">
-        <Header.Left>
-          <NotificationSideBar />
-        </Header.Left>
-        <Header.Title content="전체 알림" />
-        <Header.Right>
-          <NotificationSearch
-            isOpen={isNotificationSearchOpen}
-            setIsOpen={setIsNotificationSearchOpen}
-            onSelectResult={handleSelectResult}
-          />
-        </Header.Right>
-      </Header>
+    <>
       <Suspense fallback={<NotificationListFallback />}>
         <NotificationContainer onClick={handleNotificationClick} />
       </Suspense>
@@ -149,7 +127,7 @@ function AllNotificationPage() {
             cancelReason: info.other || "",
           },
         )}
-    </div>
+    </>
   );
 }
 
