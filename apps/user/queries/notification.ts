@@ -27,7 +27,8 @@ export const notificationQueries = {
         return lastPageParam + TO_NEXT_PAGE;
       },
       initialPageParam: START_PAGE,
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
+      staleTime: 0,
+      refetchOnWindowFocus: "always",
+      refetchOnMount: "always",
     }),
 };

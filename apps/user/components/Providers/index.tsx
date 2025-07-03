@@ -4,7 +4,9 @@
 import { isServer, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import React from "react";
-import { toast, ToastContainer, Bounce } from "react-toastify";
+import { Toaster, toast } from "sonner";
+
+import { useFcmListener } from "@user/hooks/useFcmListener";
 
 import FooterProvider from "./FooterProvider";
 
@@ -18,8 +20,8 @@ function makeQueryClient() {
       },
 
       mutations: {
-        onError: () => {
-          toast.error("요청에 실패했습니다. 다시 시도해주세요!");
+        onError: (error) => {
+          toast.error("요청에 실패했습니다", { description: error.message });
         },
         onSuccess: () => {
           toast.success("요청이 완료되었습니다.");
@@ -48,20 +50,15 @@ type ProvidersProps = {
 function Providers({ children }: ProvidersProps) {
   const queryClient = getQueryClient();
 
+  useFcmListener();
+
   return (
     <QueryClientProvider client={queryClient}>
-      <ToastContainer
+      <Toaster
         position="top-center"
-        autoClose={1500}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-        transition={Bounce}
+        swipeDirections={["top", "left", "right"]}
+        duration={3000}
+        richColors
       />
       <FooterProvider>{children}</FooterProvider>
       <ReactQueryDevtools />

@@ -1,17 +1,19 @@
 "use client";
 
 import { cn } from "@ui/lib/utils";
-import { Bell, Calendar, UserRound } from "lucide-react";
+import { Calendar, UserRound } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
 import RouteInstance from "@user/constants/routes";
 
+import { NotificationBell } from "./NotificationBell";
+
 export default function BottomNavigation() {
   const navigationItems = Object.freeze([
     { label: "캘린더", path: RouteInstance["schedule-management"](), icon: Calendar },
-    { label: "알림", path: RouteInstance.notification(), icon: Bell },
+    { label: "알림", path: RouteInstance.notification(), icon: NotificationBell },
     { label: "마이페이지", path: RouteInstance["my-page"](), icon: UserRound },
   ]);
 
@@ -24,7 +26,7 @@ export default function BottomNavigation() {
           <Link
             href={path}
             className={cn(
-              "text-background-sub4 hover:text-background-sub5 flex w-12 flex-col items-center justify-center gap-1 transition-colors",
+              "text-background-sub4 md:hover:text-background-sub5 flex w-12 flex-col items-center justify-center gap-1 transition-colors",
               {
                 "text-text-primary": pathname === path,
               },

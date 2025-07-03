@@ -141,8 +141,8 @@ export default function TimeBlock({
           <div
             onClick={handleClickBlock}
             className={cn(
-              "bg-background-sub1 hover:bg-background-sub2 text-text-primary relative flex h-[3.9375rem] w-full cursor-pointer flex-col items-center justify-center gap-1 rounded-[0.125rem] p-1",
-              isToday(date) && "bg-background-sub3 hover:bg-background-sub4",
+              "bg-background-sub1 md:hover:bg-background-sub2 text-text-primary relative flex h-[3.9375rem] w-full cursor-pointer flex-col items-center justify-center gap-1 rounded-[0.125rem] p-1",
+              isToday(date) && "bg-background-sub3 md:hover:bg-background-sub4",
               reservationBlockStyle,
             )}
             {...props}
@@ -168,7 +168,7 @@ export default function TimeBlock({
         <div
           className={cn(
             "bg-background-sub2 text-text-primary relative flex h-[3.9375rem] w-full cursor-not-allowed flex-col items-center justify-center gap-1 rounded-[0.125rem] p-1",
-            isToday(date) && "bg-background-sub3 hover:bg-background-sub4",
+            isToday(date) && "bg-background-sub3 md:hover:bg-background-sub4",
             reservationBlockStyle,
           )}
           {...props}

@@ -15,7 +15,7 @@ function LoginButton({ type, renderContent }: LoginButtonProps) {
   return (
     <Link
       href={generateLoginURI(type)}
-      className=" h-[3.375rem] w-full overflow-clip rounded-full transition-opacity hover:opacity-80"
+      className=" h-[3.375rem] w-full overflow-clip rounded-full transition-opacity md:hover:opacity-80"
     >
       {renderContent()}
     </Link>

@@ -52,11 +52,11 @@ export default function WeekRow({
           >
             <button
               className={cn(
-                "hover:bg-brand-primary-500 h-8 w-8 rounded-full text-sm font-normal",
+                "md:hover:bg-brand-primary-500 h-8 w-8 rounded-full text-sm font-normal",
                 isOutsideMonth && "text-text-sub4",
                 isCurrentDay && "text-text-sub5 bg-white",
                 isSameDay(selectedDate as Date, date) &&
-                  "bg-brand-primary-500 hover:bg-brand-primary-500",
+                  "bg-brand-primary-500 md:hover:bg-brand-primary-500",
                 "mb-1 h-[1.875rem] w-[1.875rem]",
               )}
             >

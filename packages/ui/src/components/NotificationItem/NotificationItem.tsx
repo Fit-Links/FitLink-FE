@@ -11,8 +11,7 @@ type Props = Omit<HTMLAttributes<HTMLLIElement>, "onClick"> & NotificationProps;
 type NotificationProps = {
   isCompleted: boolean;
   message: string;
-  eventDate?: Date | string;
-  eventDetail?: Date | string;
+  eventDate?: string;
   createdAt: Date | string;
   variant: NotificationType;
   onClick?: MouseEventHandler<HTMLLIElement>;
@@ -25,7 +24,6 @@ const NotificationItem = forwardRef<HTMLLIElement, Props>((props, ref) => {
     createdAt,
     message,
     eventDate,
-    eventDetail,
     variant,
     onClick,
     className,
@@ -39,9 +37,7 @@ const NotificationItem = forwardRef<HTMLLIElement, Props>((props, ref) => {
     onClick(e);
   };
 
-  const eventDateController = eventDate ? DateController(eventDate).validate() : undefined;
   const createdDateController = DateController(createdAt).validate();
-  const eventDetailController = eventDetail ? DateController(eventDetail).validate() : undefined;
 
   return (
     <li
@@ -61,13 +57,8 @@ const NotificationItem = forwardRef<HTMLLIElement, Props>((props, ref) => {
         isCompleted={isCompleted}
         createdAt={createdDateController?.toRelative()}
         message={message}
-        eventDate={eventDateController?.toServiceFormat().untilMinutes}
+        eventDate={eventDate}
         variant={variant}
-        eventDetail={
-          eventDetailController
-            ? eventDetailController.toServiceFormat().untilMinutes
-            : (eventDetail as string)
-        }
       />
     </li>
   );

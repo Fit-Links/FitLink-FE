@@ -44,7 +44,7 @@ function PTHistoryItem({ reservationDate, status, onClick, className }: PTHistor
             size="sm"
             onClick={isClickable ? onClick : undefined}
             className={cn("px-[10px]", {
-              "hover:bg-brand-primary-500/90 cursor-pointer transition-colors": isClickable,
+              "md:hover:bg-brand-primary-500/90 cursor-pointer transition-colors": isClickable,
             })}
           >
             <Text.Headline1>{PTHistoryStatusMap[status](isClickable)}</Text.Headline1>

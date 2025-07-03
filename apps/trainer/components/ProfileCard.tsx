@@ -118,7 +118,7 @@ export default function ProfileCard({
   return (
     <section
       className={cn(
-        "bg-background-sub2 text-text-primary hover:bg-background-sub3 relative flex w-[22.375rem] items-center rounded-[0.625rem] py-[1.25rem] pr-2 transition-colors",
+        "bg-background-sub2 text-text-primary md:hover:bg-background-sub3 relative flex w-[22.375rem] items-center rounded-[0.625rem] py-[1.25rem] pr-2 transition-colors",
         className,
       )}
       {...props}

@@ -1,15 +1,17 @@
 import { cn } from "@ui/lib/utils";
-import { Bell, Calendar, ContactRound, UserRound } from "lucide-react";
+import { Calendar, ContactRound, UserRound } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import RouteInstance from "@trainer/constants/route";
 
+import { NotificationBell } from "./NotificationBell";
+
 export default function BottomNavigation() {
   const navigationItems = Object.freeze([
     { icon: Calendar, label: "캘린더", path: RouteInstance["schedule-management"]() },
     { icon: ContactRound, label: "회원", path: RouteInstance["member-management"]() },
-    { icon: Bell, label: "알림", path: RouteInstance.notification() },
+    { icon: NotificationBell, label: "알림", path: RouteInstance.notification() },
     { icon: UserRound, label: "마이페이지", path: RouteInstance["my-page"]() },
   ]);
 
@@ -22,7 +24,7 @@ export default function BottomNavigation() {
           <Link
             href={path}
             className={cn(
-              "text-background-sub4 hover:text-background-sub5 flex w-12 flex-col items-center justify-center gap-1 transition-colors",
+              "text-background-sub4 md:hover:text-background-sub5 flex w-12 flex-col items-center justify-center gap-1 transition-colors",
               {
                 "text-text-primary": pathname.startsWith(path),
               },

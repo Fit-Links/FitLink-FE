@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import BrandSpinner from "@ui/components/BrandSpinner";
 import { Button } from "@ui/components/Button";
 import Icon from "@ui/components/Icon";
 import {
@@ -63,7 +64,7 @@ function ConnectTrainerSheetContent({
         userBirth={new Date(birthDate)}
         userName={name}
         phoneNumber={phoneNumber}
-        className="bg-background-sub1 w-full hover:bg-none"
+        className="bg-background-sub1 w-full md:hover:bg-none"
       />
       <SheetFooter>
         <div className="flex w-full justify-center gap-[0.625rem]">
@@ -103,6 +104,9 @@ function ConnectTrainerSheet({ notificationId, open, onChangeOpen }: ConnectTrai
   });
   const setSessionMutation = useMutation({
     mutationFn: sessionCountEdit,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: notificationBaseKeys.lists() });
+    },
   });
 
   const [isDeclineSheetOpen, setIsDeclineSheetOpen] = useState(false);
@@ -117,7 +121,12 @@ function ConnectTrainerSheet({ notificationId, open, onChangeOpen }: ConnectTrai
     });
   };
   const handleAcceptClick = () => {
-    setIsAcceptActionSheetOpen(true);
+    processConnectionMutation.mutate(true, {
+      onSuccess: () => {
+        setIsAcceptSheetOpen(true);
+      },
+    });
+    // setIsAcceptActionSheetOpen(true);
   };
   const handleSubmit = (totalCount: number, remainingCount: number) => {
     processConnectionMutation.mutate(true, {
@@ -141,6 +150,9 @@ function ConnectTrainerSheet({ notificationId, open, onChangeOpen }: ConnectTrai
         );
       },
     });
+  };
+  const handleSessionSetterClick = () => {
+    setIsAcceptActionSheetOpen(true);
   };
 
   return (
@@ -180,11 +192,7 @@ function ConnectTrainerSheet({ notificationId, open, onChangeOpen }: ConnectTrai
           </SheetFooter>
         </SheetContent>
       </Sheet>
-      <SessionSetterSheet
-        isOpen={isAcceptActionSheetOpen}
-        onOpenChange={setIsAcceptActionSheetOpen}
-        onSubmit={handleSubmit}
-      />
+
       <Sheet open={isAcceptSheetOpen} onOpenChange={setIsAcceptSheetOpen}>
         <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
           <SheetHeader className="items-center">
@@ -192,17 +200,49 @@ function ConnectTrainerSheet({ notificationId, open, onChangeOpen }: ConnectTrai
               <Icon name="Check" size="lg" />
             </Button>
             <SheetTitle className="text-center">연동 요청이 승인되었습니다</SheetTitle>
-            <VisuallyHidden>
-              <SheetDescription>
-                이 시트에서는 연동 요청의 승인 처리가 완료되었음을 알려줍니다.
-              </SheetDescription>
-            </VisuallyHidden>
+            <SheetDescription>연동된 회원의 세션(PT 횟수)을 설정해주세요</SheetDescription>
+          </SheetHeader>
+          <SheetFooter>
+            <Button size={"xl"} className="w-full" onClick={handleSessionSetterClick}>
+              회원 세션 설정하기
+            </Button>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
+
+      {processConnectionMutation.data?.data.memberId && (
+        <SessionSetterSheet
+          memberId={processConnectionMutation.data?.data.memberId}
+          isOpen={isAcceptActionSheetOpen}
+          onOpenChange={setIsAcceptActionSheetOpen}
+          onSubmit={handleSubmit}
+        />
+      )}
+
+      <Sheet open={processConnectionMutation.status === "pending"}>
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+          <SheetHeader>
+            <SheetTitle>연동 승인 여부를 처리 중입니다</SheetTitle>
+            <SheetDescription>잠시만 기다려주세요</SheetDescription>
+          </SheetHeader>
+          <div className="flex items-center justify-center">
+            <BrandSpinner />
+          </div>
+        </SheetContent>
+      </Sheet>
+
+      <Sheet open={processConnectionMutation.status === "success"}>
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+          <SheetHeader>
+            <Button className="mb-7 h-[3.125rem] w-[3.125rem] rounded-full">
+              <Icon name="Check" size="lg" />
+            </Button>
+            <SheetTitle>회원의 세션이 설정되었습니다</SheetTitle>
+            <SheetDescription></SheetDescription>
           </SheetHeader>
           <SheetFooter>
             <SheetClose asChild>
-              <Button size={"xl"} className="w-full">
-                확인
-              </Button>
+              <Button className="w-full">확인</Button>
             </SheetClose>
           </SheetFooter>
         </SheetContent>
