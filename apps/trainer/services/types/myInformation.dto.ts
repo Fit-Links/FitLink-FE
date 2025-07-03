@@ -12,8 +12,8 @@ export type AvailablePtTimeEntry = {
   availableTimeId: number;
   dayOfWeek: DayOfWeek;
   isHoliday: boolean;
-  startTime: string;
-  endTime: string;
+  startTime: string | null;
+  endTime: string | null;
 };
 /** TODO: 트레이너ID 필드 추가 및 프로필 url 필드 이름 변경 */
 type MyInformationResponse = {
