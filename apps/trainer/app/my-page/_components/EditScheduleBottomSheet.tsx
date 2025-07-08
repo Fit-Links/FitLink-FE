@@ -27,7 +27,7 @@ function EditScheduleBottomSheet({ open, onOpenChange }: EditScheduleBottomSheet
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+      <SheetContent side="bottom" className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)]">
         <SheetHeader>
           <VisuallyHidden>
             <SheetTitle>PT 수업 시간 설정</SheetTitle>

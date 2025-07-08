@@ -22,7 +22,7 @@ function MutationStatusSheet({ status }: MutationStatusSheetProps) {
   return (
     <>
       <Sheet open={status === "pending"}>
-        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)]">
           <SheetHeader>
             <SheetTitle>요청 중입니다</SheetTitle>
             <SheetDescription>잠시만 기다려주세요</SheetDescription>
@@ -34,7 +34,7 @@ function MutationStatusSheet({ status }: MutationStatusSheetProps) {
       </Sheet>
 
       <Sheet open={status === "success"}>
-        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)]">
           <SheetHeader>
             <Button className="mb-7 h-[3.125rem] w-[3.125rem] rounded-full">
               <Icon name="Check" size="lg" />

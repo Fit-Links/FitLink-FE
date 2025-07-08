@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@ui/components/Button";
+import Header from "@ui/components/Header";
 import { ToggleGroup, ToggleGroupItem } from "@ui/components/ToggleGroup";
 import { cn } from "@ui/lib/utils";
 import { useRouter } from "next/navigation";
@@ -8,6 +9,8 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { showFcmToastForReservation } from "@trainer/lib/toastService.tsx";
+
+import Logo from "@trainer/components/Logo";
 
 import RouteInstance from "@trainer/constants/route";
 
@@ -48,46 +51,58 @@ function Page() {
   };
 
   return (
-    <div className="flex flex-col gap-6">
-      <label className="bg-background-sub3 text-body-1 flex items-center gap-4 rounded-xl p-2">
-        <span className="">토스트 종류</span>
-        <ToggleGroup type="single" value={toastType} onValueChange={setToastType} className="">
-          <ToggleGroupItem value="default">default</ToggleGroupItem>
-          <ToggleGroupItem value="success">success</ToggleGroupItem>
-          <ToggleGroupItem value="error">error</ToggleGroupItem>
-          <ToggleGroupItem value="info">info</ToggleGroupItem>
-        </ToggleGroup>
-      </label>
+    <>
+      <Header logo={<Logo />} className="mb-4">
+        <Header.Left>left</Header.Left>
+        <Header.Title content="전체 알림" />
+        <Header.Right>right</Header.Right>
+      </Header>
+      <div className="flex flex-col gap-6">
+        <label className="bg-background-sub3 text-body-1 flex items-center gap-4 rounded-xl p-2">
+          <span className="">토스트 종류</span>
+          <ToggleGroup type="single" value={toastType} onValueChange={setToastType} className="">
+            <ToggleGroupItem value="default">default</ToggleGroupItem>
+            <ToggleGroupItem value="success">success</ToggleGroupItem>
+            <ToggleGroupItem value="error">error</ToggleGroupItem>
+            <ToggleGroupItem value="info">info</ToggleGroupItem>
+          </ToggleGroup>
+        </label>
 
-      <div className="flex items-center gap-4">
-        <button
-          onClick={handleClick}
-          disabled={isRegisterFcmTokenPending}
-          className={cn("rounded-lg border p-3", {
-            "bg-green-200": isRegisterFcmTokenPending,
-          })}
-        >
-          FCM 등록
-        </button>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={handleClick}
+            disabled={isRegisterFcmTokenPending}
+            className={cn("rounded-lg border p-3", {
+              "bg-green-200": isRegisterFcmTokenPending,
+            })}
+          >
+            FCM 등록
+          </button>
 
-        <Button onClick={handleToastBtnClick}>토스트 테스트</Button>
-        <Button
-          onClick={() =>
-            showFcmToastForReservation({
-              title: "예약 요청",
-              body: {
-                message: "최용재회원 회원님이 PT 예약을 요청하였습니다.",
-                eventDate: "07.07 (월) 오후 3시",
-                other: null,
-              },
-              onClick: () => router.push(RouteInstance.notification()),
-            })
-          }
-        >
-          포그라운드 알림 UI 테스트
-        </Button>
+          <Button onClick={handleToastBtnClick}>토스트 테스트</Button>
+          <Button
+            onClick={() =>
+              showFcmToastForReservation({
+                title: "예약 요청",
+                body: {
+                  message: "최용재회원 회원님이 PT 예약을 요청하였습니다.",
+                  eventDate: "07.07 (월) 오후 3시",
+                  other: null,
+                },
+                onClick: () => router.push(RouteInstance.notification()),
+              })
+            }
+          >
+            포그라운드 알림 UI 테스트
+          </Button>
+        </div>
+        <ul className="flex flex-col gap-4">
+          {Array.from({ length: 50 }, () => "a").map((val) => (
+            <div className="bg-background-sub2 p-4">{val}</div>
+          ))}
+        </ul>
       </div>
-    </div>
+    </>
   );
 }
 

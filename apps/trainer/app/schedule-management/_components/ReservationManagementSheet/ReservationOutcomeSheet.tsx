@@ -81,7 +81,7 @@ function ReservationOutcomeSheet({
   return (
     <>
       <Sheet open={open} onOpenChange={onChangeOpen}>
-        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)]">
           <SheetHeader className="items-center">
             <SheetTitle className="flex justify-center">{selectedFormatDate}</SheetTitle>
             {reservationStatus !== "예약 확정" && (
@@ -142,7 +142,7 @@ function ReservationOutcomeSheet({
         open={isReservationCompletionSheetOpen}
         onOpenChange={setIsReservationCompletionSheetOpen}
       >
-        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)]">
           <SheetHeader className="items-center">
             <Button className="mb-7 h-[3.125rem] w-[3.125rem] rounded-full">
               <Icon name="Check" size="lg" />

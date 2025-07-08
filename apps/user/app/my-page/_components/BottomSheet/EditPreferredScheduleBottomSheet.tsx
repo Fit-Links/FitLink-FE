@@ -32,7 +32,7 @@ export default function EditPreferredScheduleBottomSheet({
     <div className="md:max-w-mobile absolute right-0 top-0">
       <Sheet>
         <SheetTrigger>{children}</SheetTrigger>
-        <SheetContent side="bottom" className="md:w-mobile md:inset-x-[calc((100%-480px)/2)] ">
+        <SheetContent side="bottom" className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)] ">
           <VisuallyHidden>
             <SheetTitle>PT 희망시간 수정</SheetTitle>
             <SheetDescription>이 시트에서 PT 희망시간을 수정할 수 있습니다.</SheetDescription>

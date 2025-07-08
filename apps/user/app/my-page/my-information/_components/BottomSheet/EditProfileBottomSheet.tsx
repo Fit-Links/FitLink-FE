@@ -135,7 +135,7 @@ export default function EditProfileBottomSheet({ children }: EditProfileBottomSh
       />
       <Sheet>
         <SheetTrigger asChild>{children}</SheetTrigger>
-        <SheetContent side="bottom" className="md:w-mobile md:inset-x-[calc((100%-480px)/2)] ">
+        <SheetContent side="bottom" className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)] ">
           <VisuallyHidden>
             <SheetTitle>프로필 사진 수정</SheetTitle>
             <SheetDescription>이 시트에서 프로필 사진을 수정할 수 있습니다</SheetDescription>

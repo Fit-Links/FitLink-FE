@@ -33,7 +33,7 @@ export default function EditScheduleFunnel() {
     case "editSchedule":
       return (
         <EditScheduleStep
-          onPrev={() => history.back()}
+          onPrev={() => funnel.history.back()}
           onNext={(availableTimes) =>
             funnel.history.replace("editScheduleApplyAt", {
               availableTimes,
@@ -44,11 +44,14 @@ export default function EditScheduleFunnel() {
     case "editScheduleApplyAt":
       return (
         <EditScheduleApplyAtStep
+          onPrev={() => funnel.history.back()}
           onNext={(applyAt) => funnel.history.push("editScheduleConfirm", { applyAt })}
         />
       );
     case "editScheduleConfirm":
-      return <EditScheduleConfirmStep context={funnel.context} />;
+      return (
+        <EditScheduleConfirmStep onPrev={() => funnel.history.back()} context={funnel.context} />
+      );
   }
 }
 
