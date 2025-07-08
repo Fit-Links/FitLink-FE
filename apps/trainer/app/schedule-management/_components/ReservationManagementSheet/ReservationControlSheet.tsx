@@ -138,7 +138,7 @@ function ReservationControlSheet({
   return (
     <>
       <Sheet open={open} onOpenChange={onChangeOpen}>
-        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)]">
           <SheetHeader className="items-center">
             <SheetTitle className="flex justify-center">{selectedFormatDate}</SheetTitle>
             <VisuallyHidden>
@@ -201,7 +201,7 @@ function ReservationControlSheet({
       </Sheet>
 
       <Sheet open={isReservationCancelSheetOpen} onOpenChange={setIsReservationCancelSheetOpen}>
-        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)]">
           <SheetHeader>
             <SheetTitle className="text-center">예약 취소</SheetTitle>
             <SheetDescription className="text-center">
@@ -231,7 +231,7 @@ function ReservationControlSheet({
         open={isReservationCancelSuccessSheetOpen}
         onOpenChange={setIsReservationCancelSuccessSheetOpen}
       >
-        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)]">
           <SheetHeader className="items-center">
             <Button className="mb-7 h-[3.125rem] w-[3.125rem] rounded-full">
               <Icon name="Check" size="lg" />
@@ -283,7 +283,7 @@ function ReservationControlSheet({
         open={isTerminateFixedReservationSheetOpen}
         onOpenChange={setIsTerminateFixedReservationSheetOpen}
       >
-        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)]">
           <SheetHeader className="items-center">
             <Button className="mb-7 h-[3.125rem] w-[3.125rem] rounded-full">
               <Icon name="Check" size="lg" />

@@ -86,7 +86,7 @@ function PushPermissionStep({ onNext }: PushPermissionStepProps) {
         )}
       </div>
       <Sheet open={isNoticeOpen} onOpenChange={setIsNoticeOpen}>
-        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)]">
           <SheetHeader>
             <SheetTitle>알림 권한이 거부되어 있습니다</SheetTitle>
             <SheetDescription>
@@ -106,7 +106,7 @@ function PushPermissionStep({ onNext }: PushPermissionStepProps) {
         </SheetContent>
       </Sheet>
       <Sheet open={isDeniedNoticeOpen}>
-        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)]">
           <SheetHeader>
             <SheetTitle>알림 권한을 거부하셨습니다</SheetTitle>
             <SheetDescription>
@@ -122,7 +122,7 @@ function PushPermissionStep({ onNext }: PushPermissionStepProps) {
         </SheetContent>
       </Sheet>
       <Sheet open={isGrantedNoticeOpen}>
-        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)]">
           <SheetHeader>
             <SheetTitle>알림 권한을 승인하셨습니다</SheetTitle>
             <SheetDescription>
@@ -138,7 +138,7 @@ function PushPermissionStep({ onNext }: PushPermissionStepProps) {
         </SheetContent>
       </Sheet>
       <Sheet open={isUnsupportedNoticeOpen}>
-        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)]">
           <SheetHeader>
             <SheetTitle>알림 기능이 지원되지 않는 환경입니다</SheetTitle>
             <SheetDescription>사용하시는 기기 또는 브라우저를 바꿔서 시도해주세요</SheetDescription>
@@ -151,7 +151,7 @@ function PushPermissionStep({ onNext }: PushPermissionStepProps) {
         </SheetContent>
       </Sheet>
       <Sheet open={isError}>
-        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)]">
           <SheetHeader>
             <SheetTitle>오류가 발생했습니다</SheetTitle>
             <SheetDescription>

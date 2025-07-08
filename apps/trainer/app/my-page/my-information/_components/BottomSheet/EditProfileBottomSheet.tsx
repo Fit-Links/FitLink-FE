@@ -122,7 +122,7 @@ export default function EditProfileBottomSheet({ children }: EditProfileBottomSh
       />
       <Sheet>
         <SheetTrigger asChild>{children}</SheetTrigger>
-        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)]">
           <VisuallyHidden>
             <SheetTitle>프로필 사진 변경</SheetTitle>
             <SheetDescription>

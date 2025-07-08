@@ -50,7 +50,7 @@ const PtHistoryList = forwardRef<HTMLDivElement, PtHistoryListProps>(({ ptHistor
       </section>
       <Sheet open={ptHistoryEditSheetOpen} onOpenChange={setPtHistoryEditSheetOpen}>
         <SheetHeader>
-          <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+          <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)]">
             <SheetTitle className="text-center">PT 수업이 완료되었나요?</SheetTitle>
             <VisuallyHidden>
               <SheetDescription>

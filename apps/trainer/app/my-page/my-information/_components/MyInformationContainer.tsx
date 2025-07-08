@@ -99,7 +99,7 @@ export default function MyInformationContainer() {
             </p>
           </div>
           <Sheet open={isReconnectPushDialogOpen} onOpenChange={setIsReconnectPushDialogOpen}>
-            <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+            <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)]">
               <SheetHeader>
                 <SheetTitle>푸시 알림이 수신되지 않으세요?</SheetTitle>
                 <SheetDescription>
