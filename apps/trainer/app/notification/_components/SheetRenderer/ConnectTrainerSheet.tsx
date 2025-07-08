@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
-import BrandSpinner from "@ui/components/BrandSpinner";
 import { Button } from "@ui/components/Button";
 import Icon from "@ui/components/Icon";
 import {
@@ -112,6 +111,7 @@ function ConnectTrainerSheet({ notificationId, open, onChangeOpen }: ConnectTrai
   const [isDeclineSheetOpen, setIsDeclineSheetOpen] = useState(false);
   const [isAcceptSheetOpen, setIsAcceptSheetOpen] = useState(false);
   const [isAcceptActionSheetOpen, setIsAcceptActionSheetOpen] = useState(false);
+  const [isResultSheetOpen, setIsResultSheetOpen] = useState(false);
 
   const handleDeclineClick = () => {
     processConnectionMutation.mutate(false, {
@@ -126,30 +126,26 @@ function ConnectTrainerSheet({ notificationId, open, onChangeOpen }: ConnectTrai
         setIsAcceptSheetOpen(true);
       },
     });
-    // setIsAcceptActionSheetOpen(true);
   };
   const handleSubmit = (totalCount: number, remainingCount: number) => {
-    processConnectionMutation.mutate(true, {
-      onSuccess: (response) => {
-        const { data } = response;
-        const { memberId, sessionInfoId } = data;
-        setSessionMutation.mutate(
-          {
-            requestPath: { memberId, sessionInfoId },
-            requestBody: {
-              totalCount,
-              remainingCount,
-            },
-          },
-          {
-            onSuccess: () => {
-              setIsAcceptActionSheetOpen(false);
-              setIsAcceptSheetOpen(true);
-            },
-          },
-        );
+    if (!processConnectionMutation.data?.data) return;
+
+    const { memberId, sessionInfoId } = processConnectionMutation.data.data;
+
+    setSessionMutation.mutate(
+      {
+        requestPath: { memberId, sessionInfoId },
+        requestBody: {
+          totalCount,
+          remainingCount,
+        },
       },
-    });
+      {
+        onSuccess: () => {
+          setIsResultSheetOpen(true);
+        },
+      },
+    );
   };
   const handleSessionSetterClick = () => {
     setIsAcceptActionSheetOpen(true);
@@ -203,9 +199,11 @@ function ConnectTrainerSheet({ notificationId, open, onChangeOpen }: ConnectTrai
             <SheetDescription>연동된 회원의 세션(PT 횟수)을 설정해주세요</SheetDescription>
           </SheetHeader>
           <SheetFooter>
-            <Button size={"xl"} className="w-full" onClick={handleSessionSetterClick}>
-              회원 세션 설정하기
-            </Button>
+            <SheetClose asChild>
+              <Button size={"xl"} className="w-full" onClick={handleSessionSetterClick}>
+                회원 세션 설정하기
+              </Button>
+            </SheetClose>
           </SheetFooter>
         </SheetContent>
       </Sheet>
@@ -218,9 +216,8 @@ function ConnectTrainerSheet({ notificationId, open, onChangeOpen }: ConnectTrai
           onSubmit={handleSubmit}
         />
       )}
-
-      <Sheet open={processConnectionMutation.status === "pending"}>
-        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)]">
+      {/* <Sheet open={processConnectionMutation.status === "pending"}>
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
           <SheetHeader>
             <SheetTitle>연동 승인 여부를 처리 중입니다</SheetTitle>
             <SheetDescription>잠시만 기다려주세요</SheetDescription>
@@ -229,11 +226,10 @@ function ConnectTrainerSheet({ notificationId, open, onChangeOpen }: ConnectTrai
             <BrandSpinner />
           </div>
         </SheetContent>
-      </Sheet>
-
-      <Sheet open={processConnectionMutation.status === "success"}>
+      </Sheet> */}
+      <Sheet open={isResultSheetOpen} onOpenChange={setIsResultSheetOpen}>
         <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)]">
-          <SheetHeader>
+          <SheetHeader className="flex items-center justify-center">
             <Button className="mb-7 h-[3.125rem] w-[3.125rem] rounded-full">
               <Icon name="Check" size="lg" />
             </Button>
@@ -242,7 +238,9 @@ function ConnectTrainerSheet({ notificationId, open, onChangeOpen }: ConnectTrai
           </SheetHeader>
           <SheetFooter>
             <SheetClose asChild>
-              <Button className="w-full">확인</Button>
+              <Button size="xl" className="w-full">
+                확인
+              </Button>
             </SheetClose>
           </SheetFooter>
         </SheetContent>
