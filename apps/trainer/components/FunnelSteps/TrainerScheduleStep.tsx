@@ -57,6 +57,29 @@ const convertKoreanTimeTo24Hour = (timeStr: string): string => {
 
   return `${hour.toString().padStart(PAD_LENGTH, "0")}:${minute}`;
 };
+const convert24HourToKoreanTime = (timeStr: string): string => {
+  const PAD_LENGTH = 2;
+  const match = timeStr.match(/^(\d{2}):(\d{2})$/);
+
+  if (!match) {
+    throw new Error("Invalid time format");
+  }
+
+  const [, hourStr, minute] = match;
+  let hour = parseInt(hourStr, 10);
+  let period = "오전";
+
+  if (hour === 0) {
+    hour = 12;
+  } else if (hour === 12) {
+    period = "오후";
+  } else if (hour > 12) {
+    hour -= 12;
+    period = "오후";
+  }
+
+  return `${period} ${hour.toString().padStart(PAD_LENGTH, "0")}:${minute}`;
+};
 
 const isOrderedChronologically = (startTime: string | null, endTime: string | null) =>
   startTime === null || endTime === null ? false : startTime < endTime;
@@ -65,8 +88,15 @@ type TrainerScheduleStepProps = {
   onPrev: () => void;
   onNext?: (availablePtTimes: Omit<AvailablePtTime, "availableTimeId">[]) => void;
   onSubmit?: (availablePtTimes: Omit<AvailablePtTime, "availableTimeId">[]) => Promise<void>;
+  currentSchedule?: AvailablePtTime[];
 };
-function TrainerScheduleStep({ onPrev, onNext, onSubmit }: TrainerScheduleStepProps) {
+
+function TrainerScheduleStep({
+  onPrev,
+  onNext,
+  onSubmit,
+  currentSchedule,
+}: TrainerScheduleStepProps) {
   const timePeriodRef = useRef<string>(null);
   const hoursRef = useRef<string>(null);
   const minutesRef = useRef<string>(null);
@@ -83,13 +113,24 @@ function TrainerScheduleStep({ onPrev, onNext, onSubmit }: TrainerScheduleStepPr
       startTime: string | null;
       endTime: string | null;
     }[]
-  >(
-    Array.from({ length: 7 }, (_v, index) => ({
-      dayOfWeek: DAYS_OF_WEEK_MAP[index],
-      isHoliday: true,
-      startTime: null,
-      endTime: null,
-    })),
+  >(() =>
+    currentSchedule
+      ? // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        currentSchedule.map(({ availableTimeId: _, ...dailySchedule }) => {
+          const { startTime, endTime } = dailySchedule;
+
+          return {
+            ...dailySchedule,
+            startTime: startTime && convert24HourToKoreanTime(startTime),
+            endTime: endTime && convert24HourToKoreanTime(endTime),
+          };
+        })
+      : Array.from({ length: 7 }, (_v, index) => ({
+          dayOfWeek: DAYS_OF_WEEK_MAP[index],
+          isHoliday: true,
+          startTime: null,
+          endTime: null,
+        })),
   );
 
   const filledDays = trainerSchedule
