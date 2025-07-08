@@ -26,9 +26,6 @@ async function MemberInformation({ params }: { params: { memberId: string } }) {
           <MemberProfile memberId={Number(memberId)} />
           <PtHistoryContainer memberId={Number(memberId)} />
         </HydrationBoundary>
-        {Array.from({ length: 20 }, () => "hi").map((val, idx) => (
-          <div key={idx}>{val}</div>
-        ))}
       </main>
     </HeaderProvider>
   );
