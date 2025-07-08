@@ -57,7 +57,9 @@ function SessionSetterSheetContent({ onSubmit, memberId }: SessionSetterSheetCon
         </SheetHeader>
         <SheetFooter className="w-full">
           <SheetClose asChild>
-            <Button className="w-full">확인</Button>
+            <Button size="xl" className="w-full">
+              확인
+            </Button>
           </SheetClose>
         </SheetFooter>
       </>
@@ -84,9 +86,11 @@ function SessionSetterSheetContent({ onSubmit, memberId }: SessionSetterSheetCon
       </div>
       <Stepper value={sessionValue} onChangeValue={setSessionValue} className="border-none" />
       <SheetFooter className="w-full">
-        <Button onClick={handleSubmit} className="w-full">
-          승인
-        </Button>
+        <SheetClose asChild>
+          <Button size="xl" onClick={handleSubmit} className="w-full">
+            승인
+          </Button>
+        </SheetClose>
       </SheetFooter>
     </>
   );
