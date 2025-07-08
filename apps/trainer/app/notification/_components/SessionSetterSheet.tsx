@@ -108,7 +108,7 @@ function SessionSetterSheet({ memberId, isOpen, onOpenChange, onSubmit }: Sessio
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetContent
         side="bottom"
-        className="md:w-mobile flex h-fit flex-col items-center md:inset-x-[calc((100%-480px)/2)]"
+        className="md:w-mobile flex h-fit flex-col items-center md:inset-x-[calc((100%-30rem)/2)]"
       >
         <QueryErrorBoundary fallback={SheetErrorFallback}>
           <Suspense fallback={<BrandSpinner />}>

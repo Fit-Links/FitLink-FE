@@ -157,7 +157,7 @@ function TrainerScheduleStep({ onPrev, onNext, onSubmit }: TrainerScheduleStepPr
   };
 
   return (
-    <div className="flex h-full flex-col">
+    <>
       <Header>
         <Header.Back onClick={onPrev} />
         <Header.Title content="PT 수업 시간" />
@@ -168,7 +168,7 @@ function TrainerScheduleStep({ onPrev, onNext, onSubmit }: TrainerScheduleStepPr
         completed={filledDays}
         currentDay={currentDay}
         errorDays={errorDays}
-        className="w-full"
+        className="w-full py-2"
       />
       <div className="mt-[1.5rem] flex flex-1 flex-col justify-between">
         <div className="flex flex-col gap-4">
@@ -312,7 +312,7 @@ function TrainerScheduleStep({ onPrev, onNext, onSubmit }: TrainerScheduleStepPr
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   );
 }
 

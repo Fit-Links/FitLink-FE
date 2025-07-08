@@ -1,14 +1,20 @@
 import { Suspense } from "react";
 
+import HeaderProvider from "@trainer/components/Providers/BasicHeaderProvider";
+
+import { commonLayoutContents } from "@trainer/constants/styles";
+
 import MyInformationContainer from "./_components/MyInformationContainer";
 import MyInformationSkeleton from "./_components/Skeleton";
 
 export default async function MyInformation() {
   return (
-    <main className="bg-background-primary text-text-primary flex h-screen w-full flex-col items-center">
-      <Suspense fallback={<MyInformationSkeleton />}>
-        <MyInformationContainer />
-      </Suspense>
-    </main>
+    <HeaderProvider title="내 정보" back>
+      <main className={commonLayoutContents}>
+        <Suspense fallback={<MyInformationSkeleton />}>
+          <MyInformationContainer />
+        </Suspense>
+      </main>
+    </HeaderProvider>
   );
 }

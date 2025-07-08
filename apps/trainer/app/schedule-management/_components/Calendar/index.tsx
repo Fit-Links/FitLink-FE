@@ -87,18 +87,21 @@ function Calendar() {
 
   return (
     <>
-      {isFixedReservationChangeMode ? (
-        <div className="py-[0.875rem]">
-          <Button onClick={handleClickDisableFixedReservation}>고정 예약 변경 비활성화</Button>
-        </div>
-      ) : (
-        <div className="py-[0.875rem]">
-          <CalendarHintGroup />
-        </div>
-      )}
-      <section className="md:max-w-mobile relative box-content h-full w-full overflow-hidden">
+      <div className="bg-background-primary sticky top-0 z-10">
+        {isFixedReservationChangeMode ? (
+          <div className="py-[0.5rem]">
+            <Button onClick={handleClickDisableFixedReservation}>고정 예약 변경 비활성화</Button>
+          </div>
+        ) : (
+          <div className="py-[0.5rem]">
+            <CalendarHintGroup />
+          </div>
+        )}
         <DayOfWeek currentWeek={currentWeek} currentMonth={currentMonth} />
-        <div className="flex h-full w-full pt-[4.8375rem]">
+      </div>
+
+      <section className="md:max-w-mobile relative box-content w-full flex-1 overflow-hidden">
+        <div className="flex h-full w-full">
           <div
             ref={timeColumnRef}
             className="mr-2 h-full w-fit overflow-y-scroll [&::-webkit-scrollbar]:hidden"

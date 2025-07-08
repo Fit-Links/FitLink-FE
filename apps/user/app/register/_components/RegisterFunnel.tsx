@@ -93,7 +93,7 @@ function RegisterFunnel() {
         )}
       />
       <Sheet open={isRegisterPending}>
-        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)]">
           <SheetHeader>
             <SheetTitle>회원가입을 진행중입니다</SheetTitle>
             <SheetDescription>잠시만 기다려주세요</SheetDescription>

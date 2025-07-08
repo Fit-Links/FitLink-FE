@@ -1,11 +1,15 @@
 import { Suspense } from "@suspensive/react";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import { cn } from "@ui/lib/utils";
 import { startOfWeek, format } from "date-fns";
 import { ko } from "date-fns/locale";
 
 import { reservationQueries } from "@trainer/queries/reservation";
 
 import LoadingFallback from "@trainer/components/Fallback/LoadingFallback";
+import HeaderProvider from "@trainer/components/Providers/BasicHeaderProvider";
+
+import { commonLayoutContents } from "@trainer/constants/styles";
 
 import Calendar from "./_components/Calendar";
 
@@ -18,14 +22,17 @@ async function ScheduleManagement() {
   await queryClient.prefetchQuery(reservationQueries.list(simpleDate));
   const dehydratedState = dehydrate(queryClient);
 
+  // "flex flex-1 flex-col"
   return (
-    <main className="flex h-full flex-col">
-      <HydrationBoundary state={dehydratedState}>
-        <Suspense fallback={<LoadingFallback />}>
-          <Calendar />
-        </Suspense>
-      </HydrationBoundary>
-    </main>
+    <HeaderProvider>
+      <main className={cn(commonLayoutContents)}>
+        <HydrationBoundary state={dehydratedState}>
+          <Suspense fallback={<LoadingFallback />}>
+            <Calendar />
+          </Suspense>
+        </HydrationBoundary>
+      </main>
+    </HeaderProvider>
   );
 }
 

@@ -11,9 +11,11 @@ function page() {
   const refreshToken = cookieStore.get(REFRESH_TOKEN_KEY)?.value;
 
   return (
-    <main className="h-full w-full">
-      <Splash refreshToken={refreshToken} />
-    </main>
+    <>
+      <main className="h-full w-full">
+        <Splash refreshToken={refreshToken} />
+      </main>
+    </>
   );
 }
 

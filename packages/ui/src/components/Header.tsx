@@ -1,37 +1,56 @@
+"use client";
+
 import { ChevronLeft } from "lucide-react";
-import React, { MouseEventHandler } from "react";
+import { MouseEventHandler, ReactNode } from "react";
 
 import { cn } from "@ui/lib/utils";
 
 import { Text } from "./Text";
 
 type HeaderRootProps = {
-  children: React.ReactNode;
+  logo?: ReactNode;
+  children?: ReactNode;
+  subHeader?: ReactNode;
   className?: string;
 };
-function HeaderRoot({ children, className }: HeaderRootProps) {
+function HeaderRoot({ logo, subHeader, children, className }: HeaderRootProps) {
+  const hasChildren = Array.isArray(children) ? children.some((child) => !!child) : children;
+
   return (
-    <header
-      className={cn(
-        "text-text-primary text-title-2 bg-background-primary sticky top-0 z-30 grid h-[2.1875rem] w-full grid-cols-3 items-center",
-        className,
+    <>
+      <header className={cn("bg-background-primary z-10 w-full")}>
+        {logo && (
+          <div
+            className={cn(
+              "border-background-sub2 flex h-[3rem] items-center justify-start transition-transform",
+            )}
+          >
+            {logo}
+          </div>
+        )}
+      </header>
+      {hasChildren && (
+        <div className="text-text-primary text-title-2 bg-background-primary sticky top-0 z-10 ">
+          <div className={cn("grid h-[2.1875rem] grid-cols-3 items-center", className)}>
+            {children}
+          </div>
+          {subHeader && <div>{subHeader}</div>}
+        </div>
       )}
-    >
-      {children}
-    </header>
+    </>
   );
 }
 
 type HeaderSectionProps = {
   position: "left" | "right";
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 };
 function HeaderSection({ position, children, className }: HeaderSectionProps) {
   return (
     <div
       className={cn(
-        "cursor-pointer",
+        "sticky top-0 cursor-pointer",
         {
           "col-start-1 col-end-2 justify-self-start": position === "left",
           "col-start-3 col-end-4 justify-self-end": position === "right",

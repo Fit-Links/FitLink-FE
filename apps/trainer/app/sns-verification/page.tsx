@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import { authQueries } from "@trainer/queries/auth";
 
 import RouteInstance from "@trainer/constants/route";
+import { commonLayoutContents } from "@trainer/constants/styles";
 
 const REFETCH_INTERVAL = 5000;
 
@@ -43,14 +44,16 @@ function SnsVerificationPage() {
   }
 
   return (
-    <PhoneVerification
-      onClick={handleClick}
-      verificationToken={
-        tokenStatus === "success" && tokenData.success
-          ? tokenData?.data.verificationToken
-          : undefined
-      }
-    />
+    <main className={commonLayoutContents}>
+      <PhoneVerification
+        onClick={handleClick}
+        verificationToken={
+          tokenStatus === "success" && tokenData.success
+            ? tokenData?.data.verificationToken
+            : undefined
+        }
+      />
+    </main>
   );
 }
 

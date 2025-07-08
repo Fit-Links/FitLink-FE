@@ -1,13 +1,15 @@
 import dynamic from "next/dynamic";
 import React from "react";
 
+import { commonLayoutContents } from "@trainer/constants/styles";
+
 const RegisterFunnel = dynamic(() => import("./_components/RegisterFunnel"), {
   ssr: false,
 });
 
 function RegisterPage() {
   return (
-    <main className="h-full w-full">
+    <main className={commonLayoutContents}>
       <RegisterFunnel />
     </main>
   );
