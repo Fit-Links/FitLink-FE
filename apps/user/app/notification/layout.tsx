@@ -1,5 +1,3 @@
-import Header from "@ui/components/Header";
-
 import { requireAuth } from "@user/utils/auth";
 
 import NotificationProvider from "./_components/NotificationProvdier";
@@ -12,9 +10,6 @@ async function NotificationLayout({ children }: NotificationLayoutProps) {
 
   return (
     <>
-      <Header>
-        <Header.Title content="알림" />
-      </Header>
       <NotificationProvider>{children}</NotificationProvider>
     </>
   );
