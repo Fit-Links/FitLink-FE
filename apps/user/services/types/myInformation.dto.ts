@@ -97,5 +97,6 @@ type TrainerAvailableTimesResponse = {
     applyAt: string;
     schedules: AvailablePtTime[];
   };
+  dayOffs: string[];
 };
 export type TrainerAvailableTimesApiResponse = ResponseBase<TrainerAvailableTimesResponse>;
