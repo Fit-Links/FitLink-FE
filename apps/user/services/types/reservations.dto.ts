@@ -18,13 +18,13 @@ export type ReservationStatusApiResponse = ResponseBase<ReservationStatusRespons
 export type TrainerReservationStatusPathParams = {
   date: string;
 };
-type TrainerReservationStatusResponse = Omit<
+type TrainerReservationStatusResponse = (Omit<
   BaseReservationListItem,
   "sessionInfoId" | "memberInfo"
 > & {
   sessionInfoId: number | null;
   memberInfo: NullableMemberInfo;
-};
+})[];
 export type TrainerReservationStatusApiResponse = ResponseBase<TrainerReservationStatusResponse>;
 
 export type ReservationDetailStatusRequestPath = ReservationPathParams;
