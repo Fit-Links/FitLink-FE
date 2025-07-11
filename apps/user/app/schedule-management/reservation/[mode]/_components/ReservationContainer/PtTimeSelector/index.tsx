@@ -1,7 +1,6 @@
 /* eslint-disable no-magic-numbers */
 "use client";
 
-import { DayOfWeek } from "@5unwan/core/api/types/common";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@ui/components/Button";
 import {
@@ -13,14 +12,17 @@ import {
   DialogTitle,
 } from "@ui/components/Dialog";
 import TimeCellToggleGroup from "@ui/components/TimeCellToggleGroup";
-import { TimeCell } from "@ui/utils/timeCellUtils";
 import { format, isSameDay } from "date-fns";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { filterLatestReservationsByDate } from "@user/app/schedule-management/_utils/reservationMerger";
+import { generateIntegratedTimeCells } from "@user/app/schedule-management/_utils/timeCellGenerator";
+import { getInactiveTrainerReservationStatus } from "@user/app/schedule-management/_utils/trainerReservationStatusConverter";
 import { myInformationQueries } from "@user/queries/myInformation";
 import { reservationQueries } from "@user/queries/reservation";
+
+import { TrainerReservationStatusApiResponse } from "@user/services/types/reservations.dto";
 
 import { RequestReservationMode } from "@user/app/schedule-management/reservation/[mode]/types/requestReservation";
 
@@ -32,6 +34,7 @@ type PtTimeSelectorProps = {
   reservationDateTime?: string;
   selectedDate: Date;
   firstDayOfMonthKorea: string;
+  trainerReservationStatus: TrainerReservationStatusApiResponse["data"];
 };
 
 function PtTimeSelector({
@@ -39,6 +42,7 @@ function PtTimeSelector({
   selectedDate,
   reservationDateTime,
   firstDayOfMonthKorea,
+  trainerReservationStatus,
 }: PtTimeSelectorProps) {
   const [selectedTimes, setSelectedTimes] = useState<string[]>(() =>
     reservationDateTime ? [reservationDateTime.replace(/:00$/, "")] : [],
@@ -52,6 +56,9 @@ function PtTimeSelector({
 
   const { data: reservations } = useQuery(reservationQueries.list(firstDayOfMonthKorea));
   const filteredReservations = filterLatestReservationsByDate(reservations?.data ?? []);
+
+  const inactiveTrainerReservationStatus =
+    getInactiveTrainerReservationStatus(trainerReservationStatus);
 
   const isReservationAvailable = filteredReservations.some(
     (reservation) =>
@@ -67,36 +74,16 @@ function PtTimeSelector({
     enabled: !!myInformation?.data?.trainerId,
   });
 
-  const formattedDate = format(selectedDate, "EEEE").toUpperCase();
-
-  /** TODO: 트레이너 시간 정보 호출 후, 시간 정보 정제. 따로 utils로 분리하기 */
-  const generateTimeCells = (
-    dayOfWeek: DayOfWeek,
-    startHour?: number,
-    endHour?: number,
-  ): TimeCell[] => {
-    return Array.from({ length: 24 }, (_, hour) => ({
-      dayOfWeek,
-      time: `${hour.toString().padStart(2, "0")}:00`,
-      disabled:
-        startHour === undefined || endHour === undefined || hour < startHour || hour > endHour,
-    }));
-  };
-
-  const formattedTrainerAvailableTimes =
-    trainerAvailableTimes?.data?.currentSchedules?.schedules.flatMap(
-      ({ isHoliday, dayOfWeek, startTime, endTime }) => {
-        if (dayOfWeek !== formattedDate) return [];
-        if (isHoliday || !startTime || !endTime) {
-          return generateTimeCells(dayOfWeek);
-        }
-
-        const startHour = parseInt(startTime.split(":")[0], 10);
-        const endHour = parseInt(endTime.split(":")[0], 10);
-
-        return generateTimeCells(dayOfWeek, startHour, endHour);
-      },
-    );
+  // 통합된 시간 셀 생성
+  const integratedTimeCells = trainerAvailableTimes?.data
+    ? generateIntegratedTimeCells(
+        selectedDate,
+        trainerAvailableTimes.data,
+        inactiveTrainerReservationStatus,
+        filteredReservations,
+        mode,
+      )
+    : [];
 
   const handleExceedToggleLimit = () => {
     setIsReservationMaxSelectedPopupOpen(true);
@@ -152,7 +139,7 @@ function PtTimeSelector({
       ) : (
         <section className="mt-1 flex h-full flex-col overflow-hidden">
           <section className="mb-1 h-full overflow-y-scroll [&::-webkit-scrollbar]:hidden">
-            {formattedTrainerAvailableTimes && (
+            {integratedTimeCells && (
               <TimeCellToggleGroup
                 className="md:max-w-mobile my-10"
                 selected={selectedTimes}
@@ -160,11 +147,7 @@ function PtTimeSelector({
                 onExceedToggleLimit={handleExceedToggleLimit}
                 variant="notification"
                 toggleLimit={mode === "new" ? 2 : 1}
-                timeCellInfo={
-                  isReservationAvailable && mode === "new"
-                    ? generateTimeCells("MONDAY", 23, 0)
-                    : formattedTrainerAvailableTimes
-                }
+                timeCellInfo={integratedTimeCells}
               />
             )}
           </section>
