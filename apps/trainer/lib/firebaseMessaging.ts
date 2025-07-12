@@ -34,8 +34,6 @@ export async function getDeviceToken() {
       vapidKey: process.env.NEXT_PUBLIC_FCM_VAPID_KEY,
     });
     if (token) {
-      console.log(token);
-
       return token;
     }
   } catch {
