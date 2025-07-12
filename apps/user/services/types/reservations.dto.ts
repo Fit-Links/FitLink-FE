@@ -7,11 +7,25 @@ import {
   ResponseBase,
 } from "@5unwan/core/api/types/common";
 
+type NullableMemberInfo = { [K in keyof BaseMemberInfo]: BaseMemberInfo[K] | null };
+
 export type ReservationStatusRequestQuery = {
   date?: string;
 };
 type ReservationStatusResponse = BaseReservationListItem[];
 export type ReservationStatusApiResponse = ResponseBase<ReservationStatusResponse>;
+
+export type TrainerReservationStatusPathParams = {
+  date: string;
+};
+type TrainerReservationStatusResponse = (Omit<
+  BaseReservationListItem,
+  "sessionInfoId" | "memberInfo"
+> & {
+  sessionInfoId: number | null;
+  memberInfo: NullableMemberInfo;
+})[];
+export type TrainerReservationStatusApiResponse = ResponseBase<TrainerReservationStatusResponse>;
 
 export type ReservationDetailStatusRequestPath = ReservationPathParams;
 type ReservationDetailStatusResponse = BaseReservationDetail<
