@@ -17,7 +17,7 @@ function HeaderRoot({ logo, subHeader, children, className }: HeaderRootProps) {
   const hasChildren = Array.isArray(children) ? children.some((child) => !!child) : children;
 
   return (
-    <>
+    <section className="w-full">
       <header className={cn("bg-background-primary z-10 w-full")}>
         {logo && (
           <div
@@ -37,7 +37,7 @@ function HeaderRoot({ logo, subHeader, children, className }: HeaderRootProps) {
           {subHeader && <div>{subHeader}</div>}
         </div>
       )}
-    </>
+    </section>
   );
 }
 
