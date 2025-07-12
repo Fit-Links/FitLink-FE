@@ -35,8 +35,8 @@ function FooterProvider({ children }: { children: React.ReactNode }) {
         )}
       >
         {children}
-        {hasFooter && <BottomNavigation />}
       </div>
+      {hasFooter && <BottomNavigation />}
     </>
   );
 }
