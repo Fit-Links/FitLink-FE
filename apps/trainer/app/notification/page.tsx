@@ -64,6 +64,7 @@ function AllNotificationPage() {
       );
     },
     onSettled: () => queryClient.invalidateQueries({ queryKey: notificationBaseKeys.lists() }),
+    onSuccess: () => {},
   });
 
   const handleNotificationClick = (notification: NotificationInfo) => () => {
@@ -78,11 +79,16 @@ function AllNotificationPage() {
         readNotificationMutation.mutate({ id: notificationId });
         break;
       case "예약 요청":
-        if (!parsedDate) {
+        if (isProcessed) return;
+
+        readNotificationMutation.mutate({ id: notificationId });
+
+        if (parsedDate === null) {
           toast.error("유효하지 않은 날짜의 일정입니다.");
 
           return;
         }
+
         router.push(
           RouteInstance["pending-reservations"]("", {
             selectedDate: String(parsedDate),
