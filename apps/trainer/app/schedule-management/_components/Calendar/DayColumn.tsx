@@ -19,7 +19,7 @@ export default function DayColumn({ children, isDayOff, ptAvailableTime, date }:
   return (
     <div
       className={cn(
-        "relative flex h-full w-full snap-start flex-col gap-[0.0625rem]",
+        "relative flex h-full w-full min-w-0 max-w-full snap-start flex-col gap-[0.0625rem]",
         (ptTimeInformation?.isHoliday || isDayOff) &&
           "bg-background-sub2 z-10 h-auto cursor-not-allowed items-center justify-center gap-0",
       )}

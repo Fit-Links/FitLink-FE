@@ -143,14 +143,18 @@ export default function TimeBlock({
           <div
             onClick={handleClickBlock}
             className={cn(
-              "bg-background-sub1 md:hover:bg-background-sub2 text-text-primary relative flex h-[3.9375rem] w-full cursor-pointer flex-col items-center justify-center gap-1 rounded-[0.125rem] p-1",
+              "bg-background-sub1 md:hover:bg-background-sub2 text-text-primary relative flex h-[3.9375rem] w-full min-w-0 max-w-full flex-shrink-0 cursor-pointer flex-col items-center justify-center gap-1 overflow-hidden rounded-[0.125rem] p-1",
               isToday(date) && "bg-background-sub3 md:hover:bg-background-sub4",
               reservationBlockStyle,
             )}
             {...props}
           >
-            <span className="text-body-2 whitespace-pre-line">{reservationBlockContent}</span>
-            <span className="text-body-5">{reservationBlockPtStatus}</span>
+            <span className="text-body-2 w-full overflow-hidden text-ellipsis whitespace-nowrap text-center">
+              {reservationBlockContent}
+            </span>
+            <span className="text-body-5 w-full overflow-hidden text-ellipsis whitespace-nowrap text-center">
+              {reservationBlockPtStatus}
+            </span>
             {isNotificationRead && (
               <span className="bg-notification absolute right-1 top-1 h-[4px] w-[4px] rounded-full" />
             )}
@@ -169,7 +173,7 @@ export default function TimeBlock({
       ) : (
         <div
           className={cn(
-            "bg-background-sub2 text-text-primary relative flex h-[3.9375rem] w-full cursor-not-allowed flex-col items-center justify-center gap-1 rounded-[0.125rem] p-1",
+            "bg-background-sub2 text-text-primary relative flex h-[3.9375rem] w-full min-w-0 max-w-full flex-shrink-0 cursor-not-allowed flex-col items-center justify-center gap-1 overflow-hidden rounded-[0.125rem] p-1",
             isToday(date) && "bg-background-sub3 md:hover:bg-background-sub4",
             reservationBlockStyle,
           )}
