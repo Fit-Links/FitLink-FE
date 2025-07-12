@@ -104,7 +104,7 @@ function Calendar() {
         <div className="flex h-full w-full">
           <div
             ref={timeColumnRef}
-            className="mr-2 h-full w-fit overflow-y-scroll [&::-webkit-scrollbar]:hidden"
+            className="mr-1.5 h-full w-fit overflow-y-scroll [&::-webkit-scrollbar]:hidden"
           >
             <TimeColumn />
           </div>
