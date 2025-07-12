@@ -68,6 +68,7 @@ function AllNotificationPage() {
       );
     },
     onSettled: () => queryClient.invalidateQueries({ queryKey: notificationBaseKeys.lists() }),
+    onSuccess: () => {},
   });
 
   const handleSelectResult = () => {
@@ -86,6 +87,15 @@ function AllNotificationPage() {
         readNotificationMutation.mutate({ id: notificationId });
         break;
       case "예약 요청":
+        if (isProcessed) return;
+
+        readNotificationMutation.mutate(
+          { id: notificationId },
+          {
+            onSuccess: () => {},
+          },
+        );
+
         router.push(
           RouteInstance["pending-reservations"]("", {
             selectedDate: String(parsedDate),
