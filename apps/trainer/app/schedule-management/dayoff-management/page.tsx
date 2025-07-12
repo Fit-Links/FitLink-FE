@@ -1,12 +1,18 @@
+import { cn } from "@ui/lib/utils";
+
+import HeaderProvider from "@trainer/components/Providers/BasicHeaderProvider";
+
+import { commonLayoutContents } from "@trainer/constants/styles";
+
 import DayoffCalendarContainer from "./_components/DayoffCalendarContainer";
-import Header from "./_components/Header";
 
 function DayoffManagement() {
   return (
-    <main className="flex h-full flex-col">
-      <Header />
-      <DayoffCalendarContainer />
-    </main>
+    <HeaderProvider title="휴무일 설정" back>
+      <main className={cn(commonLayoutContents)}>
+        <DayoffCalendarContainer />
+      </main>
+    </HeaderProvider>
   );
 }
 

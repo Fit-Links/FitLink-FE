@@ -39,7 +39,7 @@ const generateErrorMessage = (userStatus: UserSignupStatus) => {
 
 function ResultStep({ onNext }: ResultStepProps) {
   return (
-    <div className="flex h-full flex-col">
+    <>
       <div className="flex flex-1 items-center justify-center">
         <RequestStatus
           status="success"
@@ -56,7 +56,7 @@ function ResultStep({ onNext }: ResultStepProps) {
           다음
         </Button>
       </div>
-    </div>
+    </>
   );
 }
 

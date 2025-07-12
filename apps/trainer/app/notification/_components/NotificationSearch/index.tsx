@@ -5,6 +5,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { Badge } from "@ui/components/Badge";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogTitle,
@@ -15,10 +16,11 @@ import { InputField } from "@ui/components/InputWithIcon";
 import { InputIcon, InputWithIcon } from "@ui/components/InputWithIcon/index";
 import { VisuallyHidden } from "@ui/components/VisuallyHidden";
 import { Search } from "lucide-react";
-import { Dispatch, MouseEventHandler, SetStateAction, useRef, useState, Fragment } from "react";
+import { MouseEventHandler, useRef, useState, Fragment } from "react";
 
 import { userManagementQueries } from "@trainer/queries/userManagement";
 
+import Logo from "@trainer/components/Logo";
 import ProfileCard from "@trainer/components/ProfileCard";
 
 import useDebounce from "@trainer/hooks/useDebounce";
@@ -98,12 +100,7 @@ function NotificationSearchContent({ search, onProfileClick }: NotificationSearc
   );
 }
 
-type NotificationSearchProps = {
-  isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
-  onSelectResult: () => void;
-};
-function NotificationSearch({ isOpen, setIsOpen }: NotificationSearchProps) {
+function NotificationSearch() {
   const [search, setSearch] = useState<string | undefined>();
   const [selected, setSelected] = useState<number | null>(null);
 
@@ -115,17 +112,15 @@ function NotificationSearch({ isOpen, setIsOpen }: NotificationSearchProps) {
   const handleClickHeaderBack = () => {
     if (selected) {
       setSelected(null);
-    } else {
-      setIsOpen(false);
     }
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog>
       <DialogTrigger asChild>
         <Search color="white" />
       </DialogTrigger>
-      <DialogContent className="bg-background-primary flex h-full w-full flex-col rounded-none">
+      <DialogContent className="bg-background-primary flex h-full w-full flex-col rounded-none py-0">
         <VisuallyHidden>
           <DialogTitle>알림 검색</DialogTitle>
           <DialogDescription>
@@ -133,8 +128,13 @@ function NotificationSearch({ isOpen, setIsOpen }: NotificationSearchProps) {
             있도록 도와줍니다
           </DialogDescription>
         </VisuallyHidden>
-        <Header className="mb-4">
-          <Header.Back onClick={handleClickHeaderBack} />
+        <Header logo={<Logo />} className="mb-4">
+          {selected === null && (
+            <DialogClose>
+              <Header.Back onClick={() => {}} />
+            </DialogClose>
+          )}
+          {selected !== null && <Header.Back onClick={handleClickHeaderBack} />}
           <Header.Title content="알림 검색" />
         </Header>
 

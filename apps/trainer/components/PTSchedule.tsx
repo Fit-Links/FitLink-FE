@@ -1,24 +1,18 @@
+import { AvailablePtTime, DayOfWeek } from "@5unwan/core/api/types/common";
 import { Badge } from "@ui/components/Badge";
 import { Days } from "@ui/components/DayOfWeekPicker/Days";
 import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "@ui/components/Dropdown";
 import { Text } from "@ui/components/Text";
 import DateController from "@ui/lib/DateController";
-import {
-  DAYS_OF_WEEK,
-  DaysOfWeek,
-  makeWeekSchedule,
-  ObjectEntries,
-} from "@ui/utils/makeWeekSchedule";
+import { DAYS_OF_WEEK, makeWeekSchedule, ObjectEntries } from "@ui/utils/makeWeekSchedule";
 import { Ellipsis } from "lucide-react";
 import React from "react";
 
-import { SpanScheduleUnit } from "@trainer/app/my-page/_components/MyAvailableTimeContainer";
-
 type PTSchedulesProps = {
-  currentSchedules: SpanScheduleUnit[];
+  currentSchedules: AvailablePtTime[];
   scheduledChanges: {
     applyAt: string;
-    schedules: SpanScheduleUnit[];
+    schedules: AvailablePtTime[];
   }[];
   onClickCurrentEllipsis: () => void;
   onClickChangeEllipsis?: () => void;
@@ -54,7 +48,7 @@ export default PTSchedule;
 type PTScheduleItemProps = {
   current?: boolean;
   applyAt?: string;
-  schedules: SpanScheduleUnit[];
+  schedules: AvailablePtTime[];
   onClickEllipsis?: () => void;
 };
 function PTScheduleItem({ current, applyAt, schedules, onClickEllipsis }: PTScheduleItemProps) {
@@ -62,7 +56,7 @@ function PTScheduleItem({ current, applyAt, schedules, onClickEllipsis }: PTSche
 
   const weekSchedule = Object.entries(
     makeWeekSchedule({ type: "span", schedule: schedules }),
-  ) as ObjectEntries<Record<DaysOfWeek, string>>;
+  ) as ObjectEntries<Record<DayOfWeek, string>>;
   const mondaySchedule = weekSchedule[Days.Monday];
 
   const handleClickEllipsis = () => {
@@ -97,7 +91,7 @@ function PTScheduleItem({ current, applyAt, schedules, onClickEllipsis }: PTSche
         </DropdownTrigger>
         <DropdownContent>
           {/* eslint-disable-next-line no-magic-numbers */}
-          {weekSchedule.slice(1).map(([dayOfWeek, schedule]: [DaysOfWeek, string | null]) => (
+          {weekSchedule.slice(1).map(([dayOfWeek, schedule]: [DayOfWeek, string | null]) => (
             <DropdownItem
               key={dayOfWeek}
             >{`${DAYS_OF_WEEK[dayOfWeek]} ${schedule === "-" || schedule === null ? "휴무일" : schedule}`}</DropdownItem>

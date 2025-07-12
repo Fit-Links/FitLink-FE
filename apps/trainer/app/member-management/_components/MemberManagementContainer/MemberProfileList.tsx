@@ -216,7 +216,7 @@ function MemberProfileList({ searchValue }: MemberProfileListProps) {
         handleClickSelectMember={handleClickSelectMember}
       />
       <Sheet open={ptManagementSheetSheetOpen} onOpenChange={setPtManagementSheetSheetOpen}>
-        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+        <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)]">
           <VisuallyHidden>
             <SheetTitle>회원 정보 수정</SheetTitle>
             <SheetDescription>

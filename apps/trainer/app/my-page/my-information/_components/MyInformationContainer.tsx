@@ -22,7 +22,6 @@ import { useRegisterFcmToken } from "@trainer/app/register/_hooks/useRegisterFcm
 import { myInformationQueries } from "@trainer/queries/myInformation";
 
 import { MemorizedProfileItem } from "./MemorizedProfileItem";
-import Header from "../../_components/Header";
 import { getFormattedPhoneNumber } from "../_utils/getFormattedPhoneNumber";
 import EditProfileBottomSheet from "./BottomSheet/EditProfileBottomSheet";
 
@@ -46,9 +45,7 @@ export default function MyInformationContainer() {
   } = usePushPermissionSwitch(requestFcmPermission);
 
   return (
-    <section className="bg-background-primary text-text-primary flex h-screen w-full flex-col items-center">
-      <Header title="내 정보" />
-
+    <section className="bg-background-primary text-text-primary flex w-full flex-1 flex-col items-center">
       <Avatar className="mt-[1.563rem] h-[6.313rem] w-[6.313rem]">
         {myDetailInformation.profilePictureUrl ? (
           <Image
@@ -102,7 +99,7 @@ export default function MyInformationContainer() {
             </p>
           </div>
           <Sheet open={isReconnectPushDialogOpen} onOpenChange={setIsReconnectPushDialogOpen}>
-            <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-480px)/2)]">
+            <SheetContent side={"bottom"} className="md:w-mobile md:inset-x-[calc((100%-30rem)/2)]">
               <SheetHeader>
                 <SheetTitle>푸시 알림이 수신되지 않으세요?</SheetTitle>
                 <SheetDescription>

@@ -33,14 +33,17 @@ function FooterProvider({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div
-        className={cn("flex h-full flex-col px-4 pt-3", {
-          "pb-[5.063rem]": hasFooter,
-          "pb-[2.125rem]": !hasFooter,
-        })}
+        className={cn(
+          "bg-background-primary text-text-primary md:border-background-sub2 md:max-w-mobile relative mx-0 box-content flex min-h-[calc(100%-5.063rem)] flex-col px-4 md:mx-auto md:border md:shadow-lg",
+          {
+            "min-h-[calc(100%-5.063rem)] pb-[5.063rem]": hasFooter,
+            "min-h-[calc(100%-2.125rem)] pb-[2.125rem]": !hasFooter,
+          },
+        )}
       >
         {children}
+        {hasFooter && <BottomNavigation />}
       </div>
-      {hasFooter && <BottomNavigation />}
     </>
   );
 }

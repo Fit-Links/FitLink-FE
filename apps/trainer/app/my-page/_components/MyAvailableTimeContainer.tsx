@@ -1,27 +1,25 @@
 "use client";
 
+import { AvailablePtTime, DayOfWeek } from "@5unwan/core/api/types/common";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { DaysOfWeek } from "@ui/utils/makeWeekSchedule";
 
 import { myInformationQueries } from "@trainer/queries/myInformation";
-
-import { AvailablePtTimeEntry } from "@trainer/services/types/myInformation.dto";
 
 import ScheduleInformation from "./ScheduleInformation";
 
 export type SpanScheduleUnit = {
   availableTimeId: number;
-  dayOfWeek: DaysOfWeek;
+  dayOfWeek: DayOfWeek;
   isHoliday: boolean;
   startTime: string;
   endTime: string;
 };
 
 export type PTScheduleProps = {
-  currentSchedules: AvailablePtTimeEntry[];
+  currentSchedules: AvailablePtTime[];
   scheduledChanges: {
     applyAt: string;
-    schedules: AvailablePtTimeEntry[];
+    schedules: AvailablePtTime[];
   }[];
 };
 

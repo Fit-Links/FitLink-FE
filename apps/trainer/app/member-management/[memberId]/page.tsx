@@ -2,7 +2,10 @@ import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query
 
 import { userManagementQueries } from "@trainer/queries/userManagement";
 
-import Header from "./_components/Header";
+import HeaderProvider from "@trainer/components/Providers/BasicHeaderProvider";
+
+import { commonLayoutContents } from "@trainer/constants/styles";
+
 import MemberProfile from "./_components/MemberProfile";
 import PtHistoryContainer from "./_components/PtHistoryContainer";
 
@@ -15,14 +18,16 @@ async function MemberInformation({ params }: { params: { memberId: string } }) {
 
   const dehydratedState = dehydrate(queryClient);
 
+  // "flex h-full flex-col overflow-y-auto [&::-webkit-scrollbar]:hidden"
   return (
-    <main className="flex h-full flex-col overflow-y-auto [&::-webkit-scrollbar]:hidden">
-      <HydrationBoundary state={dehydratedState}>
-        <Header />
-        <MemberProfile memberId={Number(memberId)} />
-        <PtHistoryContainer memberId={Number(memberId)} />
-      </HydrationBoundary>
-    </main>
+    <HeaderProvider back title="회원 정보">
+      <main className={commonLayoutContents}>
+        <HydrationBoundary state={dehydratedState}>
+          <MemberProfile memberId={Number(memberId)} />
+          <PtHistoryContainer memberId={Number(memberId)} />
+        </HydrationBoundary>
+      </main>
+    </HeaderProvider>
   );
 }
 

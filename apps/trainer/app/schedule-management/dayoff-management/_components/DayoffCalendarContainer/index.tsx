@@ -9,8 +9,8 @@ function DayoffCalendarContainer() {
   const [selectedDate, setSelectedDate] = useState<Date>();
 
   return (
-    <>
-      <section className="h-full">
+    <div className="flex flex-1 flex-col justify-between">
+      <section>
         <DayPicker
           selected={selectedDate}
           onSelect={setSelectedDate}
@@ -21,7 +21,7 @@ function DayoffCalendarContainer() {
       <footer>
         <DayoffAdderButton selectedDate={selectedDate} />
       </footer>
-    </>
+    </div>
   );
 }
 

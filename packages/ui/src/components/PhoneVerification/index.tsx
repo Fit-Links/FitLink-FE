@@ -64,7 +64,7 @@ function PhoneVerification({ onClick, verificationToken }: PhoneVerificationProp
   };
 
   return (
-    <main className="flex h-full w-full flex-col items-center">
+    <>
       <section className="mb-4">
         <PhoneVerificationGuide />
         <PhoneVerificationImage />
@@ -132,7 +132,7 @@ function PhoneVerification({ onClick, verificationToken }: PhoneVerificationProp
         onOpenChange={setIsVerificationInfoDialogOpen}
         verificationMessage={generateSnsBody("clipboard", verificationToken)}
       />
-    </main>
+    </>
   );
 }
 

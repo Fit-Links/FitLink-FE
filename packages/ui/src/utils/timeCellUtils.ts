@@ -1,14 +1,7 @@
+import { DayOfWeek } from "@5unwan/core/api/types/common";
+
 const MIDNIGHT = 0;
 const NOON = 12;
-
-type DaysOfWeek =
-  | "MONDAY"
-  | "TUESDAY"
-  | "WEDNESDAY"
-  | "THURSDAY"
-  | "FRIDAY"
-  | "SATURDAY"
-  | "SUNDAY";
 
 export const DAYS_OF_WEEK_MAP = [
   "MONDAY",
@@ -18,10 +11,10 @@ export const DAYS_OF_WEEK_MAP = [
   "FRIDAY",
   "SATURDAY",
   "SUNDAY",
-] satisfies DaysOfWeek[];
+] satisfies DayOfWeek[];
 
 export type TimeCell = {
-  dayOfWeek: DaysOfWeek;
+  dayOfWeek: DayOfWeek;
   time: string;
   disabled: boolean;
 };

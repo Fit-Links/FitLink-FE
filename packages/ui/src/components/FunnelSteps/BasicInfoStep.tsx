@@ -118,7 +118,7 @@ function BasicInfoStep({ onPrev, onNext }: BasicInfoStepProps) {
   }, []);
 
   return (
-    <div className="flex h-full flex-col">
+    <>
       <Header>
         <Header.Back onClick={onPrev} />
         <Header.Title content="내 정보" />
@@ -179,7 +179,7 @@ function BasicInfoStep({ onPrev, onNext }: BasicInfoStepProps) {
           다음
         </Button>
       </form>
-    </div>
+    </>
   );
 }
 

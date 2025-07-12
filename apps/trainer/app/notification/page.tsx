@@ -3,28 +3,24 @@
 
 import { NotificationInfo } from "@5unwan/core/api/types/common";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Header from "@ui/components/Header";
 import DateController from "@ui/lib/DateController";
 import { useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
+import { toast } from "sonner";
 
 import { notificationBaseKeys, notificationQueries } from "@trainer/queries/notification";
 
 import { readNotification } from "@trainer/services/notification";
 
-import NotificationSideBar from "@trainer/components/NotificationSideBar";
-
 import RouteInstance from "@trainer/constants/route";
 
 import NotificationContainer from "./_components/NotificationContainer";
 import NotificationListFallback from "./_components/NotificationListFallback";
-import NotificationSearch from "./_components/NotificationSearch";
 import SheetRenderer from "./_components/SheetRenderer";
 import { parseContent } from "./_utils/notificationParser";
 import { parseKoreanDateString } from "./_utils/parseKoreanDateString";
 
 function AllNotificationPage() {
-  const [isNotificationSearchOpen, setIsNotificationSearchOpen] = useState(false);
   const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);
   const [selectedNotification, setSelectedNotification] = useState<NotificationInfo>();
 
@@ -71,10 +67,6 @@ function AllNotificationPage() {
     onSuccess: () => {},
   });
 
-  const handleSelectResult = () => {
-    setIsNotificationSearchOpen(false);
-  };
-
   const handleNotificationClick = (notification: NotificationInfo) => () => {
     const { notificationId, type, content, sendDate, isProcessed } = notification;
 
@@ -89,12 +81,13 @@ function AllNotificationPage() {
       case "예약 요청":
         if (isProcessed) return;
 
-        readNotificationMutation.mutate(
-          { id: notificationId },
-          {
-            onSuccess: () => {},
-          },
-        );
+        readNotificationMutation.mutate({ id: notificationId });
+
+        if (parsedDate === null) {
+          toast.error("유효하지 않은 날짜의 일정입니다.");
+
+          return;
+        }
 
         router.push(
           RouteInstance["pending-reservations"]("", {
@@ -129,20 +122,7 @@ function AllNotificationPage() {
     : { message: "", eventDate: "", other: "" };
 
   return (
-    <div className="flex h-full flex-col">
-      <Header className="mb-4">
-        <Header.Left>
-          <NotificationSideBar />
-        </Header.Left>
-        <Header.Title content="전체 알림" />
-        <Header.Right>
-          <NotificationSearch
-            isOpen={isNotificationSearchOpen}
-            setIsOpen={setIsNotificationSearchOpen}
-            onSelectResult={handleSelectResult}
-          />
-        </Header.Right>
-      </Header>
+    <>
       <Suspense fallback={<NotificationListFallback />}>
         <NotificationContainer onClick={handleNotificationClick} />
       </Suspense>
@@ -159,7 +139,7 @@ function AllNotificationPage() {
             cancelReason: info.other || "",
           },
         )}
-    </div>
+    </>
   );
 }
 
