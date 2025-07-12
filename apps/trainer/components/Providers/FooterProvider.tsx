@@ -9,21 +9,15 @@ import RouteInstance from "@trainer/constants/route";
 import BottomNavigation from "../BottomNavigation";
 
 const PATHS = {
-  WITH_FOOTER: [
+  WITH_FOOTER: new Set([
     RouteInstance["schedule-management"](),
     RouteInstance["member-management"](),
     RouteInstance.notification(),
     RouteInstance["my-page"](),
-  ],
-  WITHOUT_FOOTER: [
-    RouteInstance.register(),
-    RouteInstance["sns-verification"](),
-    RouteInstance.login(),
-  ],
+  ]),
 };
 
-const doesPathNeedFooter = (pathName: string) =>
-  PATHS.WITH_FOOTER.some((route) => pathName.startsWith(route));
+const doesPathNeedFooter = (pathName: string) => PATHS.WITH_FOOTER.has(pathName);
 
 function FooterProvider({ children }: { children: React.ReactNode }) {
   const pathName = usePathname();
@@ -42,8 +36,8 @@ function FooterProvider({ children }: { children: React.ReactNode }) {
         )}
       >
         {children}
-        {hasFooter && <BottomNavigation />}
       </div>
+      {hasFooter && <BottomNavigation />}
     </>
   );
 }
