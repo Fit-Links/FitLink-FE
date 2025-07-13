@@ -15,11 +15,11 @@ const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
   const { data } = payload;
-  const { title, body } = data;
+  const { title, content } = data;
   
   const notificationTitle = title || "Fitlink";
   const notificationOptions = {
-    body,
+    body: content,
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);

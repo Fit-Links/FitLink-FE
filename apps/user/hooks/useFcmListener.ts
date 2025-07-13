@@ -21,14 +21,15 @@ export const useFcmListener = () => {
       }
       unsubscribe = onMessage(messaging, (payload) => {
         const { data } = payload;
+
         if (!data) return;
 
         setHasNewNotifications(true);
 
-        const { title, body } = data;
+        const { title, content } = data;
 
-        const parsedBody = body
-          ? parseContent(body)
+        const parsedBody = content
+          ? parseContent(content)
           : { message: null, eventDate: null, other: null };
 
         showFcmToastForReservation({
