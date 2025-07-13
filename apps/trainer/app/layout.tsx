@@ -26,16 +26,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={pretendard.variable}>
+    <html
+      lang="ko"
+      className={cn("bg-background-primary text-text-primary h-full", pretendard.variable)}
+    >
       <head>
         <PWAManifestLinks />
       </head>
-      <body
-        className={cn(
-          "bg-background-primary text-text-primary md:border-background-sub2 md:max-w-mobile relative box-content h-screen min-h-screen w-full md:mx-auto md:overflow-x-hidden md:border md:shadow-lg",
-          pretendard.className,
-        )}
-      >
+      <body className={cn("m-0 h-full", pretendard.className)}>
         <Providers>{children}</Providers>
       </body>
     </html>
