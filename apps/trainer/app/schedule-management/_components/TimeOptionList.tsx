@@ -50,7 +50,7 @@ export default function TimeOptionList({
         router.push(
           RouteInstance.reservation("", {
             selectedFormatDate: selectedFormatDate,
-            selectedDate: String(selectedDate),
+            selectedDate: selectedDate.toISOString(),
           }),
         );
         break;
