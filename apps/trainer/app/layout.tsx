@@ -28,12 +28,15 @@ export default function RootLayout({
   return (
     <html
       lang="ko"
-      className={cn("bg-background-primary text-text-primary h-full", pretendard.variable)}
+      className={cn(
+        "bg-background-primary text-text-primary flex h-full flex-col",
+        pretendard.variable,
+      )}
     >
       <head>
         <PWAManifestLinks />
       </head>
-      <body className={cn("m-0 h-full", pretendard.className)}>
+      <body className={cn("m-0 flex-1", pretendard.className)}>
         <Providers>{children}</Providers>
       </body>
     </html>
