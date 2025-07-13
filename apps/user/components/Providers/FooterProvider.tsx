@@ -32,10 +32,10 @@ function FooterProvider({ children }: { children: React.ReactNode }) {
     <>
       <div
         className={cn(
-          "bg-background-primary text-text-primary md:border-background-sub2 md:max-w-mobile relative mx-0 box-content flex flex-col px-4 md:mx-auto md:border md:shadow-lg",
+          "bg-background-primary text-text-primary md:border-background-sub2 md:max-w-mobile relative mx-0 box-content flex min-h-[calc(100%-5.063rem)] flex-col px-4 md:mx-auto md:border md:shadow-lg",
           {
-            "h-[calc(100%-5.063rem)] min-h-[calc(100%-5.063rem)] pb-[5.063rem]": hasFooter,
-            "h-[calc(100%-2.125rem)] min-h-[calc(100%-2.125rem)] pb-[2.125rem]": !hasFooter,
+            "min-h-[calc(100%-5.063rem)] pb-[5.063rem]": hasFooter,
+            "min-h-[calc(100%-2.125rem)] pb-[2.125rem]": !hasFooter,
           },
         )}
       >
