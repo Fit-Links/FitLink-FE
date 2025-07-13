@@ -1,19 +1,24 @@
 import { Suspense } from "react";
 
-import Header from "../_components/Header";
+import HeaderProvider from "@user/components/Providers/HeaderProvider";
+
+import { commonLayoutContents } from "@user/constants/styles";
+
 import MyDetailInformations from "./_components/MyDetailInformations";
 import MyInformationAvatar from "./_components/MyInformationAvatar";
 import MyInformationSkeleton from "./_components/Skeleton";
 
 export default function MyInformation() {
   return (
-    <main className="flex h-screen w-full flex-col items-center ">
-      <Header title="내 정보" />
-
-      <Suspense fallback={<MyInformationSkeleton />}>
-        <MyInformationAvatar />
-        <MyDetailInformations />
-      </Suspense>
-    </main>
+    <HeaderProvider title="내 정보" back>
+      <main className={commonLayoutContents}>
+        <Suspense fallback={<MyInformationSkeleton />}>
+          <div className="flex flex-col items-center">
+            <MyInformationAvatar />
+            <MyDetailInformations />
+          </div>
+        </Suspense>
+      </main>
+    </HeaderProvider>
   );
 }

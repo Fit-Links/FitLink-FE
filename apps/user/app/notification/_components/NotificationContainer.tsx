@@ -45,7 +45,7 @@ function NotificationContainer() {
   const setHasNewNotifications = useNotificationStore((state) => state.setHasNewNotifications);
 
   return (
-    <div className="h-full">
+    <>
       <div className="bg-background-primary sticky top-[35px] flex items-center justify-between py-2">
         <Text.Body3>{`${data.pages[0].data.totalElements}개의 알림`}</Text.Body3>
         <Text.Body3>최신순</Text.Body3>
@@ -67,7 +67,7 @@ function NotificationContainer() {
         </div>
       )}
       {data.pages[0].data.totalElements ? (
-        <ul className="flex flex-col items-center gap-4">
+        <ul className="flex flex-col gap-4">
           {data.pages.map((group, index) => (
             <Fragment key={`notificationGroup-${index}`}>
               {group.data.content.map((notification) => {
@@ -89,7 +89,7 @@ function NotificationContainer() {
       ) : (
         <EmptyList />
       )}
-    </div>
+    </>
   );
 }
 

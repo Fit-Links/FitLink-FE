@@ -8,7 +8,6 @@ import React, { useEffect, useState } from "react";
 import { myInformationQueries } from "@user/queries/myInformation";
 
 import SuccessEditPreferenceTimeBottomSheet from "./BottomSheet/SuccessEditPreferenceTimeBottomSheet";
-import Header from "../../_components/Header";
 import MyPagePending from "../../_components/MyPagePending";
 import useEditPreferenceTimeMutation from "../_hooks/useEditPreferenceTimeMutation";
 
@@ -44,9 +43,7 @@ export default function EditPreferenceTimeContainer() {
   }, [isSuccess]);
 
   return (
-    <div className="flex h-full flex-col pb-[1.5625rem]">
-      <Header title="PT 희망 시간" />
-
+    <div className="flex flex-1 flex-col pb-[1.5625rem]">
       <section className="mt-[0.625rem] text-center">
         <p className="text-body-1 text-text-sub2">PT 시간 : 50분</p>
         <p className="text-body-1 text-text-sub2">PT 선택 시간은 시작 시간입니다.</p>

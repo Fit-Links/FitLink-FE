@@ -1,11 +1,17 @@
 import React from "react";
 
+import HeaderProvider from "@user/components/Providers/HeaderProvider";
+
+import { commonLayoutContents } from "@user/constants/styles";
+
 import EditPreferenceTimeContainer from "./_components/EditPreferenceTimeContainer";
 
 export default async function EditWorkoutSchedules() {
   return (
-    <main className="flex h-screen w-full flex-col">
-      <EditPreferenceTimeContainer />
-    </main>
+    <HeaderProvider title="PT 희망 시간" back>
+      <main className={commonLayoutContents}>
+        <EditPreferenceTimeContainer />
+      </main>
+    </HeaderProvider>
   );
 }

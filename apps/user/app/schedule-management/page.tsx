@@ -1,7 +1,10 @@
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import { cn } from "@ui/lib/utils";
 import { Suspense } from "react";
 
 import { myInformationQueries } from "@user/queries/myInformation";
+
+import HeaderProvider from "@user/components/Providers/HeaderProvider";
 
 import Calendar from "./_components/Calendar";
 import ReservationAdder from "./_components/ReservationAdder";
@@ -13,14 +16,17 @@ async function ScheduleManagement() {
   await queryClient.prefetchQuery(myInformationQueries.summary());
 
   return (
-    <main className="relative flex h-full w-full justify-center overflow-y-auto">
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <Suspense fallback={<LoadingFallback />}>
-          <Calendar />
-        </Suspense>
-        <ReservationAdder />
-      </HydrationBoundary>
-    </main>
+    <HeaderProvider>
+      {/* TODO: main 및 Calendar 레이아웃 반응형으로 변경하기 */}
+      <main className={cn("relative h-[80vh]")}>
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <Suspense fallback={<LoadingFallback />}>
+            <Calendar />
+          </Suspense>
+          <ReservationAdder />
+        </HydrationBoundary>
+      </main>
+    </HeaderProvider>
   );
 }
 
