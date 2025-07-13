@@ -15,7 +15,7 @@ import {
 } from "@ui/components/Sheet";
 import Spinner from "@ui/components/Spinner";
 import { VisuallyHidden } from "@ui/components/VisuallyHidden";
-import { format, subHours } from "date-fns";
+import { format } from "date-fns";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -42,7 +42,7 @@ function ReservationAdderButton({ selectedMemberInformation }: ReservationAdderB
 
   const selectedDate = searchParams.get("selectedDate") as string;
 
-  const koreanFormattedDate = format(subHours(new Date(selectedDate as string), 9), "yyyy-MM-dd");
+  const koreanFormattedDate = format(new Date(selectedDate as string), "yyyy-MM-dd");
 
   const { data: myInformation } = useSuspenseQuery(myInformationQueries.myInformation());
   const { data: reservationList } = useSuspenseQuery(reservationQueries.list(koreanFormattedDate));

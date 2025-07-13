@@ -14,10 +14,9 @@ export const getNotification = ({ page, size }: GetNotificationRequestQuery) =>
     params: { page, size },
   });
 
-export const readNotification = (data: ReadNotificationRequestBody) =>
+export const readNotification = ({ id }: ReadNotificationRequestBody) =>
   http.patch<ReadNotificationApiResponse>({
-    url: `/v1/notifications`,
-    data,
+    url: `/v1/notifications/${id}`,
   });
 
 export const sendPushToken = (data: SendPushTokenRequestBody) =>

@@ -24,7 +24,6 @@ async function PendingReservations({ searchParams }: PendingReservationsProps) {
     <main className="flex h-full flex-col">
       <Header />
       <PendingReservationContainer
-        emptyErrorCheckSelectedDate={selectedDate}
         formattedAdjustedDate={formattedAdjustedDate}
         selectedDate={koreanDateTimeFormat}
       />

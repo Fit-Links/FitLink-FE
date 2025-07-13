@@ -12,12 +12,20 @@ import {
   ReservationDetailStatusRequestPath,
   ReservationStatusApiResponse,
   ReservationStatusRequestQuery,
+  TrainerReservationStatusApiResponse,
+  TrainerReservationStatusPathParams,
 } from "./types/reservations.dto";
 
 const RESERVATION_BASE_URL = "reservations";
 
 export const getReservationStatus = ({ date }: ReservationStatusRequestQuery) =>
   http.get<ReservationStatusApiResponse>({ url: `/v1/${RESERVATION_BASE_URL}`, params: { date } });
+
+export const getTrainerReservationStatus = ({ date }: TrainerReservationStatusPathParams) =>
+  http.get<TrainerReservationStatusApiResponse>({
+    url: `/v1/${RESERVATION_BASE_URL}/trainers`,
+    params: { date },
+  });
 
 export const getReservationDetailStatus = ({ reservationId }: ReservationDetailStatusRequestPath) =>
   http.get<ReservationDetailStatusApiResponse>({

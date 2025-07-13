@@ -26,6 +26,7 @@ function NotificationContainer() {
   const { isPending, variables, mutate } = useMutation({
     mutationFn: readNotification,
     onSettled: () => queryClient.invalidateQueries(notificationQueries.list()),
+    onSuccess: () => {},
   });
 
   const throttled = throttle((id: number) => mutate({ id }), API_THROTTLE_LIMIT);

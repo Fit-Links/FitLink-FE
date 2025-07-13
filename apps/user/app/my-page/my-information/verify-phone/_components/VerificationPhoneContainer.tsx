@@ -20,7 +20,6 @@ export default function VerificationPhoneContainer({
   const linkRef = useRef<HTMLAnchorElement>(null);
 
   const handleButtonClick = () => {
-    console.log("click");
     linkRef.current?.setAttribute(
       "href",
       `sms:verification@fitlink.biz?body=${generateSnsBody(verificationToken)}`,
