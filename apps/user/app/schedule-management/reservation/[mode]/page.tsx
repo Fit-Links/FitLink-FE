@@ -44,17 +44,20 @@ async function Reservation({ params, searchParams }: ReservationParams) {
   ]);
 
   return (
-    <main className="flex h-full flex-col items-center overflow-hidden">
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <Header mode={mode} />
-        <ReservationContainer
-          mode={mode}
-          reservationDate={reservationDate}
-          reservationDateTime={reservationDateTime}
-          firstDayOfMonthKorea={firstDayOfMonthKorea}
-        />
-      </HydrationBoundary>
-    </main>
+    <>
+      <Header mode={mode} />
+
+      <main className="flex h-full flex-col items-center overflow-hidden">
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <ReservationContainer
+            mode={mode}
+            reservationDate={reservationDate}
+            reservationDateTime={reservationDateTime}
+            firstDayOfMonthKorea={firstDayOfMonthKorea}
+          />
+        </HydrationBoundary>
+      </main>
+    </>
   );
 }
 
