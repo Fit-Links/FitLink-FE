@@ -2,8 +2,11 @@
 
 import React from "react";
 
+import HeaderProvider from "@user/components/Providers/HeaderProvider";
+
+import { commonLayoutContents } from "@user/constants/styles";
+
 import VerificationPhoneContainer from "./_components/VerificationPhoneContainer";
-import Header from "../../_components/Header";
 
 // const REFETCH_INTERVAL = 5000;
 
@@ -28,9 +31,10 @@ export default function VerifyPhone() {
   // }
 
   return (
-    <main className="flex h-screen w-full flex-col items-center justify-between">
-      <Header title="휴대폰 인증" />
-      <VerificationPhoneContainer onClick={handleClick} verificationToken={MOCK_TOKEN} />
-    </main>
+    <HeaderProvider title="휴대폰 인증" back>
+      <main className={commonLayoutContents}>
+        <VerificationPhoneContainer onClick={handleClick} verificationToken={MOCK_TOKEN} />
+      </main>
+    </HeaderProvider>
   );
 }

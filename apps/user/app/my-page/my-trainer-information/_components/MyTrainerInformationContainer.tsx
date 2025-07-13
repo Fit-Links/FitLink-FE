@@ -16,7 +16,7 @@ export default function MyTrainerInformationContainer() {
   const myTrainerInformation = response?.data;
 
   return (
-    <>
+    <div className="flex flex-1 flex-col items-center">
       <ProfileImage
         name={myTrainerInformation.trainerName ?? ""}
         profilePictureUrl={myTrainerInformation?.trainerProfileUrl ?? ""}
@@ -31,6 +31,6 @@ export default function MyTrainerInformationContainer() {
       </ProfileItem>
 
       <TrainerUnlinkItem />
-    </>
+    </div>
   );
 }
