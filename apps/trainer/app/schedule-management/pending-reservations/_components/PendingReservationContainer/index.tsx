@@ -1,4 +1,5 @@
 "use client";
+
 import { useQuery } from "@tanstack/react-query";
 import { addHours, format } from "date-fns";
 import { useState } from "react";
@@ -14,18 +15,15 @@ import MemberCardList from "./MemberCardList";
 type PendingReservationContainerProps = {
   formattedAdjustedDate: string;
   selectedDate: string;
-  emptyErrorCheckSelectedDate: Date;
+  emptyErrorCheckSelectedDate?: Date;
 };
 
 function PendingReservationContainer({
   formattedAdjustedDate,
   selectedDate,
-  emptyErrorCheckSelectedDate,
 }: PendingReservationContainerProps) {
   const [selectedMemberInformation, setSelectedMemberInformation] =
     useState<ReservationDetailPendingStatus | null>(null);
-
-  console.log("쿼리파람 SelectedDate 체크:", emptyErrorCheckSelectedDate);
 
   const NINE_HOURS = 9;
   const isProduction = process.env.NODE_ENV === "production";
@@ -37,8 +35,6 @@ function PendingReservationContainer({
   const { data: reservationPendingList, isLoading } = useQuery(
     reservationQueries.pendingDetail(formattedDate),
   );
-
-  console.log("예약 대기 리스트 확인용 콘솔:", reservationPendingList);
 
   return (
     <section className="flex h-full w-full flex-col overflow-hidden pt-[1.688rem]">
