@@ -80,14 +80,14 @@ export default function TimeOptionList({
 
   return (
     <div className="mb-[1.625rem] ml-[1.063rem] mt-[1.25rem] flex items-center gap-1.5 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-      <TimeOption onClick={() => handleClickTimeOption("reservation")}>
+      <TimeOption className="flex-1" onClick={() => handleClickTimeOption("reservation")}>
         <TimeOption.Icon iconName={"Dumbbell"} />
         <TimeOption.Content>
           <div>PT 예약</div>
         </TimeOption.Content>
       </TimeOption>
 
-      <TimeOption onClick={() => handleClickTimeOption("fixed-reservation")}>
+      <TimeOption className="flex-1" onClick={() => handleClickTimeOption("fixed-reservation")}>
         <TimeOption.Icon iconName={"CalendarClock"} />
         <TimeOption.Content>
           <div>PT</div>
@@ -95,7 +95,7 @@ export default function TimeOptionList({
         </TimeOption.Content>
       </TimeOption>
 
-      <TimeOption onClick={handleCloseScheduleBottomSheet}>
+      <TimeOption className="flex-1" onClick={handleCloseScheduleBottomSheet}>
         <TimeOption.Icon iconName={"CalendarX2"} />
         <TimeOption.Content>
           {isPending ? (
@@ -109,7 +109,7 @@ export default function TimeOptionList({
         </TimeOption.Content>
       </TimeOption>
 
-      <TimeOption onClick={() => handleClickTimeOption("dayoff-management")}>
+      <TimeOption className="flex-1" onClick={() => handleClickTimeOption("dayoff-management")}>
         <TimeOption.Icon iconName={"CalendarMinus"} />
         <TimeOption.Content>
           <div>휴무일</div>
