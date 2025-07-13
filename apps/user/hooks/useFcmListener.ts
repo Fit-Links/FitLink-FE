@@ -20,12 +20,12 @@ export const useFcmListener = () => {
         return;
       }
       unsubscribe = onMessage(messaging, (payload) => {
-        const { notification } = payload;
-        if (!notification) return;
+        const { data } = payload;
+        if (!data) return;
 
         setHasNewNotifications(true);
 
-        const { title, body } = notification;
+        const { title, body } = data;
 
         const parsedBody = body
           ? parseContent(body)
