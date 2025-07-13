@@ -2,7 +2,7 @@
 
 import { cn } from "@ui/lib/utils";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
 import RouteInstance from "@trainer/constants/route";
 
@@ -23,20 +23,24 @@ function FooterProvider({ children }: { children: React.ReactNode }) {
   const pathName = usePathname();
   const hasFooter = doesPathNeedFooter(pathName);
 
+  const [isNavigating, setIsNavigating] = useState(false);
+
   return (
     <>
       <div
         className={cn(
-          "bg-background-primary text-text-primary md:border-background-sub2 md:max-w-mobile relative mx-0 box-content flex min-h-[calc(100%-5.063rem)] flex-col px-4 md:mx-auto md:border md:shadow-lg",
+          "bg-background-primary text-text-primary md:border-background-sub2 md:max-w-mobile relative mx-0 box-content flex min-h-[calc(100%-5.063rem)] flex-col md:mx-auto md:border md:shadow-lg",
           {
             "min-h-[calc(100%-5.063rem)] pb-[5.063rem]": hasFooter,
             "min-h-[calc(100%-2.125rem)] pb-[2.125rem]": !hasFooter,
           },
         )}
       >
-        {children}
+        {!isNavigating && <div className="h-full w-full px-4">{children}</div>}
+        {hasFooter && (
+          <BottomNavigation isNavigating={isNavigating} setIsNavigating={setIsNavigating} />
+        )}
       </div>
-      {hasFooter && <BottomNavigation />}
     </>
   );
 }

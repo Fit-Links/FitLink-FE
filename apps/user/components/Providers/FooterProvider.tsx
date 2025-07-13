@@ -2,7 +2,7 @@
 
 import { cn } from "@ui/lib/utils";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
 import RouteInstance from "@user/constants/routes";
 
@@ -22,6 +22,8 @@ function FooterProvider({ children }: { children: React.ReactNode }) {
   const pathName = usePathname();
   const hasFooter = doesPathNeedFooter(pathName);
 
+  const [isNavigating, setIsNavigating] = useState(false);
+
   return (
     <>
       <div
@@ -30,9 +32,11 @@ function FooterProvider({ children }: { children: React.ReactNode }) {
           "pb-[2.125rem]": !hasFooter,
         })}
       >
-        {children}
+        {!isNavigating && children}
       </div>
-      {hasFooter && <BottomNavigation />}
+      {hasFooter && (
+        <BottomNavigation isNavigating={isNavigating} setIsNavigating={setIsNavigating} />
+      )}
     </>
   );
 }
