@@ -36,10 +36,10 @@ function FooterProvider({ children }: { children: React.ReactNode }) {
         )}
       >
         {!isNavigating && children}
+        {hasFooter && (
+          <BottomNavigation isNavigating={isNavigating} setIsNavigating={setIsNavigating} />
+        )}
       </div>
-      {hasFooter && (
-        <BottomNavigation isNavigating={isNavigating} setIsNavigating={setIsNavigating} />
-      )}
     </>
   );
 }
