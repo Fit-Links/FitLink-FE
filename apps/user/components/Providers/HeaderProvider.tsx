@@ -12,13 +12,21 @@ type HeaderProviderProps = {
   left?: ReactNode;
   right?: ReactNode;
   back?: boolean;
+  subHeader?: ReactNode;
 };
-function HeaderProvider({ children, title, left, right, back = false }: HeaderProviderProps) {
+function HeaderProvider({
+  children,
+  title,
+  left,
+  right,
+  subHeader,
+  back = false,
+}: HeaderProviderProps) {
   const router = useRouter();
 
   return (
     <>
-      <Header logo={<Logo />}>
+      <Header logo={<Logo />} subHeader={subHeader}>
         {back && <Header.Back onClick={router.back} />}
         {left && !back && <Header.Left>{left}</Header.Left>}
         {title && <Header.Title content={title} />}
