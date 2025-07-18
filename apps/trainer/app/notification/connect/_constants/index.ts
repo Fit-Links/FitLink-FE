@@ -1,2 +1,4 @@
-export const NOTIFICATION_TYPE = "트레이너 연동";
-export const NOTIFICATION_QUERY_TYPE = "CONNECT";
+import { notificationMap } from "../../_constants";
+
+export const NOTIFICATION_TYPE = notificationMap.connect.type;
+export const NOTIFICATION_QUERY_TYPE = notificationMap.connect.queryType;
