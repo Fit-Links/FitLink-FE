@@ -7,11 +7,11 @@ import Header from "@ui/components/Header";
 import { ToggleGroup, ToggleGroupItem } from "@ui/components/ToggleGroup";
 import { useRef, useState, Fragment, Suspense, useEffect } from "react";
 
+import NotificationSideBar from "@trainer/app/notification/_components/NotificationSideBar";
 import { notificationQueries } from "@trainer/queries/notification";
 import { useNotificationStore } from "@trainer/store/notificationStore";
 
 import Logo from "@trainer/components/Logo";
-import NotificationSideBar from "@trainer/components/NotificationSideBar";
 
 import useIntersectionObserver from "@trainer/hooks/useIntersectionObserver";
 
@@ -85,7 +85,7 @@ function SessionNotificationContent({ onNotificationClick }: SessionNotification
         <Header.Left>
           <NotificationSideBar />
         </Header.Left>
-        <Header.Title content="PT 수업" />
+        <Header.Title content={NOTIFICATION_TYPE} />
         <Header.Right>
           <NotificationSearch />
         </Header.Right>

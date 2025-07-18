@@ -7,11 +7,11 @@ import Header from "@ui/components/Header";
 import { ToggleGroup, ToggleGroupItem } from "@ui/components/ToggleGroup";
 import { Fragment, useRef, useState } from "react";
 
+import NotificationSideBar from "@trainer/app/notification/_components/NotificationSideBar";
 import { notificationQueries } from "@trainer/queries/notification";
 import { useNotificationStore } from "@trainer/store/notificationStore";
 
 import Logo from "@trainer/components/Logo";
-import NotificationSideBar from "@trainer/components/NotificationSideBar";
 
 import useIntersectionObserver from "@trainer/hooks/useIntersectionObserver";
 
