@@ -100,6 +100,15 @@ function NotificationSearchContent({ search, onProfileClick }: NotificationSearc
   );
 }
 
+type NotificationSearchSubHeaderProps = {
+  selected: number | null;
+};
+const NotificationSearchSubHeader = ({ selected }: NotificationSearchSubHeaderProps) => (
+  <p className="text-body-1 text-text-sub2 text-center">
+    {selected === null ? "회원을 검색해주세요" : `회원 알림 검색`}
+  </p>
+);
+
 function NotificationSearch() {
   const [search, setSearch] = useState<string | undefined>();
   const [selected, setSelected] = useState<number | null>(null);
@@ -128,7 +137,7 @@ function NotificationSearch() {
             있도록 도와줍니다
           </DialogDescription>
         </VisuallyHidden>
-        <Header logo={<Logo />} className="mb-4">
+        <Header logo={<Logo />} subHeader={<NotificationSearchSubHeader selected={selected} />}>
           {selected === null && (
             <DialogClose>
               <Header.Back onClick={() => {}} />
