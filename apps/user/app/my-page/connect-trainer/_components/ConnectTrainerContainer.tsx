@@ -3,11 +3,5 @@ import React from "react";
 import InputOTP from "./InputOTP";
 
 export default function ConnectTrainerContainer() {
-  return (
-    <>
-      <p className="text-body-1 text-text-sub2"> 트레이너에게 받은 코드를 입력해주세요</p>
-
-      <InputOTP />
-    </>
-  );
+  return <InputOTP />;
 }
