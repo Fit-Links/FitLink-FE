@@ -113,6 +113,7 @@ function MemberNotificationResult({ memberId }: MemberNotificationResultProps) {
           type="single"
           value={category}
           onValueChange={setCategory as (value: string) => void}
+          className="flex items-center justify-start overflow-x-auto [&::-webkit-scrollbar]:hidden"
         >
           <ToggleGroupItem value="ALL" className="flex-shrink-0">
             전체
