@@ -78,7 +78,7 @@ const InputField = forwardRef<HTMLInputElement, InputFiledProps>(
         <Input
           id={id}
           ref={ref}
-          className={cn("bg-background-sub2 flex-1 px-9", className)}
+          className={cn("bg-background-sub2 w-full flex-1 px-9", className)}
           placeholder="검색어를 입력하세요"
           value={content}
           onChange={handleChangeContent}
