@@ -1,2 +1,4 @@
-export const NOTIFICATION_TYPE = "세션";
-export const NOTIFICATION_QUERY_TYPE = "SESSION";
+import { notificationMap } from "../../_constants";
+
+export const NOTIFICATION_TYPE = notificationMap.session.type;
+export const NOTIFICATION_QUERY_TYPE = notificationMap.session.queryType;

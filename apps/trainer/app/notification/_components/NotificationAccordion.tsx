@@ -10,27 +10,29 @@ import { Bell, Calendar, Dumbbell, HeartHandshake } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 
+import { notificationMap } from "@trainer/app/notification/_constants";
+
 import RouteInstance from "@trainer/constants/route";
 
 export default function NotificationAccordion() {
   const NOTIFICATION_ACCORDION_ITEMS = useMemo(
     () => [
       {
-        title: "회원 연동",
+        title: "연동",
         contents: [
           {
-            content: "연동 승인",
+            content: notificationMap.connect.type,
             route: "connect",
           },
           {
-            content: "연동 해제",
+            content: notificationMap.disconnect.type,
             route: "disconnect",
           },
         ],
         icon: <HeartHandshake />,
       },
       {
-        title: "PT 수업",
+        title: notificationMap.session.type,
         contents: [],
         icon: <Dumbbell />,
         route: "session",
@@ -39,15 +41,15 @@ export default function NotificationAccordion() {
         title: "PT 예약",
         contents: [
           {
-            content: "예약 요청",
+            content: notificationMap.reservation.type,
             route: "reservation",
           },
           {
-            content: "예약 변경",
+            content: notificationMap["reservation-change"].type,
             route: "reservation-change",
           },
           {
-            content: "예약 취소",
+            content: notificationMap["reservation-cancel"].type,
             route: "reservation-cancel",
           },
         ],

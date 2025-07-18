@@ -7,11 +7,11 @@ import Header from "@ui/components/Header";
 import { ToggleGroup, ToggleGroupItem } from "@ui/components/ToggleGroup";
 import { Fragment, Suspense, useEffect, useRef, useState } from "react";
 
+import NotificationSideBar from "@trainer/app/notification/_components/NotificationSideBar";
 import { notificationQueries } from "@trainer/queries/notification";
 import { useNotificationStore } from "@trainer/store/notificationStore";
 
 import Logo from "@trainer/components/Logo";
-import NotificationSideBar from "@trainer/components/NotificationSideBar";
 
 import useIntersectionObserver from "@trainer/hooks/useIntersectionObserver";
 
@@ -88,7 +88,7 @@ function ReservationChangeNotificationContent({
         <Header.Left>
           <NotificationSideBar />
         </Header.Left>
-        <Header.Title content="예약 변경" />
+        <Header.Title content={NOTIFICATION_TYPE} />
         <Header.Right>
           <NotificationSearch />
         </Header.Right>

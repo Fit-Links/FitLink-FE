@@ -9,6 +9,7 @@ import { notificationQueries } from "@trainer/queries/notification";
 
 import useIntersectionObserver from "@trainer/hooks/useIntersectionObserver";
 
+import { notificationMap } from "../../_constants";
 import { NotificationStatus } from "../../_types";
 import createFilteredNotificationCount from "../../_utils/createFilteredNotificationCount";
 import handleNotificationFilter from "../../_utils/handleNotificationFilter";
@@ -115,24 +116,11 @@ function MemberNotificationResult({ memberId }: MemberNotificationResultProps) {
           onValueChange={setCategory as (value: string) => void}
           className="flex items-center justify-start overflow-x-auto [&::-webkit-scrollbar]:hidden"
         >
-          <ToggleGroupItem value="ALL" className="flex-shrink-0">
-            전체
-          </ToggleGroupItem>
-          <ToggleGroupItem value="CONNECT" className="flex-shrink-0">
-            트레이너 연동
-          </ToggleGroupItem>
-          <ToggleGroupItem value="DISCONNECT" className="flex-shrink-0">
-            트레이너 연동 해제
-          </ToggleGroupItem>
-          <ToggleGroupItem value="RESERVATION_REQUEST" className="flex-shrink-0">
-            예약 요청
-          </ToggleGroupItem>
-          <ToggleGroupItem value="RESERVATION_CHANGE_CANCEL" className="flex-shrink-0">
-            예약 변경/취소
-          </ToggleGroupItem>
-          <ToggleGroupItem value="SESSION" className="flex-shrink-0">
-            세션
-          </ToggleGroupItem>
+          {Object.entries(notificationMap).map(([key, { type, queryType }]) => (
+            <ToggleGroupItem value={queryType} className="flex-shrink-0" key={key}>
+              {type}
+            </ToggleGroupItem>
+          ))}
         </ToggleGroup>
 
         <ToggleGroup

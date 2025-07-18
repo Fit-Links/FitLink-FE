@@ -1,2 +1,4 @@
-export const NOTIFICATION_TYPE = "트레이너 연동 해제";
-export const NOTIFICATION_QUERY_TYPE = "DISCONNECT";
+import { notificationMap } from "../../_constants";
+
+export const NOTIFICATION_TYPE = notificationMap.disconnect.type;
+export const NOTIFICATION_QUERY_TYPE = notificationMap.disconnect.queryType;

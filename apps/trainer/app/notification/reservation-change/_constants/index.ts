@@ -1,2 +1,4 @@
-export const NOTIFICATION_TYPE = "예약 변경";
-export const NOTIFICATION_QUERY_TYPE = "RESERVATION_CHANGE";
+import { notificationMap } from "../../_constants";
+
+export const NOTIFICATION_TYPE = notificationMap["reservation-change"].type;
+export const NOTIFICATION_QUERY_TYPE = notificationMap["reservation-change"].queryType;
