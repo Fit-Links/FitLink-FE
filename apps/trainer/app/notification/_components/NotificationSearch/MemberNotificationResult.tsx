@@ -127,8 +127,11 @@ function MemberNotificationResult({ memberId }: MemberNotificationResultProps) {
           <ToggleGroupItem value="RESERVATION_REQUEST" className="flex-shrink-0">
             예약 요청
           </ToggleGroupItem>
-          <ToggleGroupItem value="RESERVATION_CHANGE_CANCEL" className="flex-shrink-0">
-            예약 변경/취소
+          <ToggleGroupItem value="RESERVATION_CHANGE" className="flex-shrink-0">
+            예약 변경
+          </ToggleGroupItem>
+          <ToggleGroupItem value="RESERVATION_CANCEL" className="flex-shrink-0">
+            예약 취소
           </ToggleGroupItem>
           <ToggleGroupItem value="SESSION" className="flex-shrink-0">
             세션
