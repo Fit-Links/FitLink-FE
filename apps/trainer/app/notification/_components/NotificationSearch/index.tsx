@@ -129,7 +129,7 @@ function NotificationSearch() {
       <DialogTrigger asChild>
         <Search color="white" />
       </DialogTrigger>
-      <DialogContent className="bg-background-primary flex h-full w-full flex-col rounded-none py-0">
+      <DialogContent className="bg-background-primary md:w-mobile md:data-[state=closed]:slide-out-to-left-[calc((100%-30rem)/2)] md:data-[state=closed]:slide-out-to-top-[calc((100%-30rem)/2)] md:data-[state=open]:slide-in-from-left-[calc((100%-30rem)/2)] md:data-[state=open]:slide-in-from-top-[calc((100%-30rem)/2)] flex h-full w-full flex-col rounded-none py-0 md:inset-x-[calc((100%-30rem)/2)] md:top-0 md:translate-x-0 md:translate-y-0">
         <VisuallyHidden>
           <DialogTitle>알림 검색</DialogTitle>
           <DialogDescription>
