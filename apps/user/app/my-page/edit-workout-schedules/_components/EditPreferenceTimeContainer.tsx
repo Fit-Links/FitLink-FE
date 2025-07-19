@@ -1,7 +1,7 @@
 "use client";
 
 import { PreferredWorkout } from "@5unwan/core/api/types/common";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import WorkoutForm from "@ui/components/WorkoutForm";
 import React, { useEffect, useState } from "react";
 
@@ -14,7 +14,7 @@ import useEditPreferenceTimeMutation from "../_hooks/useEditPreferenceTimeMutati
 export default function EditPreferenceTimeContainer() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-  const { data: myInformation } = useQuery(myInformationQueries.summary());
+  const { data: myInformation } = useSuspenseQuery(myInformationQueries.summary());
 
   const prevScheudle = myInformation?.data.workoutSchedules;
 
@@ -48,8 +48,10 @@ export default function EditPreferenceTimeContainer() {
         <p className="text-body-1 text-text-sub2">PT 시간 : 50분</p>
         <p className="text-body-1 text-text-sub2">PT 선택 시간은 시작 시간입니다.</p>
       </section>
-
-      <WorkoutForm onSubmit={(editedData) => handleClickOnSubmit(editedData)} />
+      <WorkoutForm
+        currentWorkout={prevScheudle}
+        onSubmit={(editedData) => handleClickOnSubmit(editedData)}
+      />
       <SuccessEditPreferenceTimeBottomSheet open={isSheetOpen} onOpenChange={setIsSheetOpen} />
       {isPending && <MyPagePending />}
     </div>
