@@ -27,15 +27,23 @@ const generateTimeCells: (dayOfWeek: Days) => TimeCell[] = (dayOfWeek) => {
 
 type WorkoutFormProps = {
   onSubmit: (workoutSchedule: Omit<PreferredWorkout, "workoutScheduleId">[]) => void;
+  currentWorkout?: PreferredWorkout[];
 };
-function WorkoutForm({ onSubmit }: WorkoutFormProps) {
+function WorkoutForm({ onSubmit, currentWorkout }: WorkoutFormProps) {
   const [currentDay, setCurrentDay] = React.useState<Days>(Days.Monday);
-  const [workoutForm, setWorkoutForm] = React.useState([
-    ...Array.from({ length: 7 }, (_v, index) => ({
-      dayOfWeek: DAYS_OF_WEEK_MAP[index],
-      preferenceTimes: [] as string[],
-    })),
-  ]);
+  const [workoutForm, setWorkoutForm] = React.useState(() =>
+    currentWorkout
+      ? // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        currentWorkout.map(({ workoutScheduleId: _, ...dailyWorkout }) => {
+          return dailyWorkout;
+        })
+      : [
+          ...Array.from({ length: 7 }, (_v, index) => ({
+            dayOfWeek: DAYS_OF_WEEK_MAP[index],
+            preferenceTimes: [] as string[],
+          })),
+        ],
+  );
 
   const filledDays = workoutForm
     ? workoutForm.map((dayForm) => dayForm.preferenceTimes.length > EMPTY_DAY_FORM)
