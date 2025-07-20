@@ -15,9 +15,15 @@ const PATHS = {
     RouteInstance.notification(),
     RouteInstance["my-page"](),
   ]),
+  WITH_FOOTER_PREFIX: [RouteInstance.notification()],
 };
 
-const doesPathNeedFooter = (pathName: string) => PATHS.WITH_FOOTER.has(pathName);
+const doesPathNeedFooter = (pathName: string) => {
+  if (PATHS.WITH_FOOTER_PREFIX.some((prefix) => pathName.startsWith(prefix))) return true;
+  if (PATHS.WITH_FOOTER.has(pathName)) return true;
+
+  return false;
+};
 
 function FooterProvider({ children }: { children: React.ReactNode }) {
   const pathName = usePathname();
