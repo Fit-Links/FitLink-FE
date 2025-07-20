@@ -68,7 +68,7 @@ export default function EditScheduleConfirmStep({ onPrev, context }: EditSchedul
           변경하고 싶은 시간이 맞는지 확인해주세요
         </p>
 
-        <div className="bg-background-sub2 mt-[3.25rem] min-h-[3rem] w-full rounded-lg py-[1.25rem]">
+        <div className="bg-background-sub2 mt-[3.25rem] min-h-[3rem] w-full rounded-lg py-[1.25rem] text-center">
           <p className="text-subhead-1 text-text-primary">
             {availableTimes?.map((time) => (
               <p key={time.dayOfWeek}>{formatAvailableScheduleConfirm(time)}</p>
@@ -77,12 +77,7 @@ export default function EditScheduleConfirmStep({ onPrev, context }: EditSchedul
         </div>
       </div>
       <ScheduleChangeResultSheet scheduleApplyAt={applyAt}>
-        <Button
-          className="mb-[2.125rem] w-full"
-          size="lg"
-          variant="brand"
-          onClick={handleClickChangeSchedule}
-        >
+        <Button className="w-full" size="lg" variant="brand" onClick={handleClickChangeSchedule}>
           변경
         </Button>
       </ScheduleChangeResultSheet>
