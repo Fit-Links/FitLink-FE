@@ -3,15 +3,10 @@
 
 import { isServer, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React from "react";
 import { Toaster, toast } from "sonner";
 
-import { authQueries } from "@user/queries/auth";
-
 import { useFcmListener } from "@user/hooks/useFcmListener";
-
-import { devUser, prodUser } from "@user/constants/pathname";
 
 import FooterProvider from "./FooterProvider";
 
@@ -54,29 +49,29 @@ type ProvidersProps = {
 
 function Providers({ children }: ProvidersProps) {
   const queryClient = getQueryClient();
-  const router = useRouter();
+  // const router = useRouter();
 
-  useEffect(() => {
-    const fetchUserStatus = async () => {
-      try {
-        const statusData = await queryClient.fetchQuery(authQueries.status());
+  // useEffect(() => {
+  //   const fetchUserStatus = async () => {
+  //     try {
+  //       const statusData = await queryClient.fetchQuery(authQueries.status());
 
-        if (statusData.data.userRole === "MEMBER") {
-          const urlObj = new URL(window.location.href).hostname;
+  //       if (statusData.data.userRole === "MEMBER") {
+  //         const urlObj = new URL(window.location.href).hostname;
 
-          if (urlObj.includes("dev.trainer")) {
-            router.replace(devUser);
-          } else if (urlObj.includes("trainer")) {
-            router.replace(prodUser);
-          }
-        }
-      } catch (error) {
-        console.error("사용자 Role 확인 실패:", error);
-      }
-    };
+  //         if (urlObj.includes("dev.trainer")) {
+  //           router.replace(devUser);
+  //         } else if (urlObj.includes("trainer")) {
+  //           router.replace(prodUser);
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error("사용자 Role 확인 실패:", error);
+  //     }
+  //   };
 
-    fetchUserStatus();
-  }, [router, queryClient]);
+  //   fetchUserStatus();
+  // }, [router, queryClient]);
 
   useFcmListener();
 
