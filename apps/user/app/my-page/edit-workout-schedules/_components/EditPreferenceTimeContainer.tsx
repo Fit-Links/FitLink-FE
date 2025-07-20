@@ -43,10 +43,10 @@ export default function EditPreferenceTimeContainer() {
   }, [isSuccess]);
 
   return (
-    <div className="flex flex-1 flex-col pb-[1.5625rem]">
+    <div className="flex flex-1 flex-col">
       <section className="mt-[0.625rem] text-center">
         <p className="text-body-1 text-text-sub2">PT 시간 : 50분</p>
-        <p className="text-body-1 text-text-sub2">PT 선택 시간은 시작 시간입니다.</p>
+        <p className="text-body-1 text-text-sub2 mb-[1.875rem]">PT 선택 시간은 시작 시간입니다.</p>
       </section>
       <WorkoutForm
         currentWorkout={prevScheudle}

@@ -91,7 +91,7 @@ export default function MyInformationContainer() {
         <>
           <div className="flex w-full items-center justify-center">
             <p
-              className="text-text-sub3 text-body-1 flex w-fit cursor-pointer items-center justify-center gap-2 md:hover:underline"
+              className="text-text-sub3 text-body-1 mt-4 flex w-fit cursor-pointer items-center justify-center gap-2 md:hover:underline"
               onClick={() => setIsReconnectPushDialogOpen(true)}
             >
               <HelpCircle className="h-4 w-4" />
