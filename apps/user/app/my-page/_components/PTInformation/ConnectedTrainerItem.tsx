@@ -47,7 +47,7 @@ export default function ConnectedTrainerItem({
           ) : connectingStatus === "CONNECTED" ? (
             trainerName
           ) : (
-            <span className="text-brand-primary-500 font-bold">연동 요청 상태</span>
+            <span className="text-brand-primary-500 font-bold">{trainerName}에게 연동 요청 중</span>
           )}
           {connectingStatus !== "REQUESTED" && <Icon name="ChevronRight" size="lg" />}
         </div>

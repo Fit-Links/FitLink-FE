@@ -58,6 +58,7 @@ export const WithBottomSheetStepper = (
     };
 
     const handleChangeValue = (value: number) => {
+      if (value < 0) return;
       setStep(value);
     };
 
