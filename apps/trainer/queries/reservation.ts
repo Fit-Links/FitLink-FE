@@ -8,8 +8,8 @@ import {
 
 export const reservationBaseKeys = {
   all: ["reservation"] as const,
-  lists: () => [reservationBaseKeys.all, "lists"] as const,
-  details: () => [reservationBaseKeys.all, "details"] as const,
+  lists: () => [...reservationBaseKeys.all, "lists"] as const,
+  details: () => [...reservationBaseKeys.all, "details"] as const,
 };
 
 export const reservationQueries = {
