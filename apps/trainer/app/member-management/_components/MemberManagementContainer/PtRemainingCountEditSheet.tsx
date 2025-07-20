@@ -80,7 +80,7 @@ function PtRemainingCountEditSheet({
             <Icon name="Check" size="lg" />
           </Button>
           <SheetTitle className="whitespace-pre-line text-center">{`홍길동 회원의\n잔여 PT 횟수가 변경되었습니다`}</SheetTitle>
-          <SheetDescription>회원에게 잔여 PT {value}회 추가 알림이 전송돼요</SheetDescription>
+          <SheetDescription>회원에게 잔여 PT 횟수({value}회) 알림이 전송돼요</SheetDescription>
         </SheetHeader>
         <SheetFooter>
           <SheetClose asChild>

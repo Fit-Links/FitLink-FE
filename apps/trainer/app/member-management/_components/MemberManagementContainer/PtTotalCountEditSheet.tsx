@@ -13,6 +13,7 @@ import {
   SheetTrigger,
 } from "@ui/components/Sheet";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 import { PtUser } from "@trainer/services/types/userManagement.dto";
 
@@ -31,12 +32,20 @@ function PtTotalCountEditSheet({
 }: PtTotalCountEditSheetProps) {
   const {
     memberId,
-    sessionInfo: { totalCount, sessionInfoId },
+    sessionInfo: { totalCount, remainingCount, sessionInfoId },
   } = selectedMemberInformation;
 
   const [successSheetOpen, setSuccessSheetOpen] = useState(false);
 
   const { mutate: updatePtTotalCount, isSuccess } = useSessionCountEditMutation();
+
+  useEffect(() => {
+    if (value < remainingCount) {
+      toast.error("등록 PT 횟수는 잔여 PT 횟수보다 작을 수 없습니다.");
+
+      return;
+    }
+  }, [value, remainingCount]);
 
   const handleClick = () => {
     updatePtTotalCount({
@@ -53,7 +62,7 @@ function PtTotalCountEditSheet({
   };
 
   const checkDisabledButton = () => {
-    return value === totalCount;
+    return value === totalCount || value < remainingCount;
   };
 
   useEffect(() => {
@@ -80,7 +89,7 @@ function PtTotalCountEditSheet({
             <Icon name="Check" size="lg" />
           </Button>
           <SheetTitle className="whitespace-pre-line text-center">{`홍길동 회원의\n등록 PT 횟수가 변경되었습니다`}</SheetTitle>
-          <SheetDescription>회원에게 등록 PT {value}회 추가 알림이 전송돼요</SheetDescription>
+          <SheetDescription>회원에게 등록 PT 횟수({value}회) 알림이 전송돼요</SheetDescription>
         </SheetHeader>
         <SheetFooter>
           <SheetClose asChild>
