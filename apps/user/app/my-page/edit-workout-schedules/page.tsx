@@ -1,4 +1,5 @@
-import React from "react";
+import BrandSpinner from "@ui/components/BrandSpinner";
+import React, { Suspense } from "react";
 
 import HeaderProvider from "@user/components/Providers/HeaderProvider";
 
@@ -10,7 +11,9 @@ export default async function EditWorkoutSchedules() {
   return (
     <HeaderProvider title="PT 희망 시간" back>
       <main className={commonLayoutContents}>
-        <EditPreferenceTimeContainer />
+        <Suspense fallback={<BrandSpinner />}>
+          <EditPreferenceTimeContainer />
+        </Suspense>
       </main>
     </HeaderProvider>
   );
