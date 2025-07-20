@@ -10,10 +10,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import QRCodeGenerator from "../QRCodeGenerator";
 import { Text } from "../Text";
 import VerificationInfoDialog from "./VerificationInfoDialog";
+import BrandSpinner from "../BrandSpinner";
 
 type PhoneVerificationProps = {
   onClick: () => void;
   verificationToken?: string;
+  isWaitingVerification: boolean;
 };
 
 /** TODO: Utils로 추후 분리 */
@@ -40,7 +42,11 @@ const generateSnsBody = (type: "link" | "clipboard", token?: string) => {
   return `[Fitlink]${type === "clipboard" ? "\n" : "%0A"}${token}`;
 };
 
-function PhoneVerification({ onClick, verificationToken }: PhoneVerificationProps) {
+function PhoneVerification({
+  onClick,
+  verificationToken,
+  isWaitingVerification,
+}: PhoneVerificationProps) {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const [isQrCodeDialogOpen, setIsQrCodeDialogOpen] = useState(false);
   const [isVerificationInfoDialogOpen, setIsVerificationInfoDialogOpen] = useState(false);
@@ -87,9 +93,9 @@ function PhoneVerification({ onClick, verificationToken }: PhoneVerificationProp
           size="xl"
           className="text-headline shirink-0 min-h-[3.375rem] w-full"
           onClick={handleButtonClick}
-          disabled={!verificationToken}
+          disabled={!verificationToken || isWaitingVerification}
         >
-          인증 메시지 보내기
+          {isWaitingVerification ? <BrandSpinner /> : "인증 메시지 보내기"}
         </Button>
       </div>
 
