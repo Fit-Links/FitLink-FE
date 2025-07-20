@@ -3,22 +3,29 @@
 import { useQuery } from "@tanstack/react-query";
 import PhoneVerification from "@ui/components/PhoneVerification";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { authQueries } from "@trainer/queries/auth";
+
+import { UserVerificationStatus } from "@trainer/services/types/auth.dto";
 
 import RouteInstance from "@trainer/constants/route";
 import { commonLayoutContents } from "@trainer/constants/styles";
 
-const REFETCH_INTERVAL = 5000;
+const REFETCH_INTERVAL = 1000;
+const BUTTON_AVAILABILITY_INTERVAL = 10000;
 
 function SnsVerificationPage() {
   const router = useRouter();
 
   const [hasClicked, setHasClicked] = useState(false);
+  const [isWaitingVerification, setIsWaitingVerification] = useState(false);
+
+  const userStatusRef = useRef<UserVerificationStatus | null>(null);
 
   const handleClick = () => {
     setHasClicked(true);
+    setIsWaitingVerification(true);
   };
 
   const { data: tokenData, status: tokenStatus } = useQuery(authQueries.snsToken());
@@ -30,6 +37,9 @@ function SnsVerificationPage() {
     refetchInterval: (query) => {
       if (query.state.data?.data) {
         const { status } = query.state.data.data;
+
+        userStatusRef.current = status;
+
         if (status === "REQUIRED_REGISTER") return false;
       }
 
@@ -43,9 +53,22 @@ function SnsVerificationPage() {
     if (status === "REQUIRED_REGISTER") router.push(RouteInstance.register());
   }
 
+  useEffect(() => {
+    if (!hasClicked) return;
+
+    const intervalId = setInterval(() => {
+      if (userStatusRef.current === "REQUIRED_SMS" && isWaitingVerification) {
+        setIsWaitingVerification(false);
+      }
+    }, BUTTON_AVAILABILITY_INTERVAL);
+
+    return () => clearInterval(intervalId);
+  }, [hasClicked]);
+
   return (
     <main className={commonLayoutContents}>
       <PhoneVerification
+        isWaitingVerification={isWaitingVerification}
         onClick={handleClick}
         verificationToken={
           tokenStatus === "success" && tokenData.success
