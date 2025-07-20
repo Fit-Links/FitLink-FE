@@ -32,6 +32,7 @@ function PtTotalCountEditSheet({
   const {
     memberId,
     sessionInfo: { totalCount, sessionInfoId },
+    name,
   } = selectedMemberInformation;
 
   const [successSheetOpen, setSuccessSheetOpen] = useState(false);
@@ -79,7 +80,7 @@ function PtTotalCountEditSheet({
           <Button className="mb-7 h-[3.125rem] w-[3.125rem] rounded-full">
             <Icon name="Check" size="lg" />
           </Button>
-          <SheetTitle className="whitespace-pre-line text-center">{`홍길동 회원의\n등록 PT 횟수가 변경되었습니다`}</SheetTitle>
+          <SheetTitle className="whitespace-pre-line text-center">{`${name} 회원의\n등록 PT 횟수가 변경되었습니다`}</SheetTitle>
           <SheetDescription>회원에게 등록 PT {value}회 추가 알림이 전송돼요</SheetDescription>
         </SheetHeader>
         <SheetFooter>
