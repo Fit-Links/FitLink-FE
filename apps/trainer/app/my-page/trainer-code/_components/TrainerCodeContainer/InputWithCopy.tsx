@@ -2,7 +2,8 @@
 
 import Icon from "@ui/components/Icon";
 import { Input } from "@ui/components/Input";
-import React, { ComponentProps, useRef, useState } from "react";
+import React, { ComponentProps, useRef } from "react";
+import { toast } from "sonner";
 
 type CodeInputProps = ComponentProps<"input">;
 const TRAINER_CODE_MAX_LENGTH = 6;
@@ -10,12 +11,16 @@ const TRAINER_CODE_MAX_LENGTH = 6;
 export default function InputWithCopy({ ...props }: CodeInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [copied, setCopied] = useState(false);
-
   const handleClickCopy = () => {
     if (inputRef.current) {
-      setCopied(true);
-      navigator.clipboard.writeText(inputRef.current.value);
+      navigator.clipboard
+        .writeText(inputRef.current.value)
+        .then(() => {
+          toast.success("클립보드에 복사되었습니다.");
+        })
+        .catch(() => {
+          toast.error("클립보드에 복사에 실패했습니다.");
+        });
     }
   };
 
@@ -37,9 +42,6 @@ export default function InputWithCopy({ ...props }: CodeInputProps) {
           className="text-text-sub2 absolute  -right-10 top-1/2 w-[1.563rem] -translate-y-1/2  cursor-pointer "
         />
       </div>
-      {copied && (
-        <p className="text-brand-primary-500 text-body-1 mt-[2rem]">클립보드에 복사되었습니다.</p>
-      )}
     </section>
   );
 }
