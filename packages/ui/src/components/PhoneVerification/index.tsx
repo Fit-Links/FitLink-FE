@@ -71,24 +71,24 @@ function PhoneVerification({
 
   return (
     <>
-      <section className="mb-4 flex flex-1 flex-col">
+      <section className="mb-4 flex flex-1 flex-col items-center">
         <PhoneVerificationGuide />
         <PhoneVerificationImage />
         <PhoneVerificationNotice />
-      </section>
-      <div className="flex w-full flex-col items-center gap-4">
         <Button
           size="md"
           corners={"pill"}
           variant={"negative"}
           iconLeft="CircleHelp"
-          className="shink-0 min-h-[2.5rem]"
+          className="shink-0 min-h-[2.5rem3 mt-8 w-fit"
           onClick={() => {
             setIsVerificationInfoDialogOpen(true);
           }}
         >
           인증 메시지 확인하기
         </Button>
+      </section>
+      <div className="flex w-full flex-col items-center gap-4">
         <Button
           size="xl"
           className="text-headline shirink-0 min-h-[3.375rem] w-full"
