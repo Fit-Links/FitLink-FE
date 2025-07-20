@@ -65,7 +65,7 @@ function PhoneVerification({ onClick, verificationToken }: PhoneVerificationProp
 
   return (
     <>
-      <section className="mb-4">
+      <section className="mb-4 flex flex-1 flex-col">
         <PhoneVerificationGuide />
         <PhoneVerificationImage />
         <PhoneVerificationNotice />
