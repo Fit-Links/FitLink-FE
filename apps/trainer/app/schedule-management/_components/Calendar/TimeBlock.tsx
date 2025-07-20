@@ -25,6 +25,7 @@ import { ModifiedReservationListItem } from "@trainer/services/types/reservation
 import { isToday } from "@trainer/utils/CalendarUtils";
 
 import { RESERVATION_CONFIG } from "../../_constants/reservationConfig";
+import { getPendingReservationCount } from "../../_utils/reservationMerger";
 import { useFixReservationChangeMutation } from "../../fixed-reservation/select-pt-times/_hooks/mutations/useFixReservationChangeMutation";
 import { SheetAdapter } from "../ReservationManagementSheet";
 
@@ -33,6 +34,7 @@ type TimeBlockProps = ComponentProps<"div"> & {
   PTstatus?: string;
   isNotificationRead?: boolean;
   reservationContent: ModifiedReservationListItem[];
+  originalReservationData?: ModifiedReservationListItem[];
   ptAvailableTime: AvailablePtTimeApiResponse;
 };
 
@@ -40,6 +42,7 @@ export default function TimeBlock({
   date,
   isNotificationRead,
   reservationContent,
+  originalReservationData,
   ptAvailableTime,
   ...props
 }: TimeBlockProps) {
@@ -67,9 +70,14 @@ export default function TimeBlock({
       : null;
   const reservationBlockStyle = reservationBlockConfig?.style;
   const reservationBlockContent = reservationBlockConfig?.content(reservationContent[0]);
-  const reservationBlockPtStatus = reservationBlockConfig?.ptStatus({
-    reservationContents: reservationContent,
-  });
+
+  // 예약 대기 상태일 때 실제 대기 인원 수 계산
+  const reservationBlockPtStatus =
+    reservationContent[0]?.status === "예약 대기" && originalReservationData
+      ? `${getPendingReservationCount(originalReservationData, date)}명`
+      : reservationBlockConfig?.ptStatus({
+          reservationContents: reservationContent,
+        });
 
   const currentStatus: Exclude<
     ReservationStatus,
@@ -90,13 +98,14 @@ export default function TimeBlock({
 
   const RenderSheet =
     currentStatus &&
+    originalReservationData &&
     SheetAdapter[currentStatus](
       {
         open: isReservationManagementSheetOpen,
         onChangeOpen: setIsReservationManagementSheetOpen,
         selectedDate: date,
       },
-      reservationContent,
+      reservationContent[0].status === "예약 대기" ? originalReservationData : reservationContent,
     );
 
   const handleClickBlock = () => {

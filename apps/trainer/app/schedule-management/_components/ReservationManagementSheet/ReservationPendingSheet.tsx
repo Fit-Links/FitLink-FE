@@ -16,6 +16,7 @@ import { ModifiedReservationListItem } from "@trainer/services/types/reservation
 
 import RouteInstance from "@trainer/constants/route";
 
+import { getPendingReservationCount } from "../../_utils/reservationMerger";
 import TimeOptionList from "../TimeOptionList";
 
 type ReservationPendingSheetProps = {
@@ -60,7 +61,7 @@ function ReservationPendingSheet({
           onClick={handleClickRoutePendingReservationPage}
         >
           해당 시간에 PT 예약을 요청한 회원은
-          <span className="bg-brand-secondary-500 text-body-1 text-text-sub5 mx-1 rounded-[0.625rem] px-[0.625rem] py-1">{`${memberInformations.length}명`}</span>
+          <span className="bg-brand-secondary-500 text-body-1 text-text-sub5 mx-1 rounded-[0.625rem] px-[0.625rem] py-1">{`${getPendingReservationCount(memberInformations, selectedDate)}명`}</span>
           입니다
         </div>
         <SheetFooter>
