@@ -3,10 +3,15 @@
 
 import { isServer, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import React from "react";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect, useMemo } from "react";
 import { Toaster, toast } from "sonner";
 
+import { authQueries } from "@user/queries/auth";
+
 import { useFcmListener } from "@user/hooks/useFcmListener";
+
+import { devTrainer, prodTrainer } from "@user/constants/pathname";
 
 import FooterProvider from "./FooterProvider";
 
@@ -48,30 +53,34 @@ type ProvidersProps = {
 };
 
 function Providers({ children }: ProvidersProps) {
-  const queryClient = getQueryClient();
-  // const router = useRouter();
+  const queryClient = useMemo(() => getQueryClient(), []);
+  const router = useRouter();
+  const pathname = usePathname();
 
-  // useEffect(() => {
-  //   const fetchUserStatus = async () => {
-  //     try {
-  //       const statusData = await queryClient.fetchQuery(authQueries.status());
+  useEffect(() => {
+    const domainUrl = new URL(window.location.href).hostname;
 
-  //       if (statusData.data.userRole === "MEMBER") {
-  //         const urlObj = new URL(window.location.href).hostname;
+    (async () => {
+      try {
+        const userRole = await queryClient.fetchQuery(authQueries.status());
 
-  //         if (urlObj.includes("dev.trainer")) {
-  //           router.replace(devUser);
-  //         } else if (urlObj.includes("trainer")) {
-  //           router.replace(prodUser);
-  //         }
-  //       }
-  //     } catch (error) {
-  //       console.error("사용자 Role 확인 실패:", error);
-  //     }
-  //   };
-
-  //   fetchUserStatus();
-  // }, [router, queryClient]);
+        if (userRole.data.userRole === "TRAINER") {
+          if (domainUrl.includes("dev.trainer")) {
+            router.replace(devTrainer);
+          } else if (domainUrl.includes("trainer")) {
+            router.replace(prodTrainer);
+          }
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          if (pathname !== "login") {
+            router.replace("/login");
+          }
+        }
+        console.error("사용자 Role 확인 실패");
+      }
+    })();
+  }, [pathname, router]);
 
   useFcmListener();
 
