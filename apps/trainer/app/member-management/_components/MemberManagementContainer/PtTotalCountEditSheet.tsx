@@ -12,7 +12,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@ui/components/Sheet";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { PtUser } from "@trainer/services/types/userManagement.dto";
@@ -35,13 +35,19 @@ function PtTotalCountEditSheet({
     sessionInfo: { totalCount, remainingCount, sessionInfoId },
   } = selectedMemberInformation;
 
+  const isSessionEditErrorFirstRender = useRef(false);
+
   const [successSheetOpen, setSuccessSheetOpen] = useState(false);
 
   const { mutate: updatePtTotalCount, isSuccess } = useSessionCountEditMutation();
 
   useEffect(() => {
     if (value < remainingCount) {
-      toast.error("등록 PT 횟수는 잔여 PT 횟수보다 작을 수 없습니다.");
+      if (!isSessionEditErrorFirstRender.current) {
+        toast.error("등록 PT 횟수는 잔여 PT 횟수보다 작을 수 없습니다.");
+
+        isSessionEditErrorFirstRender.current = true;
+      }
 
       return;
     }

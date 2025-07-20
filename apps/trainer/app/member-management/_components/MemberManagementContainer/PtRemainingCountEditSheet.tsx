@@ -12,7 +12,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@ui/components/Sheet";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 
 import { PtUser } from "@trainer/services/types/userManagement.dto";
 
@@ -31,12 +32,26 @@ function PtRemainingCountEditSheet({
 }: PtRemainingCountEditSheetProps) {
   const {
     memberId,
-    sessionInfo: { remainingCount, sessionInfoId },
+    sessionInfo: { remainingCount, totalCount, sessionInfoId },
   } = selectedMemberInformation;
+
+  const isSessionEditErrorFirstRender = useRef(false);
 
   const [successSheetOpen, setSuccessSheetOpen] = useState(false);
 
   const { mutate: updatePtRemainingCount, isSuccess } = useSessionCountEditMutation();
+
+  useEffect(() => {
+    if (value > totalCount) {
+      if (!isSessionEditErrorFirstRender.current) {
+        toast.error("잔여 PT 횟수는 등록 PT 횟수보다 많을 수 없습니다.");
+
+        isSessionEditErrorFirstRender.current = true;
+      }
+
+      return;
+    }
+  }, [value, totalCount]);
 
   const handleClick = () => {
     updatePtRemainingCount({
@@ -53,7 +68,7 @@ function PtRemainingCountEditSheet({
   };
 
   const checkDisabledButton = () => {
-    return value === remainingCount;
+    return value === remainingCount || value > totalCount;
   };
 
   useEffect(() => {
