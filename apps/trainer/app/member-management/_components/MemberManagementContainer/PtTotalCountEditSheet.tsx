@@ -12,7 +12,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@ui/components/Sheet";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 
 import { PtUser } from "@trainer/services/types/userManagement.dto";
 
@@ -31,13 +32,27 @@ function PtTotalCountEditSheet({
 }: PtTotalCountEditSheetProps) {
   const {
     memberId,
-    sessionInfo: { totalCount, sessionInfoId },
+    sessionInfo: { totalCount, remainingCount, sessionInfoId },
     name,
   } = selectedMemberInformation;
+
+  const isSessionEditErrorFirstRender = useRef(false);
 
   const [successSheetOpen, setSuccessSheetOpen] = useState(false);
 
   const { mutate: updatePtTotalCount, isSuccess } = useSessionCountEditMutation();
+
+  useEffect(() => {
+    if (value < remainingCount) {
+      if (!isSessionEditErrorFirstRender.current) {
+        toast.error("등록 PT 횟수는 잔여 PT 횟수보다 작을 수 없습니다.");
+
+        isSessionEditErrorFirstRender.current = true;
+      }
+
+      return;
+    }
+  }, [value, remainingCount]);
 
   const handleClick = () => {
     updatePtTotalCount({
@@ -54,7 +69,7 @@ function PtTotalCountEditSheet({
   };
 
   const checkDisabledButton = () => {
-    return value === totalCount;
+    return value === totalCount || value < remainingCount;
   };
 
   useEffect(() => {

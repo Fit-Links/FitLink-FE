@@ -15,6 +15,7 @@ export type LogoutApiResponse = NoResponseData;
 
 export type GetUserVerificationStatusApiResponse = ResponseBase<{
   status: UserVerificationStatus;
+  userRole: "TRAINER" | "MEMBER";
   accessToken: string;
 }>;
 
