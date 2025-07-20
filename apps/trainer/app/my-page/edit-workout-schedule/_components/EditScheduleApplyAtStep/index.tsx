@@ -61,12 +61,7 @@ export default function EditScheduleApplyAtStep({ onPrev, onNext }: EditSchedule
           onChangeSelectedDate={handleClickChangeApplyAtDate}
         />
 
-        <Button
-          className="mb-[2.125rem] w-full"
-          size="lg"
-          variant="brand"
-          onClick={handleClickNext}
-        >
+        <Button className="w-full" size="lg" variant="brand" onClick={handleClickNext}>
           다음
         </Button>
       </div>
