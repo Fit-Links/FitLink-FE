@@ -22,6 +22,7 @@ function LoginPage() {
                 시작해보세요!
               </h1>
               <h3 className="text-body-1">1분이면 회원가입이 가능해요</h3>
+              <h2 className="text-headline text-brand-primary-500 mt-2">*트레이너용</h2>
             </div>
             <div className="flex flex-col items-center gap-4">
               <LoginButton type="kakao" renderContent={KakaoContent} />
