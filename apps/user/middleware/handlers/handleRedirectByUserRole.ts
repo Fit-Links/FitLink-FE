@@ -9,9 +9,9 @@ export const handleRedirectByUserRole = async (hostname: string) => {
     const userRole = await getUserVerificationStatus();
 
     if (userRole.data.userRole === "TRAINER") {
-      if (hostname.includes("dev.trainer")) {
+      if (hostname.includes("dev.user")) {
         return NextResponse.redirect(new URL(devTrainer));
-      } else if (hostname.includes("trainer")) {
+      } else if (hostname.includes("user")) {
         return NextResponse.redirect(new URL(prodTrainer));
       }
     }
