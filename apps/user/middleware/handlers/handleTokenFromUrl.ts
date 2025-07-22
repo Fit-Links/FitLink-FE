@@ -3,7 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@user/constants/token";
 
-export function handleTokenFromUrl(request: NextRequest): NextResponse | void {
+import { handleRedirectByUserRole } from "./handleRedirectByUserRole";
+
+export async function handleTokenFromUrl(request: NextRequest): Promise<NextResponse | void> {
   const url = request.nextUrl.clone();
   const accessToken = url.searchParams.get("accessToken");
   const refreshToken = url.searchParams.get("refreshToken");
@@ -32,6 +34,10 @@ export function handleTokenFromUrl(request: NextRequest): NextResponse | void {
       sameSite: "lax",
     });
   }
+
+  // 유저 Role과 url 도메인 비교 후 리다이렉트
+  const roleRedirect = await handleRedirectByUserRole(url.hostname);
+  if (roleRedirect) return roleRedirect;
 
   return res;
 }
