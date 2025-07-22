@@ -3,7 +3,6 @@
 import { NextResponse, NextRequest } from "next/server";
 
 import { handleProtectedRoute } from "./middleware/handlers/handleProtectedRoute";
-import { handleRedirectByUserRole } from "./middleware/handlers/handleRedirectByUserRole";
 import { handleTokenFromUrl } from "./middleware/handlers/handleTokenFromUrl";
 import {
   isPublicTokenRoute,
@@ -12,14 +11,10 @@ import {
 } from "./middleware/utils/routeMatchers";
 
 export async function middleware(request: NextRequest) {
-  const { hostname, pathname } = request.nextUrl.clone();
-
-  // 유저 Role과 url 도메인 비교 후 리다이렉트
-  const roleRedirect = handleRedirectByUserRole(hostname);
-  if (roleRedirect) return roleRedirect;
+  const { pathname } = request.nextUrl.clone();
 
   if (isPublicTokenRoute(pathname)) {
-    const tokenResponse = handleTokenFromUrl(request);
+    const tokenResponse = await handleTokenFromUrl(request);
     if (tokenResponse) return tokenResponse;
   }
 
