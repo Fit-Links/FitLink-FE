@@ -56,7 +56,7 @@ export function ProfileItem({ className, variant, ...props }: ProfileItemProps) 
   return (
     <div
       className={cn(
-        `bg-background-primary relative flex min-h-[2.813rem] min-w-[22.375rem] items-center justify-between`,
+        `bg-background-primary relative flex min-h-[2.813rem] w-full items-center justify-between`,
         className,
       )}
       {...props}
