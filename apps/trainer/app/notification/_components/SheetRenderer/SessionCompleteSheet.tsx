@@ -126,12 +126,24 @@ function SessionCompleteSheet({
   const [isAcceptSheetOpen, setIsAccepSheetOpen] = useState(false);
 
   const handleDeclineClick = (reservationId: number, userId: number) => () => {
-    sessionMutation.mutate({ memberId: userId, reservationId, isJoin: false });
-    setIsDeclineSheetOpen(true);
+    sessionMutation.mutate(
+      { memberId: userId, reservationId, isJoin: false },
+      {
+        onSuccess: () => {
+          setIsDeclineSheetOpen(true);
+        },
+      },
+    );
   };
   const handleAcceptClick = (reservationId: number, userId: number) => () => {
-    sessionMutation.mutate({ memberId: userId, reservationId, isJoin: true });
-    setIsAccepSheetOpen(true);
+    sessionMutation.mutate(
+      { memberId: userId, reservationId, isJoin: true },
+      {
+        onSuccess: () => {
+          setIsAccepSheetOpen(true);
+        },
+      },
+    );
   };
 
   return (
