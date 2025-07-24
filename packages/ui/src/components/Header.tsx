@@ -17,27 +17,25 @@ function HeaderRoot({ logo, subHeader, children, className }: HeaderRootProps) {
   const hasChildren = Array.isArray(children) ? children.some((child) => !!child) : children;
 
   return (
-    <section className="w-full py-2">
-      <header className={cn("bg-background-primary z-10 w-full")}>
-        {logo && (
-          <div
-            className={cn(
-              "border-background-sub2 flex h-[3rem] items-center justify-start transition-transform",
-            )}
-          >
-            {logo}
-          </div>
-        )}
-      </header>
+    <>
+      <section className="w-full">
+        <header className={cn("bg-background-primary z-10 w-full")}>
+          {logo && (
+            <div className={cn("flex h-[3rem] items-center justify-start transition-transform")}>
+              {logo}
+            </div>
+          )}
+        </header>
+      </section>
       {hasChildren && (
-        <div className="text-text-primary text-title-2 bg-background-primary sticky top-0 z-10 flex flex-col gap-2">
+        <section className="text-text-primary text-title-2 bg-background-primary sticky top-0 z-10 flex flex-col gap-2">
           <div className={cn("grid h-[2.1875rem] grid-cols-3 items-center", className)}>
             {children}
           </div>
           {subHeader && <div>{subHeader}</div>}
-        </div>
+        </section>
       )}
-    </section>
+    </>
   );
 }
 
