@@ -145,11 +145,12 @@ function SessionNotificationPage() {
   const [selectedNotification, setSelectedNotification] = useState<NotificationInfo>();
 
   const handleNotificationClick = (notification: NotificationInfo) => () => {
-    const { notificationId, type, content, sendDate, isProcessed } = notification;
+    const { notificationId, type, content, sendDate, isProcessed, notificationType } = notification;
     if (notificationId !== selectedNotification?.notificationId) {
       setSelectedNotification({
         notificationId,
         type,
+        notificationType,
         content,
         sendDate,
         isProcessed,

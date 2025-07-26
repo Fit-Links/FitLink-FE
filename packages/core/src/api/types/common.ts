@@ -98,9 +98,11 @@ export type ReservationPathParams = {
   reservationId: number;
 };
 
+// TODO: [2025.07.27] notificationType 타입 정의
 export type NotificationInfo = {
   notificationId: number;
   type: NotificationType;
+  notificationType: string;
   content: string;
   sendDate: string;
   isProcessed: boolean;
@@ -110,6 +112,7 @@ export type NotificationDetailInfo = {
   notificationId: number;
   refId: number;
   type: NotificationType;
+  notificationType: string;
   content: string;
   sendDate: string;
   isProcessed: boolean;
