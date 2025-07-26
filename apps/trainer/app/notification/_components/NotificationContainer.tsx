@@ -5,7 +5,8 @@ import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { Button } from "@ui/components/Button";
 import Header from "@ui/components/Header";
 import { ToggleGroup, ToggleGroupItem } from "@ui/components/ToggleGroup";
-import { Fragment, useRef, useState } from "react";
+import { cn } from "@ui/lib/utils";
+import { Suspense, useRef, useState } from "react";
 
 import NotificationSideBar from "@trainer/app/notification/_components/NotificationSideBar";
 import { notificationQueries } from "@trainer/queries/notification";
@@ -18,10 +19,10 @@ import useIntersectionObserver from "@trainer/hooks/useIntersectionObserver";
 import { commonLayoutContents } from "@trainer/constants/styles";
 
 import EmptyList from "./EmptyList";
-import NotificationItemContainer from "./NotificationItemContainer";
 import { NotificationStatus } from "../_types";
 import NotificationSearch from "./NotificationSearch";
-import { cn } from "../../../../../packages/ui/src/lib/utils";
+import NotificationsPerPage from "./NotificationsPerPage";
+import NotificationsPerPageFallback from "./NotificationsPerPageFallback";
 import createFilteredNotificationCount from "../_utils/createFilteredNotificationCount";
 import handleNotificationFilter from "../_utils/handleNotificationFilter";
 
@@ -104,17 +105,22 @@ function NotificationContainer({ onClick }: NotificationContainerProps) {
         )}
         {data.pages[0].data.totalElements ? (
           <ul className="flex flex-col gap-4">
-            {data.pages.map((group, index) => (
-              <Fragment key={`notification-group-${index}`}>
-                {group.data.content.filter(handleNotificationFilter(status)).map((notification) => (
-                  <NotificationItemContainer
-                    key={`notification-${notification.notificationId}`}
-                    notification={notification}
-                    onClick={onClick(notification)}
+            {data.pages.map((group, pageIndex) => {
+              const notifications = group.data.content.filter(handleNotificationFilter(status));
+
+              return (
+                <Suspense
+                  fallback={<NotificationsPerPageFallback pageIndex={pageIndex} />}
+                  key={pageIndex}
+                >
+                  <NotificationsPerPage
+                    key={`notificationsPage-${pageIndex}`}
+                    notifications={notifications}
+                    onClick={onClick}
                   />
-                ))}
-              </Fragment>
-            ))}
+                </Suspense>
+              );
+            })}
             <div ref={intersectionRef} />
           </ul>
         ) : (
@@ -122,8 +128,6 @@ function NotificationContainer({ onClick }: NotificationContainerProps) {
         )}
       </main>
     </>
-
-    // </div>
   );
 }
 
