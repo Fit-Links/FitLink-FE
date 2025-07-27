@@ -58,7 +58,7 @@ function ReservationControlSheet({
 }: ReservationControlSheetProps) {
   const { memberInfo, reservationId } = memberInformation;
 
-  const { memberId } = memberInfo;
+  const { memberId, name } = memberInfo;
   const selectedFormatDate = DateController(selectedDate).toDateTimeWithDayFormat();
 
   const [inputValue, setInputValue] = useState("");
@@ -213,7 +213,7 @@ function ReservationControlSheet({
               className="mt-5 h-[2.813rem] w-full"
               placeholder="취소 사유"
             />
-            <p className="text-body-1 text-text-sub3 mt-5 whitespace-pre-line text-center">{`홍길동 회원에게\n사유와 함께 예약 취소 알림이 전송돼요`}</p>
+            <p className="text-body-1 text-text-sub3 mt-5 whitespace-pre-line text-center">{`${name} 회원에게\n사유와 함께 예약 취소 알림이 전송돼요`}</p>
           </SheetHeader>
           <SheetFooter>
             <Button
