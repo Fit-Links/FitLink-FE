@@ -57,7 +57,10 @@ function MemberProfileListContent({
   const intersectionRef = useRef(null);
 
   const { isLoading, status, data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery(userManagementQueries.list(searchValue));
+    useInfiniteQuery({
+      ...userManagementQueries.list(searchValue),
+      refetchOnMount: true,
+    });
 
   const handleIntersect = () => {
     if (hasNextPage && !isFetchingNextPage) fetchNextPage();
