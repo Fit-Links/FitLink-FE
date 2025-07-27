@@ -24,7 +24,6 @@ import { cn } from "@ui/lib/utils";
 import { useRouter } from "next/navigation";
 import { Fragment, MouseEvent, useEffect, useRef, useState } from "react";
 
-import { WithBottomSheetStepper } from "@trainer/hoc/WithBottomSheetStepper";
 import { userManagementQueries } from "@trainer/queries/userManagement";
 
 import { PtUser, PtUserListApiResponse } from "@trainer/services/types/userManagement.dto";
@@ -36,10 +35,9 @@ import useIntersectionObserver from "@trainer/hooks/useIntersectionObserver";
 
 import RouteInstance from "@trainer/constants/route";
 
-import PtRemainingCountEditSheet from "./PtRemainingCountEditSheet";
-import PtTotalCountEditSheet from "./PtTotalCountEditSheet";
 import useUnlinkMember from "../../_hooks/useUnlinkMember";
 import MemberProfileListFallback from "../MemberProfileListFallback";
+import PtCountEditSheet from "./PtCountEditSheet";
 
 type MemberProfileListContentProps = {
   searchValue: string;
@@ -151,8 +149,9 @@ function MemberProfileList({ searchValue }: MemberProfileListProps) {
 
   const [ptManagementSheetSheetOpen, setPtManagementSheetSheetOpen] = useState(false);
   const [selectedMemberInformation, setSelectedMemberInformation] = useState<PtUser | null>(null);
-  const [ptTotalCountEditSheetOpen, setPtTotalCountEditSheetOpen] = useState(false);
-  const [ptRemainingCountEditSheetOpen, setPtRemainingCountEditSheetOpen] = useState(false);
+  const [ptCountEditSheetOpen, setPtCountEditSheetOpen] = useState(false);
+  // const [ptTotalCountEditSheetOpen, setPtTotalCountEditSheetOpen] = useState(false);
+  // const [ptRemainingCountEditSheetOpen, setPtRemainingCountEditSheetOpen] = useState(false);
   const [unLinkMemberPopupOpen, setUnLinkMemberPopupOpen] = useState(false);
 
   const handleClickPtCountControllSheetOpen = (
@@ -181,13 +180,17 @@ function MemberProfileList({ searchValue }: MemberProfileListProps) {
     router.push(RouteInstance["member-management"](String(selectedMemberId)));
   };
 
-  const handleClickPtTotalCountEdit = () => {
-    setPtTotalCountEditSheetOpen(true);
+  const handleClickPtCountEdit = () => {
+    setPtCountEditSheetOpen(true);
   };
 
-  const handleClickPtRemainingCountEdit = () => {
-    setPtRemainingCountEditSheetOpen(true);
-  };
+  // const handleClickPtTotalCountEdit = () => {
+  //   setPtTotalCountEditSheetOpen(true);
+  // };
+
+  // const handleClickPtRemainingCountEdit = () => {
+  //   setPtRemainingCountEditSheetOpen(true);
+  // };
 
   const handleClickUnLinkMember = () => {
     setUnLinkMemberPopupOpen(true);
@@ -204,8 +207,8 @@ function MemberProfileList({ searchValue }: MemberProfileListProps) {
     }
   }, [isSuccess]);
 
-  const PtTotalCountEditSheetWithStepper = WithBottomSheetStepper(PtTotalCountEditSheet);
-  const PtRemainingCountEditSheetWithStepper = WithBottomSheetStepper(PtRemainingCountEditSheet);
+  // const PtTotalCountEditSheetWithStepper = WithBottomSheetStepper(PtTotalCountEditSheet);
+  // const PtRemainingCountEditSheetWithStepper = WithBottomSheetStepper(PtRemainingCountEditSheet);
 
   return (
     <>
@@ -228,12 +231,21 @@ function MemberProfileList({ searchValue }: MemberProfileListProps) {
             <SheetClose asChild>
               <div
                 className="bg-background-sub1 md:hover:bg-background-sub3 flex cursor-pointer items-center gap-2 rounded-[0.625rem] px-[0.813rem] py-[0.625rem] transition-colors"
+                onClick={handleClickPtCountEdit}
+              >
+                <Icon name="Pencil" size="lg" />
+                <p className="text-headline">PT 횟수 변경</p>
+              </div>
+            </SheetClose>
+            {/* <SheetClose asChild>
+              <div
+                className="bg-background-sub1 md:hover:bg-background-sub3 flex cursor-pointer items-center gap-2 rounded-[0.625rem] px-[0.813rem] py-[0.625rem] transition-colors"
                 onClick={handleClickPtTotalCountEdit}
               >
                 <Icon name="Pencil" size="lg" />
                 <p className="text-headline">등록 PT 횟수 변경</p>
-              </div>
-            </SheetClose>
+              </div> */}
+            {/* </SheetClose>
             <SheetClose asChild>
               <div
                 className="bg-background-sub1 md:hover:bg-background-sub3 flex cursor-pointer items-center gap-2 rounded-[0.625rem] px-[0.813rem] py-[0.625rem] transition-colors"
@@ -242,7 +254,7 @@ function MemberProfileList({ searchValue }: MemberProfileListProps) {
                 <Icon name="Pencil" size="lg" />
                 <p className="text-headline">잔여 PT 횟수 변경</p>
               </div>
-            </SheetClose>
+            </SheetClose> */}
             <SheetClose asChild>
               <div
                 className="bg-background-sub1 text-notification md:hover:bg-background-sub3 flex cursor-pointer items-center gap-2 rounded-[0.625rem] px-[0.813rem] py-[0.625rem] transition-colors"
@@ -256,6 +268,13 @@ function MemberProfileList({ searchValue }: MemberProfileListProps) {
         </SheetContent>
       </Sheet>
       {selectedMemberInformation && (
+        <PtCountEditSheet
+          open={ptCountEditSheetOpen}
+          onChangeOpen={setPtCountEditSheetOpen}
+          selectedMemberInformation={selectedMemberInformation}
+        />
+      )}
+      {/* {selectedMemberInformation && (
         <PtTotalCountEditSheetWithStepper
           open={ptTotalCountEditSheetOpen}
           onChangeOpen={setPtTotalCountEditSheetOpen}
@@ -273,7 +292,7 @@ function MemberProfileList({ searchValue }: MemberProfileListProps) {
           selectedMemberInformation={selectedMemberInformation}
           initialStep={selectedMemberInformation?.sessionInfo.remainingCount}
         />
-      )}
+      )} */}
       <Dialog open={unLinkMemberPopupOpen} onOpenChange={setUnLinkMemberPopupOpen}>
         <DialogContent>
           <DialogHeader>
