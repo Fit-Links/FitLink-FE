@@ -2,12 +2,12 @@ import { NotificationInfo } from "@5unwan/core/api/types/common";
 
 import NotificationItemContainer from "./NotificationItemContainer";
 
-type NotificationPageProps = {
+type NotificationsPerPageProps = {
   notifications: NotificationInfo[];
   onClick: (notification: NotificationInfo) => () => void;
 };
 
-function NotificationPage({ notifications, onClick }: NotificationPageProps) {
+function NotificationsPerPage({ notifications, onClick }: NotificationsPerPageProps) {
   return (
     <>
       {notifications.map((notification) => (
@@ -21,4 +21,4 @@ function NotificationPage({ notifications, onClick }: NotificationPageProps) {
   );
 }
 
-export default NotificationPage;
+export default NotificationsPerPage;
