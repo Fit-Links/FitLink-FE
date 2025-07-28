@@ -147,7 +147,7 @@ function ReservationOutcomeSheet({
             <Button className="mb-7 h-[3.125rem] w-[3.125rem] rounded-full">
               <Icon name="Check" size="lg" />
             </Button>
-            <SheetTitle className="text-center">회원의 수업 참여 여부가 변경되었습니다</SheetTitle>
+            <SheetTitle className="text-center">{`${name} 회원의\n수업 참여 여부가 변경되었습니다`}</SheetTitle>
           </SheetHeader>
           <SheetFooter>
             <SheetClose asChild>
