@@ -13,6 +13,7 @@ import {
 } from "@ui/components/Sheet";
 import DateController from "@ui/lib/DateController";
 import { Suspense, useState } from "react";
+import { toast } from "sonner";
 
 import { notificationBaseKeys, notificationQueries } from "@trainer/queries/notification";
 import { userManagementQueries } from "@trainer/queries/userManagement";
@@ -25,6 +26,7 @@ import QueryErrorBoundary from "@trainer/components/QueryErrorBoundary";
 import SheetErrorFallback from "./SheetErrorFallback";
 import SheetFallback from "./SheetFallback";
 import { formatSessionData } from "../../_utils/formatter";
+import { parseToChangeDate } from "../../_utils/parseToChangeDate";
 
 type ReservationChangeSheetProps = {
   notificationId: number;
@@ -98,6 +100,7 @@ function ReservationChangeSheetContent({
     </>
   );
 }
+
 function ReservationChangeSheet({
   notificationId,
   open,
@@ -117,17 +120,41 @@ function ReservationChangeSheet({
   const [isAcceptSheetOpen, setIsAccepSheetOpen] = useState(false);
 
   const handleDeclineClick = (reservationId: number, userId: number) => () => {
+    let toChangeDate;
+    try {
+      toChangeDate = DateController(parseToChangeDate(eventDateDescription)).toAbsolute();
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("변경 날짜가 유효하지 않습니다");
+      }
+
+      return;
+    }
+
     reservationChangeMutation.mutate({
       requestPath: { reservationId },
       requestBody: {
         memberId: userId,
         isApprove: false,
-        approveDate: DateController(new Date()).toAbsolute(),
+        approveDate: toChangeDate,
       },
     });
     setIsDeclineSheetOpen(true);
   };
   const handleAcceptClick = (reservationId: number, userId: number) => () => {
+    let toChangeDate;
+    try {
+      toChangeDate = DateController(parseToChangeDate(eventDateDescription)).toAbsolute();
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else toast.error("변경 날짜가 유효하지 않습니다");
+
+      return;
+    }
+
     reservationChangeMutation.mutate({
       requestPath: {
         reservationId,
@@ -135,7 +162,7 @@ function ReservationChangeSheet({
       requestBody: {
         memberId: userId,
         isApprove: true,
-        approveDate: DateController(new Date()).toAbsolute(),
+        approveDate: toChangeDate,
       },
     });
     setIsAccepSheetOpen(true);
