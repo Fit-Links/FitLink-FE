@@ -86,7 +86,7 @@ function MemberNotificationResult({ memberId }: MemberNotificationResultProps) {
   const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);
 
   const handleNotificationClick = (notification: NotificationInfo) => () => {
-    const { notificationId, type, content, sendDate, isProcessed } = notification;
+    const { notificationId, type, content, sendDate, isProcessed, notificationType } = notification;
     if (notificationId !== selectedNotification?.notificationId) {
       setSelectedNotification({
         notificationId,
@@ -94,6 +94,7 @@ function MemberNotificationResult({ memberId }: MemberNotificationResultProps) {
         content,
         sendDate,
         isProcessed,
+        notificationType,
       });
     }
 

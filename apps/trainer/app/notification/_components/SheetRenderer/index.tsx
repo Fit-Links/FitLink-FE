@@ -1,7 +1,6 @@
 import ConnectTrainerSheet from "./ConnectTrainerSheet";
 import ReservationCancelSheet from "./ReservationCancelSheet";
 import ReservationChangeSheet from "./ReservationChangeSheet";
-import SessionCompleteSheet from "./SessionCompleteSheet";
 
 type CommonSheetProps = {
   notificationId: number;
@@ -32,12 +31,15 @@ const SheetRenderer = {
       cancelReason={eventInfo.cancelReason || ""}
     />
   ),
-  세션: (
-    commonProps: CommonSheetProps,
-    eventInfo: {
-      eventDate: string;
-    },
-  ) => <SessionCompleteSheet {...commonProps} eventDate={eventInfo.eventDate} />,
+  세션: () => null,
+
+  // TODO: [2025.07.27] v1 API hotfix 대응하기 위해 '세션' Sheet 사용 보류
+  // 세션: (
+  //   commonProps: CommonSheetProps,
+  //   eventInfo: {
+  //     eventDate: string;
+  //   },
+  // ) => <SessionCompleteSheet {...commonProps} eventDate={eventInfo.eventDate} />,
 };
 
 export default SheetRenderer;

@@ -5,10 +5,8 @@ import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { Button } from "@ui/components/Button";
 import Header from "@ui/components/Header";
 import { ToggleGroup, ToggleGroupItem } from "@ui/components/ToggleGroup";
-import { cn } from "@ui/lib/utils";
-import { Suspense, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 
-import NotificationSideBar from "@trainer/app/notification/_components/NotificationSideBar";
 import { notificationQueries } from "@trainer/queries/notification";
 import { useNotificationStore } from "@trainer/store/notificationStore";
 
@@ -18,26 +16,25 @@ import useIntersectionObserver from "@trainer/hooks/useIntersectionObserver";
 
 import { commonLayoutContents } from "@trainer/constants/styles";
 
-import EmptyList from "./EmptyList";
-import { NotificationStatus } from "../_types";
-import NotificationSearch from "./NotificationSearch";
-import NotificationsPerPage from "./NotificationsPerPage";
-import NotificationsPerPageFallback from "./NotificationsPerPageFallback";
-import createFilteredNotificationCount from "../_utils/createFilteredNotificationCount";
-import handleNotificationFilter from "../_utils/handleNotificationFilter";
+import EmptyList from "../../_components/EmptyList";
+import NotificationSearch from "../../_components/NotificationSearch";
+import NotificationSideBar from "../../_components/NotificationSideBar";
+import NotificationsPerPage from "../../_components/NotificationsPerPage";
+import NotificationsPerPageFallback from "../../_components/NotificationsPerPageFallback";
+import { NotificationStatus } from "../../_types";
+import createFilteredNotificationCount from "../../_utils/createFilteredNotificationCount";
+import handleNotificationFilter from "../../_utils/handleNotificationFilter";
+import { NOTIFICATION_QUERY_TYPE, NOTIFICATION_TYPE } from "../_constants";
 
-type NotificationContainerProps = {
-  onClick: (notification: NotificationInfo) => () => void;
+type SessionContainerProps = {
+  onNotificationClick: (notification: NotificationInfo) => () => void;
 };
-
-function NotificationContainer({ onClick }: NotificationContainerProps) {
-  const [status, setStatus] = useState<NotificationStatus>("all");
+function SessionContainer({ onNotificationClick }: SessionContainerProps) {
   const intersectionRef = useRef(null);
+  const [status, setStatus] = useState<NotificationStatus>("all");
 
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage, refetch } =
-    useSuspenseInfiniteQuery({
-      ...notificationQueries.list({}),
-    });
+    useSuspenseInfiniteQuery(notificationQueries.list({ type: NOTIFICATION_QUERY_TYPE }));
 
   const handleIntersect = () => {
     if (hasNextPage && !isFetchingNextPage) fetchNextPage();
@@ -48,11 +45,21 @@ function NotificationContainer({ onClick }: NotificationContainerProps) {
     handleIntersect: handleIntersect,
   });
 
-  // eslint-disable-next-line no-magic-numbers
-  const hasNewNotifications = useNotificationStore((state) => state.newNotificationTypes.size > 0);
+  const filteredNotificationCount = createFilteredNotificationCount(data, status);
+
+  const hasNewNotifications = useNotificationStore((state) =>
+    state.newNotificationTypes.has(NOTIFICATION_TYPE),
+  );
   const setNewNotificationTypes = useNotificationStore((state) => state.setNewNotificationTypes);
 
-  const filteredNotificationCount = createFilteredNotificationCount(data, status);
+  useEffect(() => {
+    setNewNotificationTypes((prev) => {
+      const newSet = new Set(prev);
+      newSet.delete(NOTIFICATION_TYPE);
+
+      return newSet;
+    });
+  }, []);
 
   return (
     <>
@@ -76,13 +83,12 @@ function NotificationContainer({ onClick }: NotificationContainerProps) {
         <Header.Left>
           <NotificationSideBar />
         </Header.Left>
-        <Header.Title content="전체 알림" />
+        <Header.Title content={NOTIFICATION_TYPE} />
         <Header.Right>
           <NotificationSearch />
         </Header.Right>
       </Header>
-
-      <main className={cn(commonLayoutContents)}>
+      <main className={commonLayoutContents}>
         <div className="flex items-center justify-between pb-2">
           <span className="text-body-3">{`${filteredNotificationCount}개의 알림`}</span>
           <span className="text-body-3">최신순</span>
@@ -95,7 +101,13 @@ function NotificationContainer({ onClick }: NotificationContainerProps) {
               corners="pill"
               iconLeft="RotateCcw"
               onClick={() => {
-                setNewNotificationTypes(new Set());
+                setNewNotificationTypes((prev) => {
+                  const newSet = new Set(prev);
+                  newSet.delete(NOTIFICATION_TYPE);
+
+                  return newSet;
+                });
+
                 refetch();
               }}
             >
@@ -116,7 +128,7 @@ function NotificationContainer({ onClick }: NotificationContainerProps) {
                   <NotificationsPerPage
                     key={`notificationsPage-${pageIndex}`}
                     notifications={notifications}
-                    onClick={onClick}
+                    onClick={onNotificationClick}
                   />
                 </Suspense>
               );
@@ -131,4 +143,4 @@ function NotificationContainer({ onClick }: NotificationContainerProps) {
   );
 }
 
-export default NotificationContainer;
+export default SessionContainer;
