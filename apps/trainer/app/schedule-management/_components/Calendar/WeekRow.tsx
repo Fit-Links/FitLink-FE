@@ -39,6 +39,7 @@ export default function WeekRow({
   const { data: reservationInformation, isLoading } = useQuery({
     ...reservationQueries.list(reservationQueryDate),
     enabled: isCurrentWeek,
+    refetchOnMount: true,
   });
 
   if (!reservationInformation || isLoading) return null;
