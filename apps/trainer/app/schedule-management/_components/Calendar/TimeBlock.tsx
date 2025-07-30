@@ -64,7 +64,6 @@ export default function TimeBlock({
     reservationContent.length > 0 &&
     reservationContent[0].status !== "휴무일" &&
     reservationContent[0].status !== "예약 취소 요청" &&
-    reservationContent[0].status !== "예약 변경 요청" &&
     reservationContent[0].status !== "예약 취소"
       ? RESERVATION_CONFIG[reservationContent[0].status as keyof typeof RESERVATION_CONFIG]
       : null;
