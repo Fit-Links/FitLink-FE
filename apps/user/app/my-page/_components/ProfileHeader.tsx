@@ -17,18 +17,14 @@ interface HeaderProps {
 export default function ProfileHeader({ userName, profilePictureUrl }: HeaderProps) {
   const router = useRouter();
 
-  const handleClickRouting = (path: string) => {
-    router.push(path);
+  const handleClickRoutingMyInformation = () => {
+    router.push(RouteInstance["my-information"]());
   };
 
   return (
     <section className="flex items-center justify-between">
       <Profile>
-        <Profile.Section
-          onClick={() => {
-            handleClickRouting(RouteInstance["my-information"]());
-          }}
-        >
+        <Profile.Section onClick={handleClickRoutingMyInformation}>
           <Profile.Avatar>
             <Image
               width={50}

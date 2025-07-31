@@ -4,6 +4,8 @@ import { AvailablePtTime } from "@5unwan/core/api/types/common";
 import { useFunnel } from "@use-funnel/browser";
 import dynamic from "next/dynamic";
 
+const BACK_FUNNEL_STEP_COUNT = -3;
+
 const EditScheduleStep = dynamic(() => import("./EditScheduleStep"), {
   ssr: false,
 });
@@ -35,7 +37,7 @@ export default function EditScheduleFunnel() {
         <EditScheduleStep
           onPrev={() => funnel.history.back()}
           onNext={(availableTimes) =>
-            funnel.history.replace("editScheduleApplyAt", {
+            funnel.history.push("editScheduleApplyAt", {
               availableTimes,
             })
           }
@@ -50,7 +52,13 @@ export default function EditScheduleFunnel() {
       );
     case "editScheduleConfirm":
       return (
-        <EditScheduleConfirmStep onPrev={() => funnel.history.back()} context={funnel.context} />
+        <EditScheduleConfirmStep
+          onPrev={() => funnel.history.back()}
+          context={funnel.context}
+          onNext={() => {
+            funnel.history.go(BACK_FUNNEL_STEP_COUNT);
+          }}
+        />
       );
   }
 }

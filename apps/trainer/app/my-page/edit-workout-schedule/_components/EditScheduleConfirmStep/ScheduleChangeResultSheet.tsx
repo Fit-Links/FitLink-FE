@@ -10,28 +10,21 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@ui/components/Sheet";
-import { useRouter } from "next/navigation";
 import React from "react";
-
-import { MYPAGE_ROUTES } from "@trainer/constants/mypageRoute";
 
 import { formatDateStringToKorean } from "@trainer/utils/avaliableScheduleUtils";
 
 interface ScheduleChangeResultSheetProps {
   children: React.ReactNode;
   scheduleApplyAt?: string;
+  onNext?: () => void;
 }
 
 export default function ScheduleChangeResultSheet({
   children,
   scheduleApplyAt,
+  onNext,
 }: ScheduleChangeResultSheetProps) {
-  const router = useRouter();
-
-  const handleClickConfirm = () => {
-    router.push(MYPAGE_ROUTES.MY_PAGE);
-  };
-
   return (
     <Sheet>
       <SheetTrigger>{children}</SheetTrigger>
@@ -49,7 +42,7 @@ export default function ScheduleChangeResultSheet({
         </SheetDescription>
         <SheetFooter>
           <SheetClose asChild>
-            <Button variant={"brand"} className="h-[2.5rem] w-full" onClick={handleClickConfirm}>
+            <Button variant={"brand"} className="h-[2.5rem] w-full" onClick={onNext}>
               확인
             </Button>
           </SheetClose>

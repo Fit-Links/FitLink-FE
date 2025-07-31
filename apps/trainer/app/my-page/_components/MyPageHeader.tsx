@@ -13,27 +13,25 @@ type MyPageHeaderProps = {
   name: string;
   imageSrc: string;
 };
-function MyPageHeader({ name, imageSrc }: MyPageHeaderProps) {
+
+export default function MyPageHeader({ name, imageSrc }: MyPageHeaderProps) {
   const router = useRouter();
 
-  const handleClickLogout = (page: string) => {
-    router.push(page);
+  const handleClickRoutingMyInformation = () => {
+    router.push(RouteInstance["my-information"]());
   };
 
   return (
     <section className="flex w-full justify-between">
       <ProfileHeader>
-        <ProfileHeader.Section onClick={() => handleClickLogout(RouteInstance["my-information"]())}>
+        <ProfileHeader.Section onClick={handleClickRoutingMyInformation}>
           <ProfileHeader.Avatar>
             <Image width={50} height={50} src={imageSrc || ""} alt={`${name} 프로필`} />
           </ProfileHeader.Avatar>
           <ProfileHeader.Name name={name} />
         </ProfileHeader.Section>
       </ProfileHeader>
-
       <LogoutButton />
     </section>
   );
 }
-
-export default MyPageHeader;

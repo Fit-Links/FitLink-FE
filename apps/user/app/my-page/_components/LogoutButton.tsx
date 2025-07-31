@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Badge } from "@ui/components/Badge";
 import { Button } from "@ui/components/Button";
 import {
@@ -20,6 +20,7 @@ import RouteInstance from "@user/constants/routes";
 
 export default function LogoutButton() {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
     mutationFn: clearToken,
@@ -28,6 +29,7 @@ export default function LogoutButton() {
   const handleClickLogout = () => {
     mutate(undefined, {
       onSuccess: () => {
+        queryClient.clear();
         router.push(RouteInstance.login());
       },
     });
