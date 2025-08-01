@@ -22,7 +22,6 @@ async function ScheduleManagement() {
   await queryClient.prefetchQuery(reservationQueries.list(simpleDate));
   const dehydratedState = dehydrate(queryClient);
 
-  // "flex flex-1 flex-col"
   return (
     <HeaderProvider>
       <main className={cn(commonLayoutContents)}>
