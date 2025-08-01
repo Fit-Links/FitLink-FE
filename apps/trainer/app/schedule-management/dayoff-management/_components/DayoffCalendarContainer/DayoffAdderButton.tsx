@@ -16,8 +16,6 @@ import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import RouteInstance from "@trainer/constants/route";
-
 import { useDayoffAddMutation } from "../../_hooks/mutations/useDayoffAddMutation";
 
 type DayoffAdderButtonProps = {
@@ -41,7 +39,7 @@ function DayoffAdderButton({ selectedDate }: DayoffAdderButtonProps) {
   };
 
   const handleClickCloseDayoffAdderSheet = () => {
-    router.push(RouteInstance["schedule-management"]());
+    router.back();
   };
 
   useEffect(() => {

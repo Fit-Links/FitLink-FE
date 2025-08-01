@@ -47,7 +47,7 @@ export default function InputOTP() {
 
   useEffect(() => {
     if (isSuccess) {
-      router.push(RouteInstance["my-page"]());
+      router.replace(RouteInstance["my-page"]());
     }
     if (isError) {
       setStatus("error");

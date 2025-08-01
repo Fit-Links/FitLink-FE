@@ -15,8 +15,6 @@ import {
 import { useRouter } from "next/navigation";
 import React from "react";
 
-import RouteInstance from "@user/constants/routes";
-
 interface SuccessEditPreferenceTimeBottomSheetProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -28,7 +26,7 @@ function SuccessEditPreferenceTimeBottomSheet({
   const router = useRouter();
 
   const handleClickClose = () => {
-    router.push(RouteInstance["my-page"]());
+    router.back();
   };
 
   return (
