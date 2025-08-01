@@ -2,7 +2,7 @@
 
 import ProfileHeader from "@ui/components/ProfileHeader";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import React from "react";
 
 import RouteInstance from "@trainer/constants/route";
@@ -14,22 +14,18 @@ type MyPageHeaderProps = {
   imageSrc: string;
 };
 function MyPageHeader({ name, imageSrc }: MyPageHeaderProps) {
-  const router = useRouter();
-
-  const handleClickLogout = (page: string) => {
-    router.push(page);
-  };
-
   return (
     <section className="flex w-full justify-between">
-      <ProfileHeader>
-        <ProfileHeader.Section onClick={() => handleClickLogout(RouteInstance["my-information"]())}>
-          <ProfileHeader.Avatar>
-            <Image width={50} height={50} src={imageSrc || ""} alt={`${name} 프로필`} />
-          </ProfileHeader.Avatar>
-          <ProfileHeader.Name name={name} />
-        </ProfileHeader.Section>
-      </ProfileHeader>
+      <Link href={RouteInstance["my-information"]()}>
+        <ProfileHeader>
+          <ProfileHeader.Section onClick={() => {}}>
+            <ProfileHeader.Avatar>
+              <Image width={50} height={50} src={imageSrc || ""} alt={`${name} 프로필`} />
+            </ProfileHeader.Avatar>
+            <ProfileHeader.Name name={name} />
+          </ProfileHeader.Section>
+        </ProfileHeader>
+      </Link>
 
       <LogoutButton />
     </section>

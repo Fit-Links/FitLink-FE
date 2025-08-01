@@ -3,7 +3,7 @@
 import Icon from "@ui/components/Icon";
 import { ProfileItem } from "@ui/components/ProfileItem";
 import { cn } from "@ui/lib/utils";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import React from "react";
 
 type ProfileItemForRoutingProps = {
@@ -17,15 +17,11 @@ export default function ProfileItemForRouting({
   variant,
   url,
 }: ProfileItemForRoutingProps) {
-  const router = useRouter();
-
-  const handleClickRouting = () => {
-    router.push(url);
-  };
-
   return (
-    <ProfileItem variant={variant} className={cn(className)}>
-      <Icon name="ChevronRight" size="lg" onClick={handleClickRouting} className="cursor-pointer" />
-    </ProfileItem>
+    <Link href={url}>
+      <ProfileItem variant={variant} className={cn(className)}>
+        <Icon name="ChevronRight" size="lg" className="cursor-pointer" />
+      </ProfileItem>
+    </Link>
   );
 }
