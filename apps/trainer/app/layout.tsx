@@ -1,4 +1,3 @@
-import { cn } from "@ui/lib/utils";
 import { Viewport } from "next";
 import localFont from "next/font/local";
 
@@ -28,15 +27,12 @@ export default function RootLayout({
   return (
     <html
       lang="ko"
-      className={cn(
-        "bg-background-primary text-text-primary flex h-full flex-col",
-        pretendard.variable,
-      )}
+      className={`${pretendard.variable} bg-background-primary text-text-primary font-pretendard flex h-full flex-col`}
     >
       <head>
         <PWAManifestLinks />
       </head>
-      <body className={cn("m-0 flex-1", pretendard.className)}>
+      <body className={"font-pretendard m-0 flex-1"}>
         <Providers>{children}</Providers>
       </body>
     </html>
