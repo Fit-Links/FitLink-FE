@@ -1,7 +1,9 @@
+"use client";
+
 import { cn } from "@ui/lib/utils";
 import { Calendar, ContactRound, UserRound } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import RouteInstance from "@trainer/constants/route";
 
@@ -14,45 +16,45 @@ const navigationItems = Object.freeze([
   { icon: UserRound, label: "마이페이지", path: RouteInstance["my-page"]() },
 ]);
 
-type BottomNavigationProps = {
-  isNavigating: boolean;
-  setIsNavigating: (isNavigating: boolean) => void;
-};
+// type BottomNavigationProps = {
+//   isNavigating: boolean;
+//   setIsNavigating: (isNavigating: boolean) => void;
+// };
 
-export default function BottomNavigation({ isNavigating, setIsNavigating }: BottomNavigationProps) {
-  const router = useRouter();
+export default function BottomNavigation() {
+  // const router = useRouter();
   const pathname = usePathname();
 
-  useEffect(() => {
-    router.push(pathname);
-    setIsNavigating(false);
-  }, [pathname]);
+  // useEffect(() => {
+  //   router.push(pathname);
+  //   setIsNavigating(false);
+  // }, [pathname]);
 
-  const handleNavigation = (path: string) => {
-    if (path === pathname) return;
+  // const handleNavigation = (path: string) => {
+  //   if (path === pathname) return;
 
-    setIsNavigating(true);
-    router.push(path);
-  };
+  //   setIsNavigating(true);
+  //   router.push(path);
+  // };
 
   return (
     <nav className="bg-background-primary border-background-sub2 md:max-w-mobile fixed bottom-0 z-10 flex h-[5.063rem] w-full justify-around border-t">
       {navigationItems.map(({ icon: Icon, label, path }, index) => (
         <div key={`${label}-${index}`} className="flex flex-1 items-center justify-center">
-          <button
-            onClick={() => handleNavigation(path)}
-            disabled={isNavigating}
+          <Link
+            replace
+            scroll={false}
+            href={path}
             className={cn(
               "text-background-sub4 md:hover:text-background-sub5 flex w-12 flex-col items-center justify-center gap-1 transition-colors",
               {
                 "text-text-primary": pathname.startsWith(path),
-                "opacity-50": isNavigating && !pathname.startsWith(path),
               },
             )}
           >
             <Icon />
             <span className="text-body-5">{label}</span>
-          </button>
+          </Link>
         </div>
       ))}
     </nav>

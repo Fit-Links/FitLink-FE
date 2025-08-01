@@ -2,7 +2,6 @@
 
 import { cn } from "@ui/lib/utils";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
 
 import RouteInstance from "@trainer/constants/route";
 
@@ -29,8 +28,6 @@ function FooterProvider({ children }: { children: React.ReactNode }) {
   const pathName = usePathname();
   const hasFooter = doesPathNeedFooter(pathName);
 
-  const [isNavigating, setIsNavigating] = useState(false);
-
   return (
     <>
       <div
@@ -42,10 +39,8 @@ function FooterProvider({ children }: { children: React.ReactNode }) {
           },
         )}
       >
-        {!isNavigating && <div className="flex h-full w-full flex-col px-4">{children}</div>}
-        {hasFooter && (
-          <BottomNavigation isNavigating={isNavigating} setIsNavigating={setIsNavigating} />
-        )}
+        <div className="flex h-full w-full flex-col px-4">{children}</div>
+        {hasFooter && <BottomNavigation />}
       </div>
     </>
   );
