@@ -3,6 +3,7 @@ import { isPast, parseISO } from "date-fns";
 
 import { ModifiedReservationListItem } from "@trainer/services/types/reservations.dto";
 
+import ReservationChangeRequestBottomSheet from "./ReservationChangeRequestBottomSheet";
 import ReservationControlSheet from "./ReservationControlSheet";
 import ReservationNotAllowedCancelSheet from "./ReservationNotAllowedCancelSheet";
 import ReservationOutcomeSheet from "./ReservationOutcomeSheet";
@@ -28,10 +29,7 @@ const isReservationPast = (reservation: ModifiedReservationListItem): boolean =>
 };
 
 export const SheetAdapter: Record<
-  Exclude<
-    ReservationStatus,
-    "휴무일" | "예약 취소 요청" | "예약 변경 요청" | "예약 취소" | "예약 거절"
-  >,
+  Exclude<ReservationStatus, "휴무일" | "예약 취소 요청" | "예약 취소" | "예약 거절">,
   ReservationSheetRenderer
 > = {
   "예약 불가 설정": (commonProps, reservationContent) => (
@@ -110,4 +108,10 @@ export const SheetAdapter: Record<
       />
     );
   },
+  "예약 변경 요청": (commonProps, reservationContent) => (
+    <ReservationChangeRequestBottomSheet
+      {...commonProps}
+      memberInformation={reservationContent[0]}
+    />
+  ),
 };
