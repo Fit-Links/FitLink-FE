@@ -5,6 +5,7 @@ import { MouseEventHandler, ReactNode } from "react";
 
 import { cn } from "@ui/lib/utils";
 
+import Icon from "./Icon";
 import { Text } from "./Text";
 
 type HeaderRootProps = {
@@ -13,16 +14,38 @@ type HeaderRootProps = {
   subHeader?: ReactNode;
   className?: string;
 };
+
+const GUIDE_URL =
+  "https://www.notion.so/Fit-Link-245764b4d45580da9230e07a9e3b374e?source=copy_link";
+
 function HeaderRoot({ logo, subHeader, children, className }: HeaderRootProps) {
   const hasChildren = Array.isArray(children) ? children.some((child) => !!child) : children;
+
+  const handleClickOpenInformation = () => {
+    if (typeof window !== "undefined") {
+      if (window.matchMedia("(display-mode: standalone)").matches) {
+        window.open(GUIDE_URL, "_blank", "noopener,noreferrer");
+      } else {
+        window.open(GUIDE_URL, "_blank");
+      }
+    }
+  };
 
   return (
     <>
       <section className="w-full">
         <header className={cn("bg-background-primary z-10 w-full")}>
           {logo && (
-            <div className={cn("flex h-[3rem] items-center justify-start transition-transform")}>
-              {logo}
+            <div className="flex items-center justify-between">
+              <div className={cn("flex h-[3rem] items-center justify-start transition-transform")}>
+                {logo}
+              </div>
+              <Icon
+                name="Info"
+                size="lg"
+                className="cursor-pointer"
+                onClick={handleClickOpenInformation}
+              />
             </div>
           )}
         </header>
