@@ -2,69 +2,93 @@
 "use client";
 
 import { NotificationInfo } from "@5unwan/core/api/types/common";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import DateController from "@ui/lib/DateController";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { toast } from "sonner";
+
+import { notificationBaseKeys, notificationQueries } from "@trainer/queries/notification";
+
+import { readNotification } from "@trainer/services/notification";
 
 import RouteInstance from "@trainer/constants/route";
 
 import ReservationContainer from "./ReservationContainer";
-
-function parseKoreanDateString(dateStr: string) {
-  // 현재 연도 사용 (필요시 인자로 받게 변경 가능)
-  const currentYear = new Date().getFullYear();
-
-  // 월, 일 추출
-  const match = dateStr
-    .replace(/[()\s]/g, "") // 괄호와 공백 제거
-    .replace("오전", "AM")
-    .replace("오후", "PM")
-    .match(/(\d{2})\.(\d{2})[^\d]*(AM|PM)(\d{1,2})시/); // 정규식 매칭
-
-  if (!match) {
-    throw new Error("Invalid date string format");
-  }
-
-  const [monthStr, dayStr, meridiem, hourStr] = match.slice(1); // 첫 번째는 전체 match이므로 제외
-
-  // 숫자 변환
-  const month = parseInt(monthStr, 10) - 1; // JS는 0-based month
-  const day = parseInt(dayStr, 10);
-  let hour = parseInt(hourStr, 10);
-
-  if (meridiem === "PM" && hour !== 12) {
-    hour += 12;
-  } else if (meridiem === "AM" && hour === 12) {
-    hour = 0;
-  }
-
-  // Date 객체 생성
-  return new Date(currentYear, month, day, hour);
-}
+import { parseContent } from "../../_utils/notificationParser";
+import { parseKoreanDateString } from "../../_utils/parseKoreanDateString";
 
 function ReservationNotificationPageClient() {
-  const [selectedNotification, setSelectedNotification] = useState<NotificationInfo>();
-
+  const queryClient = useQueryClient();
   const router = useRouter();
 
-  const handleNotificationClick = (notification: NotificationInfo) => () => {
-    const { notificationId, type, content, sendDate, isProcessed, notificationType } = notification;
-    if (notificationId !== selectedNotification?.notificationId) {
-      setSelectedNotification({
-        notificationId,
-        type,
-        notificationType,
-        content,
-        sendDate,
-        isProcessed,
+  const readNotificationMutation = useMutation({
+    mutationFn: readNotification,
+    onMutate: async ({ id }) => {
+      queryClient.cancelQueries({
+        queryKey: notificationQueries.list({ type: "RESERVATION_REQUEST" }).queryKey,
       });
-    }
 
-    const dateString = content.split("\n")[1].split("날짜: ")[1];
+      const previousNotifications = queryClient.getQueryData(
+        notificationQueries.list({ type: "RESERVATION_REQUEST" }).queryKey,
+      );
+
+      queryClient.setQueryData(
+        notificationQueries.list({ type: "RESERVATION_REQUEST" }).queryKey,
+        (old) => {
+          if (!old) return old;
+          const newPages = old.pages.map((page) => {
+            const newData = {
+              ...page.data,
+              content: page.data.content.map((val) =>
+                val.notificationId === id ? { ...val, isProcessed: true } : val,
+              ),
+            };
+
+            return {
+              ...page,
+              data: newData,
+            };
+          });
+
+          return {
+            ...old,
+            pages: newPages,
+          };
+        },
+      );
+
+      return { previousNotifications };
+    },
+    onError: (_error, _variables, context) => {
+      queryClient.setQueryData(
+        notificationQueries.list({ type: "RESERVATION_REQUEST" }).queryKey,
+        context?.previousNotifications,
+      );
+    },
+    onSettled: () => queryClient.invalidateQueries({ queryKey: notificationBaseKeys.lists() }),
+    onSuccess: () => {},
+  });
+
+  const handleNotificationClick = (notification: NotificationInfo) => () => {
+    const { notificationId, content, isProcessed } = notification;
+
+    const { eventDate } = parseContent(content);
+    const parsedDate = parseKoreanDateString(eventDate);
+
+    if (isProcessed) return;
+
+    readNotificationMutation.mutate({ id: notificationId });
+
+    if (parsedDate === null) {
+      toast.error("유효하지 않은 날짜의 일정입니다.");
+
+      return;
+    }
 
     router.push(
       RouteInstance["pending-reservations"]("", {
-        selectedDate: String(parseKoreanDateString(dateString)),
-        formattedSelectedDate: dateString,
+        selectedDate: String(parsedDate),
+        formattedSelectedDate: DateController(parsedDate).toDateTimeWithDayFormat(),
       }),
     );
   };

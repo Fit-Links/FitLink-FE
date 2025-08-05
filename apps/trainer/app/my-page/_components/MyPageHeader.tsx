@@ -13,7 +13,8 @@ type MyPageHeaderProps = {
   name: string;
   imageSrc: string;
 };
-function MyPageHeader({ name, imageSrc }: MyPageHeaderProps) {
+
+export default function MyPageHeader({ name, imageSrc }: MyPageHeaderProps) {
   return (
     <section className="flex w-full justify-between">
       <Link href={RouteInstance["my-information"]()}>
@@ -26,10 +27,8 @@ function MyPageHeader({ name, imageSrc }: MyPageHeaderProps) {
           </ProfileHeader.Section>
         </ProfileHeader>
       </Link>
-
+      
       <LogoutButton />
     </section>
   );
 }
-
-export default MyPageHeader;

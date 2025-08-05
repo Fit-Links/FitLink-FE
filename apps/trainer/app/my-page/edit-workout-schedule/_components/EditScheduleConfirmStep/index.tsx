@@ -17,12 +17,17 @@ import useDeleteScheduleMutation from "../../_hooks/useDeleteScheduleMutation";
 
 type EditScheduleConfirmStepProps = {
   onPrev: () => void;
+  onNext: () => void;
   context: {
     applyAt: string;
     availableTimes: Omit<AvailablePtTime, "availableTimeId">[];
   };
 };
-export default function EditScheduleConfirmStep({ onPrev, context }: EditScheduleConfirmStepProps) {
+export default function EditScheduleConfirmStep({
+  onPrev,
+  onNext,
+  context,
+}: EditScheduleConfirmStepProps) {
   const queryClient = useQueryClient();
   const { data: currentData } = useQuery(myInformationQueries.ptAvailableTime());
 
@@ -76,7 +81,7 @@ export default function EditScheduleConfirmStep({ onPrev, context }: EditSchedul
           </p>
         </div>
       </div>
-      <ScheduleChangeResultSheet scheduleApplyAt={applyAt}>
+      <ScheduleChangeResultSheet scheduleApplyAt={applyAt} onNext={onNext}>
         <Button className="w-full" size="lg" variant="brand" onClick={handleClickChangeSchedule}>
           변경
         </Button>

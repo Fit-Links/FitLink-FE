@@ -33,6 +33,8 @@ export const initCoreApi = ({ baseUrl, tokenProvider }: CoreApiConfig) => {
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+    } else {
+      window.location.href = "/login";
     }
 
     return config;
