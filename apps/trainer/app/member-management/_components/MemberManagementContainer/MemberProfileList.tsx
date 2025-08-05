@@ -113,7 +113,6 @@ function MemberProfileListContent({
                     userBirth={new Date(birthDate)}
                     userName={name}
                     phoneNumber={phoneNumber}
-                    ellipsIcon
                     className={cn("w-full", {
                       "border-brand-primary-500 border": selectedMember?.memberId === memberId,
                     })}

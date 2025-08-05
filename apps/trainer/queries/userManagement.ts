@@ -1,5 +1,5 @@
 import { PtStatus } from "@5unwan/core/api/types/common";
-import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query";
+import { infiniteQueryOptions, keepPreviousData, queryOptions } from "@tanstack/react-query";
 
 import {
   getPtUserDetail,
@@ -34,6 +34,7 @@ export const userManagementQueries = {
       },
       // enabled: !!q,
       initialPageParam: START_PAGE,
+      placeholderData: keepPreviousData,
       refetchOnWindowFocus: false,
       refetchOnMount: false,
     }),

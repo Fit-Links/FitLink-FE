@@ -7,7 +7,7 @@ import {
   AccordionTrigger,
 } from "@ui/components/Accordion";
 import { Bell, Calendar, Dumbbell, HeartHandshake } from "lucide-react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useMemo } from "react";
 
 import { notificationMap } from "@trainer/app/notification/_constants";
@@ -59,38 +59,35 @@ export default function NotificationAccordion() {
     [],
   );
 
-  const router = useRouter();
-
   return (
     <Accordion type="multiple">
       <AccordionItem value="전체 알림">
-        <AccordionTrigger
-          icon={<Bell />}
-          onClick={() => router.push(RouteInstance.notification())}
-          className="border-0"
-        >
-          <span>전체 알림</span>
-        </AccordionTrigger>
+        <Link href={RouteInstance.notification()} replace>
+          <AccordionTrigger icon={<Bell />} className="border-0">
+            <span>전체 알림</span>
+          </AccordionTrigger>
+        </Link>
       </AccordionItem>
       {NOTIFICATION_ACCORDION_ITEMS.map(({ title, contents, icon, route }, index) => (
         <AccordionItem value={String(index)} key={`${index}-${title}`}>
-          <AccordionTrigger
-            icon={icon}
-            onClick={() => {
-              if (!route) return;
-              router.push(RouteInstance.notification(route));
-            }}
-          >
-            <span>{title}</span>
-          </AccordionTrigger>
+          {route ? (
+            <Link href={RouteInstance.notification(route)} replace>
+              <AccordionTrigger icon={icon}>
+                <span>{title}</span>
+              </AccordionTrigger>
+            </Link>
+          ) : (
+            <AccordionTrigger icon={icon}>
+              <span>{title}</span>
+            </AccordionTrigger>
+          )}
+
           {contents.map(({ content, route }) => (
-            <AccordionContent
-              key={`${content}`}
-              onClick={() => router.push(RouteInstance.notification(route))}
-              className="cursor-pointer"
-            >
-              <span>{content}</span>
-            </AccordionContent>
+            <Link href={RouteInstance.notification(route)} replace key={`${content}`}>
+              <AccordionContent className="cursor-pointer">
+                <span>{content}</span>
+              </AccordionContent>
+            </Link>
           ))}
         </AccordionItem>
       ))}

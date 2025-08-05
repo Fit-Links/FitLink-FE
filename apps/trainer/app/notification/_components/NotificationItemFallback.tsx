@@ -23,7 +23,7 @@ function NotificationItemFallback({
   return (
     <li
       className={cn(
-        "bg-background-sub1 flex h-[6.25rem] w-full cursor-pointer items-center gap-[15px] rounded-[10px] px-[15px] transition-colors",
+        "bg-background-sub1 flex h-[6.25rem] w-full shrink-0 cursor-pointer items-center gap-[15px] rounded-[10px] px-[15px] transition-colors",
         {
           "cursor-default": isCompleted,
         },

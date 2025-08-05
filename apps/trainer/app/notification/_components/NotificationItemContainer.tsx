@@ -45,7 +45,7 @@ function NotificationItemContainer({ notification, onClick }: Props) {
         createdAt={sendDate}
         isCompleted={isProcessed}
         key={`notification-${notificationId}`}
-        className="w-full"
+        className="w-full shrink-0"
         onClick={onClick}
       />
     );
@@ -71,7 +71,7 @@ function NotificationItemContainer({ notification, onClick }: Props) {
       }
       isCompleted={isProcessed}
       key={`notification-${notificationId}`}
-      className="w-full"
+      className="w-full shrink-0"
       onClick={onClick}
     />
   );

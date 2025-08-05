@@ -14,7 +14,6 @@ type ProfileCardProps = ComponentProps<"section"> & {
   userBirth: Date;
   phoneNumber: string;
   PTReservationOtherTime?: string;
-  ellipsIcon?: boolean;
   children?: ReactNode;
 };
 
