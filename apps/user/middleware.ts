@@ -8,11 +8,11 @@ import {
   PUBLIC_TOKEN_ROUTES,
 } from "./middleware/utils/routeMatchers";
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl.clone();
 
   if (isPublicTokenRoute(pathname)) {
-    const tokenResponse = handleTokenFromUrl(request);
+    const tokenResponse = await handleTokenFromUrl(request);
     if (tokenResponse) return tokenResponse;
   }
 

@@ -7,7 +7,6 @@ import React, { useState } from "react";
 import RouteInstance from "@user/constants/routes";
 
 import BottomNavigation from "../BottomNavigation";
-import UserPermissionGuard from "../UserPermissionGuard";
 
 const PATHS = {
   WITH_FOOTER: new Set([
@@ -36,11 +35,7 @@ function FooterProvider({ children }: { children: React.ReactNode }) {
           },
         )}
       >
-        {!isNavigating && (
-          <UserPermissionGuard>
-            <div className="flex h-full w-full flex-col px-4">{children}</div>
-          </UserPermissionGuard>
-        )}
+        {!isNavigating && <div className="flex h-full w-full flex-col px-4">{children}</div>}
         {hasFooter && (
           <BottomNavigation isNavigating={isNavigating} setIsNavigating={setIsNavigating} />
         )}
