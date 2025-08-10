@@ -4,20 +4,28 @@ import { notificationQueries } from "@trainer/queries/notification";
 
 import SessionNotificationPageClient from "./_components/NotificationPageClient";
 
-async function SessionNotificationPage() {
+// 빌드 시점에 API 호출하지 않도록 dynamic rendering 설정
+export const dynamic = "force-dynamic";
+
+export default async function SessionNotificationPage() {
   const queryClient = new QueryClient();
 
-  const listQuery = await queryClient.fetchInfiniteQuery(
-    notificationQueries.list({ type: "SESSION" }),
-  );
+  try {
+    const listQuery = await queryClient.fetchInfiniteQuery(
+      notificationQueries.list({ type: "SESSION" }),
+    );
 
-  const firstPageIds = listQuery.pages.flatMap((page) =>
-    page.data.content.map((n) => n.notificationId),
-  );
+    const firstPageIds = listQuery.pages.flatMap((page) =>
+      page.data.content.map((n) => n.notificationId),
+    );
 
-  await Promise.all(
-    firstPageIds.map((id) => queryClient.prefetchQuery(notificationQueries.detail(id))),
-  );
+    await Promise.all(
+      firstPageIds.map((id) => queryClient.prefetchQuery(notificationQueries.detail(id))),
+    );
+  } catch (error) {
+    // 빌드 시점 에러 무시
+    console.log("Session notification data fetch failed during build:", error);
+  }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
@@ -25,5 +33,3 @@ async function SessionNotificationPage() {
     </HydrationBoundary>
   );
 }
-
-export default SessionNotificationPage;
