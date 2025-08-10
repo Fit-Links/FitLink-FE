@@ -28,7 +28,7 @@ function ReservationContainer({
   const searchParams = useSearchParams();
   const dateParam = searchParams.get("selectedDate");
   const currentDate = new Date();
-  const today = `${currentDate.getFullYear()}-0${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
+  const today = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, "0")}-${String(currentDate.getDate()).padStart(2, "0")}`;
 
   const [selectedDate, setSelectedDate] = useState<Date>(
     reservationDate ? new Date(reservationDate) : new Date(dateParam || Date.now()),
@@ -36,6 +36,7 @@ function ReservationContainer({
 
   const { data: trainerReservationStatus } = useSuspenseQuery({
     ...reservationQueries.trainerReservationStatus(today),
+    refetchOnMount: true,
   });
 
   return (

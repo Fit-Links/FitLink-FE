@@ -43,6 +43,7 @@ export default function Calendar() {
   const { data: reservations } = useQuery({
     ...reservationQueries.list(format(firstDayOfMonth, "yyyy-MM-dd")),
     enabled: myInformation?.data?.connectingStatus === "CONNECTED",
+    refetchOnMount: true,
   });
 
   if (myInformation?.data?.connectingStatus !== "CONNECTED") {

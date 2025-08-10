@@ -48,7 +48,10 @@ function Calendar() {
   const currentMonth = currentWeek[0].getMonth() + MONTH_START_INDEX;
 
   const [{ data: dayoff }, { data: ptAvailableTime }] = useSuspenseQueries({
-    queries: [myInformationQueries.dayOff(), myInformationQueries.ptAvailableTime()],
+    queries: [
+      { ...myInformationQueries.dayOff(), refetchOnMount: true },
+      { ...myInformationQueries.ptAvailableTime(), refetchOnMount: true },
+    ],
   });
 
   const handleChangeSlide = (swiperConfig: SwiperConfig) => {

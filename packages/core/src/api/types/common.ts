@@ -78,6 +78,7 @@ export type BaseReservationListItem = {
   isDayOff: boolean;
   dayOfWeek: DayOfWeek;
   reservationDates: string[];
+  confirmDate: null | string;
   status: ReservationStatus;
   memberInfo: BaseMemberInfo;
 };
