@@ -49,33 +49,6 @@ type ProvidersProps = {
 
 function Providers({ children }: ProvidersProps) {
   const queryClient = useMemo(() => getQueryClient(), []);
-  // const router = useRouter();
-  // const pathname = usePathname();
-
-  // // useEffect(() => {
-  // //   const domainUrl = new URL(window.location.href).hostname;
-
-  // //   (async () => {
-  // //     try {
-  // //       const userRole = await queryClient.fetchQuery(authQueries.status());
-
-  // //       if (userRole.data.userRole === "TRAINER") {
-  // //         if (domainUrl.includes("dev.trainer")) {
-  // //           router.replace(devTrainer);
-  // //         } else if (domainUrl.includes("trainer")) {
-  // //           router.replace(prodTrainer);
-  // //         }
-  // //       }
-  // //     } catch (error) {
-  // //       if (error instanceof Error) {
-  // //         if (pathname !== "login") {
-  // //           router.replace("/login");
-  // //         }
-  // //       }
-  // //       console.error("사용자 Role 확인 실패");
-  // //     }
-  // //   })();
-  // // }, [pathname, router]);
 
   useFcmListener();
 
