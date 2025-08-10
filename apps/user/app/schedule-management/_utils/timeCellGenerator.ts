@@ -15,12 +15,26 @@ import {
   isOutsideSchedule,
 } from "./trainerReservationStatusConverter";
 
+// 원래 예약된 날짜와 예약 페이지에서 선택된 날짜 같은지 비교 함수
+export const isSameOriginalSelectedDateAndSelectedDate = (
+  originalSelectedDate: string | null | undefined,
+  selectedDate: Date,
+) => {
+  if (!originalSelectedDate) return false;
+
+  const originalSelecteMDY = originalSelectedDate.split("T")[0];
+  const selectedDateMDY = format(selectedDate, "yyyy-MM-dd");
+
+  return originalSelecteMDY === selectedDateMDY;
+};
+
 export const generateIntegratedTimeCells = (
   selectedDate: Date,
   trainerAvailableTimes: TrainerAvailableTimesApiResponse["data"],
   inactiveReservations: ReturnType<typeof getInactiveTrainerReservationStatus>,
   userReservations: ReservationStatusApiResponse["data"],
   mode: RequestReservationMode,
+  searchParamsDate?: string | null,
 ): TimeCell[] => {
   const dayOfWeek = format(selectedDate, "EEEE").toUpperCase() as DayOfWeek;
 
@@ -40,7 +54,12 @@ export const generateIntegratedTimeCells = (
   const startHour = startTime ? parseInt(startTime.split(":")[0], 10) : undefined;
   const endHour = endTime ? parseInt(endTime.split(":")[0], 10) : undefined;
 
-  const hasUserReservation = isUserHasReservation(selectedDate, userReservations);
+  const hasUserReservation = isSameOriginalSelectedDateAndSelectedDate(
+    searchParamsDate,
+    selectedDate,
+  )
+    ? false
+    : isUserHasReservation(selectedDate, userReservations);
 
   const HOURS_IN_DAY = 24;
   const PAD_LENGTH = 2;

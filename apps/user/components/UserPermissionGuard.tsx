@@ -58,7 +58,7 @@ const UserPermissionGuard = ({ children }: UserPermissionGuardProps) => {
       <Dialog open={true}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>
+            <DialogTitle className="flex items-center justify-center">
               <div className="bg-notification flex h-[3.125rem] w-[3.125rem] items-center justify-center rounded-full">
                 <Icon name="UserRoundX" size="lg" color="white" />
               </div>
