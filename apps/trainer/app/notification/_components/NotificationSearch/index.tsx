@@ -62,7 +62,7 @@ function NotificationSearchContent({ search, onProfileClick }: NotificationSearc
   }
 
   return (
-    <ul className="flex flex-1 flex-col gap-3">
+    <ul className="flex flex-1 flex-col gap-3 overflow-auto">
       {data.pages[0].data.totalElements ? (
         data.pages.map((group, index) => (
           <Fragment key={`search-notificationMemberGroup-${index}`}>

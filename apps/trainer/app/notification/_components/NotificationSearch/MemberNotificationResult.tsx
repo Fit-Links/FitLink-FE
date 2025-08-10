@@ -55,7 +55,7 @@ function MemberNotificationResultContent({
         <span className="text-body-3">최신순</span>
       </div>
       {data.pages[0].data.totalElements ? (
-        <ul>
+        <ul className="flex flex-1 flex-col gap-3 overflow-auto">
           {data.pages.map((group, index) => (
             <Fragment key={`search-notificationGroup-${index}`}>
               {group.data.content.filter(handleNotificationFilter(status)).map((notification) => (
