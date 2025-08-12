@@ -72,6 +72,14 @@ export const generateIntegratedTimeCells = (
       return { dayOfWeek, time, disabled: true };
     }
 
+    // 기존에 예약 되어있던 날짜와 예약 변경하려고 선택한 날짜가 같으면 기존에 예약되어있던 날짜의 시간 disabled 해제
+    if (
+      isSameOriginalSelectedDateAndSelectedDate(searchParamsDate, selectedDate) &&
+      Number(searchParamsDate?.split("T")[1].split(":")[0]) === hour
+    ) {
+      return { dayOfWeek, time, disabled: false };
+    }
+
     // 기본 스케줄 제약
     const isDisabledBySchedule = isHoliday || isOutsideSchedule(hour, startHour, endHour);
 

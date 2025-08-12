@@ -131,7 +131,11 @@ function PtTimeSelector({
       return;
     }
 
-    setSelectedTimes([]);
+    if (format(selectedDate, "yyyy-MM-dd") === reservationDate?.split("T")[0]) {
+      setSelectedTimes([reservationDate?.split("T")[1].split(":").slice(0, 2).join(":")]);
+    } else {
+      setSelectedTimes([]);
+    }
   }, [selectedDate]);
 
   useEffect(() => {
@@ -140,6 +144,15 @@ function PtTimeSelector({
         "이미 [예약 확정] 또는 [예약 대기], [예약 취소 요청]이 되어있는 날짜는 [추가 예약/예약 변경] 할 수 없습니다.",
       );
   }, [selectedDate]);
+
+  // reservationDateTime prop이 변경될 때 selectedTimes 업데이트
+  useEffect(() => {
+    if (reservationDateTime) {
+      setSelectedTimes([reservationDateTime.replace(/:00$/, "")]);
+    } else {
+      setSelectedTimes([]);
+    }
+  }, [reservationDateTime]);
 
   return (
     <>
