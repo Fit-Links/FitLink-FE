@@ -32,7 +32,7 @@ const UserPermissionGuard = ({ children }: UserPermissionGuardProps) => {
 
   const { data: userRole, isError } = useQuery({
     ...authQueries.status(),
-    enabled: pathname !== RouteInstance.login(),
+    enabled: pathname !== RouteInstance.login() && pathname !== RouteInstance["sns-verification"](),
   });
 
   const { mutate: logout } = useMutation({
@@ -48,7 +48,7 @@ const UserPermissionGuard = ({ children }: UserPermissionGuardProps) => {
     logout();
   };
 
-  if (pathname === RouteInstance.login()) {
+  if (pathname === RouteInstance.login() || pathname === RouteInstance["sns-verification"]()) {
     return <>{children}</>;
   }
 
