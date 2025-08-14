@@ -83,8 +83,8 @@ function PtCountEditSheet({
   };
 
   const handleClickResetButton = () => {
-    setPtRemainingCount(0);
-    setPtTotalCount(0);
+    setPtRemainingCount(remainingCount);
+    setPtTotalCount(totalCount);
   };
 
   const checkDisabledButton = () => {
@@ -96,6 +96,11 @@ function PtCountEditSheet({
       setIsPtCountEditSuccessSheet(true);
     }
   }, [isPtCountEditSuccess]);
+
+  useEffect(() => {
+    setPtRemainingCount(remainingCount);
+    setPtTotalCount(totalCount);
+  }, [selectedMemberInformation]);
 
   return (
     <>
@@ -128,13 +133,13 @@ function PtCountEditSheet({
               </Button>
             </div>
           </SheetHeader>
-          <div className="flex gap-10">
-            <div className="flex flex-col items-center justify-center gap-2">
-              <div>잔여 PT 횟수</div>
+          <div className="flex flex-col gap-5">
+            <div className="flex items-center justify-center gap-2">
+              <div className="w-24 text-right">잔여 PT 횟수</div>
               <Stepper value={ptRemainingCount} onChangeValue={handleChangeRemainingCount} />
             </div>
-            <div className="flex flex-col items-center justify-center gap-2">
-              <div>총 PT 횟수</div>
+            <div className="flex items-center justify-center gap-2">
+              <div className="w-24 text-right">총 PT 횟수</div>
               <Stepper value={ptTotalCount} onChangeValue={handleChangeTotalCount} />
             </div>
           </div>
