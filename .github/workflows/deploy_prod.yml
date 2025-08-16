@@ -11,8 +11,19 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Enable pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
+
       - name: Install mustache (to update the date)
-        run: apk add ruby && gem install mustache
+        run: |
+          apt-get update
+          apt-get install -y ruby-full
+          gem install mustache
 
       - name: Prepare output
         run: sh ./build.sh
@@ -27,7 +38,7 @@ jobs:
           destination-github-username: yjc2021
           destination-repository-name: FitLink-FE
           user-email: ${{ secrets.YJC_EMAIL }}
-          commit-message: ${{ github.event.commits[0].message }}
+          commit-message: ${{ github.event.head_commit.message || 'Automated commit' }}
           target-branch: dev
 
       - name: Test get variable exported by push-to-another-repository
