@@ -14,7 +14,9 @@
     "clean": "turbo clean",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "changeset": "changeset",
+    "version-packages": "changeset version"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
