@@ -7,31 +7,16 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: pandoc/latex
     steps:
-      # Checkout the code
       - uses: actions/checkout@v2
 
-      # Setup Node.js and enable pnpm
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      - name: Enable pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@latest --activate
-          node -v
-          npm -v
-          pnpm -v
+      - name: Install mustache (to update the date)
+        run: apk add ruby && gem install mustache
 
-      # Install dependencies using pnpm
-      - name: Install dependencies
-        run: pnpm install
+      - name: Prepare output
+        run: sh ./build.sh
 
-      # Build your project (Turborepo)
-      - name: Build project
-        run: pnpm turbo run build
-
-      # Push output to another repository
       - name: Pushes to another repository
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
@@ -42,9 +27,8 @@ jobs:
           destination-github-username: yjc2021
           destination-repository-name: FitLink-FE
           user-email: ${{ secrets.YJC_EMAIL }}
-          commit-message: ${{ github.event.head_commit.message || 'Automated commit' }}
+          commit-message: ${{ github.event.commits[0].message }}
           target-branch: dev
 
-      # Test output variable
       - name: Test get variable exported by push-to-another-repository
-        run: echo "${{ steps.push_directory.outputs.DESTINATION_CLONED_DIRECTORY }}"
+        run: echo $DESTINATION_CLONED_DIRECTORY
