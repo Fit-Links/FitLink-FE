@@ -19,4 +19,6 @@ module.exports = {
       headerCorrespondence: ["ticket", "type", "subject"],
     },
   },
+  // Ignore automatic Changeset commits entirely
+  ignores: [(commit) => commit.startsWith("chore: add changeset")],
 };
