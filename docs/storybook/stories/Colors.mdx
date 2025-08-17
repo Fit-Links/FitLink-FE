@@ -1,0 +1,37 @@
+import { Meta, ColorPalette, ColorItem } from '@storybook/blocks';
+
+import resolveConfig from 'tailwindcss/resolveConfig';
+import tailwindConfig from '../tailwind.config.ts';
+
+export const fullConfig = resolveConfig(tailwindConfig);
+export const colors = fullConfig.theme.colors;
+
+<Meta title='System Colors' />
+
+<ColorPalette style={{ wordBreak: 'break-word' }}>
+  <ColorItem
+    title='brand-primary'
+    subtitle='Primary Brand Gradient'
+    colors={colors.brand.primary}
+  />
+  <ColorItem
+    title='brand-secondary'
+    subtitle='Secondary Brand Gradient'
+    colors={colors.brand.secondary}
+  />
+  <ColorItem
+    title='text'
+    subtitle='Text Gradient'
+    colors={colors.text}
+  />
+  <ColorItem
+    title='background'
+    subtitle='Background Gradient'
+    colors={colors.background}
+  />
+   <ColorItem
+    title='notification'
+    subtitle='Notification'
+    colors={{notification: colors.notification}}
+  />
+</ColorPalette>

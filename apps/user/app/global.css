@@ -1,0 +1,5 @@
+@import "@5unwan/tailwind-config/variables";
+
+* {
+  box-sizing: border-box;
+}

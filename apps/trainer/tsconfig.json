@@ -1,0 +1,14 @@
+{
+  "extends": "@5unwan/typescript-config/nextjs.json",
+  "compilerOptions": {
+    "plugins": [{ "name": "next" }],
+    "baseUrl": ".",
+    "paths": {
+      "@trainer/*": ["./*"],
+      "@ui/*": ["../../packages/ui/src/*"],
+      "test-utils": ["utils/test/test-utils.tsx"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "next.config.js"],
+  "exclude": ["node_modules"]
+}

@@ -1,0 +1,136 @@
+import { Avatar, AvatarFallback } from "@ui/components/Avatar";
+import { Badge } from "@ui/components/Badge";
+import Icon from "@ui/components/Icon";
+import { cn } from "@ui/lib/utils";
+import Image from "next/image";
+import { ComponentProps, ReactNode } from "react";
+
+import { formatToMeridiem, formatPhoneNumber } from "@trainer/utils/ProfileCardUtils";
+
+type ProfileCardProps = ComponentProps<"section"> & {
+  className?: string;
+  imgUrl: string;
+  userName: string;
+  userBirth: Date;
+  phoneNumber: string;
+  PTReservationOtherTime?: string;
+  ellipsIcon?: boolean;
+  children?: ReactNode;
+};
+
+type UserInfoProps = Pick<
+  ProfileCardProps,
+  "imgUrl" | "userName" | "phoneNumber" | "PTReservationOtherTime"
+> & {
+  userAge: number;
+};
+
+type ContentProps = Pick<ProfileCardProps, "PTReservationOtherTime" | "children">;
+
+type MenuIconProps = Omit<ComponentProps<typeof Icon>, "name">;
+
+const AGE_OFFSET_KOREAN = 1;
+const CURRENT_YEAR = new Date().getFullYear();
+
+function UserInfo({
+  imgUrl,
+  userAge,
+  userName,
+  phoneNumber,
+  PTReservationOtherTime,
+}: UserInfoProps) {
+  const parsedPTReservationOtherTime =
+    PTReservationOtherTime && formatToMeridiem(PTReservationOtherTime);
+
+  return (
+    <div className="flex h-full flex-col">
+      <div className="flex h-[3.125rem] w-[11.25rem] items-center">
+        <div className="flex h-full w-[5rem] items-center justify-center">
+          <Avatar>
+            {imgUrl ? (
+              <Image
+                width={50}
+                height={50}
+                src={imgUrl}
+                alt={`${userName} 프로필`}
+                className="h-full w-full"
+              />
+            ) : (
+              <AvatarFallback />
+            )}
+          </Avatar>
+        </div>
+        <div className="flex-1">
+          <div className="flex items-center justify-start gap-[0.438rem]">
+            <span className="text-headline w-max">{userName}</span>
+            <span className="text-body-3 text-text-sub3 w-max">{userAge}세</span>
+          </div>
+          <span className="text-body-3">{formatPhoneNumber(phoneNumber)}</span>
+        </div>
+      </div>
+      {parsedPTReservationOtherTime && (
+        <Badge variant="brand" className="ml-[5rem] mt-[0.625rem] h-[2rem] w-[5.25rem]">
+          {parsedPTReservationOtherTime}
+        </Badge>
+      )}
+    </div>
+  );
+}
+
+function Content({ PTReservationOtherTime, children }: ContentProps) {
+  return (
+    <div
+      className={cn(
+        "flex h-full flex-1 justify-end",
+        PTReservationOtherTime ? "min-h-[5.625rem] items-start" : "min-h-[3.125rem] items-center",
+      )}
+    >
+      {children}
+    </div>
+  );
+}
+
+export function MenuIcon({ ...props }: MenuIconProps) {
+  // TODO: MenuIcon 핸들러 추가
+  return (
+    <Icon
+      name="Ellipsis"
+      className="text-text-sub3 absolute right-1 top-0.5 z-10 cursor-pointer"
+      aria-label="프로필 카드 메뉴 버튼"
+      size="lg"
+      {...props}
+    />
+  );
+}
+
+export default function ProfileCard({
+  className,
+  imgUrl,
+  userName,
+  userBirth,
+  phoneNumber,
+  PTReservationOtherTime,
+  children,
+  ...props
+}: ProfileCardProps) {
+  const userAge = CURRENT_YEAR - userBirth.getFullYear() + AGE_OFFSET_KOREAN;
+
+  return (
+    <section
+      className={cn(
+        "bg-background-sub2 text-text-primary md:hover:bg-background-sub3 relative flex w-[22.375rem] items-center rounded-[0.625rem] py-[1.25rem] pr-2 transition-colors",
+        className,
+      )}
+      {...props}
+    >
+      <UserInfo
+        imgUrl={imgUrl}
+        userName={userName}
+        userAge={userAge}
+        phoneNumber={phoneNumber}
+        PTReservationOtherTime={PTReservationOtherTime}
+      />
+      <Content PTReservationOtherTime={PTReservationOtherTime}>{children}</Content>
+    </section>
+  );
+}

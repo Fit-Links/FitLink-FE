@@ -1,0 +1,6 @@
+{
+  "extends": "@5unwan/typescript-config/react-library.json",
+  "compilerOptions": {
+    "lib": ["ES2015", "DOM", "DOM.Iterable"],
+  }
+}

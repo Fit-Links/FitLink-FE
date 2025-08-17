@@ -1,0 +1,13 @@
+{
+  "extends": "@5unwan/typescript-config/base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@core/*": ["src/*"]
+    },
+    "lib": ["ES2015", "DOM"],
+    "types": ["node"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}

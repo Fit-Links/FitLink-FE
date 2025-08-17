@@ -1,0 +1,4 @@
+{
+  "root": true,
+  "extends": ["@5unwan/eslint-config/next"]
+}

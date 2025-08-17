@@ -1,0 +1,20 @@
+{
+  "name": "@5unwan/tailwind-config",
+  "version": "0.0.0",
+  "private": true,
+  "files": [
+    "./variables.css",
+    "./tailwind.config.ts"
+  ],
+  "exports": {
+    ".": "./tailwind.config.ts",
+    "./variables": "./variables.css"
+  },
+  "devDependencies": {
+    "@5unwan/typescript-config": "workspace:*",
+    "tailwindcss": "^3.4.1"
+  },
+  "dependencies": {
+    "tailwindcss-animate": "^1.0.7"
+  }
+}
