@@ -21,6 +21,11 @@ const GUIDE_URL =
 function HeaderRoot({ logo, subHeader, children, className }: HeaderRootProps) {
   const hasChildren = Array.isArray(children) ? children.some((child) => !!child) : children;
 
+  const hostname = typeof window !== "undefined" ? window.location.hostname : "";
+  const isUser = hostname.includes("user");
+  const isTrainer = hostname.includes("trainer");
+  const isLocal = hostname.includes("localhost");
+
   const handleClickOpenInformation = () => {
     if (typeof window !== "undefined") {
       if (window.matchMedia("(display-mode: standalone)").matches) {
@@ -31,13 +36,28 @@ function HeaderRoot({ logo, subHeader, children, className }: HeaderRootProps) {
     }
   };
 
+  const handleClickLogo = () => {
+    if (isUser) {
+      window.location.href = "https://dev.user.fitlink.biz/schedule-management";
+    } else if (isTrainer) {
+      window.location.href = "https://dev.trainer.fitlink.biz/schedule-management";
+    } else if (isLocal) {
+      window.location.href = "http://localhost:3000/schedule-management";
+    }
+  };
+
   return (
     <>
       <section className="w-full">
         <header className={cn("bg-background-primary z-10 w-full")}>
           {logo && (
             <div className="flex items-center justify-between">
-              <div className={cn("flex h-[3rem] items-center justify-start transition-transform")}>
+              <div
+                className={cn(
+                  "flex h-[3rem] cursor-pointer items-center justify-start transition-transform",
+                )}
+                onClick={handleClickLogo}
+              >
                 {logo}
               </div>
               <Icon

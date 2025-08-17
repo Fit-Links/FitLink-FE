@@ -1,7 +1,10 @@
 import { Viewport } from "next";
 import localFont from "next/font/local";
+import { Suspense } from "react";
 
 import "./global.css";
+
+import Loading from "@trainer/components/Loading";
 import Providers from "@trainer/components/Providers";
 
 import PWAManifestLinks from "../components/PWAManifestLinks";
@@ -19,6 +22,7 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
 };
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -33,7 +37,9 @@ export default function RootLayout({
         <PWAManifestLinks />
       </head>
       <body className={"font-pretendard m-0 flex-1"}>
-        <Providers>{children}</Providers>
+        <Suspense fallback={<Loading />}>
+          <Providers>{children}</Providers>
+        </Suspense>
       </body>
     </html>
   );

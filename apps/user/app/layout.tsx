@@ -1,9 +1,11 @@
 import { Viewport } from "next";
 import localFont from "next/font/local";
-
 import "./global.css";
+import { Suspense } from "react";
+
 import PWAManifestLinks from "@user/PWAManifestLinks";
 
+import Loading from "@user/components/Loading";
 import Providers from "@user/components/Providers";
 
 const pretendard = localFont({
@@ -19,6 +21,7 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
 };
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -33,7 +36,9 @@ export default function RootLayout({
         <PWAManifestLinks />
       </head>
       <body className={"font-pretendard m-0 flex-1"}>
-        <Providers>{children}</Providers>
+        <Suspense fallback={<Loading />}>
+          <Providers>{children}</Providers>
+        </Suspense>
       </body>
     </html>
   );

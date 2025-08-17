@@ -13,11 +13,15 @@ import {
 } from "@ui/components/Dialog";
 import TimeCellToggleGroup from "@ui/components/TimeCellToggleGroup";
 import { format, isSameDay } from "date-fns";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { filterLatestReservationsByDate } from "@user/app/schedule-management/_utils/reservationMerger";
-import { generateIntegratedTimeCells } from "@user/app/schedule-management/_utils/timeCellGenerator";
+import {
+  generateIntegratedTimeCells,
+  isSameOriginalSelectedDateAndSelectedDate,
+} from "@user/app/schedule-management/_utils/timeCellGenerator";
 import { getInactiveTrainerReservationStatus } from "@user/app/schedule-management/_utils/trainerReservationStatusConverter";
 import { myInformationQueries } from "@user/queries/myInformation";
 import { reservationQueries } from "@user/queries/reservation";
@@ -44,6 +48,9 @@ function PtTimeSelector({
   firstDayOfMonthKorea,
   trainerReservationStatus,
 }: PtTimeSelectorProps) {
+  const searchParams = useSearchParams();
+  const reservationDate = searchParams.get("reservationDate");
+
   const [selectedTimes, setSelectedTimes] = useState<string[]>(() =>
     reservationDateTime ? [reservationDateTime.replace(/:00$/, "")] : [],
   );
@@ -60,10 +67,11 @@ function PtTimeSelector({
   const inactiveTrainerReservationStatus =
     getInactiveTrainerReservationStatus(trainerReservationStatus);
 
-  const isReservationAvailable = filteredReservations.some(
-    (reservation) =>
-      reservation.reservationDates[0].split("T")[0] ===
-      format(selectedDate, "yyyy-MM-dd'T'HH:mm:ss").split("T")[0],
+  const isReservationAvailable = filteredReservations.some((reservation) =>
+    isSameOriginalSelectedDateAndSelectedDate(reservationDate, selectedDate)
+      ? false
+      : reservation.reservationDates[0].split("T")[0] ===
+        format(selectedDate, "yyyy-MM-dd'T'HH:mm:ss").split("T")[0],
   );
 
   const { data: myInformation } = useQuery(myInformationQueries.summary());
@@ -82,6 +90,7 @@ function PtTimeSelector({
         inactiveTrainerReservationStatus,
         filteredReservations,
         mode,
+        reservationDate,
       )
     : [];
 
@@ -122,15 +131,28 @@ function PtTimeSelector({
       return;
     }
 
-    setSelectedTimes([]);
+    if (format(selectedDate, "yyyy-MM-dd") === reservationDate?.split("T")[0]) {
+      setSelectedTimes([reservationDate?.split("T")[1].split(":").slice(0, 2).join(":")]);
+    } else {
+      setSelectedTimes([]);
+    }
   }, [selectedDate]);
 
   useEffect(() => {
-    if (isReservationAvailable && mode === "new")
+    if (isReservationAvailable)
       toast.info(
-        "이미 [예약 확정] 또는 [예약 대기], [예약 취소 요청]이 걸려있는 날짜는 추가로 예약할 수 없습니다.",
+        "이미 [예약 확정] 또는 [예약 대기], [예약 취소 요청]이 되어있는 날짜는 [추가 예약/예약 변경] 할 수 없습니다.",
       );
   }, [selectedDate]);
+
+  // reservationDateTime prop이 변경될 때 selectedTimes 업데이트
+  useEffect(() => {
+    if (reservationDateTime) {
+      setSelectedTimes([reservationDateTime.replace(/:00$/, "")]);
+    } else {
+      setSelectedTimes([]);
+    }
+  }, [reservationDateTime]);
 
   return (
     <>

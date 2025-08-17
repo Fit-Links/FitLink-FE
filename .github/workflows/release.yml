@@ -1,0 +1,44 @@
+name: Release App
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout repo
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Install Node.js (with pnpm caching)
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      # Enable pnpm via Corepack (instead of npm install -g)
+      - name: Enable pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
+          pnpm --version
+
+      # Install dependencies with pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Run Changesets to create or update a release PR
+      - name: Create Release PR
+        uses: changesets/action@v1
+        with:
+          version: pnpm version-packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

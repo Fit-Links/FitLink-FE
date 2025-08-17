@@ -32,7 +32,10 @@ const UserPermissionGuard = ({ children }: UserPermissionGuardProps) => {
 
   const { data: userRole, isError } = useQuery({
     ...authQueries.status(),
-    enabled: pathname !== RouteInstance.login(),
+    enabled:
+      pathname !== RouteInstance.login() &&
+      pathname !== RouteInstance["sns-verification"]() &&
+      pathname !== RouteInstance.register(),
   });
 
   const { mutate: logout } = useMutation({
@@ -48,7 +51,11 @@ const UserPermissionGuard = ({ children }: UserPermissionGuardProps) => {
     logout();
   };
 
-  if (pathname === RouteInstance.login()) {
+  if (
+    pathname === RouteInstance.login() ||
+    pathname === RouteInstance["sns-verification"]() ||
+    pathname === RouteInstance.register()
+  ) {
     return <>{children}</>;
   }
 
@@ -58,7 +65,7 @@ const UserPermissionGuard = ({ children }: UserPermissionGuardProps) => {
       <Dialog open={true}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>
+            <DialogTitle className="flex items-center justify-center">
               <div className="bg-notification flex h-[3.125rem] w-[3.125rem] items-center justify-center rounded-full">
                 <Icon name="UserRoundX" size="lg" color="white" />
               </div>

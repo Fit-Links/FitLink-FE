@@ -15,12 +15,26 @@ import {
   isOutsideSchedule,
 } from "./trainerReservationStatusConverter";
 
+// 원래 예약된 날짜와 예약 페이지에서 선택된 날짜 같은지 비교 함수
+export const isSameOriginalSelectedDateAndSelectedDate = (
+  originalSelectedDate: string | null | undefined,
+  selectedDate: Date,
+) => {
+  if (!originalSelectedDate) return false;
+
+  const originalSelecteMDY = originalSelectedDate.split("T")[0];
+  const selectedDateMDY = format(selectedDate, "yyyy-MM-dd");
+
+  return originalSelecteMDY === selectedDateMDY;
+};
+
 export const generateIntegratedTimeCells = (
   selectedDate: Date,
   trainerAvailableTimes: TrainerAvailableTimesApiResponse["data"],
   inactiveReservations: ReturnType<typeof getInactiveTrainerReservationStatus>,
   userReservations: ReservationStatusApiResponse["data"],
   mode: RequestReservationMode,
+  searchParamsDate?: string | null,
 ): TimeCell[] => {
   const dayOfWeek = format(selectedDate, "EEEE").toUpperCase() as DayOfWeek;
 
@@ -40,7 +54,12 @@ export const generateIntegratedTimeCells = (
   const startHour = startTime ? parseInt(startTime.split(":")[0], 10) : undefined;
   const endHour = endTime ? parseInt(endTime.split(":")[0], 10) : undefined;
 
-  const hasUserReservation = isUserHasReservation(selectedDate, userReservations);
+  const hasUserReservation = isSameOriginalSelectedDateAndSelectedDate(
+    searchParamsDate,
+    selectedDate,
+  )
+    ? false
+    : isUserHasReservation(selectedDate, userReservations);
 
   const HOURS_IN_DAY = 24;
   const PAD_LENGTH = 2;
@@ -51,6 +70,14 @@ export const generateIntegratedTimeCells = (
     // 휴무일이면 무조건 disabled
     if (isDayoff) {
       return { dayOfWeek, time, disabled: true };
+    }
+
+    // 기존에 예약 되어있던 날짜와 예약 변경하려고 선택한 날짜가 같으면 기존에 예약되어있던 날짜의 시간 disabled 해제
+    if (
+      isSameOriginalSelectedDateAndSelectedDate(searchParamsDate, selectedDate) &&
+      Number(searchParamsDate?.split("T")[1].split(":")[0]) === hour
+    ) {
+      return { dayOfWeek, time, disabled: false };
     }
 
     // 기본 스케줄 제약
